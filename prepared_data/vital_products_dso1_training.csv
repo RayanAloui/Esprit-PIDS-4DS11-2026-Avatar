@@ -1,0 +1,155 @@
+﻿name,forme,classe,categories_list,primary_category,indications,indication_count,is_complete,avatar_priority_score
+LV Vitamine A,Créme,Complément alimentaire,"['Acné', 'Peau']",Acné,- Engelure - Réduit l’apparition des rides - Traite l’acné chez les adolescents et les adultes - Régule la pigmentation - Prévient les dommages cellulaires - Soutient la santé de la peau - Stimule la production de collagène,7,1,8.5
+LV Fersang junior,Sirop,Complément alimentaire,"['Anémie', 'Carence en Fer']",Anémie,- Traitement de l’anémie chez l’enfant à partir de 2 ans - Restitution des réserves en fer - Fortifie le sang sans risque de constipation,3,1,7.0
+Hydra eau micellaire,Forme non spécifiée,Autre,['Peau'],Peau,- Nettoyante - Démaquillante - Purifiante - Aide à éliminer les impuretés - Se débarrasse de l’excès de sébum en douceur - Laisse la peau nette et fraîche,6,0,6.25
+Alcool de menthe,Liquide,Produit de soin,"['Troubles de la digestion', 'Ballonnement et gaz']",Troubles de la digestion,Garder hors de la portée des enfants,1,1,4.0
+PHYTOFANE Lotion anti chute,Lotion,Lotion Antichute,"['Anti chute', 'Cheveux']",Anti chute,• Ralentit la chute des cheveux • Stimule la croissance,1,1,4.0
+Huile de Menthe,Liquide,Complément alimentaire,"['Ballonnement et gaz', 'Digestion']",Ballonnement et gaz,- Difficulté de digestion - Diminuer les flatulences,2,1,5.5
+"LV Sélénium A, C, E Anti-âge",Gélule,Complément alimentaire,"['Anti-âge', 'Peau']",Anti-âge,• Prévenir le vieillissement cutané • Améliorer l’’éclat et la souplesse de la peau • Réduire les signes visibles de l’’âge par des effets anti-inflammatoires et antioxydants,1,1,4.0
+Omevie Omega 3 - 1000,Capsule,Complément alimentaire,"['Développement cérébral', 'Concentration', 'Immunité']",Développement cérébral,- Contribue au bon développement cérébral - Maintenir une bonne vision - Prévient et réduit l’inflammation secondaire à une infection virale - Concentration,4,1,8.75
+Pédiakids lait dermo-nettoyant,Lait,Autre,['Peau'],Peau,- Nettoyant - Adoucissant - Nourrissant,3,0,4.75
+TC 2000 Nutractiva,Gélule,Complément alimentaire,['Anti-tâches'],Anti-tâches,- Contribue au renouvellement cellulaire - Antiradicalaire - Antioxydant,3,1,6.75
+OLIGOVIT Trio,Gélule,Complément alimentaire,['Immunité'],Immunité,- Contribue au fonctionnement normal du système immunitaire - Contribue à un métabolisme énergétique normal et à réduire la fatigue - Réduit le risque de l’infection et de la pneumonie - Réduit l’inflammation - Diminue le risque de la SDRA,5,1,8.25
+"Echinacée, Zinc, Vit.C",Gélule,Complément alimentaire,['Immunité'],Immunité,- Aide à protéger l’organisme des infections - Stimule la protection d’anticorps - Aide à réduire la durée du rhume,3,1,6.75
+LV Psolcalm,Pommade,Complément alimentaire,['psoriasis'],psoriasis,- Diminue les démangeaisons liées au psoriasis - Soulage et apaise les irritations dûes au psoriasis,2,1,5.25
+LV CYSPROTECT,Sachet,Complément alimentaire,"['Cystites', 'Infection urinaire']",Cystites,• Protège les voies urinaires sensibles • Cystites récidivantes • Complément d’une antibiothérapie fondée dans les infections urinaires basses,1,1,4.0
+Hydra,Crème,Crème,['Peau'],Peau,- Hydratation en profondeur de la peau - Nutrition de la peau - Adoucissement de la peau - Assouplissement de la peau - Régénération et cicatrisation cutanée,5,1,8.25
+MULTIBON IMMUNITÉ,Gummies,Complément alimentaire,['Immunité'],Immunité,- Contribue au renforcement du système immunitaire - Améliore les défenses naturelles contre les maladies virales et infectieuses,2,1,5.25
+Pédiakids Gel Lavant Doux,Gel,Autre,['Peau'],Peau,- Nettoyant - Hydratant - Nourrissant,3,0,4.75
+LV Arthroforce huile,Huile,Complément alimentaire,"['Arthrite', 'Arthrose', 'Douleurs articulaires']",Arthrite,"Douleurs articulaires, arthrose, Arthrite, Tendinite",1,1,4.25
+Oligovit vitamine C,Gélule,Complément alimentaire,['Immunité'],Immunité,Fatigue Asthénie Courbatures Baisse d’immunité,1,1,3.75
+Minciligne Homme,Solution,Complément alimentaire,"['Brûle graisses', 'Coupe faim']",Brûle graisses,Coupe faim Obésité Adjuvant de régime,1,1,4.0
+Plantalgic,Gélule,Complément alimentaire,"['Anxiété', 'Migraine']",Anxiété,Femme enceinte et allaitante,1,1,4.0
+PHYTOFANE Fortifiant Phanères,Gélule,Complément alimentaire,"['Cheveux', 'Fortifiant', 'Ongles']",Cheveux,• Fortifie les cheveux & les ongles • Favorise la vitalité & la brillance,1,1,4.25
+SWEET health fer,Gummies,Complément alimentaire,"['Carence en Fer', 'Anémie']",Carence en Fer,- Prévenir les carences en fer - Faible risque de constipation - Traitement de l’anémie chez l’adulte et la femme enceinte - Meilleur absorption du fer grâce à la vitamine C,4,1,8.5
+Dermacné ( gel nettoyant ),Forme non spécifiée,Autre,['Peau'],Peau,Assainir et purifier la peau en profondeur Elimine les imperfections cutanées des peaux grasses à tendance acnéique,1,0,1.75
+LV PSOCALM,Pommade,Réparation De La Peau,"['Apaise', 'Peau']",Apaise,• Diminue les démangeaisons liées au psoriasis • Soulage et apaise les irritations dues au psoriasis,1,1,4.0
+Hydra eau micellaire,Forme non spécifiée,Autre,['Peau'],Peau,- Nettoyante - Démaquillante - Purifiante - Aide à éliminer les impuretés - Se débarrasse de l’excès de sébum en douceur - Laisse la peau nette et fraîche,6,0,6.25
+LV Spasvit Sirop,Sirop,Complément alimentaire,['Spasmes intestinaux'],Spasmes intestinaux,- Soulage les spasmes gastro-intestinaux et les coliques hépatiques - Équilibre la flore intestinale,2,1,5.25
+HYDRAfine Après épilation,Crème,Crème Après Épilation,"['Cicatrices', 'Hydrate', 'Peau']",Cicatrices,• Protège les peaux sensibilisées • Pro-cicatrisantes et hydratantes,1,1,4.25
+Omevie Emotion - 900,Capsule,Complément alimentaire,['état d’humeur'],état d’humeur,Garder une humeur équilibrée Aide à maintenir un équilibre émotionnel,1,1,3.75
+Uniderme peau mixte,Savon,Savon,['Peau'],Peau,"Savon unifiant tonique et nourrissant, spécifique pour la peau mixte",1,1,3.75
+Pédiakids Multi Vitamines Pomme,Forme non spécifiée,Autre,['Immunité'],Immunité,Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants,1,0,1.75
+LV Vitamine D3,Gélule,Complément alimentaire,"['Immunité', 'Carence en Vit D']",Immunité,- Immunostimulant - Réduit le risque d’infections respiratoires graves - Améliore l’absorption du calcium - Aide à maintenir des os solides et sains - Nécessaire pour le bon fonctionnement des muscles,5,1,8.5
+Pectine de pomme,Gélule,Complément alimentaire,['Coupe faim'],Coupe faim,Pectine de pomme,1,1,3.75
+Vaseline,Crème,Crème,['Peau'],Peau,- Hydratant - Lubrifiant,2,1,5.25
+Mincicare 4 actions,Solution,Complément alimentaire,"['Détox', 'Drainage']",Détox,- Draineur - Brûleur de graisses - Détoxifiant - Coupe Faim,4,1,8.5
+HYDRA GEL Nettoyant visage Peau Normale,Gel,Nettoyant Visage,"['nettoie', 'Peau', 'Purifie', 'Revitalisant']",nettoie,• Nettoie • Purifie • Revitalise,1,1,4.5
+Minciligne Aux 9 plantes phytoactives,Solution,Complément alimentaire,['Drainage'],Drainage,#NAME?,1,1,3.75
+Pulmax Anti-Tussif,Sirop,Complément alimentaire,"['Toux', 'Immunité']",Toux,- Apaise la toux - Dégage les voies respiratoires - SANS SUCRE - Adapté aux diabétiques,4,1,8.5
+Hydra eau micellaire,Forme non spécifiée,Autre,['Peau'],Peau,- Nettoyante - Démaquillante - Purifiante - Aide à éliminer les impuretés - Se débarrasse de l’excès de sébum en douceur - Laisse la peau nette et fraîche,6,0,6.25
+Omevie Omega 3 - 500,Capsule,Complément alimentaire,"['Concentration', 'Développement cérébral', 'Immunité']",Concentration,- Contribue au bon développement cérébral - Maintenir une bonne vision - Prévient et réduit l’inflammation secondaire à une infection virale - Concentration,4,1,8.75
+Vaseline glycérinée,Crème,Crème,['Peau'],Peau,- Hydratant profond - Lubrifiant,2,1,5.25
+MULTIBON SOMMEIL,Gummies,Complément alimentaire,['Troubles de sommeil'],Troubles de sommeil,- Favorise l’endormissement - Améliore la qualité du sommeil - Evite les réveils nocturnes,3,1,6.75
+multi vitamines,Forme non spécifiée,Autre,['Immunité'],Immunité,Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants,1,0,1.75
+LV PHYTOVEINE,Sachet,Complément alimentaire,"['Jambes lourdes', 'Varices']",Jambes lourdes,• Améliore le retour veineux • Stimule la circulation veineuse • Soulage la sensation de jambes lourdes,1,1,4.0
+LV GINKO Extra,Gélule,Complément alimentaire,"['Concentration', 'Mémoire']",Concentration,• Améliore la mémoire et la concentration chez les adultes • Traite la claudication intermittente • Traite les acouphènes,1,1,4.0
+LV Arthroforce Gélule,Gélule,Complément alimentaire,"['Arthrite', 'Arthrose', 'Douleurs articulaires']",Arthrite,Interaction avec anticoagulants pour la forme gélule,1,1,4.25
+LV PhytoVeine Huile,Huile,Huile Pour Massage,"['Jambes lourdes', 'Varices']",Jambes lourdes,- Soulage les douleurs des jambes lourdes - Stimule la circulation sanguine,2,1,5.5
+Uniderm peau grasse,Savon,Savon,['Peau'],Peau,"Savon unifiant et astringent, spécifique pour la peau grasse à tendance acnéique",1,1,3.75
+TC 2000 Savon,Savon,Savon Dermatologique,"['Anti-tâches', 'Exfoliant']",Anti-tâches,"- Effet éclaircissant, anti tâches brunes - Élimine les cellules mortes de l’épiderme tout en nettoyant la peau - Unifie le teint grâce à l’argile",3,1,7.0
+LV Spasvit Gélule,Gélule,Complément alimentaire,['Spasmes intestinaux'],Spasmes intestinaux,- Soulage les spasmes gastro-intestinaux et les coliques hépatiques - Équilibre la flore intestinale,2,1,5.25
+PHYTOFANE Shampooing Anti Chute,Shampooing,Soin,"['Anti chute', 'Cheveux']",Anti chute,• Ralentit la chute des cheveux • Stimule la repousse des cheveux,1,1,4.0
+VASELINE Urée 20%,Crème,Soin,"['Hydratation', 'Kératolytique']",Hydratation,• Hydratante • Kératolytique,1,1,4.0
+LV Migrainal,Gélule,Complément alimentaire,['Migraine'],Migraine,Ginkgo biloba : à proscrire en Co-médication avec des anticoagulants,1,1,3.75
+Phytofane sérum lissant,Sérum,Sérum,['Cheveux'],Cheveux,"- Redonne une vitalité aux cheveux cassants et secs en améliorant leur brillance, leur souplesse et leur hydratation",1,1,3.75
+Vaseline Salicylée 2%,Crème,Crème,['Peau'],Peau,- Croûtes - Callosités - Fissures - Squames,4,1,8.25
+Grossivit Gélule,Gélule,Autre,"['Appétit', 'Prise de poids']",Appétit,- Favorise la prise de poids - Assure un précieux apport en éléments nutritifs* - Améliore la digestion - Stimule l’appétit,4,0,6.5
+Levure de Riz Rouge,Gélule,Complément alimentaire,"['Brûle graisses', 'Cholestérol']",Brûle graisses,"Femmes enceintes et allaitantes, Maladies hépatiques ou rénales, Taux anormalement élevés de transaminases, Personnes Alcooliques.",1,1,4.0
+Pédiakids Gripe water,Sirop,Complément alimentaire,['Ballonnement et gaz'],Ballonnement et gaz,- Soulage rapidement les flatulences - Faciliter la digestion,2,1,5.25
+LV Fersang Bisglycinate de Fer,Gélule,Complément alimentaire,['Anémie'],Anémie,"- Prévention de la carence martiale - Traitement de l’anémie chez l’adulte, l’enfant et la femme enceinte - Restitution des réserves en fer - Réduit le risque de constipation - Fortifie le sang",5,1,8.25
+Vitonic Fer,Gélule,Complément alimentaire,['Fatigue intellectuelle'],Fatigue intellectuelle,Femmes enceintes et allaitantes Traitement anticoagulant,1,1,3.75
+Millepertuis,Gélule,Complément alimentaire,"['Anxiété', 'état d’humeur']",Anxiété,"Femme enceinte, allaitante et enfant avant l'âge de 12 ans.",1,1,4.0
+VITAL HEALTHCARE FERTICARE FEMME,Sachet,Complément alimentaire,['Fertilité féminine'],Fertilité féminine,• Favorise la régulation de l’activité hormonale • Contribue à une fertilité et à une reproduction normale • Optimise naturellement les chances de gestation ­,1,1,3.75
+Phytodraine,Solution,Complément alimentaire,"['Cellulite', 'Drainage']",Cellulite,"Hyperthyroïdie, hypertension",1,1,4.0
+Pédiakids Multi Vitamines Framboise,Forme non spécifiée,Autre,['Immunité'],Immunité,Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants,1,0,1.75
+Rhinoplant,Spray,Complément alimentaire,"['Grippe', 'Rhume']",Grippe,"- Nettoie et humidifie la muqueuse nasale - Désobstruction nasale - Solution isotonique, permet d’évacuer les agents infectieux et allergènes",3,1,7.0
+Pédiakids Shampoing,Liquide,Autre,['Cheveux'],Cheveux,- Nettoyant - Adoucissant,2,0,3.25
+UNIDERM Anti-tache,Crème,Crème Pour La Peau,['Anti-tâches'],Anti-tâches,- Favorise la disparition des taches et les imperfections cutanées - Effet éclaircissant de la peau - Hydrate la peau en profondeur et renouvelle les cellules,3,1,6.75
+Mincivit Lait anti vergetures,Lait,Autre,['Vergetures'],Vergetures,Aide à tonifier l’épiderme Aide à prévenir la formation des vergetures,1,0,1.75
+Ventre Plat,Gélule,Autre,"['Ballonnement et gaz', 'Digestion']",Ballonnement et gaz,- Régule le transit - Absorbe les toxines et les Gaz - Aide à retrouver un ventre dégonflé,3,0,5.0
+Phytofane huile d’argan,Huile,Huile,['Cheveux'],Cheveux,- Réduit le processus de chute des cheveux - Soin profond pour hydrater et réparer les cheveux secs et cassants - Redonne éclat et brillance aux cheveux,3,1,6.75
+LV Phytocalm,Gélule,Complément alimentaire,"['Anxiété', 'Dépression']",Anxiété,Femme enceinte et allaitante. Troubles de la thyroïde.,1,1,4.0
+Spiruline,Gélule,Complément alimentaire,"['Revitalisant', 'Fatigue', 'Immunité']",Revitalisant,- immunostimulant - Fortifiant et nutritif - Fortifiant phanère,3,1,7.25
+Pédiakids APITOU N°2 Sans Sucre,Sirop,Complément alimentaire,"['Soulage', 'Toux', 'Toux sèche']",Soulage,- Soulager la toux sèche chez les enfants - Calmer les voies respiratoires,2,1,5.75
+VASELINE Urée 10%,Crème,Soin,"['Hydratation', 'Peau', 'Réparatrice']",Hydratation,• Hydratante • Réparatrice,1,1,4.25
+Dermacné ( crème ),Forme non spécifiée,Autre,['Peau'],Peau,Purifier et hydrater la peau en profondeur Réduire les imperfections cutanées Soigner la peau acnéique,1,0,1.75
+LV Mélatonuit,Gélule,Complément alimentaire,['Troubles de sommeil'],Troubles de sommeil,Femme enceinte ou allaitante,1,1,3.75
+MULTIBON APIGORGE,Gummies,Complément alimentaire,['Maux de gorge'],Maux de gorge,- Réduit l’inflammation et la douleur au niveau de la gorge - Change l’haleine,2,1,5.25
+VITONIC Grossesse,Gélule,Complément alimentaire,['Grossesse'],Grossesse,• Supplémentation complète pour la femme enceinte selon les recommandations de l’OMS,1,1,3.75
+Oligovit magnésium,Gélule,Complément alimentaire,"['Anti-stress', 'Fatigue']",Anti-stress,- Réduire la fatigue - Soutenir le fonctionnement normal des muscles et du système nerveux,2,1,5.5
+Plantex vitamine C,Sachet,Complément alimentaire,"['Immunité', 'Energie', 'Fatigue']",Immunité,- Contribue à renforcer les défenses immunitaires - Améliore le métabolisme énergétique - Aide à résister au stresse et à la fatigue - Protège des virus ambiants,4,1,8.75
+HYDRA GEL Nettoyant visage Peau Sèche,Gel,Nettoyant Visage,"['Hydrate', 'nettoie', 'Peau', 'Purifie']",Hydrate,• Nettoie • Purifie • Hydrate,1,1,4.5
+Plantyl Sirop,Sirop,Autre,"['Grippe', 'Immunité']",Grippe,- Renforce l’immunité et améliore le confort des voies respiratoires supérieures,1,0,2.0
+Minciligne Vitaminé,Solution,Complément alimentaire,"['Brûle graisses', 'Coupe faim']",Brûle graisses,- Coupe faim - Obésité - Adjuvant de régime.,3,1,7.0
+HYDRA GEL Nettoyant visage Peau Grasse,Gel,Nettoyant Visage,"['Matifie', 'nettoie', 'Peau', 'Purifie']",Matifie,• Nettoie • Purifie • Matifie,1,1,4.5
+HYDRASCREEN after sun,Forme non spécifiée,Autre,"['Peau', 'Protection solaire']",Peau,- Atténue les effets dus aux agressions lors de l’exposition au soleil - Calme les irritations des peaux sensibles et réactives grâce à ses propriétés apaisantes - Anti-inflammatoires et antimicrobiennes,3,0,5.0
+Vitosine Eosine Alcoolisée 2%,Spray,Soin,"['Anti septique', 'Eosine', 'Peau']",Anti septique,• Traitement d’appoint pour les affections de la peau. • Antiseptique et asséchant de la peau,1,1,4.25
+Aide minceur,Gélule,Complément alimentaire,"['Coupe faim', 'Digestion']",Coupe faim,Glucomannane,1,1,4.0
+Vitonic Trio Grossesse,Gélule,Complément alimentaire,['Immunité'],Immunité,- Contribue au fonctionnement normal du système immunitaire - Aide à protéger et à renforcer la barrière intestinale - Contribue à un métabolisme énergétique normal et à réduire la fatigue - Aide à protéger les cellules contre le stress oxydatif,4,1,8.25
+MINCILGNE Coupe faim,Gélule,Complément alimentaire,['Coupe faim'],Coupe faim,Sensation de satiété Piège pour sucres et graisses Digestion facile,1,1,3.75
+HYDRAVERA,Forme non spécifiée,Autre,['Peau'],Peau,Stimule le renouvellement cellulaire Facilite le processus de réparation de la peau Réduit les imperfections cutanées et laisse la peau douce et éclatantE,1,0,1.75
+Pédiakids Apigrip Sans Sucre,Sirop,Complément alimentaire,"['Grippe', 'Rhume', 'Soulage']",Grippe,"- Anti-grippal - Réduit les signes inflammatoires du rhume - Traitement curatif et préventif, pour soulager le nez et la gorge",3,1,7.25
+VITAL HEALTHCARE SKINCARE Anti-âge intensif,Gélule,Complément alimentaire,"['Anti-âge', 'Beauté & éclat de la peau']",Anti-âge,• Beauté & éclat de la peau,1,1,4.0
+Mincicare,Gélule,Complément alimentaire,"['Drainage', 'Détox']",Drainage,- Draineur : facilite la perte du poids et stimule l’élimination urinaire des déchets et toxines - Brûleur de graisses : (Omega 3 - CLA) ayant des propriétés amincissantes aide à débarrasser l’organisme des graisses stockées,3,1,7.0
+SWEET slim coupe faim,Gummies,Complément alimentaire,"['Coupe faim', 'Elimination des graisses']",Coupe faim,- Procure une sensation de satiété - Limite les grignotage - Réduit l’absorption des graisses et de sucre,3,1,7.0
+CALMO dent,Baume Dentaire,Complément alimentaire,['Douleur dentaire'],Douleur dentaire,- Soulage le mal des dents,1,1,3.75
+Uniderme atténue les taches,Savon,Savon,['Peau'],Peau,Anti-tâches Eclaircissant,1,1,3.75
+Pédiakids Spray Nasal,Liquide,Complément alimentaire,['Rhume'],Rhume,- Nettoie et humidifie la muqueuse nasale - Désobstruction nasale - Solution isotonique - Evacue les agents infectieux et allergènes,4,1,8.25
+HYDRAscreen Lait solaire,Lait,Lait Solaire,"['Apaise', 'Hydratation', 'Hydrate', 'Protection solaire']",Apaise,• Protège • Apaise • Hydrate,1,1,4.5
+Pédiakids vitamine D3,Gouttes,Complément alimentaire,"['Immunité', 'Carence en Vit D']",Immunité,"Allergie connue à la vitamine D3, hypercalcémie, hyper-calciurie, lithiase calcique",1,1,4.0
+LV SESA Gel 45gr,Gel,Autre,['Cicatrices'],Cicatrices,#NAME?,1,0,1.75
+HYDRAscreen Huile solaire Pailletée,Huile,Huile Solaire,"['Hydratation', 'Hydrate', 'Protection solaire']",Hydratation,• Protection • Hydratation • Effet scintillant,1,1,4.25
+Minciligne Draineur,Gélule,Complément alimentaire,"['Coupe faim', 'Détox', 'Drainage']",Coupe faim,- Détoxification du foie - Favorise l’élimination rénale - Stimule la combustion des graisses,3,1,7.25
+Dermacne,Savon,Savon,"['Acné', 'Antiseptique']",Acné,Soin des peaux acnéiques,1,1,4.0
+FONGIDERM Antifongique Cheveux & corps,Gel,Soin,"['Antifongique', 'Cheveux', 'nettoie', 'Peau']",Antifongique,• Nettoie efficacement tout en prenant soin de votre peau et de vos cheveux • Lutte contre les atteintes fongiques. • Préserve l’intégrité du cuir chevelu et des cheveux,1,1,4.5
+TC 2000 Gel,Gel,Autre,"['Anti-tâches', 'Exfoliant']",Anti-tâches,"Inhibe la synthèse de la mélanine, Exfoliant, Antiradicalaire",1,0,2.0
+MULTIBON VITAMINE C Acérola,Guumies,Complément alimentaire,"['Immunité', 'Energie']",Immunité,- Renforce les défenses naturelles - Apporte l’énergie et la vitalité nécessaire pour un bon état neurologique,2,1,5.5
+Dermacné (gélule),Forme non spécifiée,Autre,['Peau'],Peau,Assainir et purifier la peau en profondeur Elimine les imperfections cutanées dues à l’acné,1,0,1.75
+Omevie Articulation - 900,Capsule,Complément alimentaire,"['Confort articulaire', 'Douleurs articulaires']",Confort articulaire,- Confort articulaire - Articulation souple et confortable - Soulage les douleurs arthrosiques,3,1,7.0
+Pédiakids APITOU N°1 Sans Sucre,Sirop,Complément alimentaire,"['Soulage', 'Toux', 'Toux grasse']",Soulage,- Dégage les voies respiratoires - Expectorant - Toux grasse,3,1,7.25
+LV Arthroforce Gel,Gel,Complément alimentaire,"['Arthrite', 'Arthrose', 'Douleurs articulaires']",Arthrite,"Douleurs articulaires, arthrose, Arthrite, Tendinite",1,1,4.25
+LV Hemostop 60 Gélules,Gélule,Complément alimentaire,['Hémorroïdes'],Hémorroïdes,- Hémorroïdes - Soulage la douleur de la crise hémorroïdaire - Réduit l’inflammation due à l’hémorroïde - Réduit la fréquence des crises hémorroïdaires,4,1,8.25
+LV Fersang Sirop,Sirop,Complément alimentaire,"['Anémie', 'Carence en Fer']",Anémie,"- Prévention de la carence martiale - Traitement de l’anémie chez l’adulte, l’enfant et la femme enceinte - Restitution des réserves en fer - Fortifie le sang - Faible risque de constipation",5,1,8.5
+VITONIC Grossesse,Gélule,Complément alimentaire,['Grossesse'],Grossesse,Supplémentation complète pour la femme enceinte selon les recommandations de l’OMS,1,1,3.75
+Mincivit origin,Flacon (250 Ml),Complément alimentaire,['Détox'],Détox,Detoxifier : purification de l’organisme Drainer : Evacuation des toxines toxiques hors de l’organisme.,1,1,3.75
+HYDRAscreen Huile solaire,Huile,Huile Solaire,"['Hydratation', 'Hydrate', 'Protection solaire']",Hydratation,• Protection • Hydratation • Effet scintillant,1,1,4.25
+PLANTHÉRAPIE PLANTEX RHUME,Sachet,Autre,['Immunité'],Immunité,- Aide à soutenir les défenses naturelles pendant les périodes hivernales - Contribue à réduire la fatigue,2,0,3.25
+Angiplant Spray,Spray,Complément alimentaire,"['Grippe', 'Immunité']",Grippe,"- Triple action: Antiseptique, anti-inflammatoire et cicatrisante de la gorge - Apaise, adoucit et assainit la gorge",2,1,5.5
+Pédiakids Multi Vitamines Banane,Forme non spécifiée,Autre,['Immunité'],Immunité,Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants,1,0,1.75
+MULTIBON OMEGA 3,Gummies,Complément alimentaire,"['Concentration', 'Développement cérébral']",Concentration,- Participe à la croissance et le bon développement des enfants - Soutient les fonctions cognitives et renforce la concentration et la mémorisation,2,1,5.5
+LV Tetra B,Gélule,Complément alimentaire,['Equilibre métabolique'],Equilibre métabolique,- Production d’énergie - Équilibre du système nerveux - Prévention cardiovasculaire - Renouvellement cellulaire,4,1,8.25
+Vitosine Eosine Aqueuse 2%,Spray,Nettoyer Et Assécher La Peau,"['Eosine', 'Peau', 'Solution cutanée asséchante']",Eosine,"Nettoie et assèche les lésions de la peau susceptibles de se surinfecter, notamment nouveau-né (cordon ombilical et érythème fessier).",1,1,4.25
+Pédiakids Immunovit,Sirop,Complément alimentaire,['Immunité'],Immunité,- Traitement préventif en période pré-hivernale - Stimulation des défenses naturelles - Efficace pour faire face aux bronchites à répétition,3,1,6.75
+Planthérapie Plantexil Sans sucre,Sirop,Complément alimentaire,"['Confort respiratoire', 'Toux sèche']",Confort respiratoire,• Calme les voies respiratoires • Toux sèche,1,1,4.0
+Dermagyn 200 ml,Forme non spécifiée,Autre,['Hygiène Intime'],Hygiène Intime,- Protège et apaise l’irritation - Hygiène intime au quotidien - Procure fraicheur et confort tout au long de la journée - PH adapté à la flore vaginale,4,0,6.25
+Planthérapie Allergiplant,Sachet,Complément alimentaire,"['Allergie', 'Immunité']",Allergie,• Équilibre la réponse du système immunitaire de l’organisme,1,1,4.0
+SWEET bronzage,Gummies,Complément alimentaire,"['Peau', 'Anti-âge', 'Protection solaire']",Peau,- Prolonge le teint bronzé des zones exposées pour une durée plus longue - Renforce les défenses contre l’agressions des rayons UV - Diminution des lésions induites par la photosensibilité - Puissants pigments naturels permettant de limiter les effets néfastes du soleil sur la peau - Effet bonne mine et peau saine - Diminue le risque de vieillissement secondaire à l’exposition - Anti-oxydant & anti-âge,7,1,8.75
+LV Hemostop Crème 45 gr,Crème,Autre,['Hémorroïdes'],Hémorroïdes,- Hémorroïdes - Soulage la douleur de la crise hémorroïdaire - Réduit l’inflammation due à l’hémorroïde - Réduit la fréquence des crises hémorroïdaires,4,0,6.25
+Angiplant Sirops,Sirop,Complément alimentaire,"['Grippe', 'Immunité']",Grippe,"- Triple action: Antiseptique, anti-inflammatoire et cicatrisante de la gorge - Apaise, adoucit et assainit la gorge",2,1,5.5
+Pédiakids Spray Gorge,Liquide,Complément alimentaire,['Maux de gorge'],Maux de gorge,"- Triple action: Antiseptique, Anti-inflammatoire et cicatrisante de la gorge - Apaise adoucit et assainit la gorge",2,1,5.25
+Uniderme peau sèche,Savon,Savon,['Peau'],Peau,"Savon nourrissant et hydratant, spécifique pour la peau sèche",1,1,3.75
+Omevie Cardio - 900,Capsule,Complément alimentaire,"['Cholestérol', 'Immunité', 'Maladies cardiovasculaires']",Cholestérol,- Renforce l’immunité - Contribue au fonctionnement normal du système cardio-vasculaire - Réduit le taux des lipides et des LDL- cholestérol,4,1,8.75
+MULTIBON CALCIUM-VIT.D3,Gummies,Complément alimentaire,['Ossature'],Ossature,- Permet un apport quotidien en calcium - Améliore le développement et la croissance des os et dents,2,1,5.25
+Pédiakids Apigorge,Sirop,Complément alimentaire,['Maux de gorge'],Maux de gorge,"- Triple action: Antiseptique, anti-inflammatoire et cicatrisante de la gorge - Traitement d’appoint de l’inflammation aigue de la gorge",2,1,5.25
+Uniderme peau sensible,Savon,Savon,['Peau'],Peau,"Savon unifiant et apaisant, spécifique pour la peau sensible",1,1,3.75
+LV Sesa,Pommade,Complément alimentaire,['Cicatrices'],Cicatrices,"- Favorise la cicatrisation et la réparation dermique - Brûlures de premier degré & second degré superficielles et profondes - Plaies chroniques (escarres de lit, pied de diabétique), - ulcères des jambes, plaies chirurgicales y compris obstétriques",4,1,8.25
+Planthérapie Planthiol Sans sucre,Sirop,Complément alimentaire,"['Confort respiratoire', 'Toux grasse']",Confort respiratoire,• Dégage les voies respiratoires • Toux grasse,1,1,4.0
+Minciligne Postnatale,Solution,Complément alimentaire,"['Brûle graisses', 'Cellulite', 'Drainage']",Brûle graisses,Drainage Obésité Adjuvant de régime,1,1,4.25
+Vitonic Zinc Vit.D3,Gélule,Complément alimentaire,['Immunité'],Immunité,- Aide à renforcer le système immunitaire - Participe à la régulation de l’immunité - Le maintien et le développement des cellules dans le système immunitaire - Bon fonctionnement du système immunitaire et système redox,4,1,8.25
+Pédiakids Huile de massage sommeil,Forme non spécifiée,Autre,['soin bébé'],soin bébé,Nourrit et hydrate la peau du bébé et nourrisson sans la graisser Apaise le bébé et calme ses agitations,1,0,1.75
+HYDRA GEL - CRÈME Nettoyant visage,Crème,Nettoyant Visage,"['Hydrate', 'nettoie', 'Peau']",Hydrate,• Nettoie • Hydrate • Apaise,1,1,4.25
+Minciligne Jeune & Ado,Solution,Complément alimentaire,"['Brûle graisses', 'Drainage']",Brûle graisses,- Draineur - Adjuvant de régime amincissant,2,1,5.5
+Omevie Grossesse - 1000,Capsule,Complément alimentaire,['Grossesse'],Grossesse,Favorise le développement et la croissance du Fœtus Assure le bon fonctionnement du système immunitaire Assure le bon fonctionnement cognitif et l’apprentissage au début de la vie,1,1,3.75
+Pédiakids Apinez,Sirop,Autre,"['Rhume', 'Nez bouché']",Rhume,- Dégage les voies respiratoires - Soulage les symptômes du rhume et la sensation de nez bouché,2,0,3.5
+PHYTOFANE Shampooing Antipelliculaire,Shampooing,Soin Capillaire,"['Antipelliculaire', 'Cheveux']",Antipelliculaire,Élimine efficacement et durablement les pellicules,1,1,4.0
+Minciligne Brûle Graisse,Gélule,Complément alimentaire,"['Brûle graisses', 'Détox']",Brûle graisses,- Perte de poids - Stimule la thermogenèse - Élimine et déstocke les graisses,3,1,7.0
+LV PhytoVeine Gel,Gel,Gel Pour Massage,"['Varices', 'Jambes lourdes']",Varices,- Soulage les douleurs des jambes lourdes - Stimule la circulation sanguine,2,1,5.5
+LV GINKO Extra,Gouttes,Complément alimentaire,"['Concentration', 'Mémoire']",Concentration,• Améliore la mémoire et la concentration chez les adultes • Traite la claudication intermittente • Traite les acouphènes,1,1,4.0
+Mincivit Detox,Flacon (250 Ml),Complément alimentaire,['Détox'],Détox,- Favorise le drainage des toxines - Stimule les fonctions dépuratives rénales - Adjuvant du régime amincissant,3,1,6.75
+Pédiakids Savon extra doux,Savon,Savon,['Peau'],Peau,- Nettoie et hydrate la peau de bébé,1,1,3.75
+Vitonic Fer Grossesse,Gélule,Complément alimentaire,['Grossesse'],Grossesse,- Palier les carences en fer - Apport en vitamines et oligo-éléments - Réduit les nausées matinales au cours de la grossesse,3,1,6.75
+PHYTOFANE Lotion Antipelliculaire,Lotion,Lotion Antipelliculaire,"['Antipelliculaire', 'Cheveux']",Antipelliculaire,• Elimine efficacement et durablement les pellicules,1,1,4.0
+Allergiplant,Forme non spécifiée,Autre,"['Allergie', 'Immunité']",Allergie,Equilibre la réponse du système immunitaire de l’organisme,1,0,2.0
+HYDRAFINE,Forme non spécifiée,Autre,['Peau'],Peau,- Permet d’atténuer les brûlures superficielles du premier degré - Favorise la cicatrisation rapide avec une bonne hydratation de la peau - Apaise les piqûres et les rougeurs,3,0,4.75
+Plantyl capsule,Capsule,Complément alimentaire,"['Grippe', 'Immunité']",Grippe,- Renforce l’immunité et améliore le confort des voies respiratoires supérieures,1,1,4.0

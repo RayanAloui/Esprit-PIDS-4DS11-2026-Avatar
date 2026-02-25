@@ -1,0 +1,3277 @@
+[
+  {
+    "id": "CONV00075",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0106 soulève l'objection suivante concernant Vitonic Tonus : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Vitonic Tonus a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.5,
+      "context_weighted_score": 9.45,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00050",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0145 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Echinacée, Zinc, Vit.C contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 8.91,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00381",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0172 soulève l'objection suivante concernant OLIGOVIT Trio : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "OLIGOVIT Trio est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.11,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00257",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0034 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.21,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00337",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0094 soulève l'objection suivante concernant Vitonic Tonus : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Vitonic Tonus contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.09,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00389",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0011 soulève l'objection suivante concernant LV CYSPROTECT : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.09,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00056",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0130 soulève l'objection suivante concernant OLIGOVIT Trio : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.91,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00149",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0193 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 9.04,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00017",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0182 soulève l'objection suivante concernant LV Vitamine A : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.0,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00360",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0054 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "PHYTOFANE Lotion anti chute est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.3,
+      "context_weighted_score": 9.46,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00288",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0158 soulève l'objection suivante concernant Vitonic Tonus : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.88,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00168",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0099 soulève l'objection suivante concernant LV Vitamine A : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! LV Vitamine A a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.83,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00078",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0162 soulève l'objection suivante concernant LV Fersang junior : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.9,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00151",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0111 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Echinacée, Zinc, Vit.C a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.5,
+      "context_weighted_score": 8.52,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00207",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0173 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Omevie Omega 3 – 1000 contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 9.04,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00367",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0042 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.73,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00177",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0014 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.45,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00036",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0046 soulève l'objection suivante concernant LV Fersang junior : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, LV Fersang junior contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.23,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00103",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0033 soulève l'objection suivante concernant OLIGOVIT Trio : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, OLIGOVIT Trio contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.68,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00156",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0100 soulève l'objection suivante concernant LV CYSPROTECT : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV CYSPROTECT utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.3,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00378",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0142 soulève l'objection suivante concernant OLIGOVIT Trio : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.86,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00218",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0097 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Echinacée, Zinc, Vit.C a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.4,
+      "context_weighted_score": 8.54,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00215",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0137 soulève l'objection suivante concernant LV Vitamine A : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.32,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00039",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0076 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "Echinacée, Zinc, Vit.C est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.24,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00163",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0163 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Omevie Omega 3 – 1000 a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.93,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00284",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0143 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Echinacée, Zinc, Vit.C contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.62,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00015",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0122 soulève l'objection suivante concernant Vitonic Tonus : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : Vitonic Tonus utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 8.84,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00307",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0165 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.07,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00371",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0066 soulève l'objection suivante concernant LV Fersang junior : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.24,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00384",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0229 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Omevie Omega 3 – 1000 a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.6,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00377",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0041 soulève l'objection suivante concernant LV Vitamine A : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.18,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00057",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0188 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : Echinacée, Zinc, Vit.C utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.18,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00161",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0175 soulève l'objection suivante concernant LV CYSPROTECT : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! LV CYSPROTECT a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.3,
+      "context_weighted_score": 9.29,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00341",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0141 soulève l'objection suivante concernant Vitonic Tonus : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.68,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00072",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0139 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.5,
+      "context_weighted_score": 8.57,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00388",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0195 soulève l'objection suivante concernant LV Vitamine A : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "LV Vitamine A est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.4,
+      "context_weighted_score": 8.38,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00333",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0110 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.5,
+      "context_weighted_score": 9.58,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00129",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0155 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.9,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00034",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0220 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Echinacée, Zinc, Vit.C a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.38,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00275",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0018 soulève l'objection suivante concernant LV Vitamine A : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.13,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00242",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0091 soulève l'objection suivante concernant LV Fersang junior : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.6,
+      "context_weighted_score": 9.62,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00241",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0051 soulève l'objection suivante concernant OLIGOVIT Trio : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : OLIGOVIT Trio utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.34,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00148",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0199 soulève l'objection suivante concernant LV Fersang junior : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV Fersang junior utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.2,
+      "context_weighted_score": 8.19,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00246",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0182 soulève l'objection suivante concernant LV CYSPROTECT : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 8.93,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00248",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0185 soulève l'objection suivante concernant LV Vitamine A : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "LV Vitamine A est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.26,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00088",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0096 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Omevie Omega 3 – 1000 contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.8,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00235",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0085 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Echinacée, Zinc, Vit.C contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.88,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00120",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0192 soulève l'objection suivante concernant LV Vitamine A : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! LV Vitamine A a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.92,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00240",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0152 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, PHYTOFANE Lotion anti chute contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.91,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00239",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0144 soulève l'objection suivante concernant Vitonic Tonus : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : Vitonic Tonus utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.91,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00296",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0170 soulève l'objection suivante concernant OLIGOVIT Trio : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! OLIGOVIT Trio a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.4,
+      "context_weighted_score": 8.38,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00231",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0072 soulève l'objection suivante concernant OLIGOVIT Trio : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.13,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00253",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0107 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : Omevie Omega 3 – 1000 utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.3,
+      "context_weighted_score": 9.21,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00319",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0013 soulève l'objection suivante concernant LV Vitamine A : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.8,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00146",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0005 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "Omevie Omega 3 – 1000 est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.6,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00282",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0138 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "Echinacée, Zinc, Vit.C est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.4,
+      "context_weighted_score": 8.39,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00004",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0217 soulève l'objection suivante concernant LV Fersang junior : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.4,
+      "context_weighted_score": 8.38,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00370",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0172 soulève l'objection suivante concernant LV Vitamine A : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.09,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00133",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0203 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.8,
+      "context_weighted_score": 9.82,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00374",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0118 soulève l'objection suivante concernant Vitonic Tonus : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Vitonic Tonus a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 9.0,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00295",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0046 soulève l'objection suivante concernant OLIGOVIT Trio : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : OLIGOVIT Trio utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.5,
+      "context_weighted_score": 9.52,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00209",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0142 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.89,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00141",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0008 soulève l'objection suivante concernant OLIGOVIT Trio : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! OLIGOVIT Trio a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.7,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00210",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0121 soulève l'objection suivante concernant LV Fersang junior : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.94,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00243",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0062 soulève l'objection suivante concernant OLIGOVIT Trio : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : OLIGOVIT Trio utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.01,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00162",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0040 soulève l'objection suivante concernant LV Fersang junior : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, LV Fersang junior contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.48,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00127",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0162 soulève l'objection suivante concernant LV CYSPROTECT : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! LV CYSPROTECT a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.6,
+      "context_weighted_score": 8.59,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00264",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0101 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.6,
+      "context_weighted_score": 9.47,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00144",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0037 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, PHYTOFANE Lotion anti chute contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.68,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00046",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0020 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.62,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00035",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0085 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, PHYTOFANE Lotion anti chute contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.04,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00225",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0093 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Omevie Omega 3 – 1000 contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.86,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00095",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0129 soulève l'objection suivante concernant OLIGOVIT Trio : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : OLIGOVIT Trio utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.9,
+      "context_weighted_score": 9.88,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00308",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0215 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 8.86,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00300",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0003 soulève l'objection suivante concernant OLIGOVIT Trio : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! OLIGOVIT Trio a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.3,
+      "context_weighted_score": 8.26,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00059",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0091 soulève l'objection suivante concernant LV CYSPROTECT : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV CYSPROTECT utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.34,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00062",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0079 soulève l'objection suivante concernant LV CYSPROTECT : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "LV CYSPROTECT est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.6,
+      "context_weighted_score": 8.65,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00217",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0145 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "Echinacée, Zinc, Vit.C est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.5,
+      "context_weighted_score": 9.44,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00027",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0226 soulève l'objection suivante concernant OLIGOVIT Trio : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : OLIGOVIT Trio utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.82,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00001",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0071 soulève l'objection suivante concernant LV Vitamine A : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! LV Vitamine A a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 9.0,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00280",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0034 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Echinacée, Zinc, Vit.C contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.26,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00184",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0136 soulève l'objection suivante concernant LV Vitamine A : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.6,
+      "context_weighted_score": 8.66,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00255",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0110 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Echinacée, Zinc, Vit.C a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.18,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00385",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0152 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Echinacée, Zinc, Vit.C contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.16,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00220",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0005 soulève l'objection suivante concernant Vitonic Tonus : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Vitonic Tonus contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.7,
+      "context_weighted_score": 9.74,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00250",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0036 soulève l'objection suivante concernant Vitonic Tonus : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.5,
+      "context_weighted_score": 8.5,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00340",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0128 soulève l'objection suivante concernant LV Fersang junior : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.6,
+      "context_weighted_score": 8.6,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00180",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0124 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "Omevie Omega 3 – 1000 est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.5,
+      "context_weighted_score": 9.62,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00330",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0228 soulève l'objection suivante concernant LV Fersang junior : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, LV Fersang junior contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.04,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00311",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0055 soulève l'objection suivante concernant Vitonic Tonus : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.65,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00366",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0115 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.02,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00343",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0209 soulève l'objection suivante concernant LV Vitamine A : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.9,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00125",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0051 soulève l'objection suivante concernant Vitonic Tonus : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Vitonic Tonus a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.29,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00306",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0053 soulève l'objection suivante concernant LV Fersang junior : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.83,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00227",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0098 soulève l'objection suivante concernant Vitonic Tonus : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.4,
+      "context_weighted_score": 8.35,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00355",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0230 soulève l'objection suivante concernant LV Fersang junior : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "LV Fersang junior est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 8.86,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00012",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0112 soulève l'objection suivante concernant LV Fersang junior : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "LV Fersang junior est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.6,
+      "context_weighted_score": 9.62,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00200",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0089 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 8.94,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00214",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0182 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : PHYTOFANE Lotion anti chute utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.84,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00216",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0135 soulève l'objection suivante concernant LV Fersang junior : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV Fersang junior utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 8.98,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00182",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0206 soulève l'objection suivante concernant OLIGOVIT Trio : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.3,
+      "context_weighted_score": 9.34,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00031",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0142 soulève l'objection suivante concernant OLIGOVIT Trio : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, OLIGOVIT Trio contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.3,
+      "context_weighted_score": 9.41,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00387",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0132 soulève l'objection suivante concernant Vitonic Tonus : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.3,
+      "context_weighted_score": 9.37,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00020",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0115 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.82,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00252",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0222 soulève l'objection suivante concernant Vitonic Tonus : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 9.06,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00143",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0078 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai des doutes sur l'efficacité réelle de ce produit. Avez-vous des preuves scientifiques ?",
+    "output": "Excellente question ! Omevie Omega 3 – 1000 a fait l'objet de plusieurs études cliniques. Je peux vous montrer les résultats publiés qui démontrent une amélioration de 75% des symptômes après 4 semaines. Nous avons également des témoignages de médecins prescripteurs. Puis-je vous laisser cette documentation scientifique ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Efficacité douteuse",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.73,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00028",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0068 soulève l'objection suivante concernant LV Fersang junior : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.96,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00188",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0050 soulève l'objection suivante concernant LV CYSPROTECT : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV CYSPROTECT utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.6,
+      "context_weighted_score": 8.56,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00201",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0018 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, PHYTOFANE Lotion anti chute contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.9,
+      "context_weighted_score": 8.76,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00316",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0176 soulève l'objection suivante concernant LV CYSPROTECT : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.28,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00068",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0190 soulève l'objection suivante concernant LV Vitamine A : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.62,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00283",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0038 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, PHYTOFANE Lotion anti chute contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 9.1,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00010",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0127 soulève l'objection suivante concernant Vitonic Tonus : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 9.16,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00281",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0060 soulève l'objection suivante concernant LV CYSPROTECT : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "LV CYSPROTECT est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.6,
+      "context_weighted_score": 8.52,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00157",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0219 soulève l'objection suivante concernant LV Fersang junior : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.7,
+      "context_weighted_score": 9.67,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00266",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0151 soulève l'objection suivante concernant LV Fersang junior : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.6,
+      "context_weighted_score": 8.78,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00213",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0165 soulève l'objection suivante concernant Vitonic Tonus : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.6,
+      "context_weighted_score": 9.58,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00346",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0179 soulève l'objection suivante concernant LV Fersang junior : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV Fersang junior utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.28,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00191",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0061 soulève l'objection suivante concernant OLIGOVIT Trio : \"Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Honnêtement, peu de clients me demandent ce type de produit. Ça va rester en stock.",
+    "output": "Je comprends. C'est justement une opportunité ! La demande est faible car les clients ne connaissent pas encore le produit. Nous proposons un kit de 5 affiches et des échantillons gratuits pour créer la demande. Dans les pharmacies qui ont utilisé ce kit, les ventes ont augmenté de 60% en 2 mois. Puis-je vous montrer notre plan d'animation ?",
+    "metadata": {
+      "product": "OLIGOVIT Trio",
+      "objection_type": "Demande Faible",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.84,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 3
+    }
+  },
+  {
+    "id": "CONV00394",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0038 soulève l'objection suivante concernant LV Vitamine A : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV Vitamine A utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.2,
+      "context_weighted_score": 9.21,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00195",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0115 soulève l'objection suivante concernant LV Fersang junior : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "LV Fersang junior",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 9.02,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Négatif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00119",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0154 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, PHYTOFANE Lotion anti chute contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 9.6,
+      "context_weighted_score": 9.6,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00170",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0091 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.4,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00294",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0126 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Je ne connais pas bien votre laboratoire. Mes clients préfèrent les marques établies.",
+    "output": "Je comprends cette réticence. Vital Laboratories existe depuis 15 ans et est leader sur plusieurs segments en Tunisie avec plus de 200 références. Nous sommes certifiés ISO 9001 et nos produits sont fabriqués selon les normes européennes. Nous avons une excellente réputation auprès des médecins. Puis-je vous montrer nos certifications et nos autres produits que vous connaissez peut-être ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Marque inconnue",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 8.7,
+      "context_weighted_score": 8.75,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 0,
+      "argumentation_richness": 2
+    }
+  },
+  {
+    "id": "CONV00302",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0205 soulève l'objection suivante concernant LV CYSPROTECT : \"Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le laboratoire X propose un produit similaire moins cher et mes clients l'achètent déjà.",
+    "output": "Je connais bien ce produit concurrent. La différence principale est dans la formulation : LV CYSPROTECT utilise une forme biodisponible brevetée qui garantit une absorption supérieure de 40%. Nos études comparatives montrent des résultats visibles plus rapidement. Je peux vous proposer un échantillon gratuit pour que vous puissiez constater la différence.",
+    "metadata": {
+      "product": "LV CYSPROTECT",
+      "objection_type": "Concurrence",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.5,
+      "context_weighted_score": 8.5,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00362",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0028 soulève l'objection suivante concernant LV Vitamine A : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.1,
+      "context_weighted_score": 9.12,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00122",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0104 soulève l'objection suivante concernant Omevie Omega 3 – 1000 : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "Omevie Omega 3 – 1000",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.4,
+      "context_weighted_score": 9.38,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Intérêt Fort",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00105",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0083 soulève l'objection suivante concernant PHYTOFANE Lotion anti chute : \"J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai entendu que ce produit peut causer des effets indésirables. Est-ce vrai ?",
+    "output": "PHYTOFANE Lotion anti chute est un complément alimentaire avec un excellent profil de sécurité. Les études cliniques n'ont montré aucun effet indésirable significatif. Les seules précautions sont les contre-indications classiques pour les femmes enceintes et les allergies aux composants, clairement indiquées sur la notice. Plus de 50 000 patients ont utilisé ce produit sans incident.",
+    "metadata": {
+      "product": "PHYTOFANE Lotion anti chute",
+      "objection_type": "Effets Secondaires",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.4,
+      "context_weighted_score": 8.4,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 1,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00273",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0220 soulève l'objection suivante concernant LV Vitamine A : \"J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.\". Formule une réponse professionnelle et convaincante.",
+    "input": "J'ai encore du stock du mois dernier. Je ne peux pas commander maintenant.",
+    "output": "Parfait, ça montre que vous avez bien géré votre stock. Puis-je noter votre intérêt pour une livraison dans 2-3 semaines ? En attendant, je peux vous laisser notre nouveau catalogue et des brochures pour vos clients. Avez-vous remarqué une augmentation de la demande récemment ?",
+    "metadata": {
+      "product": "LV Vitamine A",
+      "objection_type": "Stock suffisant",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 8.9,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Commande",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00199",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0058 soulève l'objection suivante concernant Vitonic Tonus : \"La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.\". Formule une réponse professionnelle et convaincante.",
+    "input": "La posologie semble compliquée. Mes clients vont avoir du mal à comprendre.",
+    "output": "Au contraire, nous avons simplifié au maximum : 1 gélule matin et soir pendant les repas. C'est tout ! Nous fournissons un petit dépliant illustré très clair. De plus, chaque boîte contient un pilulier hebdomadaire gratuit pour faciliter l'observance. Voulez-vous que je vous montre ?",
+    "metadata": {
+      "product": "Vitonic Tonus",
+      "objection_type": "Posologie complexe",
+      "objection_difficulty": "Difficile",
+      "quality_label": 2,
+      "overall_score": 9.0,
+      "context_weighted_score": 9.04,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Positif",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 0,
+      "has_data_args": 0,
+      "argumentation_richness": 1
+    }
+  },
+  {
+    "id": "CONV00196",
+    "instruction": "Tu es un délégué médical Vital. Un(e) CLI0210 soulève l'objection suivante concernant Echinacée, Zinc, Vit.C : \"Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.\". Formule une réponse professionnelle et convaincante.",
+    "input": "Le prix est vraiment élevé par rapport aux autres marques. Mes clients vont hésiter.",
+    "output": "Je comprends votre préoccupation. Cependant, Echinacée, Zinc, Vit.C contient des ingrédients de qualité pharmaceutique avec une concentration optimale. Le rapport qualité-prix est excellent car une boîte dure plus longtemps. De plus, nous proposons une marge attractive de 30% qui compense l'investissement.",
+    "metadata": {
+      "product": "Echinacée, Zinc, Vit.C",
+      "objection_type": "Prix élevé",
+      "objection_difficulty": "Standard",
+      "quality_label": 2,
+      "overall_score": 8.8,
+      "context_weighted_score": 8.9,
+      "skill_tags": [
+        "Argumentation solide",
+        "Réponse scientifique",
+        "Empathie client"
+      ],
+      "client_sentiment": "Neutre",
+      "outcome": "Rendez-vous futur",
+      "is_success": 1,
+      "has_empathy": 1,
+      "has_data_args": 1,
+      "argumentation_richness": 2
+    }
+  }
+]

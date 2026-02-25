@@ -1,0 +1,1750 @@
+[
+  {
+    "venue_id": "ven_3862787541576551774451524952563752676e4e69784b4a496843",
+    "venue_name": "Pharmacie de Nuit metouia (WIEM GAIED EP HASSINE )",
+    "address": "P15 Avenue Habib Bourguiba Métouia 6010 Tunisia",
+    "latitude": 33.9594994,
+    "longitude": 10.0004322,
+    "geo_zone": "Centre-Sud",
+    "distance_from_tunis_km": 318.31,
+    "weekly_avg_traffic": 38.57,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Haute fréquentation",
+    "traffic_profile": "Pic matin",
+    "best_visit_period": "Soir (18-20h)",
+    "visit_priority_score": 7.25,
+    "avg_optimal_hours_day": 13.86,
+    "busiest_day": "Lundi",
+    "quietest_day": "Dimanche",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 50.0,
+        "peak_hour": 13,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 11
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 43.96,
+        "peak_hour": 1,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 10
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 45.0,
+        "peak_hour": 23,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 17
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 37.29,
+        "peak_hour": 0,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 16
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 30.62,
+        "peak_hour": 5,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 14
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 37.71,
+        "peak_hour": 17,
+        "best_visit_hour": 10,
+        "nb_optimal_hours": 15
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 25.42,
+        "peak_hour": 22,
+        "best_visit_hour": 15,
+        "nb_optimal_hours": 14
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_595572303032706a55746b5249525f7a674f6134415a5f4a496843",
+    "venue_name": "Karai Night Pharmacy",
+    "address": "12 Avenue Abdelaziz AL SAOUD, Tunis 2092, Tunisia",
+    "latitude": 36.8419999,
+    "longitude": 10.1637068,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 2.56,
+    "weekly_avg_traffic": 22.14,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 6.67,
+    "avg_optimal_hours_day": 8.29,
+    "busiest_day": "Jeudi",
+    "quietest_day": "Samedi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 23.75,
+        "peak_hour": 22,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 18.96,
+        "peak_hour": 21,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 10
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 25.42,
+        "peak_hour": 15,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 26.67,
+        "peak_hour": 16,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 21.04,
+        "peak_hour": 20,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 17.92,
+        "peak_hour": 16,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 9
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 21.25,
+        "peak_hour": 19,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 14
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_63476c35775a716659716a5249525f3049334f494535614a496843",
+    "venue_name": "Pharmacie Nada Soussou",
+    "address": "9 Rue d'Alger, Tunis 1000, Tunisia",
+    "latitude": 36.800496,
+    "longitude": 10.1795993,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 2.4,
+    "weekly_avg_traffic": 26.84,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic matin",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 6.58,
+    "avg_optimal_hours_day": 5.86,
+    "busiest_day": "Lundi",
+    "quietest_day": "Dimanche",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 29.58,
+        "peak_hour": 4,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 29.17,
+        "peak_hour": 8,
+        "best_visit_hour": 10,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 25.62,
+        "peak_hour": 9,
+        "best_visit_hour": 12,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 28.96,
+        "peak_hour": 7,
+        "best_visit_hour": 12,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 27.92,
+        "peak_hour": 5,
+        "best_visit_hour": 12,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 28.33,
+        "peak_hour": 5,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 18.33,
+        "peak_hour": 3,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 9
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_3043717968656753496f385249525f303467645654354e4a496843",
+    "venue_name": "Night Pharmacy",
+    "address": "Q5RH+5V7, Rue Sidi El Bechir, Tunis, Tunisia",
+    "latitude": 36.7904042,
+    "longitude": 10.179664,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 3.41,
+    "weekly_avg_traffic": 24.05,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 6.45,
+    "avg_optimal_hours_day": 6.57,
+    "busiest_day": "Vendredi",
+    "quietest_day": "Mercredi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 26.46,
+        "peak_hour": 14,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 24.79,
+        "peak_hour": 13,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 16.67,
+        "peak_hour": 15,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 27.29,
+        "peak_hour": 13,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 27.5,
+        "peak_hour": 17,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 21.46,
+        "peak_hour": 15,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 24.17,
+        "peak_hour": 13,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 12
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_6f58724642516b74484179524968344c545152667958374a496843",
+    "venue_name": "Pharmacie Mustapha MRAD",
+    "address": "Av. Ali Belahouane Ariana 2080 Tunisia",
+    "latitude": 36.8619298,
+    "longitude": 10.1868475,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 5.13,
+    "weekly_avg_traffic": 27.41,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic matin",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 6.41,
+    "avg_optimal_hours_day": 5.0,
+    "busiest_day": "Lundi",
+    "quietest_day": "Samedi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 34.58,
+        "peak_hour": 9,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 31.04,
+        "peak_hour": 10,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 26.46,
+        "peak_hour": 8,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 30.0,
+        "peak_hour": 10,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 31.46,
+        "peak_hour": 9,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 18.75,
+        "peak_hour": 4,
+        "best_visit_hour": 11,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 19.58,
+        "peak_hour": 10,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 10
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_73567267334c56344c53315249525f4a427156546237344a496843",
+    "venue_name": "Night Pharmacy",
+    "address": "P8R3+43J Ez Zahra Tunisia",
+    "latitude": 36.7403317,
+    "longitude": 10.3026304,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 15.0,
+    "weekly_avg_traffic": 18.09,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Soir (18-20h)",
+    "visit_priority_score": 6.17,
+    "avg_optimal_hours_day": 8.29,
+    "busiest_day": "Lundi",
+    "quietest_day": "Mercredi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 20.62,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 15.83,
+        "peak_hour": 14,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 10
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 14.38,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 11
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 15.21,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 20.62,
+        "peak_hour": 14,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 19.38,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 20.62,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 12
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_41656c3749644a4a534b4e5249525f325558374c6955624a496843",
+    "venue_name": "Pharmacie du nuit",
+    "address": "Mégrine Tunisia",
+    "latitude": 36.7699737,
+    "longitude": 10.2332015,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 8.11,
+    "weekly_avg_traffic": 21.88,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 6.16,
+    "avg_optimal_hours_day": 6.43,
+    "busiest_day": "Lundi",
+    "quietest_day": "Dimanche",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 26.67,
+        "peak_hour": 15,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 23.12,
+        "peak_hour": 20,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 21.46,
+        "peak_hour": 22,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 26.46,
+        "peak_hour": 13,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 20.0,
+        "peak_hour": 16,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 9
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 19.38,
+        "peak_hour": 14,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 16.04,
+        "peak_hour": 13,
+        "best_visit_hour": 15,
+        "nb_optimal_hours": 10
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_417a5970576b794a3238735249525f3341746557782d444a496843",
+    "venue_name": "Pharmacie De Nuit Amel Ben Hassine",
+    "address": "13 complexe commercial et de loisirs Ben Arous 2013 Tunisia",
+    "latitude": 36.7504514,
+    "longitude": 10.2257058,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 9.3,
+    "weekly_avg_traffic": 15.83,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Soir (18-20h)",
+    "visit_priority_score": 6.15,
+    "avg_optimal_hours_day": 9.0,
+    "busiest_day": "Dimanche",
+    "quietest_day": "Lundi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 12.5,
+        "peak_hour": 14,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 16.88,
+        "peak_hour": 19,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 16.04,
+        "peak_hour": 19,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 9
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 15.42,
+        "peak_hour": 15,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 11
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 12.5,
+        "peak_hour": 14,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 10
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 15.21,
+        "peak_hour": 15,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 22.29,
+        "peak_hour": 23,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 11
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_6b67377933776c764d4653524968344c624868307355754a496843",
+    "venue_name": "Pharmacie de Nuit Jihene Dziri Ghroubi",
+    "address": "V5XJ+J8Q Unnamed Road Cebalat Tunisia",
+    "latitude": 36.8990914,
+    "longitude": 10.180846,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 9.01,
+    "weekly_avg_traffic": 17.98,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Soir (18-20h)",
+    "visit_priority_score": 5.97,
+    "avg_optimal_hours_day": 7.29,
+    "busiest_day": "Jeudi",
+    "quietest_day": "Lundi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 8.75,
+        "peak_hour": 23,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 13.96,
+        "peak_hour": 15,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 17.71,
+        "peak_hour": 14,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 45.42,
+        "peak_hour": 14,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 18
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 13.54,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 12.71,
+        "peak_hour": 15,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 13.75,
+        "peak_hour": 1,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 9
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_3068424a584946366931595249525f316b4d63344e59524a496843",
+    "venue_name": "Naziha Cheikh Night Pharmacy",
+    "address": "Ariana, Tunisia",
+    "latitude": 36.8563096,
+    "longitude": 10.1785261,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 4.3,
+    "weekly_avg_traffic": 19.7,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.87,
+    "avg_optimal_hours_day": 6.0,
+    "busiest_day": "Dimanche",
+    "quietest_day": "Samedi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 17.5,
+        "peak_hour": 16,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 9
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 19.79,
+        "peak_hour": 13,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 20.42,
+        "peak_hour": 13,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 22.71,
+        "peak_hour": 15,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 19.79,
+        "peak_hour": 14,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 13.33,
+        "peak_hour": 16,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 24.38,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 7
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_45796d544b6c587130495a5249525f315555787a3865584a496843",
+    "venue_name": "Pharmacie Chaouch - Tunis",
+    "address": "79 Av. Hédi Chaker, Tunis 1002, Tunisia",
+    "latitude": 36.8165964,
+    "longitude": 10.1807976,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 1.36,
+    "weekly_avg_traffic": 21.52,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic matin",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.77,
+    "avg_optimal_hours_day": 4.71,
+    "busiest_day": "Lundi",
+    "quietest_day": "Dimanche",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 33.33,
+        "peak_hour": 11,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 23.96,
+        "peak_hour": 5,
+        "best_visit_hour": 10,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 24.58,
+        "peak_hour": 7,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 9
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 32.92,
+        "peak_hour": 6,
+        "best_visit_hour": 11,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 24.79,
+        "peak_hour": 7,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 11.04,
+        "peak_hour": 3,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 0.0,
+        "peak_hour": 0,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 0
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_456a61765a6134594b41455249525f30344262695652474a496843",
+    "venue_name": "Pharmacie Memmi Bellevue",
+    "address": "84 Ave de Bellevue, Tunis 1009, Tunisia",
+    "latitude": 36.7756124,
+    "longitude": 10.1881268,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 5.22,
+    "weekly_avg_traffic": 17.2,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic matin",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.75,
+    "avg_optimal_hours_day": 6.57,
+    "busiest_day": "Jeudi",
+    "quietest_day": "Dimanche",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 19.58,
+        "peak_hour": 11,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 11
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 21.25,
+        "peak_hour": 6,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 21.67,
+        "peak_hour": 11,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 27.29,
+        "peak_hour": 11,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 20.0,
+        "peak_hour": 10,
+        "best_visit_hour": 12,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 10.62,
+        "peak_hour": 4,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 0.0,
+        "peak_hour": 0,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 0
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_415578655435645668734a5249525f32736265307834764a496843",
+    "venue_name": "Pharmacie Khemiri Lassaad",
+    "address": "3 rue 10236 Cité Avicenne 2066 Tunisia",
+    "latitude": 36.7608942,
+    "longitude": 10.1865762,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 6.72,
+    "weekly_avg_traffic": 22.71,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic de midi",
+    "best_visit_period": "Matin (8-11h)",
+    "visit_priority_score": 5.69,
+    "avg_optimal_hours_day": 4.0,
+    "busiest_day": "Dimanche",
+    "quietest_day": "Samedi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 28.96,
+        "peak_hour": 11,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 1
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 18.54,
+        "peak_hour": 12,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 25.83,
+        "peak_hour": 12,
+        "best_visit_hour": 10,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 21.88,
+        "peak_hour": 13,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 25.0,
+        "peak_hour": 12,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 9.38,
+        "peak_hour": 4,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 29.38,
+        "peak_hour": 13,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 6
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_774967702d677053785f725249525f4a56454d423256794a496843",
+    "venue_name": "Pharmacie de Nuit Olfa belhadj",
+    "address": "P7MV+GQJ Boumhel El Bassatine Tunisia",
+    "latitude": 36.7337289,
+    "longitude": 10.2944952,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 14.88,
+    "weekly_avg_traffic": 16.97,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.68,
+    "avg_optimal_hours_day": 6.71,
+    "busiest_day": "Jeudi",
+    "quietest_day": "Mercredi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 14.38,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 17.5,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 8.96,
+        "peak_hour": 18,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 24.38,
+        "peak_hour": 14,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 19.17,
+        "peak_hour": 15,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 19.38,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 15.0,
+        "peak_hour": 14,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 9
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_67456d5734316c6e6c5f665249525f4b315244314978764a496843",
+    "venue_name": "Pharmacie de nuit Rades",
+    "address": "Q79F+597 Av. De La République Radès Tunisia",
+    "latitude": 36.767909,
+    "longitude": 10.2734098,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 11.14,
+    "weekly_avg_traffic": 16.76,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.36,
+    "avg_optimal_hours_day": 5.29,
+    "busiest_day": "Vendredi",
+    "quietest_day": "Lundi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 11.25,
+        "peak_hour": 15,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 14.38,
+        "peak_hour": 13,
+        "best_visit_hour": 15,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 18.75,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 15.83,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 20.0,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 18.33,
+        "peak_hour": 16,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 18.75,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 5
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_4570736d7045625255366d5249525f306f6575694177704a496843",
+    "venue_name": "صيدلية غربال الأزرق",
+    "address": "R5PV+GF5 Tunis Tunisia",
+    "latitude": 36.8362671,
+    "longitude": 10.1937208,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 3.14,
+    "weekly_avg_traffic": 16.94,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic matin",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.3,
+    "avg_optimal_hours_day": 4.71,
+    "busiest_day": "Jeudi",
+    "quietest_day": "Mardi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 27.29,
+        "peak_hour": 6,
+        "best_visit_hour": 12,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 0.0,
+        "peak_hour": 0,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 0
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 26.88,
+        "peak_hour": 7,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 27.5,
+        "peak_hour": 5,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 21.88,
+        "peak_hour": 7,
+        "best_visit_hour": 12,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 15.0,
+        "peak_hour": 6,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 11
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 0.0,
+        "peak_hour": 0,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 0
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_495645516651456a694a36524968344c4c6b61414159654a496843",
+    "venue_name": "Pharmacie de nuit",
+    "address": "55 Av. Fethi Zouhir Ariana Tunisia",
+    "latitude": 36.8793585,
+    "longitude": 10.1854167,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 6.93,
+    "weekly_avg_traffic": 16.64,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.17,
+    "avg_optimal_hours_day": 4.43,
+    "busiest_day": "Jeudi",
+    "quietest_day": "Mardi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 16.88,
+        "peak_hour": 13,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 13.96,
+        "peak_hour": 13,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 17.92,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 18.75,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 14.58,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 15.62,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 5
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 18.75,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 8
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_59713858727239724946595249525f313436495062646a4a496843",
+    "venue_name": "Ariana Night Pharmacy",
+    "address": "V53P+XWC, Av. Habib Bourguiba, Tunis, Tunisia",
+    "latitude": 36.8549488,
+    "longitude": 10.1872781,
+    "geo_zone": "Grand Tunis",
+    "distance_from_tunis_km": 4.43,
+    "weekly_avg_traffic": 17.2,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 5.11,
+    "avg_optimal_hours_day": 3.86,
+    "busiest_day": "Lundi",
+    "quietest_day": "Jeudi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 19.17,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 18.33,
+        "peak_hour": 15,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 16.46,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 13.33,
+        "peak_hour": 14,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 10
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 16.67,
+        "peak_hour": 15,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 18.33,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 18.12,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 4
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_5951444c3775425854544352495256784e627462792d384a496843",
+    "venue_name": "Pharmacie de nuit bouchemma",
+    "address": "Unnamed Road Chenini Nahal Tunisia",
+    "latitude": 33.9064237,
+    "longitude": 10.0600999,
+    "geo_zone": "Centre-Sud",
+    "distance_from_tunis_km": 324.01,
+    "weekly_avg_traffic": 21.61,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Soir (18-20h)",
+    "visit_priority_score": 5.05,
+    "avg_optimal_hours_day": 12.0,
+    "busiest_day": "Dimanche",
+    "quietest_day": "Jeudi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 21.04,
+        "peak_hour": 11,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 13
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 22.29,
+        "peak_hour": 12,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 12
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 17.71,
+        "peak_hour": 13,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 13
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 16.46,
+        "peak_hour": 9,
+        "best_visit_hour": 10,
+        "nb_optimal_hours": 10
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 18.96,
+        "peak_hour": 8,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 12
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 17.92,
+        "peak_hour": 13,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 11
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 36.88,
+        "peak_hour": 16,
+        "best_visit_hour": 10,
+        "nb_optimal_hours": 13
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_386e44595257337166694b5249525f4a526d376b4f7a4d4a496843",
+    "venue_name": "Pharmacie de nuit boumhel karabibene",
+    "address": "centre commercial les roses 09 cite el saada Boumhel El Bassatine 2097 Tunisia",
+    "latitude": 36.7244744,
+    "longitude": 10.3015752,
+    "geo_zone": "Nord-Est",
+    "distance_from_tunis_km": 16.02,
+    "weekly_avg_traffic": 15.86,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 4.79,
+    "avg_optimal_hours_day": 3.43,
+    "busiest_day": "Dimanche",
+    "quietest_day": "Mercredi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 13.96,
+        "peak_hour": 15,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 16.88,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 11.67,
+        "peak_hour": 14,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 16.04,
+        "peak_hour": 15,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 13.96,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 17.71,
+        "peak_hour": 14,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 2
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 20.83,
+        "peak_hour": 14,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 4
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_517530745653414851793352495256767042676b30554f4a496843",
+    "venue_name": "Pharmacie",
+    "address": "Cité des infirmiers (à coté de Tasty Lounge Gabès 6014 Tunisia",
+    "latitude": 33.888077,
+    "longitude": 10.0975221,
+    "geo_zone": "Centre-Sud",
+    "distance_from_tunis_km": 325.96,
+    "weekly_avg_traffic": 20.53,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic de midi",
+    "best_visit_period": "Matin (8-11h)",
+    "visit_priority_score": 3.95,
+    "avg_optimal_hours_day": 7.86,
+    "busiest_day": "Dimanche",
+    "quietest_day": "Jeudi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 22.08,
+        "peak_hour": 4,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 17.71,
+        "peak_hour": 6,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 10
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 20.62,
+        "peak_hour": 6,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 17.5,
+        "peak_hour": 2,
+        "best_visit_hour": 8,
+        "nb_optimal_hours": 9
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 20.62,
+        "peak_hour": 2,
+        "best_visit_hour": 13,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 22.29,
+        "peak_hour": 14,
+        "best_visit_hour": 9,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 22.92,
+        "peak_hour": 14,
+        "best_visit_hour": 11,
+        "nb_optimal_hours": 8
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_596b69495a614b4e46474652495256785a324c526f2d4c4a496843",
+    "venue_name": "Pharmacie de nuit Asma Thabti",
+    "address": "Avenue Habib Bourguiba Chenini -6042 Gabes Gabes 6042 Tunisia",
+    "latitude": 33.8666324,
+    "longitude": 10.0618598,
+    "geo_zone": "Centre-Sud",
+    "distance_from_tunis_km": 328.42,
+    "weekly_avg_traffic": 24.17,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Fréquentation moyenne",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Midi (12-13h)",
+    "visit_priority_score": 3.7,
+    "avg_optimal_hours_day": 5.29,
+    "busiest_day": "Vendredi",
+    "quietest_day": "Lundi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 19.17,
+        "peak_hour": 13,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 24.38,
+        "peak_hour": 15,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 3
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 21.04,
+        "peak_hour": 13,
+        "best_visit_hour": 17,
+        "nb_optimal_hours": 6
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 23.33,
+        "peak_hour": 16,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 30.0,
+        "peak_hour": 23,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 23.75,
+        "peak_hour": 17,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 4
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 27.5,
+        "peak_hour": 17,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 9
+      }
+    ]
+  },
+  {
+    "venue_id": "ven_736264494f65526678376b5249525676644e474e325f374a496843",
+    "venue_name": "Pharmacie De Nuit",
+    "address": "Rue aboulkacem chebbi 6011 M Manara Tunisia",
+    "latitude": 33.8708134,
+    "longitude": 10.1094091,
+    "geo_zone": "Centre-Sud",
+    "distance_from_tunis_km": 327.86,
+    "weekly_avg_traffic": 16.93,
+    "weekly_peak_traffic": 100.0,
+    "traffic_category": "Faible fréquentation",
+    "traffic_profile": "Pic après-midi",
+    "best_visit_period": "Soir (18-20h)",
+    "visit_priority_score": 3.4,
+    "avg_optimal_hours_day": 7.14,
+    "busiest_day": "Dimanche",
+    "quietest_day": "Samedi",
+    "daily_schedule": [
+      {
+        "day": "Monday",
+        "day_fr": "Lundi",
+        "day_mean_traffic": 14.58,
+        "peak_hour": 15,
+        "best_visit_hour": 18,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Tuesday",
+        "day_fr": "Mardi",
+        "day_mean_traffic": 15.0,
+        "peak_hour": 13,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Wednesday",
+        "day_fr": "Mercredi",
+        "day_mean_traffic": 22.5,
+        "peak_hour": 15,
+        "best_visit_hour": 19,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Thursday",
+        "day_fr": "Jeudi",
+        "day_mean_traffic": 21.04,
+        "peak_hour": 18,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Friday",
+        "day_fr": "Vendredi",
+        "day_mean_traffic": 11.67,
+        "peak_hour": 19,
+        "best_visit_hour": 15,
+        "nb_optimal_hours": 8
+      },
+      {
+        "day": "Saturday",
+        "day_fr": "Samedi",
+        "day_mean_traffic": 10.62,
+        "peak_hour": 23,
+        "best_visit_hour": 14,
+        "nb_optimal_hours": 7
+      },
+      {
+        "day": "Sunday",
+        "day_fr": "Dimanche",
+        "day_mean_traffic": 23.12,
+        "peak_hour": 13,
+        "best_visit_hour": 16,
+        "nb_optimal_hours": 6
+      }
+    ]
+  }
+]

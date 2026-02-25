@@ -1,0 +1,11 @@
+﻿governorate,nb_visits,nb_reps_actifs,avg_score,success_rate,avg_duration_min,nb_clients_uniques,nb_products_uniques,visit_priority_score
+Manouba,40,22,7.15,0.2,26.95,22,15,0.57
+Monastir,56,21,6.94,0.14,26.77,24,15,0.564
+Sousse,37,19,7.29,0.27,30.68,19,15,0.564
+Tunis,42,21,6.92,0.17,29.0,23,14,0.563
+Bizerte,51,21,7.43,0.22,28.9,20,15,0.561
+Nabeul,39,18,7.37,0.28,29.18,18,12,0.558
+Gabès,41,20,7.43,0.17,29.2,21,14,0.553
+Sfax,32,19,7.17,0.19,24.19,19,14,0.529
+Ariana,38,21,6.79,0.05,26.26,21,14,0.486
+Ben Arous,31,18,6.88,0.16,27.52,16,12,0.47

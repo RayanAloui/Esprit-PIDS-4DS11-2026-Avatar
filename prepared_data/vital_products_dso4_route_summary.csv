@@ -1,0 +1,76 @@
+﻿primary_category,nb_products,avg_priority,complete_products,has_topical,has_oral,has_supplement
+Développement cérébral,1,8.75,1,0,1,1
+Carence en Fer,1,8.5,1,0,0,1
+Toux,1,8.5,1,0,1,1
+Equilibre métabolique,1,8.25,1,0,1,1
+Hémorroïdes,2,7.25,1,1,1,1
+Confort articulaire,1,7.0,1,0,1,1
+Soulage,2,6.5,2,0,1,1
+Détox,3,6.333333333333333,3,0,1,1
+Acné,2,6.25,2,0,0,1
+Anémie,4,6.0625,3,0,1,1
+Rhume,2,5.875,1,0,1,1
+Anti-tâches,4,5.625,3,1,1,1
+Anti-stress,1,5.5,1,0,1,1
+Varices,1,5.5,1,1,0,0
+Drainage,2,5.375,2,0,1,1
+psoriasis,1,5.25,1,1,0,1
+Maux de gorge,3,5.25,3,0,1,1
+Spasmes intestinaux,2,5.25,2,0,1,1
+Peau,22,4.693181818181818,11,1,0,1
+nettoie,1,4.5,1,1,0,0
+Matifie,1,4.5,1,1,0,0
+Antifongique,1,4.5,1,1,0,0
+Coupe faim,6,4.375,5,0,1,1
+Hydrate,2,4.375,2,1,0,0
+Anti septique,1,4.25,1,0,0,0
+Arthrite,3,4.25,3,1,1,1
+Eosine,1,4.25,1,0,0,0
+Apaise,2,4.25,2,1,0,0
+Hydratation,4,4.1875,4,1,0,0
+Brûle graisses,8,4.09375,6,0,1,1
+Grippe,8,4.0625,5,0,1,1
+Anti chute,2,4.0,2,1,0,0
+Antipelliculaire,2,4.0,2,1,0,0
+Confort respiratoire,2,4.0,2,0,1,1
+Troubles de la digestion,1,4.0,1,0,1,0
+Anxiété,3,4.0,3,0,1,1
+Migraine,1,3.75,1,0,1,1
+état d’humeur,1,3.75,1,0,1,1
+Douleur dentaire,1,3.75,1,0,0,1
+Cicatrices,4,3.6875,2,1,0,1
+Immunité,24,3.65625,11,0,1,1
+Grossesse,5,3.65,4,0,1,1
+Troubles de sommeil,3,3.5833333333333335,2,0,1,1
+Jambes lourdes,3,3.3333333333333335,2,1,1,1
+Hygiène Intime,2,3.25,0,1,0,0
+Cheveux,6,3.2083333333333335,3,1,1,1
+Cholestérol,3,3.1666666666666665,1,0,1,1
+Concentration,8,3.03125,4,0,1,1
+Allergie,2,3.0,1,0,1,1
+Ballonnement et gaz,6,2.875,2,0,1,1
+Anti-âge,3,2.8333333333333335,2,0,1,1
+Ossature,2,2.75,1,0,1,1
+Revitalisant,3,2.5833333333333335,1,0,1,1
+Cystites,2,2.25,1,0,1,1
+Fatigue intellectuelle,2,2.125,1,0,1,1
+Cellulite,2,2.125,1,1,1,1
+Appétit,4,2.0,0,0,1,1
+Fertilité féminine,2,2.0,1,0,1,1
+Vergetures,1,1.75,0,0,0,0
+soin bébé,2,1.125,0,1,0,0
+Prise de poids,1,0.75,0,0,1,1
+Fatigue,1,0.5,0,0,1,1
+Elimination des graisses,1,0.5,0,0,1,1
+Erythèmes,2,0.5,0,1,0,0
+Fatigue sexuelle,1,0.5,0,0,1,1
+Exfoliant,1,0.5,0,0,0,0
+Antiseptique,3,0.4166666666666667,0,0,0,0
+Allaitement,2,0.375,0,1,1,1
+Servage tabagique,1,0.25,0,0,1,1
+Prostate,1,0.25,0,0,1,1
+Diabète,1,0.25,0,0,1,1
+Toux grasse,1,0.25,0,0,1,1
+Toux sèche,1,0.25,0,0,1,1
+Glycémie,1,0.25,0,0,1,1
+Fertilité masculine,1,0.25,0,0,1,1

@@ -1,0 +1,105 @@
+﻿governorate,delegation,nb_clients,avg_visit_priority,nb_overdue,center_lat,center_lon
+Bizerte,El Alia,1,8.31,1,37.01,9.715
+Manouba,Den Den,2,8.29,2,36.81,10.188
+Sousse,Kondar,2,8.245,2,35.685,10.631
+Manouba,Oued Ellil,2,8.215,2,36.808,10.15
+Sousse,Sousse Ville,1,7.9,1,35.662,10.795
+Nabeul,Soliman,1,7.83,1,36.435,10.576
+Nabeul,Béni Khiar,1,7.64,1,36.636,10.618
+Gabès,Métouia,2,7.59,1,33.979,10.187
+Sousse,Sidi El Hani,1,7.38,1,35.725,10.751
+Manouba,Tebourba,3,7.353,3,36.82,10.158
+Sousse,Ksibet Thrayet,2,7.31,1,35.631,10.616
+Nabeul,Dar Chaabane El Fehri,2,7.26,2,36.629,10.696
+Gabès,Menzel El Habib,2,7.225,2,33.888,10.098
+Nabeul,El Haouaria,1,7.22,1,36.53,10.615
+Monastir,Ksibet El-Médiouni,2,7.205,2,35.725,10.687
+Gabès,Matmata,3,7.203,3,33.949,10.027
+Ben Arous,Mornag,3,7.193,3,36.817,10.19
+Sfax,El Hencha,2,7.19,1,34.782,10.738
+Sousse,Enfidha,1,7.18,1,35.695,10.642
+Sousse,Kalâa Kebira,2,7.025,2,35.731,10.649
+Sfax,Jebiniana,1,7.0,1,34.839,10.763
+Manouba,Mornaguia,8,6.968,8,36.787,10.193
+Tunis,Hrairia,2,6.875,2,36.77,10.213
+Gabès,Mareth,3,6.873,3,33.918,10.036
+Sfax,Sfax Ouest,1,6.8,1,34.871,10.745
+Nabeul,Takelsa,3,6.753,2,36.611,10.572
+Nabeul,Hammamet,1,6.75,1,36.497,10.525
+Sousse,Bouficha,2,6.735,2,35.787,10.759
+Bizerte,Tinja,4,6.69,3,37.203,9.873
+Ben Arous,Bou Mhel El-Bassatine,2,6.6,1,36.821,10.225
+Gabès,Ghannouch,4,6.54,4,33.916,10.068
+Sousse,Akouda,2,6.49,2,35.759,10.732
+Nabeul,Nabeul,1,6.48,1,36.675,10.676
+Tunis,Ezzouhour,3,6.397,2,36.819,10.237
+Ben Arous,Mohamedia,1,6.38,1,36.789,10.244
+Ben Arous,Hammam Lif,2,6.365,2,36.803,10.225
+Ariana,Raoued,3,6.357,3,36.825,10.184
+Gabès,Gabès Ouest,1,6.32,1,33.903,10.075
+Bizerte,Menzel Bourguiba,3,6.313,3,37.093,9.857
+Bizerte,Bizerte Sud,2,6.275,2,37.064,9.945
+Ben Arous,Ben Arous,4,6.252,3,36.791,10.246
+Sousse,Sidi Bou Ali,1,6.22,1,35.677,10.644
+Monastir,Beni Hassen,1,6.18,1,35.827,10.568
+Nabeul,El Mida,1,6.16,1,36.486,10.536
+Ariana,Sidi Thabet,3,6.127,1,36.85,10.201
+Ben Arous,Radès,2,6.1,2,36.743,10.232
+Sfax,Sfax Sud,1,5.97,0,34.825,10.759
+Bizerte,Ghezala,2,5.945,2,37.207,9.826
+Nabeul,Korba,1,5.9,1,36.657,10.472
+Nabeul,Menzel Bouzelfa,1,5.88,1,36.633,10.766
+Tunis,Bab Souika,2,5.875,2,36.79,10.186
+Sousse,Zaouiet Sousse,1,5.81,1,35.884,10.56
+Monastir,Sayada-Lamta-Bou Hajar,1,5.74,1,35.731,10.709
+Manouba,El Batan,2,5.725,0,36.806,10.177
+Sfax,El Amra,5,5.718,3,34.814,10.768
+Monastir,Bembla,3,5.71,1,35.777,10.698
+Monastir,Sahline,1,5.71,1,35.793,10.635
+Ariana,Mnihla,3,5.703,1,36.816,10.217
+Tunis,El Kabaria,1,5.7,1,36.856,10.282
+Ben Arous,Ezzahra,2,5.58,2,36.824,10.207
+Nabeul,Béni Khalled,2,5.57,1,36.504,10.531
+Ariana,Kalâat El-Andalous,3,5.557,2,36.826,10.221
+Nabeul,Grombalia,3,5.543,2,36.547,10.593
+Sousse,Messaadine,3,5.52,2,35.804,10.677
+Sfax,Agareb,3,5.497,3,34.745,10.722
+Gabès,El Hamma,2,5.495,1,33.855,10.046
+Tunis,La Medina,3,5.437,2,36.773,10.221
+Sousse,Hammam Sousse,2,5.395,2,35.743,10.725
+Sfax,Menzel Chaker,2,5.32,2,34.829,10.702
+Tunis,Carthage,3,5.26,1,36.81,10.191
+Sfax,Sakiet Eddaïer,3,5.247,2,34.771,10.764
+Bizerte,Bizerte Nord,4,5.242,4,37.126,9.866
+Tunis,El Menzah,2,5.23,1,36.88,10.153
+Ariana,Ettadhamen,4,5.215,1,36.785,10.161
+Tunis,Bab Bhar,1,5.2,1,36.822,10.256
+Tunis,Sidi El Béchir,3,5.187,3,36.85,10.161
+Bizerte,Menzel Jemil,3,5.177,1,37.15,9.816
+Bizerte,Mateur,2,5.045,1,37.148,9.848
+Bizerte,Ghar El Melh,2,4.925,1,37.133,9.819
+Ben Arous,El Mourouj,2,4.8,1,36.794,10.238
+Sousse,Kalâa Seghira,4,4.748,2,35.738,10.619
+Manouba,Manouba,1,4.73,1,36.884,10.206
+Monastir,Zéramdine,4,4.725,2,35.708,10.69
+Monastir,Jemmal,3,4.597,2,35.791,10.721
+Sfax,Sfax Ville,3,4.487,2,34.758,10.773
+Monastir,Ksar Hellal,2,4.445,1,35.869,10.674
+Tunis,El Omrane,1,4.37,0,36.786,10.211
+Manouba,Douar Hicher,2,4.35,0,36.804,10.234
+Monastir,Téboulba,1,4.14,1,35.657,10.784
+Tunis,Sidi Hassine,2,4.08,2,36.86,10.211
+Ben Arous,Fouchana,2,4.065,0,36.767,10.214
+Manouba,Borj El Amri,4,4.058,2,36.795,10.246
+Tunis,Ettahrir,3,3.92,2,36.796,10.136
+Ariana,Ariana Ville,3,3.887,1,36.829,10.235
+Nabeul,Menzel Temime,1,3.88,0,36.471,10.734
+Ben Arous,Mégrine,4,3.832,2,36.765,10.253
+Sfax,Ghraiba,3,3.693,0,34.796,10.763
+Bizerte,Ras Jebel,2,3.535,1,37.186,9.833
+Sfax,Thyna,3,3.33,1,34.781,10.742
+Monastir,Monastir,2,3.305,0,35.779,10.712
+Ariana,La Soukra,2,3.23,0,36.775,10.187
+Sousse,Hergla,1,2.98,1,35.633,10.658
+Monastir,Ouerdanine,1,2.89,0,35.62,10.648
+Bizerte,Jarzouna,1,2.24,0,37.055,9.892

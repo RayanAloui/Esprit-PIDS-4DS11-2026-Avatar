@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSO 4 — Route Optimizer · Avatar Vital</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0f1a;
+    --surface:   #111827;
+    --surface2:  #1a2233;
+    --border:    rgba(255,255,255,0.08);
+    --accent:    #00e5a0;
+    --accent2:   #3b82f6;
+    --accent3:   #f59e0b;
+    --danger:    #ef4444;
+    --text:      #e2e8f0;
+    --muted:     #64748b;
+    --mono:      'Space Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID NOISE BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,15,26,0.95);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    color: var(--bg);
+  }
+  .logo-text { font-family: var(--mono); font-size: 14px; letter-spacing: 1px; }
+  .logo-text span { color: var(--accent); }
+  .header-badge {
+    font-family: var(--mono); font-size: 11px;
+    padding: 4px 12px; border-radius: 2px;
+    background: rgba(0,229,160,0.1); border: 1px solid var(--accent);
+    color: var(--accent); letter-spacing: 2px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .app {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    grid-template-rows: auto 1fr;
+    height: calc(100vh - 61px);
+  }
+
+  /* ── CONTROL PANEL ── */
+  .panel {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    grid-row: 1 / 3;
+  }
+  .panel-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-title {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .panel-subtitle { font-size: 20px; font-weight: 600; line-height: 1.2; }
+
+  .controls { padding: 20px 24px; border-bottom: 1px solid var(--border); }
+  .ctrl-group { margin-bottom: 16px; }
+  .ctrl-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 8px; display: block;
+  }
+  .ctrl-select, .ctrl-input {
+    width: 100%; padding: 10px 14px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 4px; color: var(--text);
+    font-family: var(--sans); font-size: 14px;
+    outline: none; transition: border-color .2s;
+    appearance: none; cursor: pointer;
+  }
+  .ctrl-select:focus, .ctrl-input:focus { border-color: var(--accent); }
+  .ctrl-select option { background: var(--surface2); }
+
+  .slider-row { display: flex; align-items: center; gap: 12px; }
+  .ctrl-slider {
+    flex: 1; height: 3px; border-radius: 2px; outline: none;
+    background: linear-gradient(to right, var(--accent) 0%, var(--accent) var(--pct, 50%), var(--surface2) var(--pct, 50%));
+    cursor: pointer; appearance: none;
+  }
+  .ctrl-slider::-webkit-slider-thumb {
+    appearance: none; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--accent);
+    border: 2px solid var(--bg); cursor: pointer;
+    box-shadow: 0 0 8px rgba(0,229,160,0.5);
+  }
+  .slider-val {
+    font-family: var(--mono); font-size: 13px;
+    color: var(--accent); min-width: 28px; text-align: right;
+  }
+
+  .btn-optimize {
+    width: 100%; padding: 14px;
+    background: var(--accent); color: var(--bg);
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    border: none; border-radius: 4px; cursor: pointer;
+    transition: all .2s; margin-top: 4px;
+    position: relative; overflow: hidden;
+  }
+  .btn-optimize:hover { background: #00ffc3; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,229,160,0.3); }
+  .btn-optimize:active { transform: translateY(0); }
+  .btn-optimize.loading { opacity: .7; pointer-events: none; }
+
+  /* ── ROUTE LIST ── */
+  .route-list {
+    flex: 1; overflow-y: auto;
+    padding: 16px 24px;
+  }
+  .route-list::-webkit-scrollbar { width: 4px; }
+  .route-list::-webkit-scrollbar-track { background: transparent; }
+  .route-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .list-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .list-count {
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+  }
+  .list-count span { color: var(--accent); }
+
+  .total-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-bottom: 14px;
+  }
+  .stat-chip {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 10px 12px;
+  }
+  .stat-chip-label {
+    font-family: var(--mono); font-size: 9px; color: var(--muted);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .stat-chip-val { font-family: var(--mono); font-size: 18px; font-weight: 700; }
+  .stat-chip-val.green  { color: var(--accent); }
+  .stat-chip-val.blue   { color: var(--accent2); }
+  .stat-chip-val.amber  { color: var(--accent3); }
+
+  .route-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px;
+    margin-bottom: 8px; cursor: pointer;
+    transition: all .15s; position: relative;
+    overflow: hidden;
+  }
+  .route-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent);
+    transform: scaleY(0); transition: transform .2s;
+    transform-origin: center;
+  }
+  .route-card:hover { border-color: rgba(0,229,160,0.3); background: rgba(26,34,51,0.9); }
+  .route-card:hover::before, .route-card.active::before { transform: scaleY(1); }
+  .route-card.active { border-color: rgba(0,229,160,0.5); }
+
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+  .card-rank {
+    font-family: var(--mono); font-size: 10px; color: var(--muted);
+    min-width: 22px;
+  }
+  .card-name { font-size: 13px; font-weight: 600; flex: 1; line-height: 1.3; }
+  .priority-badge {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 2px; flex-shrink: 0;
+  }
+  .prio-high { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .prio-med  { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+  .prio-low  { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+
+  .card-metrics { display: flex; gap: 12px; flex-wrap: wrap; }
+  .metric {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: var(--muted);
+  }
+  .metric svg { flex-shrink: 0; }
+  .metric strong { color: var(--text); font-weight: 500; }
+
+  .traffic-bar {
+    height: 3px; background: var(--border); border-radius: 2px;
+    margin-top: 10px; overflow: hidden;
+  }
+  .traffic-fill {
+    height: 100%; border-radius: 2px;
+    transition: width .5s ease;
+  }
+  .visit-time-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--mono); font-size: 10px;
+    padding: 2px 8px; border-radius: 2px; margin-top: 8px;
+    background: rgba(0,229,160,0.08); color: var(--accent);
+    border: 1px solid rgba(0,229,160,0.2);
+  }
+
+  /* ── MAP AREA ── */
+  .map-area {
+    position: relative; background: var(--surface2);
+    overflow: hidden;
+  }
+  .map-canvas {
+    width: 100%; height: 100%;
+    position: absolute; inset: 0;
+  }
+
+  /* ── MAP TOOLBAR ── */
+  .map-toolbar {
+    position: absolute; top: 16px; left: 16px; right: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 5; pointer-events: none;
+  }
+  .map-info {
+    background: rgba(10,15,26,0.85); backdrop-filter: blur(8px);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 10px 16px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    pointer-events: all;
+  }
+  .map-info strong { color: var(--text); }
+
+  .map-legend {
+    background: rgba(10,15,26,0.85); backdrop-filter: blur(8px);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 12px 16px; display: flex; flex-direction: column; gap: 6px;
+    pointer-events: all;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── TOOLTIP ── */
+  .tooltip {
+    position: absolute; z-index: 20;
+    background: rgba(10,15,26,0.95); backdrop-filter: blur(12px);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px 16px; min-width: 200px;
+    pointer-events: none; opacity: 0; transition: opacity .15s;
+    font-size: 12px;
+  }
+  .tooltip.visible { opacity: 1; }
+  .tooltip-name { font-weight: 600; margin-bottom: 8px; font-size: 13px; }
+  .tooltip-row { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 4px; color: var(--muted); }
+  .tooltip-row span:last-child { color: var(--text); font-family: var(--mono); font-size: 11px; }
+
+  /* ── BOTTOM STATS BAR ── */
+  .stats-bar {
+    grid-column: 2;
+    background: var(--surface); border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0;
+    padding: 0; overflow: hidden;
+  }
+  .stats-item {
+    flex: 1; padding: 12px 20px;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .stats-item:last-child { border-right: none; }
+  .stats-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .stats-val { font-family: var(--mono); font-size: 20px; font-weight: 700; }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; color: var(--muted); gap: 12px; text-align: center; padding: 40px;
+  }
+  .empty-icon { font-size: 48px; opacity: .3; }
+  .empty-text { font-size: 14px; line-height: 1.6; }
+
+  /* ── LOADING SPINNER ── */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid rgba(0,229,160,.2);
+    border-top-color: var(--accent);
+    animation: spin .6s linear infinite;
+    display: inline-block; vertical-align: middle; margin-right: 8px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes slideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .route-card { animation: slideIn .25s ease both; }
+
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+  .pulse { animation: pulse 1.5s ease infinite; }
+
+  /* ── ROUTE PATH ANIM ── */
+  @keyframes drawPath { from { stroke-dashoffset: 2000; } to { stroke-dashoffset: 0; } }
+  .route-path { animation: drawPath 1.2s ease forwards; }
+
+  /* scrollbar */
+  * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">V</div>
+    <div class="logo-text">VITAL <span>AVATAR</span></div>
+  </div>
+  <div class="header-badge">DSO 4 — ROUTE OPTIMIZER</div>
+</header>
+
+<div class="app">
+
+  <!-- ── PANEL ── -->
+  <aside class="panel">
+    <div class="panel-header">
+      <div class="panel-title">// Configuration</div>
+      <div class="panel-subtitle">Planification<br>de Tournée Journalière</div>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-group">
+        <label class="ctrl-label">Jour de la semaine</label>
+        <select class="ctrl-select" id="daySelect">
+          <option value="Monday">Lundi</option>
+          <option value="Tuesday">Mardi</option>
+          <option value="Wednesday">Mercredi</option>
+          <option value="Thursday">Jeudi</option>
+          <option value="Friday">Vendredi</option>
+          <option value="Saturday">Samedi</option>
+          <option value="Sunday">Dimanche</option>
+        </select>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label">Point de départ (délégué)</label>
+        <select class="ctrl-select" id="startSelect">
+          <option value="tunis">Tunis — Siège Vital (36.8190, 10.1658)</option>
+          <option value="ariana">Ariana Centre (36.8625, 10.1956)</option>
+          <option value="benarous">Ben Arous (36.7534, 10.2282)</option>
+          <option value="sousse">Sousse (35.8256, 10.6369)</option>
+        </select>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label">Nb max de visites / jour</label>
+        <div class="slider-row">
+          <input type="range" class="ctrl-slider" id="maxVisits" min="3" max="12" value="7">
+          <span class="slider-val" id="maxVisitsVal">7</span>
+        </div>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label">Seuil trafic max (% fréquentation)</label>
+        <div class="slider-row">
+          <input type="range" class="ctrl-slider" id="trafficThreshold" min="20" max="90" value="60">
+          <span class="slider-val" id="trafficThresholdVal">60%</span>
+        </div>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label">Pondération scoring</label>
+        <select class="ctrl-select" id="weightMode">
+          <option value="balanced">Équilibré (distance + trafic)</option>
+          <option value="proximity">Priorité proximité</option>
+          <option value="lowtraffic">Priorité faible trafic</option>
+          <option value="hightraffic">Priorité fort volume patients</option>
+        </select>
+      </div>
+
+      <button class="btn-optimize" id="btnOptimize" onclick="runOptimization()">
+        ⬡ &nbsp;Optimiser la tournée
+      </button>
+    </div>
+
+    <div class="route-list" id="routeList">
+      <div class="empty-state">
+        <div class="empty-icon">⬡</div>
+        <div class="empty-text">Configurez les paramètres et lancez l'optimisation pour générer votre tournée journalière.</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAP ── -->
+  <div class="map-area">
+    <canvas class="map-canvas" id="mapCanvas"></canvas>
+
+    <div class="map-toolbar">
+      <div class="map-info" id="mapInfo">
+        <strong>Tunis & Environs</strong> — Pharmacies actives
+      </div>
+      <div class="map-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#00e5a0"></div>
+          Pharmacie sélectionnée
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f59e0b"></div>
+          Trafic élevé (à éviter heure de pointe)
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#3b82f6"></div>
+          Sans données horaires
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:rgba(255,255,255,0.3)"></div>
+          Non sélectionnée
+        </div>
+      </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stats-item">
+      <div class="stats-label">Pharmacies</div>
+      <div class="stats-val" id="statTotal" style="color:var(--accent)">—</div>
+    </div>
+    <div class="stats-item">
+      <div class="stats-label">Distance totale</div>
+      <div class="stats-val" id="statDist" style="color:var(--accent2)">—</div>
+    </div>
+    <div class="stats-item">
+      <div class="stats-label">Durée estimée</div>
+      <div class="stats-val" id="statTime" style="color:var(--accent3)">—</div>
+    </div>
+    <div class="stats-item">
+      <div class="stats-label">Trafic moy.</div>
+      <div class="stats-val" id="statTraffic" style="color:var(--muted)">—</div>
+    </div>
+    <div class="stats-item">
+      <div class="stats-label">Créneau optimal</div>
+      <div class="stats-val" id="statSlot" style="color:var(--accent); font-size:14px">—</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  DATA — 23 pharmacies with real GPS & foot traffic data
+//  from pharmacies_foot_traffic.csv (Tunisia only, forecast=True)
+// ═══════════════════════════════════════════════════════════════
+const PHARMACIES = [
+  { id:'v01', name:'Pharmacie Khemiri Lassaad',        lat:36.7609, lon:10.1866, hasForecast:true,
+    daily:{ Monday:{mean:46,peak:11,bestHour:9},  Tuesday:{mean:38,peak:11,bestHour:9},
+            Wednesday:{mean:44,peak:11,bestHour:9}, Thursday:{mean:52,peak:11,bestHour:9},
+            Friday:{mean:42,peak:11,bestHour:9},  Saturday:{mean:55,peak:11,bestHour:10},
+            Sunday:{mean:32,peak:10,bestHour:9} } },
+
+  { id:'v02', name:'Pharmacie Memmi Bellevue',          lat:36.7756, lon:10.1881, hasForecast:true,
+    daily:{ Monday:{mean:44,peak:11,bestHour:9}, Tuesday:{mean:40,peak:11,bestHour:9},
+            Wednesday:{mean:42,peak:12,bestHour:10}, Thursday:{mean:48,peak:11,bestHour:9},
+            Friday:{mean:39,peak:11,bestHour:8},  Saturday:{mean:51,peak:12,bestHour:10},
+            Sunday:{mean:30,peak:10,bestHour:8} } },
+
+  { id:'v03', name:'Pharmacie Ghirbal (Ariana)',        lat:36.8363, lon:10.1937, hasForecast:true,
+    daily:{ Monday:{mean:47,peak:9,bestHour:11}, Tuesday:{mean:44,peak:9,bestHour:11},
+            Wednesday:{mean:45,peak:9,bestHour:11}, Thursday:{mean:49,peak:9,bestHour:11},
+            Friday:{mean:40,peak:9,bestHour:11},  Saturday:{mean:55,peak:10,bestHour:12},
+            Sunday:{mean:28,peak:8,bestHour:10} } },
+
+  { id:'v04', name:'Pharmacie Chaouch - Tunis',         lat:36.8166, lon:10.1808, hasForecast:true,
+    daily:{ Monday:{mean:55,peak:11,bestHour:8}, Tuesday:{mean:52,peak:10,bestHour:8},
+            Wednesday:{mean:58,peak:11,bestHour:8}, Thursday:{mean:60,peak:11,bestHour:8},
+            Friday:{mean:48,peak:10,bestHour:8},  Saturday:{mean:65,peak:12,bestHour:9},
+            Sunday:{mean:35,peak:10,bestHour:9} } },
+
+  { id:'v05', name:'Pharmacie Nada Soussou',            lat:36.8005, lon:10.1796, hasForecast:true,
+    daily:{ Monday:{mean:55,peak:12,bestHour:10}, Tuesday:{mean:50,peak:12,bestHour:10},
+            Wednesday:{mean:53,peak:12,bestHour:10}, Thursday:{mean:58,peak:13,bestHour:10},
+            Friday:{mean:45,peak:12,bestHour:9},  Saturday:{mean:62,peak:13,bestHour:11},
+            Sunday:{mean:30,peak:11,bestHour:9} } },
+
+  { id:'v06', name:'Pharmacie de Nuit Boumhel',         lat:36.7245, lon:10.3016, hasForecast:true,
+    daily:{ Monday:{mean:16,peak:14,bestHour:10}, Tuesday:{mean:14,peak:14,bestHour:10},
+            Wednesday:{mean:15,peak:14,bestHour:11}, Thursday:{mean:18,peak:15,bestHour:10},
+            Friday:{mean:12,peak:13,bestHour:10},  Saturday:{mean:22,peak:15,bestHour:11},
+            Sunday:{mean:10,peak:13,bestHour:10} } },
+
+  { id:'v07', name:'Pharmacie du Nuit (Ben Arous)',     lat:36.7700, lon:10.2332, hasForecast:true,
+    daily:{ Monday:{mean:22,peak:15,bestHour:11}, Tuesday:{mean:18,peak:14,bestHour:11},
+            Wednesday:{mean:20,peak:15,bestHour:11}, Thursday:{mean:24,peak:15,bestHour:11},
+            Friday:{mean:16,peak:14,bestHour:10},  Saturday:{mean:28,peak:16,bestHour:12},
+            Sunday:{mean:12,peak:14,bestHour:10} } },
+
+  { id:'v08', name:'Pharmacie De Nuit Amel Ben Hassine',lat:36.7505, lon:10.2257, hasForecast:true,
+    daily:{ Monday:{mean:16,peak:14,bestHour:10}, Tuesday:{mean:13,peak:13,bestHour:10},
+            Wednesday:{mean:15,peak:14,bestHour:10}, Thursday:{mean:17,peak:14,bestHour:10},
+            Friday:{mean:12,peak:13,bestHour:9},  Saturday:{mean:20,peak:15,bestHour:11},
+            Sunday:{mean:9,peak:13,bestHour:9} } },
+
+  { id:'v09', name:'Pharmacie de Nuit Radès',           lat:36.7679, lon:10.2734, hasForecast:true,
+    daily:{ Monday:{mean:17,peak:14,bestHour:10}, Tuesday:{mean:15,peak:14,bestHour:10},
+            Wednesday:{mean:16,peak:14,bestHour:10}, Thursday:{mean:19,peak:15,bestHour:10},
+            Friday:{mean:13,peak:13,bestHour:9},  Saturday:{mean:23,peak:15,bestHour:11},
+            Sunday:{mean:10,peak:13,bestHour:9} } },
+
+  { id:'v10', name:'Night Pharmacy (Hammam Chott)',     lat:36.7403, lon:10.3026, hasForecast:true,
+    daily:{ Monday:{mean:19,peak:14,bestHour:11}, Tuesday:{mean:16,peak:14,bestHour:11},
+            Wednesday:{mean:18,peak:15,bestHour:11}, Thursday:{mean:21,peak:15,bestHour:11},
+            Friday:{mean:14,peak:13,bestHour:10},  Saturday:{mean:25,peak:15,bestHour:12},
+            Sunday:{mean:11,peak:13,bestHour:10} } },
+
+  { id:'v11', name:'Pharmacie de Nuit Olfa Belhadj',   lat:36.7337, lon:10.2945, hasForecast:true,
+    daily:{ Monday:{mean:17,peak:14,bestHour:10}, Tuesday:{mean:14,peak:14,bestHour:10},
+            Wednesday:{mean:16,peak:14,bestHour:10}, Thursday:{mean:18,peak:15,bestHour:10},
+            Friday:{mean:12,peak:13,bestHour:9},  Saturday:{mean:22,peak:15,bestHour:11},
+            Sunday:{mean:9,peak:13,bestHour:9} } },
+
+  { id:'v12', name:'Naziha Cheikh Night Pharmacy',     lat:36.8563, lon:10.1785, hasForecast:true,
+    daily:{ Monday:{mean:20,peak:15,bestHour:11}, Tuesday:{mean:17,peak:15,bestHour:11},
+            Wednesday:{mean:19,peak:15,bestHour:11}, Thursday:{mean:22,peak:16,bestHour:11},
+            Friday:{mean:15,peak:14,bestHour:10},  Saturday:{mean:26,peak:16,bestHour:12},
+            Sunday:{mean:12,peak:14,bestHour:10} } },
+
+  { id:'v13', name:'Pharmacie de Nuit (La Marsa)',     lat:36.8794, lon:10.1854, hasForecast:true,
+    daily:{ Monday:{mean:17,peak:14,bestHour:10}, Tuesday:{mean:14,peak:13,bestHour:10},
+            Wednesday:{mean:16,peak:14,bestHour:10}, Thursday:{mean:19,peak:15,bestHour:10},
+            Friday:{mean:13,peak:13,bestHour:9},  Saturday:{mean:21,peak:15,bestHour:11},
+            Sunday:{mean:10,peak:13,bestHour:9} } },
+
+  { id:'v14', name:'Karai Night Pharmacy',             lat:36.8420, lon:10.1637, hasForecast:true,
+    daily:{ Monday:{mean:22,peak:14,bestHour:11}, Tuesday:{mean:19,peak:14,bestHour:11},
+            Wednesday:{mean:21,peak:15,bestHour:11}, Thursday:{mean:24,peak:15,bestHour:11},
+            Friday:{mean:17,peak:13,bestHour:10},  Saturday:{mean:28,peak:15,bestHour:12},
+            Sunday:{mean:13,peak:13,bestHour:10} } },
+
+  { id:'v15', name:'Ariana Night Pharmacy',            lat:36.8549, lon:10.1873, hasForecast:true,
+    daily:{ Monday:{mean:17,peak:14,bestHour:10}, Tuesday:{mean:15,peak:14,bestHour:10},
+            Wednesday:{mean:16,peak:14,bestHour:10}, Thursday:{mean:19,peak:15,bestHour:10},
+            Friday:{mean:13,peak:13,bestHour:9},  Saturday:{mean:22,peak:15,bestHour:11},
+            Sunday:{mean:10,peak:13,bestHour:9} } },
+
+  { id:'v16', name:'Pharmacie de Nuit Jihene Dziri',   lat:36.8991, lon:10.1808, hasForecast:true,
+    daily:{ Monday:{mean:26,peak:15,bestHour:12}, Tuesday:{mean:22,peak:15,bestHour:12},
+            Wednesday:{mean:25,peak:15,bestHour:12}, Thursday:{mean:28,peak:16,bestHour:12},
+            Friday:{mean:20,peak:14,bestHour:11},  Saturday:{mean:32,peak:16,bestHour:13},
+            Sunday:{mean:15,peak:14,bestHour:11} } },
+
+  { id:'v17', name:'Pharmacie Mustapha MRAD',          lat:36.8619, lon:10.1868, hasForecast:true,
+    daily:{ Monday:{mean:56,peak:11,bestHour:9},  Tuesday:{mean:51,peak:10,bestHour:9},
+            Wednesday:{mean:54,peak:11,bestHour:9}, Thursday:{mean:59,peak:11,bestHour:9},
+            Friday:{mean:47,peak:10,bestHour:8},  Saturday:{mean:64,peak:12,bestHour:10},
+            Sunday:{mean:33,peak:10,bestHour:8} } },
+
+  { id:'v18', name:'Night Pharmacy Bab Bhar',          lat:36.7904, lon:10.1797, hasForecast:true,
+    daily:{ Monday:{mean:24,peak:14,bestHour:11}, Tuesday:{mean:20,peak:14,bestHour:11},
+            Wednesday:{mean:22,peak:15,bestHour:11}, Thursday:{mean:26,peak:15,bestHour:11},
+            Friday:{mean:18,peak:13,bestHour:10},  Saturday:{mean:30,peak:15,bestHour:12},
+            Sunday:{mean:13,peak:13,bestHour:10} } },
+
+  // South Tunisia cluster
+  { id:'v19', name:'Pharmacie de Nuit Métouia',        lat:33.9595, lon:10.0004, hasForecast:true,
+    daily:{ Monday:{mean:39,peak:12,bestHour:10}, Tuesday:{mean:34,peak:12,bestHour:10},
+            Wednesday:{mean:37,peak:12,bestHour:10}, Thursday:{mean:41,peak:13,bestHour:10},
+            Friday:{mean:33,peak:11,bestHour:9},  Saturday:{mean:45,peak:13,bestHour:11},
+            Sunday:{mean:22,peak:11,bestHour:9} } },
+
+  { id:'v20', name:'Pharmacie Gabès Centre',           lat:33.8881, lon:10.0975, hasForecast:true,
+    daily:{ Monday:{mean:38,peak:11,bestHour:9},  Tuesday:{mean:33,peak:11,bestHour:9},
+            Wednesday:{mean:36,peak:11,bestHour:9}, Thursday:{mean:40,peak:12,bestHour:9},
+            Friday:{mean:32,peak:10,bestHour:8},  Saturday:{mean:44,peak:12,bestHour:10},
+            Sunday:{mean:21,peak:10,bestHour:8} } },
+
+  { id:'v21', name:'Pharmacie de Nuit Asma Thabti',   lat:33.8666, lon:10.0619, hasForecast:true,
+    daily:{ Monday:{mean:24,peak:13,bestHour:11}, Tuesday:{mean:21,peak:13,bestHour:11},
+            Wednesday:{mean:23,peak:13,bestHour:11}, Thursday:{mean:26,peak:14,bestHour:11},
+            Friday:{mean:19,peak:12,bestHour:10},  Saturday:{mean:30,peak:14,bestHour:12},
+            Sunday:{mean:13,peak:12,bestHour:10} } },
+
+  { id:'v22', name:'Pharmacie De Nuit Gabès Sud',      lat:33.8708, lon:10.1094, hasForecast:true,
+    daily:{ Monday:{mean:17,peak:13,bestHour:10}, Tuesday:{mean:14,peak:13,bestHour:10},
+            Wednesday:{mean:16,peak:14,bestHour:10}, Thursday:{mean:19,peak:14,bestHour:10},
+            Friday:{mean:13,peak:12,bestHour:9},  Saturday:{mean:22,peak:14,bestHour:11},
+            Sunday:{mean:10,peak:12,bestHour:9} } },
+
+  { id:'v23', name:'Pharmacie Bouchemma',              lat:33.9064, lon:10.0601, hasForecast:true,
+    daily:{ Monday:{mean:22,peak:12,bestHour:10}, Tuesday:{mean:18,peak:12,bestHour:10},
+            Wednesday:{mean:20,peak:12,bestHour:10}, Thursday:{mean:24,peak:13,bestHour:10},
+            Friday:{mean:17,peak:11,bestHour:9},  Saturday:{mean:27,peak:13,bestHour:11},
+            Sunday:{mean:12,peak:11,bestHour:9} } },
+];
+
+const DEPOTS = {
+  tunis:    { lat:36.8190, lon:10.1658, label:'Siège Vital — Tunis' },
+  ariana:   { lat:36.8625, lon:10.1956, label:'Ariana Centre' },
+  benarous: { lat:36.7534, lon:10.2282, label:'Ben Arous' },
+  sousse:   { lat:35.8256, lon:10.6369, label:'Sousse' },
+};
+
+// ═══════════════════════════════════════════════════════
+//  MATH HELPERS
+// ═══════════════════════════════════════════════════════
+function haversine(lat1,lon1,lat2,lon2) {
+  const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function nearestNeighborTSP(depot, pharmacies) {
+  if (!pharmacies.length) return [];
+  let remaining = [...pharmacies];
+  let current = depot;
+  let route = [];
+  while (remaining.length) {
+    let best = null, bestDist = Infinity;
+    for (let p of remaining) {
+      const d = haversine(current.lat, current.lon, p.lat, p.lon);
+      if (d < bestDist) { bestDist = d; best = p; }
+    }
+    route.push({ ...best, distFromPrev: bestDist });
+    current = best;
+    remaining = remaining.filter(p => p.id !== best.id);
+  }
+  return route;
+}
+
+function twoOptImprove(route, depot) {
+  if (route.length < 4) return route;
+  let improved = true;
+  let best = [...route];
+  while (improved) {
+    improved = false;
+    for (let i=0; i<best.length-1; i++) {
+      for (let j=i+2; j<best.length; j++) {
+        const newRoute = [...best.slice(0,i+1), ...best.slice(i+1,j+1).reverse(), ...best.slice(j+1)];
+        if (totalDist(newRoute, depot) < totalDist(best, depot)) {
+          best = newRoute; improved = true;
+        }
+      }
+    }
+  }
+  // Recompute distFromPrev
+  return best.map((p,i) => ({
+    ...p,
+    distFromPrev: i===0 ? haversine(depot.lat,depot.lon,p.lat,p.lon)
+                       : haversine(best[i-1].lat,best[i-1].lon,p.lat,p.lon)
+  }));
+}
+
+function totalDist(route, depot) {
+  if (!route.length) return 0;
+  let d = haversine(depot.lat,depot.lon,route[0].lat,route[0].lon);
+  for (let i=1;i<route.length;i++) d+=haversine(route[i-1].lat,route[i-1].lon,route[i].lat,route[i].lon);
+  return d;
+}
+
+// ═══════════════════════════════════════════════════════
+//  SCORING ENGINE
+// ═══════════════════════════════════════════════════════
+function scorePharmacy(p, depot, day, trafficThreshold, weightMode) {
+  const dayData = p.daily[day] || p.daily['Monday'];
+  const traffic = dayData.mean;
+
+  // Exclude if above threshold
+  if (traffic > trafficThreshold) return null;
+
+  const dist = haversine(depot.lat, depot.lon, p.lat, p.lon);
+  const maxDist = 350; // km (to include Sousse → Gabès)
+
+  // Normalize 0→1
+  const normDist    = Math.max(0, 1 - dist / maxDist);
+  const normTraffic = traffic / 100; // lower = better for visit ease
+  const normInverse = 1 - normTraffic; // low traffic = good (pharmacist available)
+  const highVolume  = normTraffic;     // high traffic = more patients
+
+  let score;
+  switch(weightMode) {
+    case 'proximity':
+      score = normDist * 0.6 + normInverse * 0.25 + (1/Math.max(dist,1)) * 0.15 * 100;
+      break;
+    case 'lowtraffic':
+      score = normInverse * 0.55 + normDist * 0.35 + 0.1;
+      break;
+    case 'hightraffic':
+      score = highVolume * 0.5 + normDist * 0.35 + 0.15;
+      break;
+    default: // balanced
+      score = normDist * 0.4 + normInverse * 0.4 + 0.2;
+  }
+
+  const priorityLevel = dist < 5 ? 'HIGH' : dist < 15 ? 'MED' : 'LOW';
+
+  return {
+    ...p, score, dist, traffic,
+    bestHour: dayData.bestHour,
+    peakHour: dayData.peak,
+    priorityLevel,
+  };
+}
+
+function getTrafficColor(traffic) {
+  if (traffic >= 50) return '#ef4444';
+  if (traffic >= 30) return '#f59e0b';
+  return '#00e5a0';
+}
+
+// ═══════════════════════════════════════════════════════
+//  MAP RENDERER
+// ═══════════════════════════════════════════════════════
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
+let mapState = { pharmacies: [], route: [], depot: null, hoveredId: null };
+let projParams = null;
+
+function resizeCanvas() {
+  canvas.width  = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  if (mapState.pharmacies.length) renderMap();
+}
+
+function project(lat, lon) {
+  const { latMin, latMax, lonMin, lonMax, W, H, pad } = projParams;
+  const x = pad + (lon - lonMin) / (lonMax - lonMin) * (W - 2*pad);
+  const y = H - pad - (lat - latMin) / (latMax - latMin) * (H - 2*pad);
+  return { x, y };
+}
+
+function setupProjection(pharmacies, depot) {
+  const lats = pharmacies.map(p=>p.lat).concat([depot.lat]);
+  const lons = pharmacies.map(p=>p.lon).concat([depot.lon]);
+  const pad = 60;
+  const W = canvas.width, H = canvas.height;
+  projParams = {
+    latMin: Math.min(...lats)-0.05, latMax: Math.max(...lats)+0.05,
+    lonMin: Math.min(...lons)-0.05, lonMax: Math.max(...lons)+0.05,
+    W, H, pad
+  };
+}
+
+function renderMap() {
+  if (!projParams) return;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  const { pharmacies, route, depot } = mapState;
+  const routeIds = new Set(route.map(p=>p.id));
+
+  // ── Draw route path ──
+  if (route.length > 1) {
+    const depotPt = project(depot.lat, depot.lon);
+    const pts = [depotPt, ...route.map(p=>project(p.lat,p.lon)), depotPt];
+
+    // Shadow glow
+    ctx.save();
+    ctx.strokeStyle = 'rgba(0,229,160,0.15)';
+    ctx.lineWidth = 12;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    pts.forEach((pt,i) => i===0 ? ctx.moveTo(pt.x,pt.y) : ctx.lineTo(pt.x,pt.y));
+    ctx.stroke();
+    ctx.restore();
+
+    // Main path
+    ctx.save();
+    ctx.strokeStyle = 'rgba(0,229,160,0.7)';
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.setLineDash([6,4]);
+    ctx.beginPath();
+    pts.forEach((pt,i) => i===0 ? ctx.moveTo(pt.x,pt.y) : ctx.lineTo(pt.x,pt.y));
+    ctx.stroke();
+    ctx.restore();
+
+    // Arrows along path
+    for (let i=1; i<pts.length; i++) {
+      const a = pts[i-1], b = pts[i];
+      const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+      const angle = Math.atan2(b.y-a.y, b.x-a.x);
+      ctx.save();
+      ctx.translate(mx,my);
+      ctx.rotate(angle);
+      ctx.fillStyle = 'rgba(0,229,160,0.6)';
+      ctx.beginPath();
+      ctx.moveTo(6,0); ctx.lineTo(-4,-4); ctx.lineTo(-4,4);
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // ── Draw pharmacies ──
+  pharmacies.forEach(p => {
+    const pt = project(p.lat, p.lon);
+    const isRoute = routeIds.has(p.id);
+    const isHover = p.id === mapState.hoveredId;
+    const idx = route.findIndex(r=>r.id===p.id);
+    const color = isRoute ? getTrafficColor(p.daily['Monday']?.mean || 30) : 'rgba(255,255,255,0.2)';
+    const r = isRoute ? 10 : 6;
+
+    if (isRoute || isHover) {
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, r+6, 0, Math.PI*2);
+      ctx.fillStyle = isRoute ? color.replace(')',',0.15)').replace('rgb','rgba') : 'rgba(255,255,255,0.05)';
+      ctx.fill();
+    }
+
+    ctx.beginPath();
+    ctx.arc(pt.x, pt.y, r, 0, Math.PI*2);
+    ctx.fillStyle = isRoute ? color : 'rgba(255,255,255,0.25)';
+    ctx.fill();
+
+    if (isRoute) {
+      ctx.strokeStyle = '#0a0f1a';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Rank number
+      ctx.fillStyle = '#0a0f1a';
+      ctx.font = `bold 8px 'Space Mono'`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(idx+1, pt.x, pt.y);
+
+      // Name label
+      ctx.fillStyle = isHover ? '#fff' : 'rgba(255,255,255,0.75)';
+      ctx.font = `11px 'DM Sans'`;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      const shortName = p.name.length > 22 ? p.name.slice(0,22)+'…' : p.name;
+      ctx.fillText(shortName, pt.x+14, pt.y);
+    }
+  });
+
+  // ── Draw depot ──
+  if (depot) {
+    const pt = project(depot.lat, depot.lon);
+    // Pulse ring
+    ctx.beginPath();
+    ctx.arc(pt.x, pt.y, 18, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(59,130,246,0.3)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    // Hexagon depot
+    ctx.save();
+    ctx.translate(pt.x, pt.y);
+    ctx.beginPath();
+    for (let i=0;i<6;i++) {
+      const angle = i*Math.PI/3 - Math.PI/6;
+      i===0 ? ctx.moveTo(Math.cos(angle)*12, Math.sin(angle)*12)
+            : ctx.lineTo(Math.cos(angle)*12, Math.sin(angle)*12);
+    }
+    ctx.closePath();
+    ctx.fillStyle = '#3b82f6';
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = `bold 8px 'Space Mono'`;
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('D', 0, 0);
+    ctx.restore();
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  TOOLTIP
+// ═══════════════════════════════════════════════════════
+const tooltip = document.getElementById('tooltip');
+
+canvas.addEventListener('mousemove', (e) => {
+  if (!projParams) return;
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const day = document.getElementById('daySelect').value;
+
+  let hovered = null;
+  for (const p of mapState.pharmacies) {
+    const pt = project(p.lat, p.lon);
+    if (Math.hypot(pt.x-mx, pt.y-my) < 12) { hovered = p; break; }
+  }
+
+  mapState.hoveredId = hovered ? hovered.id : null;
+
+  if (hovered) {
+    const dayData = hovered.daily[day] || hovered.daily['Monday'];
+    const route = mapState.route;
+    const rank = route.findIndex(r=>r.id===hovered.id);
+    tooltip.innerHTML = `
+      <div class="tooltip-name">${hovered.name}</div>
+      <div class="tooltip-row"><span>Trafic moyen</span><span>${dayData.mean}%</span></div>
+      <div class="tooltip-row"><span>Heure de pointe</span><span>${dayData.peak}h00</span></div>
+      <div class="tooltip-row"><span>Visite conseillée</span><span>${dayData.bestHour}h00</span></div>
+      ${rank>=0 ? `<div class="tooltip-row"><span>Rang tournée</span><span>#${rank+1}</span></div>` : ''}
+      <div class="tooltip-row"><span>Coordonnées</span><span>${hovered.lat.toFixed(4)}, ${hovered.lon.toFixed(4)}</span></div>
+    `;
+    tooltip.style.left  = (mx+20)+'px';
+    tooltip.style.top   = (my-10)+'px';
+    tooltip.classList.add('visible');
+    canvas.style.cursor = 'pointer';
+  } else {
+    tooltip.classList.remove('visible');
+    canvas.style.cursor = 'default';
+  }
+  renderMap();
+});
+canvas.addEventListener('mouseleave', () => {
+  tooltip.classList.remove('visible');
+  mapState.hoveredId = null;
+  renderMap();
+});
+
+// ═══════════════════════════════════════════════════════
+//  SLIDERS
+// ═══════════════════════════════════════════════════════
+function syncSlider(id, displayId, suffix='') {
+  const slider = document.getElementById(id);
+  const display = document.getElementById(displayId);
+  function update() {
+    const pct = ((slider.value-slider.min)/(slider.max-slider.min)*100).toFixed(0);
+    slider.style.setProperty('--pct', pct+'%');
+    display.textContent = slider.value + suffix;
+  }
+  slider.addEventListener('input', update);
+  update();
+}
+syncSlider('maxVisits','maxVisitsVal');
+syncSlider('trafficThreshold','trafficThresholdVal','%');
+
+// ═══════════════════════════════════════════════════════
+//  OPTIMIZATION MAIN
+// ═══════════════════════════════════════════════════════
+let activeCard = null;
+
+function runOptimization() {
+  const btn = document.getElementById('btnOptimize');
+  btn.innerHTML = '<span class="spinner"></span> Calcul en cours...';
+  btn.classList.add('loading');
+
+  setTimeout(() => {
+    const day         = document.getElementById('daySelect').value;
+    const depotKey    = document.getElementById('startSelect').value;
+    const maxVisits   = +document.getElementById('maxVisits').value;
+    const maxTraffic  = +document.getElementById('trafficThreshold').value;
+    const weightMode  = document.getElementById('weightMode').value;
+    const depot       = DEPOTS[depotKey];
+
+    // Score all pharmacies
+    const scored = PHARMACIES
+      .map(p => scorePharmacy(p, depot, day, maxTraffic, weightMode))
+      .filter(Boolean)
+      .sort((a,b) => b.score - a.score)
+      .slice(0, maxVisits);
+
+    // TSP via nearest-neighbor + 2-opt
+    let route = nearestNeighborTSP(depot, scored);
+    route = twoOptImprove(route, depot);
+
+    // Update map
+    mapState = { pharmacies: PHARMACIES, route, depot };
+    setupProjection(PHARMACIES, depot);
+    renderMap();
+
+    // Update stats
+    const totalDistance = route.reduce((s,p) => s+p.distFromPrev, 0)
+      + (route.length ? haversine(route[route.length-1].lat, route[route.length-1].lon, depot.lat, depot.lon) : 0);
+    const drivingMin  = Math.round(totalDistance / 40 * 60); // ~40 km/h avg
+    const visitMin    = route.length * 25; // ~25 min per visit
+    const totalMin    = drivingMin + visitMin;
+    const avgTraffic  = route.length ? route.reduce((s,p)=>s+p.traffic,0)/route.length : 0;
+    const bestSlot    = route.length ? `${Math.min(...route.map(p=>p.bestHour))}h–${Math.max(...route.map(p=>p.bestHour))+1}h` : '—';
+
+    document.getElementById('statTotal').textContent   = route.length;
+    document.getElementById('statDist').textContent    = totalDistance.toFixed(1)+' km';
+    document.getElementById('statTime').textContent    = `${Math.floor(totalMin/60)}h${(totalMin%60).toString().padStart(2,'0')}`;
+    document.getElementById('statTraffic').textContent = avgTraffic.toFixed(0)+'%';
+    document.getElementById('statSlot').textContent    = bestSlot;
+
+    // Render route list
+    renderRouteList(route, depot, day, totalDistance);
+
+    // Update map info
+    document.getElementById('mapInfo').innerHTML = `
+      <strong>${route.length} visites</strong> — ${totalDistance.toFixed(1)} km &nbsp;|&nbsp; Départ: ${depot.label}
+    `;
+
+    btn.innerHTML = '⬡ &nbsp;Optimiser la tournée';
+    btn.classList.remove('loading');
+  }, 600);
+}
+
+function renderRouteList(route, depot, day, totalDist) {
+  const container = document.getElementById('routeList');
+  if (!route.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">Aucune pharmacie ne correspond aux critères. Essayez d'augmenter le seuil de trafic.</div></div>`;
+    return;
+  }
+
+  let html = `
+    <div class="list-header">
+      <div class="list-count">Tournée optimisée &mdash; <span>${route.length} arrêts</span></div>
+    </div>
+    <div class="total-stats">
+      <div class="stat-chip">
+        <div class="stat-chip-label">Distance</div>
+        <div class="stat-chip-val green">${totalDist.toFixed(0)} km</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-chip-label">Score moy.</div>
+        <div class="stat-chip-val blue">${(route.reduce((s,p)=>s+p.score,0)/route.length*100).toFixed(0)}</div>
+      </div>
+    </div>
+  `;
+
+  // Start: depot
+  html += `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:10px 12px;
+      background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:4px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#3b82f6"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      <span style="font-family:var(--mono);font-size:11px;color:#60a5fa">DÉPART — ${depot.label}</span>
+    </div>
+  `;
+
+  route.forEach((p, i) => {
+    const pct = Math.round(p.score * 100);
+    const trafficColor = getTrafficColor(p.traffic);
+    const prioClass = p.priorityLevel === 'HIGH' ? 'prio-high' : p.priorityLevel === 'MED' ? 'prio-med' : 'prio-low';
+    const prioLabel = p.priorityLevel === 'HIGH' ? 'URGENT' : p.priorityLevel === 'MED' ? 'MOYEN' : 'STANDARD';
+    const visitWindow = `${p.bestHour}h00`;
+    const animDelay = i * 60;
+
+    html += `
+      <div class="route-card" onclick="selectCard('${p.id}', this)"
+        id="card-${p.id}" style="animation-delay:${animDelay}ms">
+        <div class="card-top">
+          <span class="card-rank">#${i+1}</span>
+          <span class="card-name">${p.name}</span>
+          <span class="priority-badge ${prioClass}">${prioLabel}</span>
+        </div>
+        <div class="card-metrics">
+          <div class="metric">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <strong>${p.distFromPrev.toFixed(1)} km</strong>
+          </div>
+          <div class="metric">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+            <strong>${p.traffic}%</strong> trafic
+          </div>
+          <div class="metric">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/></svg>
+            Score <strong>${pct}</strong>
+          </div>
+        </div>
+        <div class="traffic-bar">
+          <div class="traffic-fill" style="width:${p.traffic}%;background:${trafficColor}"></div>
+        </div>
+        <div class="visit-time-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          Visite optimale : ${visitWindow}
+        </div>
+      </div>
+    `;
+  });
+
+  // End: return to depot
+  const returnDist = route.length ? haversine(route[route.length-1].lat, route[route.length-1].lon, depot.lat, depot.lon) : 0;
+  html += `
+    <div style="display:flex;align-items:center;gap:8px;margin-top:4px;padding:10px 12px;
+      background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:4px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#3b82f6"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span style="font-family:var(--mono);font-size:11px;color:#60a5fa">RETOUR BASE — ${returnDist.toFixed(1)} km</span>
+    </div>
+  `;
+
+  container.innerHTML = html;
+}
+
+function selectCard(id, el) {
+  document.querySelectorAll('.route-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  mapState.hoveredId = id;
+  renderMap();
+}
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Initial render of all pharmacies (no route yet)
+const defaultDepot = DEPOTS.tunis;
+mapState.pharmacies = PHARMACIES;
+mapState.depot = defaultDepot;
+setupProjection(PHARMACIES, defaultDepot);
+renderMap();
+
+// Auto-run on first load
+setTimeout(runOptimization, 400);
+</script>
+</body>
+</html>

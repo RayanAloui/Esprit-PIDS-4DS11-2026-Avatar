@@ -1,0 +1,9 @@
+﻿objection_type,nb_conversations,avg_overall_score,avg_context_score,success_rate_strict,success_rate_broad,avg_handling_score,pct_excellent,pct_poor,avg_response_len,avg_argumentation,difficulty
+Demande Faible,42,6.843,6.785,0.262,0.738,6.457,0.262,0.19,23.0,0.786,Standard
+Effets Secondaires,49,6.771,6.658,0.286,0.612,6.131,0.286,0.204,22.939,0.286,Standard
+Efficacité douteuse,58,6.933,6.837,0.31,0.69,6.402,0.31,0.172,24.241,1.138,Standard
+Concurrence,56,7.034,6.955,0.321,0.643,6.598,0.321,0.179,24.643,0.321,Standard
+Marque inconnue,48,6.967,6.909,0.333,0.625,6.646,0.333,0.208,25.75,0.667,Difficile
+Stock suffisant,52,6.925,6.849,0.346,0.712,6.452,0.346,0.25,21.673,0.346,Difficile
+Posologie complexe,39,7.082,6.994,0.359,0.564,6.592,0.359,0.205,23.282,0.359,Difficile
+Prix élevé,56,7.209,7.144,0.393,0.661,6.821,0.393,0.161,27.679,0.786,Standard

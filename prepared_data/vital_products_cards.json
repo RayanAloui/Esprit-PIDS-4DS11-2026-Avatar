@@ -1,0 +1,3601 @@
+[
+  {
+    "id": 0,
+    "name": "LV Vitamine A",
+    "forme": "Créme",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Acné",
+      "Peau"
+    ],
+    "primary_category": "Acné",
+    "indications": "- Engelure - Réduit l’apparition des rides - Traite l’acné chez les adolescents et les adultes - Régule la pigmentation - Prévient les dommages cellulaires - Soutient la santé de la peau - Stimule la production de collagène",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/vitamine-a-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Vitamine-A.png",
+    "is_complete": true,
+    "priority_score": 8.5
+  },
+  {
+    "id": 1,
+    "name": "LV Fersang junior",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anémie",
+      "Carence en Fer"
+    ],
+    "primary_category": "Anémie",
+    "indications": "- Traitement de l’anémie chez l’enfant à partir de 2 ans - Restitution des réserves en fer - Fortifie le sang sans risque de constipation",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/lv-fersang-junior/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/08/Fersang-junior.png",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 2,
+    "name": "Hydra eau micellaire",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Nettoyante - Démaquillante - Purifiante - Aide à éliminer les impuretés - Se débarrasse de l’excès de sébum en douceur - Laisse la peau nette et fraîche",
+    "infos_produit": "Peau normale",
+    "url": "https://vital.com.tn/products/hydra-eau-micellaire/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/HYDRA-eau-micellaire-peau-normale.png",
+    "is_complete": false,
+    "priority_score": 6.25
+  },
+  {
+    "id": 3,
+    "name": "Alcool de menthe",
+    "forme": "Liquide",
+    "classe": "Produit de soin",
+    "categories": [
+      "Troubles de la digestion",
+      "Ballonnement et gaz"
+    ],
+    "primary_category": "Troubles de la digestion",
+    "indications": "Garder hors de la portée des enfants",
+    "infos_produit": "Flacon de 37 ml",
+    "url": "https://vital.com.tn/products/alcool-de-menthe-2-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/AM.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 4,
+    "name": "Vitonic Tonus",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Revitalisant"
+    ],
+    "primary_category": "Revitalisant",
+    "indications": "Information non disponible",
+    "infos_produit": "1 boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-tonus-2-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-tonus-1.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 5,
+    "name": "PHYTOFANE Lotion anti chute",
+    "forme": "Lotion",
+    "classe": "Lotion Antichute",
+    "categories": [
+      "Anti chute",
+      "Cheveux"
+    ],
+    "primary_category": "Anti chute",
+    "indications": "• Ralentit la chute des cheveux • Stimule la croissance",
+    "infos_produit": "200 ML",
+    "url": "https://vital.com.tn/products/phytofane-lotion-anti-chute-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/PHYTOFANE-Lotion-anti-chute.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 6,
+    "name": "Huile de Menthe",
+    "forme": "Liquide",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Ballonnement et gaz",
+      "Digestion"
+    ],
+    "primary_category": "Ballonnement et gaz",
+    "indications": "- Difficulté de digestion - Diminuer les flatulences",
+    "infos_produit": "Flacon de 65 ml",
+    "url": "https://vital.com.tn/products/huile-de-menthe-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/HUILE-DE-MENTHE-.jpg",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 7,
+    "name": "LV Sélénium A, C, E Anti-âge",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anti-âge",
+      "Peau"
+    ],
+    "primary_category": "Anti-âge",
+    "indications": "• Prévenir le vieillissement cutané • Améliorer l’’éclat et la souplesse de la peau • Réduire les signes visibles de l’’âge par des effets anti-inflammatoires et antioxydants",
+    "infos_produit": "30 Gélules",
+    "url": "https://vital.com.tn/products/lv-selenium-a-c-e-anti-age/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/12/VITAL-selenium-A-C-E-anti-age.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 8,
+    "name": "Omevie Omega 3 - 1000",
+    "forme": "Capsule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Développement cérébral",
+      "Concentration",
+      "Immunité"
+    ],
+    "primary_category": "Développement cérébral",
+    "indications": "- Contribue au bon développement cérébral - Maintenir une bonne vision - Prévient et réduit l’inflammation secondaire à une infection virale - Concentration",
+    "infos_produit": "Boite de 30 capsules",
+    "url": "https://vital.com.tn/products/omevie-omega-3-1000/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/omega-3-1000.png",
+    "is_complete": true,
+    "priority_score": 8.75
+  },
+  {
+    "id": 9,
+    "name": "PédiaKids Gelée royale Pollen Propolis",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/gelee-royale-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Gelee-Royale.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 10,
+    "name": "Pédiakids lait dermo-nettoyant",
+    "forme": "Lait",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Nettoyant - Adoucissant - Nourrissant",
+    "infos_produit": "Flacon de 200 ml",
+    "url": "https://vital.com.tn/products/pediakids-lait-dermo-nettoyant/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Dermo-nettoyant.png",
+    "is_complete": false,
+    "priority_score": 4.75
+  },
+  {
+    "id": 11,
+    "name": "TC 2000 Nutractiva",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anti-tâches"
+    ],
+    "primary_category": "Anti-tâches",
+    "indications": "- Contribue au renouvellement cellulaire - Antiradicalaire - Antioxydant",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/tc-2000-nutractiva/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/NUTRACTIVA.jpg",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 12,
+    "name": "OLIGOVIT Trio",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Contribue au fonctionnement normal du système immunitaire - Contribue à un métabolisme énergétique normal et à réduire la fatigue - Réduit le risque de l’infection et de la pneumonie - Réduit l’inflammation - Diminue le risque de la SDRA",
+    "infos_produit": "15 Gélules",
+    "url": "https://vital.com.tn/products/oligovit-trio-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/07/oligovit-Trio-b15-1.jpg",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 13,
+    "name": "Pédiakids Anti-ballonnement",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Ballonnement et gaz",
+      "Troubles de la digestion"
+    ],
+    "primary_category": "Ballonnement et gaz",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-anti-ballonnement/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Anti-ballonement.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 14,
+    "name": "Vitonic Allaitement",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Allaitement"
+    ],
+    "primary_category": "Allaitement",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 45 gélules",
+    "url": "https://vital.com.tn/products/vitonic-allaitement-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-allaitement.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 15,
+    "name": "Echinacée, Zinc, Vit.C",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Aide à protéger l’organisme des infections - Stimule la protection d’anticorps - Aide à réduire la durée du rhume",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/echizinc-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/10/Echinace.png",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 16,
+    "name": "LV Psolcalm",
+    "forme": "Pommade",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "psoriasis"
+    ],
+    "primary_category": "psoriasis",
+    "indications": "- Diminue les démangeaisons liées au psoriasis - Soulage et apaise les irritations dûes au psoriasis",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/psolcalm/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Psocalm.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 17,
+    "name": "LV Fersang Gélule",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anémie",
+      "Carence en Fer"
+    ],
+    "primary_category": "Anémie",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/fersang-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Fersang-gelules.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 18,
+    "name": "LV CYSPROTECT",
+    "forme": "Sachet",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cystites",
+      "Infection urinaire"
+    ],
+    "primary_category": "Cystites",
+    "indications": "• Protège les voies urinaires sensibles • Cystites récidivantes • Complément d’une antibiothérapie fondée dans les infections urinaires basses",
+    "infos_produit": "12 Sachets",
+    "url": "https://vital.com.tn/products/lv-cysprotect-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/LV-CYSPROTECT.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 19,
+    "name": "Hydra",
+    "forme": "Crème",
+    "classe": "Crème",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Hydratation en profondeur de la peau - Nutrition de la peau - Adoucissement de la peau - Assouplissement de la peau - Régénération et cicatrisation cutanée",
+    "infos_produit": "Crème visage et corps pour une peau douce et hydratée 24H/24",
+    "url": "https://vital.com.tn/products/hydra/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Hydra-boite.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 20,
+    "name": "MULTIBON IMMUNITÉ",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Contribue au renforcement du système immunitaire - Améliore les défenses naturelles contre les maladies virales et infectieuses",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/multibon-immunite-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/MULTIBON-immunite.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 21,
+    "name": "Pédiakids Gel Lavant Doux",
+    "forme": "Gel",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Nettoyant - Hydratant - Nourrissant",
+    "infos_produit": "Flacon de 200 ml",
+    "url": "https://vital.com.tn/products/gel-lavant-doux/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/05/Gel-lavant.png",
+    "is_complete": false,
+    "priority_score": 4.75
+  },
+  {
+    "id": 22,
+    "name": "LV Arthroforce huile",
+    "forme": "Huile",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Arthrite",
+      "Arthrose",
+      "Douleurs articulaires"
+    ],
+    "primary_category": "Arthrite",
+    "indications": "Douleurs articulaires, arthrose, Arthrite, Tendinite",
+    "infos_produit": "flacon de 60ml",
+    "url": "https://vital.com.tn/products/lv-arthroforce-huile/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Arthroforce-huile.png",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 23,
+    "name": "Oligovit vitamine C",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Fatigue Asthénie Courbatures Baisse d’immunité",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/oligovitvitaminec/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/10/Oligovit.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 24,
+    "name": "Minciligne Homme",
+    "forme": "Solution",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Coupe faim"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "Coupe faim Obésité Adjuvant de régime",
+    "infos_produit": "20 Sachets de 10 ml",
+    "url": "https://vital.com.tn/products/minciligne-homme/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/minciligne-homme.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 25,
+    "name": "Plantalgic",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anxiété",
+      "Migraine"
+    ],
+    "primary_category": "Anxiété",
+    "indications": "Femme enceinte et allaitante",
+    "infos_produit": "Boite de 15 gélules",
+    "url": "https://vital.com.tn/products/plantalgic/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Plantalgic.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 26,
+    "name": "Pédiakids Crème pour le change 90gr",
+    "forme": "Crème",
+    "classe": "Crème Pour La Peau",
+    "categories": [
+      "Erythèmes",
+      "soin bébé"
+    ],
+    "primary_category": "Erythèmes",
+    "indications": "Information non disponible",
+    "infos_produit": "Tube de 90 gr",
+    "url": "https://vital.com.tn/products/pediakids-creme-pour-le-change-90gr/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/09/pediakidscremepourlechange-90gr.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 27,
+    "name": "PHYTOFANE Fortifiant Phanères",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cheveux",
+      "Fortifiant",
+      "Ongles"
+    ],
+    "primary_category": "Cheveux",
+    "indications": "• Fortifie les cheveux & les ongles • Favorise la vitalité & la brillance",
+    "infos_produit": "60 Gélules",
+    "url": "https://vital.com.tn/products/phytofane-fortifiant-phaneres-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/12/PHYTOFANE-FORTIFIANT-phaneres.png",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 28,
+    "name": "SWEET health fer",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Carence en Fer",
+      "Anémie"
+    ],
+    "primary_category": "Carence en Fer",
+    "indications": "- Prévenir les carences en fer - Faible risque de constipation - Traitement de l’anémie chez l’adulte et la femme enceinte - Meilleur absorption du fer grâce à la vitamine C",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/sweet-health-fer/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/SWEEThealth-fer.png",
+    "is_complete": true,
+    "priority_score": 8.5
+  },
+  {
+    "id": 29,
+    "name": "Vitonic Junior",
+    "forme": "Suspension",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Revitalisant"
+    ],
+    "primary_category": "Revitalisant",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 90 ml + une pipette",
+    "url": "https://vital.com.tn/products/vitonic-junior-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Vitonic-Junior.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 30,
+    "name": "Dermacné ( gel nettoyant )",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Assainir et purifier la peau en profondeur Elimine les imperfections cutanées des peaux grasses à tendance acnéique",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/dermacne-gel-nettoyant/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/09/3.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 31,
+    "name": "LV PSOCALM",
+    "forme": "Pommade",
+    "classe": "Réparation De La Peau",
+    "categories": [
+      "Apaise",
+      "Peau"
+    ],
+    "primary_category": "Apaise",
+    "indications": "• Diminue les démangeaisons liées au psoriasis • Soulage et apaise les irritations dues au psoriasis",
+    "infos_produit": "90 Gr",
+    "url": "https://vital.com.tn/products/lv-psocalm/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/Psocalme.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 32,
+    "name": "Hydra eau micellaire",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Nettoyante - Démaquillante - Purifiante - Aide à éliminer les impuretés - Se débarrasse de l’excès de sébum en douceur - Laisse la peau nette et fraîche",
+    "infos_produit": "Peau grasse",
+    "url": "https://vital.com.tn/products/hydra-eau-micellaire-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/HYDRA-eau-micellaire-peau-grasse.png",
+    "is_complete": false,
+    "priority_score": 6.25
+  },
+  {
+    "id": 33,
+    "name": "LV Spasvit Sirop",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Spasmes intestinaux"
+    ],
+    "primary_category": "Spasmes intestinaux",
+    "indications": "- Soulage les spasmes gastro-intestinaux et les coliques hépatiques - Équilibre la flore intestinale",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/lv-spasvit-sirop/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/06/Spasvit-sirop.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 34,
+    "name": "Pédiakids Crème pour le change",
+    "forme": "Crème",
+    "classe": "Crème Pour La Peau",
+    "categories": [
+      "soin bébé",
+      "Erythèmes"
+    ],
+    "primary_category": "soin bébé",
+    "indications": "Information non disponible",
+    "infos_produit": "Tube de 40 gr",
+    "url": "https://vital.com.tn/products/pediakids-creme/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/creme-pour-le-change.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 35,
+    "name": "Grossivit Sirop bébé et enfant",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Appétit",
+      "Prise de poids"
+    ],
+    "primary_category": "Appétit",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 250 ml",
+    "url": "https://vital.com.tn/products/grossivit-bebe-enfant/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/05/Grossivit-bebe-et-enfant.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 36,
+    "name": "HYDRAfine Après épilation",
+    "forme": "Crème",
+    "classe": "Crème Après Épilation",
+    "categories": [
+      "Cicatrices",
+      "Hydrate",
+      "Peau"
+    ],
+    "primary_category": "Cicatrices",
+    "indications": "• Protège les peaux sensibilisées • Pro-cicatrisantes et hydratantes",
+    "infos_produit": "90 Gr",
+    "url": "https://vital.com.tn/products/hydrafine-apres-epilation-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRAfine-Apres-epilation.jpg",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 37,
+    "name": "Stimul plus",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Fatigue sexuelle",
+      "Baisse de la libido"
+    ],
+    "primary_category": "Fatigue sexuelle",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/stimul-plus-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/stimulplus-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 38,
+    "name": "Omevie Emotion - 900",
+    "forme": "Capsule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "état d’humeur"
+    ],
+    "primary_category": "état d’humeur",
+    "indications": "Garder une humeur équilibrée Aide à maintenir un équilibre émotionnel",
+    "infos_produit": "Boite de 30 capsules",
+    "url": "https://vital.com.tn/products/omevie-emotion-900/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/emotion.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 39,
+    "name": "Uniderme peau mixte",
+    "forme": "Savon",
+    "classe": "Savon",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Savon unifiant tonique et nourrissant, spécifique pour la peau mixte",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/uniderme-peau-mixte/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Uniderm-peau-mixte.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 40,
+    "name": "Dermasoufre",
+    "forme": "Savon",
+    "classe": "Savon Dermatologique",
+    "categories": [
+      "Antiseptique",
+      "Peau"
+    ],
+    "primary_category": "Antiseptique",
+    "indications": "Information non disponible",
+    "infos_produit": "Savon de 90 gr",
+    "url": "https://vital.com.tn/products/dermasoufre-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/05/Dermadouce-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 41,
+    "name": "LV Tabastop",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Servage tabagique"
+    ],
+    "primary_category": "Servage tabagique",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/tabastop-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Tabastop.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 42,
+    "name": "Pédiakids Multi Vitamines Pomme",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/multi-vitamines/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/multivitamines.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 43,
+    "name": "LV Vitamine D3",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Carence en Vit D"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Immunostimulant - Réduit le risque d’infections respiratoires graves - Améliore l’absorption du calcium - Aide à maintenir des os solides et sains - Nécessaire pour le bon fonctionnement des muscles",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitamine-d3-5/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Vitamine-D3-1.png",
+    "is_complete": true,
+    "priority_score": 8.5
+  },
+  {
+    "id": 44,
+    "name": "Pectine de pomme",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Coupe faim"
+    ],
+    "primary_category": "Coupe faim",
+    "indications": "Pectine de pomme",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/pectine-de-pomme-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Phytothera-PECTINE-DE-POMME.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 45,
+    "name": "Pédiakids Appétit croissance",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Appétit"
+    ],
+    "primary_category": "Appétit",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-appetit-croissance-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Appetit-croissance.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 46,
+    "name": "Vaseline",
+    "forme": "Crème",
+    "classe": "Crème",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Hydratant - Lubrifiant",
+    "infos_produit": "Peau douce, lisse et visiblement saine",
+    "url": "https://vital.com.tn/products/vaseline-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/VASELINE.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 47,
+    "name": "Mincicare 4 actions",
+    "forme": "Solution",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Détox",
+      "Drainage"
+    ],
+    "primary_category": "Détox",
+    "indications": "- Draineur - Brûleur de graisses - Détoxifiant - Coupe Faim",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/mincicare-4-actions/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Mincicare.png",
+    "is_complete": true,
+    "priority_score": 8.5
+  },
+  {
+    "id": 48,
+    "name": "HYDRA GEL Nettoyant visage Peau Normale",
+    "forme": "Gel",
+    "classe": "Nettoyant Visage",
+    "categories": [
+      "nettoie",
+      "Peau",
+      "Purifie",
+      "Revitalisant"
+    ],
+    "primary_category": "nettoie",
+    "indications": "• Nettoie • Purifie • Revitalise",
+    "infos_produit": "230 ML",
+    "url": "https://vital.com.tn/products/hydra-gel-nettoyant-visage-peau-normale-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRA-GEL-Nettoyant-visage-Peau-Normale.jpg",
+    "is_complete": true,
+    "priority_score": 4.5
+  },
+  {
+    "id": 49,
+    "name": "Phytofibres",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Ballonnement et gaz",
+      "Constipation",
+      "Digestion"
+    ],
+    "primary_category": "Ballonnement et gaz",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/phytofibres-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/05/phytofibre.png",
+    "is_complete": false,
+    "priority_score": 0.75
+  },
+  {
+    "id": 50,
+    "name": "Minciligne Aux 9 plantes phytoactives",
+    "forme": "Solution",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Drainage"
+    ],
+    "primary_category": "Drainage",
+    "indications": "#NAME?",
+    "infos_produit": "Flacon de 275ml",
+    "url": "https://vital.com.tn/products/minciligne-aux-9-plantes-phytoactives/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/miniciligne-9-plantes.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 51,
+    "name": "Pulmax Anti-Tussif",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Toux",
+      "Immunité"
+    ],
+    "primary_category": "Toux",
+    "indications": "- Apaise la toux - Dégage les voies respiratoires - SANS SUCRE - Adapté aux diabétiques",
+    "infos_produit": "Sirop sans sucre 150 ml",
+    "url": "https://vital.com.tn/products/pulmax-anti-tussif/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/08/Pulmax.png",
+    "is_complete": true,
+    "priority_score": 8.5
+  },
+  {
+    "id": 52,
+    "name": "Hydra eau micellaire",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Nettoyante - Démaquillante - Purifiante - Aide à éliminer les impuretés - Se débarrasse de l’excès de sébum en douceur - Laisse la peau nette et fraîche",
+    "infos_produit": "Peau sèche",
+    "url": "https://vital.com.tn/products/hydra-eau-micellaire-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/HYDRA-eau-micellaire-peau-seche.png",
+    "is_complete": false,
+    "priority_score": 6.25
+  },
+  {
+    "id": 53,
+    "name": "Omevie Omega 3 - 500",
+    "forme": "Capsule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Développement cérébral",
+      "Immunité"
+    ],
+    "primary_category": "Concentration",
+    "indications": "- Contribue au bon développement cérébral - Maintenir une bonne vision - Prévient et réduit l’inflammation secondaire à une infection virale - Concentration",
+    "infos_produit": "Boite de 30 capsules",
+    "url": "https://vital.com.tn/products/omevie-omega-3-500/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Omega-3-500.png",
+    "is_complete": true,
+    "priority_score": 8.75
+  },
+  {
+    "id": 54,
+    "name": "Vaseline glycérinée",
+    "forme": "Crème",
+    "classe": "Crème",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Hydratant profond - Lubrifiant",
+    "infos_produit": "Peau douce, lisse et visiblement saine",
+    "url": "https://vital.com.tn/products/vaseline-glycerinee-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/VASELINE-glycerinee-.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 55,
+    "name": "DERMADOUCE",
+    "forme": "Savon",
+    "classe": "Savon Dermatologique",
+    "categories": [
+      "Exfoliant",
+      "Peau"
+    ],
+    "primary_category": "Exfoliant",
+    "indications": "Information non disponible",
+    "infos_produit": "Savon de 90 gr",
+    "url": "https://vital.com.tn/products/derma-douce/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/05/Dermadouce-1-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 56,
+    "name": "Gelée Royale Gélule",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Fortifiant"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules / 20 ampoules",
+    "url": "https://vital.com.tn/products/gelee-royale-5/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/05/gelee-royale.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 57,
+    "name": "MULTIBON SOMMEIL",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Troubles de sommeil"
+    ],
+    "primary_category": "Troubles de sommeil",
+    "indications": "- Favorise l’endormissement - Améliore la qualité du sommeil - Evite les réveils nocturnes",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/multibon-sommeil-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/MULTIBON-sommeil.png",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 58,
+    "name": "multi vitamines",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/multi-vitamines-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/multivitamines-1.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 59,
+    "name": "LV PHYTOVEINE",
+    "forme": "Sachet",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Jambes lourdes",
+      "Varices"
+    ],
+    "primary_category": "Jambes lourdes",
+    "indications": "• Améliore le retour veineux • Stimule la circulation veineuse • Soulage la sensation de jambes lourdes",
+    "infos_produit": "12 Sachets",
+    "url": "https://vital.com.tn/products/lv-phytoveine-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/LV-PHYTOVEINE.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 60,
+    "name": "LV GINKO Extra",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Mémoire"
+    ],
+    "primary_category": "Concentration",
+    "indications": "• Améliore la mémoire et la concentration chez les adultes • Traite la claudication intermittente • Traite les acouphènes",
+    "infos_produit": "60 Gélules",
+    "url": "https://vital.com.tn/products/lv-ginko-extra/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/LV-GINKO-Extra-60ml.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 61,
+    "name": "LV Sélénium A, C, E + Gelée Royale",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anti-âge",
+      "Immunité"
+    ],
+    "primary_category": "Anti-âge",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/selenium-a-c-e-gelee-royale/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Selenium.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 62,
+    "name": "LV Arthroforce Gélule",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Arthrite",
+      "Arthrose",
+      "Douleurs articulaires"
+    ],
+    "primary_category": "Arthrite",
+    "indications": "Interaction avec anticoagulants pour la forme gélule",
+    "infos_produit": "Boite de 60 gélules, Tube de 90g, Tube de 45g",
+    "url": "https://vital.com.tn/products/arthroforce-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/LV-Arthroforce-gelules.png",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 63,
+    "name": "LV PhytoVeine Huile",
+    "forme": "Huile",
+    "classe": "Huile Pour Massage",
+    "categories": [
+      "Jambes lourdes",
+      "Varices"
+    ],
+    "primary_category": "Jambes lourdes",
+    "indications": "- Soulage les douleurs des jambes lourdes - Stimule la circulation sanguine",
+    "infos_produit": "Flacon de 60 ml",
+    "url": "https://vital.com.tn/products/lv-phytoveine-huile/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Phytoveine-1.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 64,
+    "name": "Uniderm peau grasse",
+    "forme": "Savon",
+    "classe": "Savon",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Savon unifiant et astringent, spécifique pour la peau grasse à tendance acnéique",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/uniderme-peau-grasse-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Uniderme-peau-grasse.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 65,
+    "name": "Lécithine de Soja",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cholestérol"
+    ],
+    "primary_category": "Cholestérol",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 45 gélules",
+    "url": "https://vital.com.tn/products/lecithine-de-soja-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/lectine-de-soja.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 66,
+    "name": "Vitonic Conception",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Fertilité féminine"
+    ],
+    "primary_category": "Fertilité féminine",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-conception-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-conception-1.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 67,
+    "name": "TC 2000 Savon",
+    "forme": "Savon",
+    "classe": "Savon Dermatologique",
+    "categories": [
+      "Anti-tâches",
+      "Exfoliant"
+    ],
+    "primary_category": "Anti-tâches",
+    "indications": "- Effet éclaircissant, anti tâches brunes - Élimine les cellules mortes de l’épiderme tout en nettoyant la peau - Unifie le teint grâce à l’argile",
+    "infos_produit": "Savon 90 gr",
+    "url": "https://vital.com.tn/products/tc-2000-savon/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/tc2000-savon.jpg",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 68,
+    "name": "DermaGyn",
+    "forme": "Gel",
+    "classe": "Savon Dermatologique",
+    "categories": [
+      "Hygiène Intime"
+    ],
+    "primary_category": "Hygiène Intime",
+    "indications": "Information non disponible",
+    "infos_produit": "Savon de 90 gr",
+    "url": "https://vital.com.tn/products/dermagyn/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Dermagyn.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 69,
+    "name": "LV Spasvit Gélule",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Spasmes intestinaux"
+    ],
+    "primary_category": "Spasmes intestinaux",
+    "indications": "- Soulage les spasmes gastro-intestinaux et les coliques hépatiques - Équilibre la flore intestinale",
+    "infos_produit": "Boite de 15 gélules",
+    "url": "https://vital.com.tn/products/spasvit-gelule/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Spasvit-1.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 70,
+    "name": "PHYTOFANE Shampooing Anti Chute",
+    "forme": "Shampooing",
+    "classe": "Soin",
+    "categories": [
+      "Anti chute",
+      "Cheveux"
+    ],
+    "primary_category": "Anti chute",
+    "indications": "• Ralentit la chute des cheveux • Stimule la repousse des cheveux",
+    "infos_produit": "200 ML",
+    "url": "https://vital.com.tn/products/phytofane-shampooing-anti-chute/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/12/PHYTOFANE-SHAMPOING-ANTI-CHUTE.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 71,
+    "name": "VASELINE Urée 20%",
+    "forme": "Crème",
+    "classe": "Soin",
+    "categories": [
+      "Hydratation",
+      "Kératolytique"
+    ],
+    "primary_category": "Hydratation",
+    "indications": "• Hydratante • Kératolytique",
+    "infos_produit": "35gr",
+    "url": "https://vital.com.tn/products/vaseline-uree-20-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/07/vaseline-uree-20-1.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 72,
+    "name": "LV Migrainal",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Migraine"
+    ],
+    "primary_category": "Migraine",
+    "indications": "Ginkgo biloba : à proscrire en Co-médication avec des anticoagulants",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/migrainal-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Migrainal.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 73,
+    "name": "Pédiakids trio",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/pediakids-trio-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/09/pediakids-trio.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 74,
+    "name": "Pédiakids Apigrip",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grippe",
+      "Rhume",
+      "Soulage"
+    ],
+    "primary_category": "Grippe",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-apigrip-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Apigrip.png",
+    "is_complete": false,
+    "priority_score": 0.75
+  },
+  {
+    "id": 75,
+    "name": "Phytofane sérum lissant",
+    "forme": "Sérum",
+    "classe": "Sérum",
+    "categories": [
+      "Cheveux"
+    ],
+    "primary_category": "Cheveux",
+    "indications": "- Redonne une vitalité aux cheveux cassants et secs en améliorant leur brillance, leur souplesse et leur hydratation",
+    "infos_produit": "Contient 120 ml",
+    "url": "https://vital.com.tn/products/phytofane-serum-lissant/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/PHYTOPHANE-serum-lissant.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 76,
+    "name": "Vaseline Salicylée 2%",
+    "forme": "Crème",
+    "classe": "Crème",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Croûtes - Callosités - Fissures - Squames",
+    "infos_produit": "Peau douce, lisse et visiblement saine",
+    "url": "https://vital.com.tn/products/vaseline-salicylee-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/VASELINE-salicylee.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 77,
+    "name": "Grossivit Gélule",
+    "forme": "Gélule",
+    "classe": "Autre",
+    "categories": [
+      "Appétit",
+      "Prise de poids"
+    ],
+    "primary_category": "Appétit",
+    "indications": "- Favorise la prise de poids - Assure un précieux apport en éléments nutritifs* - Améliore la digestion - Stimule l’appétit",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/grossivit-gelule/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/05/gROSSIVIT.png",
+    "is_complete": false,
+    "priority_score": 6.5
+  },
+  {
+    "id": 78,
+    "name": "Levure de Riz Rouge",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Cholestérol"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "Femmes enceintes et allaitantes, Maladies hépatiques ou rénales, Taux anormalement élevés de transaminases, Personnes Alcooliques.",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/levure-de-riz-rouge/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/LEVURE-DE-RIZ-ROUGE.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 79,
+    "name": "Pédiakids Gripe water",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Ballonnement et gaz"
+    ],
+    "primary_category": "Ballonnement et gaz",
+    "indications": "- Soulage rapidement les flatulences - Faciliter la digestion",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-gripe-water/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Gripe-water.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 80,
+    "name": "LV Fersang Bisglycinate de Fer",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anémie"
+    ],
+    "primary_category": "Anémie",
+    "indications": "- Prévention de la carence martiale - Traitement de l’anémie chez l’adulte, l’enfant et la femme enceinte - Restitution des réserves en fer - Réduit le risque de constipation - Fortifie le sang",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/fersang-bisglycinate-de-fer/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/Fersang-Bis.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 81,
+    "name": "Vitonic Fer",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Fatigue intellectuelle"
+    ],
+    "primary_category": "Fatigue intellectuelle",
+    "indications": "Femmes enceintes et allaitantes Traitement anticoagulant",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-fer-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-fer.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 82,
+    "name": "Millepertuis",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anxiété",
+      "état d’humeur"
+    ],
+    "primary_category": "Anxiété",
+    "indications": "Femme enceinte, allaitante et enfant avant l'âge de 12 ans.",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/millepertuis-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/mILLEPERTUIS-1.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 83,
+    "name": "Vitonic DIAB",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Diabète"
+    ],
+    "primary_category": "Diabète",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-diab-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Vitonic-Diab.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 84,
+    "name": "VITAL HEALTHCARE FERTICARE FEMME",
+    "forme": "Sachet",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Fertilité féminine"
+    ],
+    "primary_category": "Fertilité féminine",
+    "indications": "• Favorise la régulation de l’activité hormonale • Contribue à une fertilité et à une reproduction normale • Optimise naturellement les chances de gestation ­",
+    "infos_produit": "30 Sachets",
+    "url": "https://vital.com.tn/products/vital-healthcare-ferticare-femme-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/VITAL-HEALTHCARE-FERTICARE-FEMME-.jpg",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 85,
+    "name": "Phytodraine",
+    "forme": "Solution",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cellulite",
+      "Drainage"
+    ],
+    "primary_category": "Cellulite",
+    "indications": "Hyperthyroïdie, hypertension",
+    "infos_produit": "Flacon de 250ml",
+    "url": "https://vital.com.tn/products/phytodraine-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/phytodraine-1.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 86,
+    "name": "Pédiakids Multi Vitamines Framboise",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/multi-vitamines-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/multivitamines-1-1.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 87,
+    "name": "Ventre Ultra Plat",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Coupe faim",
+      "Ventre plat"
+    ],
+    "primary_category": "Coupe faim",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/ventre-ultra-plat/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/ventre-ultra-plat.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 88,
+    "name": "Rhinoplant",
+    "forme": "Spray",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grippe",
+      "Rhume"
+    ],
+    "primary_category": "Grippe",
+    "indications": "- Nettoie et humidifie la muqueuse nasale - Désobstruction nasale - Solution isotonique, permet d’évacuer les agents infectieux et allergènes",
+    "infos_produit": "Flacon de 20 ml",
+    "url": "https://vital.com.tn/products/rhinoplant-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/Rhinoplant-1.png",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 89,
+    "name": "Pédiakids Shampoing",
+    "forme": "Liquide",
+    "classe": "Autre",
+    "categories": [
+      "Cheveux"
+    ],
+    "primary_category": "Cheveux",
+    "indications": "- Nettoyant - Adoucissant",
+    "infos_produit": "Flacon de 200 ml",
+    "url": "https://vital.com.tn/products/shampoing-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/05/Shampoing.png",
+    "is_complete": false,
+    "priority_score": 3.25
+  },
+  {
+    "id": 90,
+    "name": "UNIDERM Anti-tache",
+    "forme": "Crème",
+    "classe": "Crème Pour La Peau",
+    "categories": [
+      "Anti-tâches"
+    ],
+    "primary_category": "Anti-tâches",
+    "indications": "- Favorise la disparition des taches et les imperfections cutanées - Effet éclaircissant de la peau - Hydrate la peau en profondeur et renouvelle les cellules",
+    "infos_produit": "Tube de 45 g",
+    "url": "https://vital.com.tn/products/uniderm-anti-tache/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/10/UNIDERM-creme-anti-tache.png",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 91,
+    "name": "Mincivit Lait anti vergetures",
+    "forme": "Lait",
+    "classe": "Autre",
+    "categories": [
+      "Vergetures"
+    ],
+    "primary_category": "Vergetures",
+    "indications": "Aide à tonifier l’épiderme Aide à prévenir la formation des vergetures",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/mincivit-lait-anti-vergetures/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/mincicivit-vergetures.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 92,
+    "name": "Ventre Plat",
+    "forme": "Gélule",
+    "classe": "Autre",
+    "categories": [
+      "Ballonnement et gaz",
+      "Digestion"
+    ],
+    "primary_category": "Ballonnement et gaz",
+    "indications": "- Régule le transit - Absorbe les toxines et les Gaz - Aide à retrouver un ventre dégonflé",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/ventreplat/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/ventre-plat.png",
+    "is_complete": false,
+    "priority_score": 5.0
+  },
+  {
+    "id": 93,
+    "name": "Phytofane huile d’argan",
+    "forme": "Huile",
+    "classe": "Huile",
+    "categories": [
+      "Cheveux"
+    ],
+    "primary_category": "Cheveux",
+    "indications": "- Réduit le processus de chute des cheveux - Soin profond pour hydrater et réparer les cheveux secs et cassants - Redonne éclat et brillance aux cheveux",
+    "infos_produit": "Contient 120 ml",
+    "url": "https://vital.com.tn/products/phytofane-huile-dargan/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/PHYTOPHANE-huile-dargan.png",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 94,
+    "name": "Vitonic Tonus +",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Fatigue intellectuelle",
+      "Revitalisant"
+    ],
+    "primary_category": "Fatigue intellectuelle",
+    "indications": "Information non disponible",
+    "infos_produit": "1 boite de 60 gélules - 30 gélules formule jour - 30 gélules formule nuit",
+    "url": "https://vital.com.tn/products/vitonic-tonus-5/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-tonus-2.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 95,
+    "name": "LV PhytoVeine Gélule",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Jambes lourdes",
+      "Varices"
+    ],
+    "primary_category": "Jambes lourdes",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/phytoveine-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Phytoveine.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 96,
+    "name": "LV Phytocalm",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anxiété",
+      "Dépression"
+    ],
+    "primary_category": "Anxiété",
+    "indications": "Femme enceinte et allaitante. Troubles de la thyroïde.",
+    "infos_produit": "Boite de 30 gélules/ Flacon de 60 ml",
+    "url": "https://vital.com.tn/products/phytocalm-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/phytocalm-gelules.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 97,
+    "name": "LV Lanorose",
+    "forme": "Crème",
+    "classe": "Crème Pour Usage Externe",
+    "categories": [
+      "Allaitement",
+      "Protection de l'aréole mammaire"
+    ],
+    "primary_category": "Allaitement",
+    "indications": "Information non disponible",
+    "infos_produit": "Tube de 35 gr",
+    "url": "https://vital.com.tn/products/lanorose-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Lanorose.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 98,
+    "name": "Guarana",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Fatigue"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/guarana-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/guarana-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 99,
+    "name": "Pollen d’abeilles",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cheveux",
+      "Peau"
+    ],
+    "primary_category": "Cheveux",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/pollen-dabeilles/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Pollen.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 100,
+    "name": "Spiruline",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Revitalisant",
+      "Fatigue",
+      "Immunité"
+    ],
+    "primary_category": "Revitalisant",
+    "indications": "- immunostimulant - Fortifiant et nutritif - Fortifiant phanère",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/spiruline-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Spiruline-1.png",
+    "is_complete": true,
+    "priority_score": 7.25
+  },
+  {
+    "id": 101,
+    "name": "Pédiakids APITOU N°2 Sans Sucre",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Soulage",
+      "Toux",
+      "Toux sèche"
+    ],
+    "primary_category": "Soulage",
+    "indications": "- Soulager la toux sèche chez les enfants - Calmer les voies respiratoires",
+    "infos_produit": "150 ML",
+    "url": "https://vital.com.tn/products/pediakids-apitou-n2-sans-sucre/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2025/02/Pediakids-APITOU-2-sans-sucre.png",
+    "is_complete": true,
+    "priority_score": 5.75
+  },
+  {
+    "id": 102,
+    "name": "VASELINE Urée 10%",
+    "forme": "Crème",
+    "classe": "Soin",
+    "categories": [
+      "Hydratation",
+      "Peau",
+      "Réparatrice"
+    ],
+    "primary_category": "Hydratation",
+    "indications": "• Hydratante • Réparatrice",
+    "infos_produit": "35gr",
+    "url": "https://vital.com.tn/products/vaseline-uree-10/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/07/vaseline-uree-10.jpg",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 103,
+    "name": "Dermacné ( crème )",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Purifier et hydrater la peau en profondeur Réduire les imperfections cutanées Soigner la peau acnéique",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/dermacne-creme/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/09/2.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 104,
+    "name": "Plantexil Gélule",
+    "forme": "Gélule",
+    "classe": "Autre",
+    "categories": [
+      "Immunité",
+      "Toux sèche"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 15 gélules",
+    "url": "https://vital.com.tn/products/plantexil-gelule/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Plantexil.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 105,
+    "name": "LV Mélatonuit",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Troubles de sommeil"
+    ],
+    "primary_category": "Troubles de sommeil",
+    "indications": "Femme enceinte ou allaitante",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/melatonuit/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Melatonuit.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 106,
+    "name": "MULTIBON APIGORGE",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Maux de gorge"
+    ],
+    "primary_category": "Maux de gorge",
+    "indications": "- Réduit l’inflammation et la douleur au niveau de la gorge - Change l’haleine",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/multibon-apigorge/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/MULTIBON-apigorge.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 107,
+    "name": "VITONIC Grossesse",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grossesse"
+    ],
+    "primary_category": "Grossesse",
+    "indications": "• Supplémentation complète pour la femme enceinte selon les recommandations de l’OMS",
+    "infos_produit": "15 Gélules",
+    "url": "https://vital.com.tn/products/vitonic-grossesse-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/VITONIC-grossesse-15.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 108,
+    "name": "Oligovit magnésium",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anti-stress",
+      "Fatigue"
+    ],
+    "primary_category": "Anti-stress",
+    "indications": "- Réduire la fatigue - Soutenir le fonctionnement normal des muscles et du système nerveux",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/oligovit-magnesium-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/Oligovit-Magnesium.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 109,
+    "name": "Plantex vitamine C",
+    "forme": "Sachet",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Energie",
+      "Fatigue"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Contribue à renforcer les défenses immunitaires - Améliore le métabolisme énergétique - Aide à résister au stresse et à la fatigue - Protège des virus ambiants",
+    "infos_produit": "Boite de 12 sachets",
+    "url": "https://vital.com.tn/products/plantex-vitamine-c/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/Plantex-Vitamine-C.png",
+    "is_complete": true,
+    "priority_score": 8.75
+  },
+  {
+    "id": 110,
+    "name": "HYDRA GEL Nettoyant visage Peau Sèche",
+    "forme": "Gel",
+    "classe": "Nettoyant Visage",
+    "categories": [
+      "Hydrate",
+      "nettoie",
+      "Peau",
+      "Purifie"
+    ],
+    "primary_category": "Hydrate",
+    "indications": "• Nettoie • Purifie • Hydrate",
+    "infos_produit": "230 ML",
+    "url": "https://vital.com.tn/products/hydra-gel-nettoyant-visage-peau-seche-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRA-GEL-Nettoyant-visage-Peau-Seche.jpg",
+    "is_complete": true,
+    "priority_score": 4.5
+  },
+  {
+    "id": 111,
+    "name": "Pédiakids Calcium & Vit. D3",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Ossature"
+    ],
+    "primary_category": "Ossature",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/calcium-vit-d3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Calcium.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 112,
+    "name": "Plantyl Sirop",
+    "forme": "Sirop",
+    "classe": "Autre",
+    "categories": [
+      "Grippe",
+      "Immunité"
+    ],
+    "primary_category": "Grippe",
+    "indications": "- Renforce l’immunité et améliore le confort des voies respiratoires supérieures",
+    "infos_produit": "Sirop 150 ml",
+    "url": "https://vital.com.tn/products/plantyl-sirop/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/Plantyl-Syrop.png",
+    "is_complete": false,
+    "priority_score": 2.0
+  },
+  {
+    "id": 113,
+    "name": "Minciligne Vitaminé",
+    "forme": "Solution",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Coupe faim"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "- Coupe faim - Obésité - Adjuvant de régime.",
+    "infos_produit": "20 Sachets de 10 ml",
+    "url": "https://vital.com.tn/products/minciligne-vitamine-2-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/minciligne-vitamine.png",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 114,
+    "name": "HYDRA GEL Nettoyant visage Peau Grasse",
+    "forme": "Gel",
+    "classe": "Nettoyant Visage",
+    "categories": [
+      "Matifie",
+      "nettoie",
+      "Peau",
+      "Purifie"
+    ],
+    "primary_category": "Matifie",
+    "indications": "• Nettoie • Purifie • Matifie",
+    "infos_produit": "230 ML",
+    "url": "https://vital.com.tn/products/hydra-gel-nettoyant-visage-peau-grasse-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRA-GEL-Nettoyant-visage-Peau-Grasse.jpg",
+    "is_complete": true,
+    "priority_score": 4.5
+  },
+  {
+    "id": 115,
+    "name": "HYDRASCREEN after sun",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau",
+      "Protection solaire"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Atténue les effets dus aux agressions lors de l’exposition au soleil - Calme les irritations des peaux sensibles et réactives grâce à ses propriétés apaisantes - Anti-inflammatoires et antimicrobiennes",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/hydrascreen-after-sun-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/Hydrascreen-after-sun.png",
+    "is_complete": false,
+    "priority_score": 5.0
+  },
+  {
+    "id": 116,
+    "name": "Vitosine Eosine Alcoolisée 2%",
+    "forme": "Spray",
+    "classe": "Soin",
+    "categories": [
+      "Anti septique",
+      "Eosine",
+      "Peau"
+    ],
+    "primary_category": "Anti septique",
+    "indications": "• Traitement d’appoint pour les affections de la peau. • Antiseptique et asséchant de la peau",
+    "infos_produit": "30ml",
+    "url": "https://vital.com.tn/products/vitosine-eosine-alcoolisee-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/12/VITOSINE-EOSINE.png",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 117,
+    "name": "Grossivit vitaminé Sirop bébé et enfant",
+    "forme": "Sirop",
+    "classe": "Autre",
+    "categories": [
+      "Appétit",
+      "Prise de poids",
+      "Revitalisant"
+    ],
+    "primary_category": "Appétit",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/grossivit-vitamine-sirop-bebe-et-enfant/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/grossivit-plus-sirop.png",
+    "is_complete": false,
+    "priority_score": 0.75
+  },
+  {
+    "id": 118,
+    "name": "Aide minceur",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Coupe faim",
+      "Digestion"
+    ],
+    "primary_category": "Coupe faim",
+    "indications": "Glucomannane",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/aide-minceur-6/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Aide-minceur-2.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 119,
+    "name": "Vitonic Trio Grossesse",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Contribue au fonctionnement normal du système immunitaire - Aide à protéger et à renforcer la barrière intestinale - Contribue à un métabolisme énergétique normal et à réduire la fatigue - Aide à protéger les cellules contre le stress oxydatif",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-trio-grossesse/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/12/Vitonic-Trio.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 120,
+    "name": "MINCILGNE Coupe faim",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Coupe faim"
+    ],
+    "primary_category": "Coupe faim",
+    "indications": "Sensation de satiété Piège pour sucres et graisses Digestion facile",
+    "infos_produit": "Boite de 30 Gélules",
+    "url": "https://vital.com.tn/products/mincilgne-coupe-faim/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/minci-ligne-coupe-fin.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 121,
+    "name": "HYDRAVERA",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Stimule le renouvellement cellulaire Facilite le processus de réparation de la peau Réduit les imperfections cutanées et laisse la peau douce et éclatantE",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/hydravera/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/2.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 122,
+    "name": "Pédiakids Apigrip Sans Sucre",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grippe",
+      "Rhume",
+      "Soulage"
+    ],
+    "primary_category": "Grippe",
+    "indications": "- Anti-grippal - Réduit les signes inflammatoires du rhume - Traitement curatif et préventif, pour soulager le nez et la gorge",
+    "infos_produit": "150 ML",
+    "url": "https://vital.com.tn/products/pediakids-apigrip-sans-sucre-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2025/02/Pediakids-APIGRIP-sans-sucre.png",
+    "is_complete": true,
+    "priority_score": 7.25
+  },
+  {
+    "id": 123,
+    "name": "Planthiol Gélule",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Toux grasse"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 15 gélules",
+    "url": "https://vital.com.tn/products/planthiol-gelule/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Planthiol.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 124,
+    "name": "VITAL HEALTHCARE SKINCARE Anti-âge intensif",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anti-âge",
+      "Beauté & éclat de la peau"
+    ],
+    "primary_category": "Anti-âge",
+    "indications": "• Beauté & éclat de la peau",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/vital-healthcare-skincare-anti-age-intensif-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/VITAL-HEALTHCARE-SKINCARE-Anti-age-intensif.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 125,
+    "name": "Mincicare",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Drainage",
+      "Détox"
+    ],
+    "primary_category": "Drainage",
+    "indications": "- Draineur : facilite la perte du poids et stimule l’élimination urinaire des déchets et toxines - Brûleur de graisses : (Omega 3 - CLA) ayant des propriétés amincissantes aide à débarrasser l’organisme des graisses stockées",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/mincicare-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Mincicare-1.png",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 126,
+    "name": "SWEET slim coupe faim",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Coupe faim",
+      "Elimination des graisses"
+    ],
+    "primary_category": "Coupe faim",
+    "indications": "- Procure une sensation de satiété - Limite les grignotage - Réduit l’absorption des graisses et de sucre",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/sweet-slim-coupe-faim/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/SWEETslim-coupe-faim.png",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 127,
+    "name": "CALMO dent",
+    "forme": "Baume Dentaire",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Douleur dentaire"
+    ],
+    "primary_category": "Douleur dentaire",
+    "indications": "- Soulage le mal des dents",
+    "infos_produit": "Tube de 4gr",
+    "url": "https://vital.com.tn/products/calmo-dent/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/calmo-dent.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 128,
+    "name": "Uniderme atténue les taches",
+    "forme": "Savon",
+    "classe": "Savon",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Anti-tâches Eclaircissant",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/uniderme-attenue-les-taches/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Uniderme-Taches.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 129,
+    "name": "Pédiakids Spray Nasal",
+    "forme": "Liquide",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Rhume"
+    ],
+    "primary_category": "Rhume",
+    "indications": "- Nettoie et humidifie la muqueuse nasale - Désobstruction nasale - Solution isotonique - Evacue les agents infectieux et allergènes",
+    "infos_produit": "Flacon de 20 ml",
+    "url": "https://vital.com.tn/products/spray-nasal/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/Spray-nasal.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 130,
+    "name": "HYDRAscreen Lait solaire",
+    "forme": "Lait",
+    "classe": "Lait Solaire",
+    "categories": [
+      "Apaise",
+      "Hydratation",
+      "Hydrate",
+      "Protection solaire"
+    ],
+    "primary_category": "Apaise",
+    "indications": "• Protège • Apaise • Hydrate",
+    "infos_produit": "90 ML",
+    "url": "https://vital.com.tn/products/hydrascreen-lait-solaire-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRAscreen-Lait-solaire.jpg",
+    "is_complete": true,
+    "priority_score": 4.5
+  },
+  {
+    "id": 131,
+    "name": "Pédiakids vitamine D3",
+    "forme": "Gouttes",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Carence en Vit D"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Allergie connue à la vitamine D3, hypercalcémie, hyper-calciurie, lithiase calcique",
+    "infos_produit": "Flacon de 35 ml",
+    "url": "https://vital.com.tn/products/pediakids-vitamine-d3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Vitamine-D3.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 132,
+    "name": "Mémoire et Concentration",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Mémoire"
+    ],
+    "primary_category": "Concentration",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/memoire-et-concentration-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/memoire-et-concentration-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 133,
+    "name": "LV SESA Gel 45gr",
+    "forme": "Gel",
+    "classe": "Autre",
+    "categories": [
+      "Cicatrices"
+    ],
+    "primary_category": "Cicatrices",
+    "indications": "#NAME?",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/lv-sesa-gel-45gr/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/Sesa-Gel-45gr-1.jpg",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 134,
+    "name": "LV Normaprost",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Prostate"
+    ],
+    "primary_category": "Prostate",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/normaprost/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Normaprost.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 135,
+    "name": "HYDRAscreen Huile solaire Pailletée",
+    "forme": "Huile",
+    "classe": "Huile Solaire",
+    "categories": [
+      "Hydratation",
+      "Hydrate",
+      "Protection solaire"
+    ],
+    "primary_category": "Hydratation",
+    "indications": "• Protection • Hydratation • Effet scintillant",
+    "infos_produit": "120 ML",
+    "url": "https://vital.com.tn/products/hydrascreen-huile-solaire-pailletee-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRAscreen-Huile-solaire-Pailletee.jpg",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 136,
+    "name": "Minciligne Draineur",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Coupe faim",
+      "Détox",
+      "Drainage"
+    ],
+    "primary_category": "Coupe faim",
+    "indications": "- Détoxification du foie - Favorise l’élimination rénale - Stimule la combustion des graisses",
+    "infos_produit": "Boite de 30 Gélules",
+    "url": "https://vital.com.tn/products/minciligne-draineur-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/minciligne-draineur.png",
+    "is_complete": true,
+    "priority_score": 7.25
+  },
+  {
+    "id": 137,
+    "name": "Dermacne",
+    "forme": "Savon",
+    "classe": "Savon",
+    "categories": [
+      "Acné",
+      "Antiseptique"
+    ],
+    "primary_category": "Acné",
+    "indications": "Soin des peaux acnéiques",
+    "infos_produit": "Savon de 90 gr",
+    "url": "https://vital.com.tn/products/dermacne-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/Dermacne-1.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 138,
+    "name": "FONGIDERM Antifongique Cheveux & corps",
+    "forme": "Gel",
+    "classe": "Soin",
+    "categories": [
+      "Antifongique",
+      "Cheveux",
+      "nettoie",
+      "Peau"
+    ],
+    "primary_category": "Antifongique",
+    "indications": "• Nettoie efficacement tout en prenant soin de votre peau et de vos cheveux • Lutte contre les atteintes fongiques. • Préserve l’intégrité du cuir chevelu et des cheveux",
+    "infos_produit": "200ML",
+    "url": "https://vital.com.tn/products/fongiderm-antifongique-cheveux-corps/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/07/Fongiderm-Antifongique.jpg",
+    "is_complete": true,
+    "priority_score": 4.5
+  },
+  {
+    "id": 139,
+    "name": "TC 2000 Gel",
+    "forme": "Gel",
+    "classe": "Autre",
+    "categories": [
+      "Anti-tâches",
+      "Exfoliant"
+    ],
+    "primary_category": "Anti-tâches",
+    "indications": "Inhibe la synthèse de la mélanine, Exfoliant, Antiradicalaire",
+    "infos_produit": "Gel de 30 ml",
+    "url": "https://vital.com.tn/products/tc-2000-gel/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/tc2000-gel.jpg",
+    "is_complete": false,
+    "priority_score": 2.0
+  },
+  {
+    "id": 140,
+    "name": "Plantexil Sirop",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Toux sèche"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/plantexil/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Plantexil-sirop.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 141,
+    "name": "MULTIBON VITAMINE C Acérola",
+    "forme": "Guumies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Energie"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Renforce les défenses naturelles - Apporte l’énergie et la vitalité nécessaire pour un bon état neurologique",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/multibon-vitamine-c-acerola/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/MULTIBON-vitamineC-acerola.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 142,
+    "name": "Dermacné (gélule)",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Assainir et purifier la peau en profondeur Elimine les imperfections cutanées dues à l’acné",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/dermacne-gelule/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/09/Sans-titre-1.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 143,
+    "name": "Omevie Articulation - 900",
+    "forme": "Capsule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Confort articulaire",
+      "Douleurs articulaires"
+    ],
+    "primary_category": "Confort articulaire",
+    "indications": "- Confort articulaire - Articulation souple et confortable - Soulage les douleurs arthrosiques",
+    "infos_produit": "Boite de 30 capsules",
+    "url": "https://vital.com.tn/products/omevie-articulation-900/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/articulation.png",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 144,
+    "name": "Pédiakids APITOU N°1 Sans Sucre",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Soulage",
+      "Toux",
+      "Toux grasse"
+    ],
+    "primary_category": "Soulage",
+    "indications": "- Dégage les voies respiratoires - Expectorant - Toux grasse",
+    "infos_produit": "150 ML",
+    "url": "https://vital.com.tn/products/pediakids-apitou-n1-sans-sucre/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2025/02/Pediakids-APITOU-1-sans-sucre.png",
+    "is_complete": true,
+    "priority_score": 7.25
+  },
+  {
+    "id": 145,
+    "name": "Pédiakids APITOU N°2",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Toux sèche"
+    ],
+    "primary_category": "Toux sèche",
+    "indications": "Information non disponible",
+    "infos_produit": "Fl\u001dacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-apitou-n2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Pediakids-APITOU-2-2.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 146,
+    "name": "LV Arthroforce Gel",
+    "forme": "Gel",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Arthrite",
+      "Arthrose",
+      "Douleurs articulaires"
+    ],
+    "primary_category": "Arthrite",
+    "indications": "Douleurs articulaires, arthrose, Arthrite, Tendinite",
+    "infos_produit": "Tube de 90g, Tube de 45g",
+    "url": "https://vital.com.tn/products/lv-arthroforce-gel/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/arthrofoce-tube.png",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 147,
+    "name": "LiftCaféine",
+    "forme": "Gel",
+    "classe": "Gel",
+    "categories": [
+      "Cellulite"
+    ],
+    "primary_category": "Cellulite",
+    "indications": "Information non disponible",
+    "infos_produit": "Tube de 60 gr",
+    "url": "https://vital.com.tn/products/liftcafeine/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/lifcafeine.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 148,
+    "name": "LV Hemostop 60 Gélules",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Hémorroïdes"
+    ],
+    "primary_category": "Hémorroïdes",
+    "indications": "- Hémorroïdes - Soulage la douleur de la crise hémorroïdaire - Réduit l’inflammation due à l’hémorroïde - Réduit la fréquence des crises hémorroïdaires",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/hermostop/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Hermostop-Gelules.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 149,
+    "name": "Grossivit vitaminé Gélule",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Prise de poids",
+      "Appétit",
+      "Revitalisant"
+    ],
+    "primary_category": "Prise de poids",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 45 gélules",
+    "url": "https://vital.com.tn/products/grossivit-plus-vitamine-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/grossivit-plus.png",
+    "is_complete": false,
+    "priority_score": 0.75
+  },
+  {
+    "id": 150,
+    "name": "LV Fersang Sirop",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Anémie",
+      "Carence en Fer"
+    ],
+    "primary_category": "Anémie",
+    "indications": "- Prévention de la carence martiale - Traitement de l’anémie chez l’adulte, l’enfant et la femme enceinte - Restitution des réserves en fer - Fortifie le sang - Faible risque de constipation",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/lv-fersang-sirop/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Fersang-sirop.png",
+    "is_complete": true,
+    "priority_score": 8.5
+  },
+  {
+    "id": 151,
+    "name": "VITONIC Grossesse",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grossesse"
+    ],
+    "primary_category": "Grossesse",
+    "indications": "Supplémentation complète pour la femme enceinte selon les recommandations de l’OMS",
+    "infos_produit": "90 Gélules",
+    "url": "https://vital.com.tn/products/vitonic-grossesse-6/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/07/VITONIC-GROSSESS-90-GELULES.jpg",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 152,
+    "name": "Mincivit origin",
+    "forme": "Flacon (250 Ml)",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Détox"
+    ],
+    "primary_category": "Détox",
+    "indications": "Detoxifier : purification de l’organisme Drainer : Evacuation des toxines toxiques hors de l’organisme.",
+    "infos_produit": "Stimule l'oxydation des graisses et la détoxification du foie.",
+    "url": "https://vital.com.tn/products/mincivit-origin/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Origin-draineur-express.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 153,
+    "name": "Gelée Royale sachet",
+    "forme": "Sachet",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Fortifiant"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "20 sachets",
+    "url": "https://vital.com.tn/products/gelee-royale-sachet/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/05/Gelee-royale-ampoule.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 154,
+    "name": "Dermalo",
+    "forme": "Savon",
+    "classe": "Savon Dermatologique",
+    "categories": [
+      "Antiseptique",
+      "Eczéma"
+    ],
+    "primary_category": "Antiseptique",
+    "indications": "Information non disponible",
+    "infos_produit": "Savon de 100 gr",
+    "url": "https://vital.com.tn/products/dermalo-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/05/Dermalo-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 155,
+    "name": "HYDRAscreen Huile solaire",
+    "forme": "Huile",
+    "classe": "Huile Solaire",
+    "categories": [
+      "Hydratation",
+      "Hydrate",
+      "Protection solaire"
+    ],
+    "primary_category": "Hydratation",
+    "indications": "• Protection • Hydratation • Effet scintillant",
+    "infos_produit": "120 ML",
+    "url": "https://vital.com.tn/products/hydrascreen-huile-solaire-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRAscreen-Huile-solaire-.jpg",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 156,
+    "name": "PLANTHÉRAPIE PLANTEX RHUME",
+    "forme": "Sachet",
+    "classe": "Autre",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Aide à soutenir les défenses naturelles pendant les périodes hivernales - Contribue à réduire la fatigue",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/plantherapie-plantex-rhume-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/PLANTHERAPIE-PLANTEX-RHUME.jpg",
+    "is_complete": false,
+    "priority_score": 3.25
+  },
+  {
+    "id": 157,
+    "name": "Plantex",
+    "forme": "Gélule",
+    "classe": "Autre",
+    "categories": [
+      "Grippe",
+      "Rhume"
+    ],
+    "primary_category": "Grippe",
+    "indications": "Information non disponible",
+    "infos_produit": "Une boîte de 30 Gélules : Formule Jour et formule Nuit",
+    "url": "https://vital.com.tn/products/plantex-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Plantex.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 158,
+    "name": "Vitonic Fertilité",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Fertilité masculine"
+    ],
+    "primary_category": "Fertilité masculine",
+    "indications": "Information non disponible",
+    "infos_produit": "une boite contenant huit tablettes de 15 gélules",
+    "url": "https://vital.com.tn/products/vitonic-fertilite-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-fertilite-1.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 159,
+    "name": "Angiplant Spray",
+    "forme": "Spray",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grippe",
+      "Immunité"
+    ],
+    "primary_category": "Grippe",
+    "indications": "- Triple action: Antiseptique, anti-inflammatoire et cicatrisante de la gorge - Apaise, adoucit et assainit la gorge",
+    "infos_produit": "Spray 20 ml",
+    "url": "https://vital.com.tn/products/angiplant-spray-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/angi.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 160,
+    "name": "Pédiakids Multi Vitamines Banane",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Une croissance équilibrée Optimiser les apports en vitamines et minéraux chez les jeunes enfants",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/multi-vitamines-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/multivitamines-2.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 161,
+    "name": "MULTIBON OMEGA 3",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Développement cérébral"
+    ],
+    "primary_category": "Concentration",
+    "indications": "- Participe à la croissance et le bon développement des enfants - Soutient les fonctions cognitives et renforce la concentration et la mémorisation",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/multibon-omega-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/MULTIBON-omega3.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 162,
+    "name": "Pédiakids APITOU N°1",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Toux grasse"
+    ],
+    "primary_category": "Toux grasse",
+    "indications": "Information non disponible",
+    "infos_produit": "Fl\u001dacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-apitou-n1/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Pediakids-APITOU-1-1.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 163,
+    "name": "LV Tetra B",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Equilibre métabolique"
+    ],
+    "primary_category": "Equilibre métabolique",
+    "indications": "- Production d’énergie - Équilibre du système nerveux - Prévention cardiovasculaire - Renouvellement cellulaire",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/tetra-b-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Tetra-B-site.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 164,
+    "name": "Vitosine Eosine Aqueuse 2%",
+    "forme": "Spray",
+    "classe": "Nettoyer Et Assécher La Peau",
+    "categories": [
+      "Eosine",
+      "Peau",
+      "Solution cutanée asséchante"
+    ],
+    "primary_category": "Eosine",
+    "indications": "Nettoie et assèche les lésions de la peau susceptibles de se surinfecter, notamment nouveau-né (cordon ombilical et érythème fessier).",
+    "infos_produit": "30ML",
+    "url": "https://vital.com.tn/products/vitosine-eosine-aqueuse-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/11/Vitosine.jpg",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 165,
+    "name": "Pédiakids Immunovit",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Traitement préventif en période pré-hivernale - Stimulation des défenses naturelles - Efficace pour faire face aux bronchites à répétition",
+    "infos_produit": "Fl\u001dacon de 150 ml",
+    "url": "https://vital.com.tn/products/immunovit/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/Immunovit-1.png",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 166,
+    "name": "Planthérapie Plantexil Sans sucre",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Confort respiratoire",
+      "Toux sèche"
+    ],
+    "primary_category": "Confort respiratoire",
+    "indications": "• Calme les voies respiratoires • Toux sèche",
+    "infos_produit": "150 ML",
+    "url": "https://vital.com.tn/products/plantherapie-plantexil-sans-sucre-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/Plantherapie-Plantexil-Sans-sucre-1.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 167,
+    "name": "LV Diabemin",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Glycémie"
+    ],
+    "primary_category": "Glycémie",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/diabemin-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Diabemin.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 168,
+    "name": "Dermagyn 200 ml",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Hygiène Intime"
+    ],
+    "primary_category": "Hygiène Intime",
+    "indications": "- Protège et apaise l’irritation - Hygiène intime au quotidien - Procure fraicheur et confort tout au long de la journée - PH adapté à la flore vaginale",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/dermagyn-200-ml/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/geeel.png",
+    "is_complete": false,
+    "priority_score": 6.25
+  },
+  {
+    "id": 169,
+    "name": "Planthérapie Allergiplant",
+    "forme": "Sachet",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Allergie",
+      "Immunité"
+    ],
+    "primary_category": "Allergie",
+    "indications": "• Équilibre la réponse du système immunitaire de l’organisme",
+    "infos_produit": "20 Sachets",
+    "url": "https://vital.com.tn/products/plantherapie-allergiplant-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/Plantherapie-Allergiplant.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 170,
+    "name": "SWEET bronzage",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Peau",
+      "Anti-âge",
+      "Protection solaire"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Prolonge le teint bronzé des zones exposées pour une durée plus longue - Renforce les défenses contre l’agressions des rayons UV - Diminution des lésions induites par la photosensibilité - Puissants pigments naturels permettant de limiter les effets néfastes du soleil sur la peau - Effet bonne mine et peau saine - Diminue le risque de vieillissement secondaire à l’exposition - Anti-oxydant & anti-âge",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/sweet-bronzage-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/SWEET-bronzage.png",
+    "is_complete": true,
+    "priority_score": 8.75
+  },
+  {
+    "id": 171,
+    "name": "LV Hemostop Crème 45 gr",
+    "forme": "Crème",
+    "classe": "Autre",
+    "categories": [
+      "Hémorroïdes"
+    ],
+    "primary_category": "Hémorroïdes",
+    "indications": "- Hémorroïdes - Soulage la douleur de la crise hémorroïdaire - Réduit l’inflammation due à l’hémorroïde - Réduit la fréquence des crises hémorroïdaires",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/lv-hemostop-creme/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/hemostop.png",
+    "is_complete": false,
+    "priority_score": 6.25
+  },
+  {
+    "id": 172,
+    "name": "Angiplant Sirops",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grippe",
+      "Immunité"
+    ],
+    "primary_category": "Grippe",
+    "indications": "- Triple action: Antiseptique, anti-inflammatoire et cicatrisante de la gorge - Apaise, adoucit et assainit la gorge",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/angiplant/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/Agiplant.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 173,
+    "name": "Pédiakids Spray Gorge",
+    "forme": "Liquide",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Maux de gorge"
+    ],
+    "primary_category": "Maux de gorge",
+    "indications": "- Triple action: Antiseptique, Anti-inflammatoire et cicatrisante de la gorge - Apaise adoucit et assainit la gorge",
+    "infos_produit": "Flacon 20 ml",
+    "url": "https://vital.com.tn/products/spray-gorge/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/Spray-gorge.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 174,
+    "name": "Planthiol Sirop",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité",
+      "Toux grasse"
+    ],
+    "primary_category": "Immunité",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/planthiol/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Planthiol-Sirop.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 175,
+    "name": "Uniderme peau sèche",
+    "forme": "Savon",
+    "classe": "Savon",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Savon nourrissant et hydratant, spécifique pour la peau sèche",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/uniderme-peau-seche/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Uniderm-peau-seche.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 176,
+    "name": "Omevie Cardio - 900",
+    "forme": "Capsule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cholestérol",
+      "Immunité",
+      "Maladies cardiovasculaires"
+    ],
+    "primary_category": "Cholestérol",
+    "indications": "- Renforce l’immunité - Contribue au fonctionnement normal du système cardio-vasculaire - Réduit le taux des lipides et des LDL- cholestérol",
+    "infos_produit": "Boite de 30 capsules",
+    "url": "https://vital.com.tn/products/omevie-cardio-900/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/cardio.png",
+    "is_complete": true,
+    "priority_score": 8.75
+  },
+  {
+    "id": 177,
+    "name": "MULTIBON CALCIUM-VIT.D3",
+    "forme": "Gummies",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Ossature"
+    ],
+    "primary_category": "Ossature",
+    "indications": "- Permet un apport quotidien en calcium - Améliore le développement et la croissance des os et dents",
+    "infos_produit": "Boite de 30 gummies",
+    "url": "https://vital.com.tn/products/multibon-calcium-vit-d3-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/07/MULTIBON-calcium-Vit.D3.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 178,
+    "name": "Amincissant Actif",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Elimination des graisses",
+      "Ventre plat"
+    ],
+    "primary_category": "Elimination des graisses",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/amincissant-actif/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/05/Amincissant-Actif.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 179,
+    "name": "Pédiakids Apigorge",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Maux de gorge"
+    ],
+    "primary_category": "Maux de gorge",
+    "indications": "- Triple action: Antiseptique, anti-inflammatoire et cicatrisante de la gorge - Traitement d’appoint de l’inflammation aigue de la gorge",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-apigorge/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Apigorge.png",
+    "is_complete": true,
+    "priority_score": 5.25
+  },
+  {
+    "id": 180,
+    "name": "Levure de bière",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cheveux",
+      "Angle",
+      "Peau"
+    ],
+    "primary_category": "Cheveux",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 60 gélules / 180 gélules",
+    "url": "https://vital.com.tn/products/levure-de-biere/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/levure-de-biere.png",
+    "is_complete": false,
+    "priority_score": 0.75
+  },
+  {
+    "id": 181,
+    "name": "Uniderme peau sensible",
+    "forme": "Savon",
+    "classe": "Savon",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "Savon unifiant et apaisant, spécifique pour la peau sensible",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/uniderme-peau-sensible-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Uniderme-peau-sensible.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 182,
+    "name": "Coenzyme Q10",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Cholestérol"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/coenzyme-q10/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/05/Q10-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 183,
+    "name": "Pédiakids Pommade change INTENSIVE",
+    "forme": "Crème",
+    "classe": "Crème Pour La Peau",
+    "categories": [
+      "Erythèmes",
+      "soin bébé"
+    ],
+    "primary_category": "Erythèmes",
+    "indications": "Information non disponible",
+    "infos_produit": "Tube de 40 gr",
+    "url": "https://vital.com.tn/products/pediakids-pommade-change-intensive/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2022/08/Pommade-change-intensive.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 184,
+    "name": "LV Sesa",
+    "forme": "Pommade",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cicatrices"
+    ],
+    "primary_category": "Cicatrices",
+    "indications": "- Favorise la cicatrisation et la réparation dermique - Brûlures de premier degré & second degré superficielles et profondes - Plaies chroniques (escarres de lit, pied de diabétique), - ulcères des jambes, plaies chirurgicales y compris obstétriques",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/sesa-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Sesa.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 185,
+    "name": "Vitonic sénior",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Mémoire"
+    ],
+    "primary_category": "Concentration",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite contenant de 30 gélules / un \u001dflacon en PET de 60 ml+ une pipette.",
+    "url": "https://vital.com.tn/products/vitonic-senior-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-senior-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 186,
+    "name": "Planthérapie Planthiol Sans sucre",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Confort respiratoire",
+      "Toux grasse"
+    ],
+    "primary_category": "Confort respiratoire",
+    "indications": "• Dégage les voies respiratoires • Toux grasse",
+    "infos_produit": "150 ML",
+    "url": "https://vital.com.tn/products/plantherapie-planthiol-sans-sucre-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/Plantherapie-Planthiol-Sans-sucre-1.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 187,
+    "name": "Minciligne Postnatale",
+    "forme": "Solution",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Cellulite",
+      "Drainage"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "Drainage Obésité Adjuvant de régime",
+    "infos_produit": "Flacon de 275 ml",
+    "url": "https://vital.com.tn/products/minciligne-postnatale/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/minciligne-postnatale.png",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 188,
+    "name": "Vitonic Zinc Vit.D3",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Immunité"
+    ],
+    "primary_category": "Immunité",
+    "indications": "- Aide à renforcer le système immunitaire - Participe à la régulation de l’immunité - Le maintien et le développement des cellules dans le système immunitaire - Bon fonctionnement du système immunitaire et système redox",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-zinc-vit-d3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/12/Vitonic-Zin.png",
+    "is_complete": true,
+    "priority_score": 8.25
+  },
+  {
+    "id": 189,
+    "name": "Pédiakids Huile de massage sommeil",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "soin bébé"
+    ],
+    "primary_category": "soin bébé",
+    "indications": "Nourrit et hydrate la peau du bébé et nourrisson sans la graisser Apaise le bébé et calme ses agitations",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/huile-de-massage-sommeil/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/huile.png",
+    "is_complete": false,
+    "priority_score": 1.75
+  },
+  {
+    "id": 190,
+    "name": "HYDRA GEL - CRÈME Nettoyant visage",
+    "forme": "Crème",
+    "classe": "Nettoyant Visage",
+    "categories": [
+      "Hydrate",
+      "nettoie",
+      "Peau"
+    ],
+    "primary_category": "Hydrate",
+    "indications": "• Nettoie • Hydrate • Apaise",
+    "infos_produit": "250 ML",
+    "url": "https://vital.com.tn/products/hydra-gel-creme-nettoyant-visage-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/HYDRA-GEL-CREME-Nettoyant-visage-1-1.jpg",
+    "is_complete": true,
+    "priority_score": 4.25
+  },
+  {
+    "id": 191,
+    "name": "Minciligne Jeune & Ado",
+    "forme": "Solution",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Drainage"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "- Draineur - Adjuvant de régime amincissant",
+    "infos_produit": "275ml",
+    "url": "https://vital.com.tn/products/minciligne-jeune-ado-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/12/Minciligne-jeune-ado.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 192,
+    "name": "Omevie Grossesse - 1000",
+    "forme": "Capsule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grossesse"
+    ],
+    "primary_category": "Grossesse",
+    "indications": "Favorise le développement et la croissance du Fœtus Assure le bon fonctionnement du système immunitaire Assure le bon fonctionnement cognitif et l’apprentissage au début de la vie",
+    "infos_produit": "Boite de 30 capsules",
+    "url": "https://vital.com.tn/products/omevie-grossesse-1000/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/grosesse.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 193,
+    "name": "Vinaigre de cidre",
+    "forme": "Liquide",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cholestérol",
+      "Brûle graisses"
+    ],
+    "primary_category": "Cholestérol",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 250ml",
+    "url": "https://vital.com.tn/products/vinaigre-de-cidre-4/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/vinaigre-de-cidre-1.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 194,
+    "name": "Pédiakids Oméga 3",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Développement cérébral"
+    ],
+    "primary_category": "Concentration",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 90 ml",
+    "url": "https://vital.com.tn/products/pediakids-omega-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Pediakids-omega-3.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 195,
+    "name": "Pédiakids Apinez",
+    "forme": "Sirop",
+    "classe": "Autre",
+    "categories": [
+      "Rhume",
+      "Nez bouché"
+    ],
+    "primary_category": "Rhume",
+    "indications": "- Dégage les voies respiratoires - Soulage les symptômes du rhume et la sensation de nez bouché",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/apinez-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Apinez.png",
+    "is_complete": false,
+    "priority_score": 3.5
+  },
+  {
+    "id": 196,
+    "name": "ARGIDERM",
+    "forme": "Savon",
+    "classe": "Savon Dermatologique",
+    "categories": [
+      "Antiseptique"
+    ],
+    "primary_category": "Antiseptique",
+    "indications": "Information non disponible",
+    "infos_produit": "Savon de 90 gr",
+    "url": "https://vital.com.tn/products/argiderm-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/05/Argiderm-1.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 197,
+    "name": "LV Crème Dalibour",
+    "forme": "Crème",
+    "classe": "Crème Pour Usage Externe",
+    "categories": [
+      "Cicatrices",
+      "Peau"
+    ],
+    "primary_category": "Cicatrices",
+    "indications": "Information non disponible",
+    "infos_produit": "Tube de 40 gr",
+    "url": "https://vital.com.tn/products/creme-dalibour/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Dalibour-creme-packaging.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 198,
+    "name": "Pédiakids Sommeil Calme",
+    "forme": "Sirop",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Troubles de sommeil"
+    ],
+    "primary_category": "Troubles de sommeil",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 150 ml",
+    "url": "https://vital.com.tn/products/pediakids-sommeil-calme/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Sommeil-calme.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 199,
+    "name": "PHYTOFANE Shampooing Antipelliculaire",
+    "forme": "Shampooing",
+    "classe": "Soin Capillaire",
+    "categories": [
+      "Antipelliculaire",
+      "Cheveux"
+    ],
+    "primary_category": "Antipelliculaire",
+    "indications": "Élimine efficacement et durablement les pellicules",
+    "infos_produit": "200ML",
+    "url": "https://vital.com.tn/products/phytofane-shampooing-antipelliculaire-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2024/07/Phytofane-Shampooing-Antipelliculaire.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 200,
+    "name": "Minciligne Brûle Graisse",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Brûle graisses",
+      "Détox"
+    ],
+    "primary_category": "Brûle graisses",
+    "indications": "- Perte de poids - Stimule la thermogenèse - Élimine et déstocke les graisses",
+    "infos_produit": "Boite de 20 Gélules",
+    "url": "https://vital.com.tn/products/minciligne-brule-graisse-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/minici-ligne-brule-graisse.png",
+    "is_complete": true,
+    "priority_score": 7.0
+  },
+  {
+    "id": 201,
+    "name": "LV PhytoVeine Gel",
+    "forme": "Gel",
+    "classe": "Gel Pour Massage",
+    "categories": [
+      "Varices",
+      "Jambes lourdes"
+    ],
+    "primary_category": "Varices",
+    "indications": "- Soulage les douleurs des jambes lourdes - Stimule la circulation sanguine",
+    "infos_produit": "Tube de 90 gr",
+    "url": "https://vital.com.tn/products/lv-phytoveine-gel/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/06/phytpveine-gel.png",
+    "is_complete": true,
+    "priority_score": 5.5
+  },
+  {
+    "id": 202,
+    "name": "LV GINKO Extra",
+    "forme": "Gouttes",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Mémoire"
+    ],
+    "primary_category": "Concentration",
+    "indications": "• Améliore la mémoire et la concentration chez les adultes • Traite la claudication intermittente • Traite les acouphènes",
+    "infos_produit": "70 ML",
+    "url": "https://vital.com.tn/products/lv-ginko-extra-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/LV-GINKO-Extra-70ml.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 203,
+    "name": "Mincivit Detox",
+    "forme": "Flacon (250 Ml)",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Détox"
+    ],
+    "primary_category": "Détox",
+    "indications": "- Favorise le drainage des toxines - Stimule les fonctions dépuratives rénales - Adjuvant du régime amincissant",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/mincivit-detox/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2020/09/Detox.png",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 204,
+    "name": "Pédiakids Savon extra doux",
+    "forme": "Savon",
+    "classe": "Savon",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Nettoie et hydrate la peau de bébé",
+    "infos_produit": "Savon de 100 g",
+    "url": "https://vital.com.tn/products/savon-extra-doux-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/Savon-extra-doux.png",
+    "is_complete": true,
+    "priority_score": 3.75
+  },
+  {
+    "id": 205,
+    "name": "Magnésium",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Fatigue",
+      "Stress"
+    ],
+    "primary_category": "Fatigue",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 60 gélules",
+    "url": "https://vital.com.tn/products/magnesium/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/05/Magnesium-2.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 206,
+    "name": "Vitonic Fer Grossesse",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grossesse"
+    ],
+    "primary_category": "Grossesse",
+    "indications": "- Palier les carences en fer - Apport en vitamines et oligo-éléments - Réduit les nausées matinales au cours de la grossesse",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-fer-grossesse/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2018/08/VITONIC-fer-grossesse.png",
+    "is_complete": true,
+    "priority_score": 6.75
+  },
+  {
+    "id": 207,
+    "name": "Vitonic Examens",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Concentration",
+      "Fatigue intellectuelle"
+    ],
+    "primary_category": "Concentration",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 45 gélules",
+    "url": "https://vital.com.tn/products/vitonic-examens-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-examens.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 208,
+    "name": "PHYTOFANE Lotion Antipelliculaire",
+    "forme": "Lotion",
+    "classe": "Lotion Antipelliculaire",
+    "categories": [
+      "Antipelliculaire",
+      "Cheveux"
+    ],
+    "primary_category": "Antipelliculaire",
+    "indications": "• Elimine efficacement et durablement les pellicules",
+    "infos_produit": "200 ML",
+    "url": "https://vital.com.tn/products/phytofane-lotion-antipelliculaire-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2023/10/PHYTOFANE-Lotion-Antipelliculaire.jpg",
+    "is_complete": true,
+    "priority_score": 4.0
+  },
+  {
+    "id": 209,
+    "name": "Pédiakids COLIGAZ",
+    "forme": "Gouttes",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Ballonnement et gaz"
+    ],
+    "primary_category": "Ballonnement et gaz",
+    "indications": "Information non disponible",
+    "infos_produit": "Flacon de 35 ml",
+    "url": "https://vital.com.tn/products/pediakids-coligaz/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Coligaz.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 210,
+    "name": "Vitonic Grossesse",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grossesse"
+    ],
+    "primary_category": "Grossesse",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/vitonic-grossesse-2/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/VITONIC-grossesse.png",
+    "is_complete": false,
+    "priority_score": 0.25
+  },
+  {
+    "id": 211,
+    "name": "Allergiplant",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Allergie",
+      "Immunité"
+    ],
+    "primary_category": "Allergie",
+    "indications": "Equilibre la réponse du système immunitaire de l’organisme",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/allergiplant/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/Echizinc-–-1.png",
+    "is_complete": false,
+    "priority_score": 2.0
+  },
+  {
+    "id": 212,
+    "name": "HYDRAFINE",
+    "forme": "Forme non spécifiée",
+    "classe": "Autre",
+    "categories": [
+      "Peau"
+    ],
+    "primary_category": "Peau",
+    "indications": "- Permet d’atténuer les brûlures superficielles du premier degré - Favorise la cicatrisation rapide avec une bonne hydratation de la peau - Apaise les piqûres et les rougeurs",
+    "infos_produit": "Non spécifié",
+    "url": "https://vital.com.tn/products/hydrafine/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2021/08/1.png",
+    "is_complete": false,
+    "priority_score": 4.75
+  },
+  {
+    "id": 213,
+    "name": "LV Cysprotect",
+    "forme": "Gélule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Cystites",
+      "Infection urinaire"
+    ],
+    "primary_category": "Cystites",
+    "indications": "Information non disponible",
+    "infos_produit": "Boite de 30 gélules",
+    "url": "https://vital.com.tn/products/cysprorect/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2017/08/Cysprotect.png",
+    "is_complete": false,
+    "priority_score": 0.5
+  },
+  {
+    "id": 214,
+    "name": "Plantyl capsule",
+    "forme": "Capsule",
+    "classe": "Complément alimentaire",
+    "categories": [
+      "Grippe",
+      "Immunité"
+    ],
+    "primary_category": "Grippe",
+    "indications": "- Renforce l’immunité et améliore le confort des voies respiratoires supérieures",
+    "infos_produit": "Boite de 15 capsules",
+    "url": "https://vital.com.tn/products/plantyl-3/",
+    "image_url": "https://vital.com.tn/wp-content/uploads/2019/06/Plantyl-1.png",
+    "is_complete": true,
+    "priority_score": 4.0
+  }
+]
