@@ -1,22 +1,33 @@
 import pyttsx3
 import time
 
-def parler(texte):
-    """Fonction simple qui parle"""
-    engine = pyttsx3.init()
-    engine.setProperty('rate', 150)
-    engine.say(texte)
-    engine.runAndWait()
-    engine.stop() 
-
-
-while True:
-    texte = input("\n Vous: ").strip()
+class TextToSpeech:
+    def __init__(self):
+        print("Initialisation de la voix...")
+        self.vitesse = 150
+        print("Voix prete!")
     
-    if texte.lower() == 'quit':
-        break
-    
-    if texte:
-        print(f"ALIA: {texte}")
-        parler(texte)
-        time.sleep(0.5)
+    def parler(self, texte):
+        if not texte or not texte.strip():
+            return
+        
+        print(f"\nALIA: {texte}")
+        
+        engine = pyttsx3.init()
+        engine.setProperty('rate', self.vitesse)
+        
+        # Chercher voix francaise
+        voices = engine.getProperty('voices')
+        for v in voices:
+            if 'french' in v.name.lower() or 'francais' in v.name.lower():
+                engine.setProperty('voice', v.id)
+                break
+        
+        engine.say(texte)
+        engine.runAndWait()
+        engine.stop()
+
+# Pour test indépendant
+if __name__ == "__main__":
+    tts = TextToSpeech()
+    tts.parler("Bonjour, je suis ALIA")
