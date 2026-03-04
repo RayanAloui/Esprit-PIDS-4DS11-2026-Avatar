@@ -1,0 +1,77 @@
+{
+  "t1": {
+    "cv_f1_mean": 1.0,
+    "cv_f1_std": 0.0,
+    "test_f1": 1.0,
+    "test_accuracy": 1.0,
+    "per_class": {
+      "Bon": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 38.0
+      },
+      "Excellent": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 26.0
+      },
+      "Faible": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 16.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        38,
+        0,
+        0
+      ],
+      [
+        0,
+        26,
+        0
+      ],
+      [
+        0,
+        0,
+        16
+      ]
+    ]
+  },
+  "t2": {
+    "per_score": {
+      "scientific_accuracy_score": {
+        "mae": 0.5625034472048649,
+        "r2": 0.8372566846717117
+      },
+      "communication_clarity_score": {
+        "mae": 0.5886919921482697,
+        "r2": 0.8135664510513211
+      },
+      "objection_handling_score": {
+        "mae": 0.543096549449994,
+        "r2": 0.8887961599995798
+      }
+    },
+    "overall_mae": 0.36160261358643636,
+    "overall_r2": 0.9336510784474207,
+    "score_weights": [
+      0.25,
+      0.3,
+      0.45
+    ]
+  },
+  "t3": {
+    "cv_f1_mean": 0.5067184054380026,
+    "cv_f1_std": 0.051576448013955126,
+    "test_f1": 0.26627620745267805,
+    "test_accuracy": 0.2875,
+    "note": "Moderate F1 expected — sentiment depends on full context"
+  },
+  "trained_at": "2026-03-01T22:37:53.226551",
+  "version": "1.0.0"
+}

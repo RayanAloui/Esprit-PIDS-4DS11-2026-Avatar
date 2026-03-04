@@ -1,0 +1,94 @@
+22:37:52  INFO      ======================================================================
+22:37:52  INFO        ALIA — NLP Scoring Model Training Pipeline
+22:37:52  INFO        Started at : 2026-03-01 22:37:52
+22:37:52  INFO        Data       : conversation_transcripts.csv
+22:37:52  INFO        Tune       : False
+22:37:52  INFO      ======================================================================
+22:37:52  INFO      Loading dataset : conversation_transcripts.csv
+22:37:52  INFO        Shape         : (400, 18)
+22:37:52  INFO        Missing values: 0
+22:37:52  INFO        Duplicates    : 0
+22:37:52  INFO        Quality dist  : {'Bon': 191, 'Excellent': 131, 'Faible': 78}
+22:37:52  INFO      Building NLP features...
+22:37:52  INFO        NLP features added : 10 features
+22:37:52  INFO      Quality classes  : ['Bon', 'Excellent', 'Faible']
+22:37:52  INFO      Sentiment classes: ['Neutre', 'Négatif', 'Positif']
+22:37:52  INFO      Train : 320 | Test : 80
+22:37:52  INFO      ============================================================
+22:37:52  INFO      TASK 1 — Response Quality Classification
+22:37:52  INFO      ============================================================
+22:37:52  INFO        CV F1-Macro : 1.0000 ± 0.0000
+22:37:52  INFO        CV range    : [1.0000 – 1.0000]
+22:37:53  INFO        Test F1-Macro   : 1.0000
+22:37:53  INFO        Test Accuracy   : 1.0000
+22:37:53  INFO          Bon          precision=1.000  recall=1.000  f1=1.000
+22:37:53  INFO          Excellent    precision=1.000  recall=1.000  f1=1.000
+22:37:53  INFO          Faible       precision=1.000  recall=1.000  f1=1.000
+22:37:53  INFO        Confusion matrix :
+[[38  0  0]
+ [ 0 26  0]
+ [ 0  0 16]]
+22:37:53  INFO      ============================================================
+22:37:53  INFO      TASK 2 — Multi-Dimensional Score Regression
+22:37:53  INFO      ============================================================
+22:37:53  INFO        Scientific Accuracy             MAE=0.5625  R²=0.8373
+22:37:53  INFO        Communication Clarity           MAE=0.5887  R²=0.8136
+22:37:53  INFO        Objection Handling              MAE=0.5431  R²=0.8888
+22:37:53  INFO        Overall (ALIA formula)          MAE=0.3616  R²=0.9337
+22:37:53  INFO      ============================================================
+22:37:53  INFO      TASK 3 — Client Sentiment Prediction
+22:37:53  INFO      ============================================================
+22:37:53  INFO        CV F1-Macro : 0.5067 ± 0.0516
+22:37:53  INFO        Test F1-Macro   : 0.2663
+22:37:53  INFO        Test Accuracy   : 0.2875
+22:37:53  INFO        Note: F1~0.44 expected — sentiment ambiguity is natural
+22:37:53  INFO      
+  Saved artifacts :
+22:37:53  INFO          nlp_scoring_model.pkl                            217.7 KB
+22:37:53  INFO          t1_label_encoder.pkl                               0.5 KB
+22:37:53  INFO          t1_quality_classifier.pkl                         97.9 KB
+22:37:53  INFO          t2_score_regressor.pkl                            60.1 KB
+22:37:53  INFO          t3_label_encoder.pkl                               0.5 KB
+22:37:53  INFO          t3_sentiment_classifier.pkl                       60.0 KB
+22:37:53  INFO          training.log                                       3.2 KB
+22:37:53  INFO          training_report.json                               1.5 KB
+22:37:53  INFO      NLPScoringModel loaded — v1.0.0 trained at 2026-03-01T22:37:53.200911
+22:37:53  INFO      
+============================================================
+22:37:53  INFO        INFERENCE DEMO
+22:37:53  INFO      ============================================================
+22:37:53  INFO      
+  [EXCELLENT (expected)]
+22:37:53  INFO      Quality       : Excellent
+Overall Score : 8.1 / 10
+Sentiment     : Neutre
+Scores        : scientific accuracy=8.18 | communication clarity=8.22 | objection handling=7.92
+Feedback (1 hints):
+  • Réponse de qualité — aucune amélioration critique détectée
+22:37:53  INFO      
+  [BON (expected)]
+22:37:53  INFO      Quality       : Excellent
+Overall Score : 7.4 / 10
+Sentiment     : Neutre
+Scores        : scientific accuracy=7.61 | communication clarity=7.68 | objection handling=7.07
+Feedback (5 hints):
+  • Ajouter une phrase d'empathie en début de réponse
+  • Inclure des données chiffrées ou références cliniques
+  • Terminer par une question ouverte pour engager le client
+  • Développer davantage l'argumentation (réponse trop courte)
+  • Enrichir la structure : empathie + données + solution + question
+22:37:53  INFO      
+  [FAIBLE (expected)]
+22:37:53  INFO      Quality       : Faible
+Overall Score : 5.5 / 10
+Sentiment     : Neutre
+Scores        : scientific accuracy=5.77 | communication clarity=5.9 | objection handling=5.09
+Feedback (6 hints):
+  • Ajouter une phrase d'empathie en début de réponse
+  • Inclure des données chiffrées ou références cliniques
+  • Terminer par une question ouverte pour engager le client
+  • Éviter les formulations vagues — être plus précis et concret
+  • Développer davantage l'argumentation (réponse trop courte)
+  • Enrichir la structure : empathie + données + solution + question
+22:37:53  INFO      
+[OK]  Training complete in 0.7s
