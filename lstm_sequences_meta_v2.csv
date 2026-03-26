@@ -1,0 +1,501 @@
+﻿seq_id,state,label,confidence,stress,slouch_score,spine_angle,arms_crossed_rate,face_touch_rate,niveau_alia,etape_vm,vm_description,coaching_hint
+0,upright,0,55.95,44.05,0.3764,1.77,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+1,upright,0,55.83,44.17,0.3467,1.55,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+2,upright,0,56.59,43.41,0.3374,1.66,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+3,upright,0,55.62,44.38,0.3736,2.08,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+4,upright,0,55.56,44.44,0.4032,2.52,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+5,upright,0,56.09,43.91,0.3343,1.21,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+6,upright,0,56.08,43.92,0.3392,2.03,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+7,upright,0,55.75,44.25,0.3451,1.64,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+8,upright,0,55.4,44.6,0.3714,1.82,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+9,upright,0,55.83,44.17,0.4015,2.04,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+10,upright,0,55.57,44.43,0.3716,2.77,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+11,upright,0,56.26,43.74,0.3227,1.72,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+12,upright,0,56.32,43.68,0.3187,1.09,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+13,upright,0,55.37,44.63,0.3811,2.61,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+14,upright,0,56.23,43.77,0.3456,1.6,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+15,upright,0,55.18,44.82,0.4051,1.66,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+16,upright,0,55.98,44.02,0.3756,1.74,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+17,upright,0,55.67,44.33,0.3572,1.08,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+18,upright,0,56.11,43.89,0.3307,1.5,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+19,upright,0,56.59,43.41,0.315,1.01,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+20,upright,0,55.61,44.39,0.3652,1.83,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+21,upright,0,56.28,43.72,0.3609,1.85,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+22,upright,0,54.75,45.25,0.4329,1.97,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+23,upright,0,56.03,43.97,0.3848,2.86,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+24,upright,0,55.74,44.26,0.3597,2.59,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+25,upright,0,56.18,43.82,0.3621,2.23,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+26,upright,0,56.09,43.91,0.3243,0.79,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+27,upright,0,55.91,44.09,0.3599,2.86,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+28,upright,0,55.4,44.6,0.385,2.41,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+29,upright,0,55.94,44.06,0.3859,2.5,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+30,upright,0,56.56,43.44,0.3344,1.77,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+31,upright,0,55.49,44.51,0.3771,2.0,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+32,upright,0,56.12,43.88,0.3296,1.2,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+33,upright,0,56.35,43.65,0.3507,1.86,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+34,upright,0,55.78,44.22,0.3349,1.94,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+35,upright,0,56.29,43.71,0.3466,2.4,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+36,upright,0,56.44,43.56,0.3731,2.93,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+37,upright,0,56.04,43.96,0.3769,2.17,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+38,upright,0,55.95,44.05,0.3463,2.4,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+39,upright,0,55.69,44.31,0.377,1.65,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+40,upright,0,56.23,43.77,0.334,1.45,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+41,upright,0,55.39,44.61,0.3937,2.44,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+42,upright,0,56.21,43.79,0.321,1.21,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+43,upright,0,56.52,43.48,0.3012,0.88,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+44,upright,0,55.5,44.5,0.3791,2.52,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+45,upright,0,56.14,43.86,0.3301,1.48,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+46,upright,0,56.04,43.96,0.3686,2.08,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+47,upright,0,56.16,43.84,0.3252,1.73,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+48,upright,0,55.17,44.83,0.3816,2.32,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+49,upright,0,55.64,44.36,0.3772,2.23,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+50,upright,0,56.64,43.36,0.3109,1.66,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+51,upright,0,54.85,45.15,0.4294,2.46,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+52,upright,0,56.31,43.69,0.3382,2.56,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+53,upright,0,56.49,43.51,0.3145,2.43,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+54,upright,0,55.44,44.56,0.3871,3.04,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+55,upright,0,56.22,43.78,0.3525,1.62,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+56,upright,0,56.0,44.0,0.3349,0.95,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+57,upright,0,56.31,43.69,0.334,1.11,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+58,upright,0,56.2,43.8,0.3411,1.55,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+59,upright,0,56.1,43.9,0.3565,1.84,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+60,upright,0,56.23,43.77,0.3611,2.72,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+61,upright,0,55.4,44.6,0.3935,2.73,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+62,upright,0,56.19,43.81,0.3328,1.21,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+63,upright,0,55.46,44.54,0.3962,1.75,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+64,upright,0,55.93,44.07,0.3495,1.97,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+65,upright,0,56.31,43.69,0.3255,1.03,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+66,upright,0,55.53,44.47,0.3719,2.07,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+67,upright,0,56.18,43.82,0.3273,1.1,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+68,upright,0,55.76,44.24,0.3643,2.19,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+69,upright,0,55.7,44.3,0.3507,1.64,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+70,upright,0,54.48,45.52,0.4086,2.06,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+71,upright,0,56.39,43.61,0.3203,0.9,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+72,upright,0,56.4,43.6,0.3354,1.81,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+73,upright,0,55.31,44.69,0.3821,1.78,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+74,upright,0,55.76,44.24,0.3443,1.19,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+75,upright,0,56.29,43.71,0.3636,1.46,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+76,upright,0,56.27,43.73,0.3256,0.9,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+77,upright,0,55.48,44.52,0.3914,1.99,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+78,upright,0,55.78,44.22,0.3605,1.69,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+79,upright,0,55.99,44.01,0.3874,2.58,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+80,upright,0,56.16,43.84,0.3242,2.47,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+81,upright,0,55.99,44.01,0.3496,2.19,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+82,upright,0,56.45,43.55,0.3264,1.37,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+83,upright,0,55.47,44.53,0.3909,2.43,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+84,upright,0,56.05,43.95,0.3391,1.49,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+85,upright,0,56.2,43.8,0.3499,1.64,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+86,upright,0,55.24,44.76,0.3698,1.76,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+87,upright,0,55.42,44.58,0.3939,2.13,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+88,upright,0,55.45,44.55,0.3681,1.4,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+89,upright,0,56.02,43.98,0.3733,2.03,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+90,upright,0,55.94,44.06,0.3973,2.64,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+91,upright,0,55.7,44.3,0.3855,2.44,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+92,upright,0,55.36,44.64,0.4076,2.65,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+93,upright,0,55.54,44.46,0.3711,2.14,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+94,upright,0,56.3,43.7,0.3445,1.37,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+95,upright,0,55.83,44.17,0.3548,1.52,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+96,upright,0,56.28,43.72,0.3519,2.68,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+97,upright,0,55.71,44.29,0.3565,1.32,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+98,upright,0,55.82,44.18,0.3905,2.34,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+99,upright,0,55.39,44.61,0.4049,1.85,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+100,upright,0,55.85,44.15,0.3701,3.13,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+101,upright,0,56.02,43.98,0.3748,1.86,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+102,upright,0,55.97,44.03,0.3377,1.44,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+103,upright,0,56.09,43.91,0.3466,1.17,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+104,upright,0,55.48,44.52,0.4003,2.4,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+105,upright,0,55.91,44.09,0.367,1.76,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+106,upright,0,55.5,44.5,0.401,3.41,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+107,upright,0,55.89,44.11,0.3595,1.39,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+108,upright,0,55.68,44.32,0.371,2.61,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+109,upright,0,55.42,44.58,0.3911,2.84,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+110,upright,0,56.61,43.39,0.3233,1.82,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+111,upright,0,56.16,43.84,0.322,1.29,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+112,upright,0,56.06,43.94,0.3617,1.76,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+113,upright,0,56.07,43.93,0.3553,1.3,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+114,upright,0,55.32,44.68,0.3758,3.02,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+115,upright,0,55.87,44.13,0.3571,2.08,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+116,upright,0,56.15,43.85,0.341,1.64,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+117,upright,0,55.7,44.3,0.3517,1.64,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+118,upright,0,54.93,45.07,0.423,2.38,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+119,upright,0,56.02,43.98,0.3426,0.79,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+120,upright,0,56.17,43.83,0.3441,1.66,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+121,upright,0,55.77,44.23,0.3495,1.42,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+122,upright,0,55.98,44.02,0.3661,3.03,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+123,upright,0,56.16,43.84,0.3487,2.36,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+124,upright,0,55.9,44.1,0.3868,2.69,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+125,upright,0,55.93,44.07,0.3744,1.52,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+126,upright,0,55.96,44.04,0.3437,1.55,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+127,upright,0,55.92,44.08,0.3766,2.33,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+128,upright,0,55.86,44.14,0.3557,1.94,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+129,upright,0,55.32,44.68,0.3821,2.1,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+130,upright,0,56.24,43.76,0.3241,1.39,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+131,upright,0,55.88,44.12,0.367,2.26,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+132,upright,0,55.5,44.5,0.3886,1.89,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+133,upright,0,55.97,44.03,0.3703,2.05,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+134,upright,0,55.9,44.1,0.3554,2.46,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+135,upright,0,56.34,43.66,0.302,1.08,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+136,upright,0,56.14,43.86,0.3305,1.27,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+137,upright,0,56.14,43.86,0.3371,0.87,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+138,upright,0,56.56,43.44,0.3165,1.35,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+139,upright,0,55.22,44.78,0.3948,1.73,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+140,upright,0,55.94,44.06,0.3522,2.04,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+141,upright,0,55.94,44.06,0.35,1.61,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+142,upright,0,54.99,45.01,0.3735,2.21,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+143,upright,0,56.25,43.75,0.3178,1.56,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+144,upright,0,55.71,44.29,0.3774,2.19,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+145,upright,0,54.65,45.35,0.409,2.65,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+146,upright,0,55.56,44.44,0.3924,2.86,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+147,upright,0,56.2,43.8,0.3295,1.49,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+148,upright,0,56.03,43.97,0.3443,1.49,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+149,upright,0,55.63,44.37,0.3694,2.89,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+150,upright,0,56.03,43.97,0.3779,2.13,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+151,upright,0,55.72,44.28,0.3676,1.82,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+152,upright,0,56.16,43.84,0.3283,1.17,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+153,upright,0,56.09,43.91,0.329,1.39,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+154,upright,0,55.48,44.52,0.3736,2.01,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+155,upright,0,56.22,43.78,0.3217,1.03,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+156,upright,0,55.94,44.06,0.3371,1.1,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+157,upright,0,56.4,43.6,0.3203,1.61,1.0,0.0,Confirmé,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+158,upright,0,55.41,44.59,0.3803,2.02,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+159,upright,0,55.47,44.53,0.3762,1.87,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+160,upright,0,55.56,44.44,0.3507,1.11,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+161,upright,0,55.5,44.5,0.405,2.34,1.0,0.0,Expert,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+162,upright,0,55.87,44.13,0.3603,1.46,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+163,upright,0,55.67,44.33,0.3809,1.21,1.0,0.0,Confirmé,6,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+164,upright,0,56.1,43.9,0.3535,1.53,1.0,0.0,Expert,5,Posture de confiance — argumentation et closing,Excellente posture — maintenez cette ouverture pendant toute la visite.
+165,neutral,1,56.6,43.4,0.259,1.69,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+166,neutral,1,56.61,43.39,0.2779,2.18,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+167,neutral,1,57.29,42.71,0.2302,1.22,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+168,neutral,1,57.07,42.93,0.2446,1.35,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+169,neutral,1,56.04,43.96,0.3004,2.85,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+170,neutral,1,56.93,43.07,0.2276,1.39,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+171,neutral,1,56.58,43.42,0.2697,1.62,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+172,neutral,1,56.66,43.34,0.2493,1.77,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+173,neutral,1,57.45,42.55,0.2224,1.83,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+174,neutral,1,57.31,42.69,0.2196,1.43,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+175,neutral,1,56.65,43.35,0.3165,2.54,0.9667,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+176,neutral,1,56.33,43.67,0.3097,1.98,0.9667,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+177,neutral,1,55.61,44.39,0.3462,1.94,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+178,neutral,1,55.81,44.19,0.2837,3.03,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+179,neutral,1,56.06,43.94,0.2859,2.2,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+180,neutral,1,56.83,43.17,0.2703,1.53,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+181,neutral,1,56.62,43.38,0.2427,1.83,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+182,neutral,1,57.62,42.38,0.2034,1.1,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+183,neutral,1,56.69,43.31,0.2697,1.66,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+184,neutral,1,56.94,43.06,0.241,1.26,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+185,neutral,1,56.59,43.41,0.2537,1.42,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+186,neutral,1,55.62,44.38,0.3151,2.4,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+187,neutral,1,56.98,43.02,0.2467,1.51,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+188,neutral,1,55.69,44.31,0.2876,2.53,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+189,neutral,1,56.81,43.19,0.2638,1.89,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+190,neutral,1,57.02,42.98,0.2513,1.9,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+191,neutral,1,57.41,42.59,0.2281,1.18,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+192,neutral,1,56.22,43.78,0.2935,2.61,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+193,neutral,1,57.26,42.74,0.2185,1.46,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+194,neutral,1,57.23,42.77,0.2454,1.33,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+195,neutral,1,56.81,43.19,0.2518,1.43,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+196,neutral,1,56.86,43.14,0.2536,1.7,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+197,neutral,1,55.35,44.65,0.308,2.3,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+198,neutral,1,56.13,43.87,0.3037,1.78,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+199,neutral,1,56.85,43.15,0.286,2.69,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+200,neutral,1,56.3,43.7,0.2929,2.38,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+201,neutral,1,57.21,42.79,0.2378,1.15,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+202,neutral,1,57.12,42.88,0.259,1.48,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+203,neutral,1,58.16,41.84,0.2426,2.89,0.9667,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+204,neutral,1,56.85,43.15,0.2574,3.26,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+205,neutral,1,57.57,42.43,0.2168,1.3,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+206,neutral,1,55.92,44.08,0.2751,2.29,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+207,neutral,1,55.79,44.21,0.2941,3.11,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+208,neutral,1,56.17,43.83,0.3158,3.32,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+209,neutral,1,57.37,42.63,0.2309,1.68,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+210,neutral,1,57.03,42.97,0.2421,1.36,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+211,neutral,1,56.77,43.23,0.2663,2.4,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+212,neutral,1,56.33,43.67,0.2671,1.82,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+213,neutral,1,57.04,42.96,0.2509,1.3,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+214,neutral,1,56.87,43.13,0.2638,1.82,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+215,neutral,1,56.45,43.55,0.313,2.5,0.9667,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+216,neutral,1,57.04,42.96,0.3253,2.49,0.9667,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+217,neutral,1,56.76,43.24,0.2673,1.72,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+218,neutral,1,57.02,42.98,0.2387,1.35,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+219,neutral,1,57.14,42.86,0.2476,1.63,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+220,neutral,1,56.58,43.42,0.2843,3.43,0.9667,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+221,neutral,1,56.31,43.69,0.2664,2.07,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+222,neutral,1,57.02,42.98,0.2264,1.26,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+223,neutral,1,57.27,42.73,0.2471,2.64,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+224,neutral,1,56.93,43.07,0.2345,0.86,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+225,neutral,1,55.44,44.56,0.316,2.5,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+226,neutral,1,56.12,43.88,0.3333,2.95,0.9667,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+227,neutral,1,56.8,43.2,0.2875,2.27,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+228,neutral,1,56.98,43.02,0.2299,0.83,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+229,neutral,1,57.63,42.37,0.2754,2.31,0.9667,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+230,neutral,1,56.54,43.46,0.2554,2.33,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+231,neutral,1,57.45,42.55,0.2271,2.05,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+232,neutral,1,56.96,43.04,0.2368,1.43,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+233,neutral,1,56.93,43.07,0.2612,2.17,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+234,neutral,1,56.43,43.57,0.2669,2.04,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+235,neutral,1,57.01,42.99,0.2381,1.2,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+236,neutral,1,56.66,43.34,0.2705,1.73,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+237,neutral,1,56.88,43.12,0.2405,1.17,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+238,neutral,1,56.78,43.22,0.2568,1.88,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+239,neutral,1,55.84,44.16,0.3277,2.38,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+240,neutral,1,57.02,42.98,0.2476,0.89,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+241,neutral,1,56.62,43.38,0.29,2.92,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+242,neutral,1,56.75,43.25,0.2667,1.25,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+243,neutral,1,57.77,42.23,0.2305,2.13,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+244,neutral,1,57.31,42.69,0.2739,2.36,0.9667,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+245,neutral,1,56.29,43.71,0.2881,1.57,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+246,neutral,1,56.76,43.24,0.2547,1.42,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+247,neutral,1,57.44,42.56,0.2513,2.39,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+248,neutral,1,56.89,43.11,0.2379,1.16,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+249,neutral,1,56.75,43.25,0.2959,2.48,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+250,neutral,1,57.28,42.72,0.2255,1.54,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+251,neutral,1,56.35,43.65,0.2892,2.14,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+252,neutral,1,57.0,43.0,0.2396,2.02,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+253,neutral,1,57.67,42.33,0.2603,3.17,0.9667,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+254,neutral,1,57.41,42.59,0.2334,1.59,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+255,neutral,1,57.42,42.58,0.2304,1.37,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+256,neutral,1,56.42,43.58,0.2586,1.27,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+257,neutral,1,56.66,43.34,0.2643,2.49,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+258,neutral,1,56.66,43.34,0.2533,1.37,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+259,neutral,1,57.09,42.91,0.2304,1.36,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+260,neutral,1,55.64,44.36,0.3112,2.57,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+261,neutral,1,56.19,43.81,0.2992,2.52,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+262,neutral,1,56.34,43.66,0.2714,3.2,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+263,neutral,1,56.53,43.47,0.2744,1.8,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+264,neutral,1,56.44,43.56,0.2745,2.5,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+265,neutral,1,57.12,42.88,0.2346,1.37,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+266,neutral,1,56.07,43.93,0.3117,2.43,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+267,neutral,1,56.06,43.94,0.2997,2.52,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+268,neutral,1,55.86,44.14,0.2935,2.36,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+269,neutral,1,57.04,42.96,0.2653,2.22,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+270,neutral,1,56.54,43.46,0.2879,2.39,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+271,neutral,1,55.56,44.44,0.3041,1.97,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+272,neutral,1,57.05,42.95,0.243,2.35,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+273,neutral,1,57.1,42.9,0.2374,1.17,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+274,neutral,1,56.97,43.03,0.2435,1.42,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+275,neutral,1,57.34,42.66,0.2237,1.18,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+276,neutral,1,55.46,44.54,0.3329,2.77,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+277,neutral,1,56.56,43.44,0.2982,2.16,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+278,neutral,1,56.03,43.97,0.3002,2.37,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+279,neutral,1,56.58,43.42,0.2576,1.47,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+280,neutral,1,56.78,43.22,0.2606,1.05,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+281,neutral,1,57.25,42.75,0.2313,1.06,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+282,neutral,1,56.42,43.58,0.2821,2.27,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+283,neutral,1,56.38,43.62,0.2815,2.66,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+284,neutral,1,56.56,43.44,0.283,1.97,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+285,neutral,1,56.31,43.69,0.2715,1.97,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+286,neutral,1,56.41,43.59,0.2827,2.5,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+287,neutral,1,55.64,44.36,0.3056,2.54,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+288,neutral,1,55.94,44.06,0.2986,2.07,0.9667,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+289,neutral,1,56.95,43.05,0.2466,2.4,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+290,neutral,1,57.31,42.69,0.2594,2.66,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+291,neutral,1,56.85,43.15,0.2498,1.18,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+292,neutral,1,57.12,42.88,0.2493,1.61,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+293,neutral,1,56.74,43.26,0.2571,2.85,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+294,neutral,1,55.99,44.01,0.3039,2.97,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+295,neutral,1,55.98,44.02,0.3108,2.12,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+296,neutral,1,56.37,43.63,0.2755,1.98,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+297,neutral,1,57.04,42.96,0.2391,1.6,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+298,neutral,1,57.23,42.77,0.2251,1.04,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+299,neutral,1,56.38,43.62,0.2721,2.21,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+300,neutral,1,57.2,42.8,0.2534,2.0,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+301,neutral,1,56.36,43.64,0.2922,2.02,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+302,neutral,1,56.16,43.84,0.2726,1.64,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+303,neutral,1,57.07,42.93,0.243,1.11,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+304,neutral,1,57.07,42.93,0.255,1.9,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+305,neutral,1,56.91,43.09,0.2439,1.21,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+306,neutral,1,57.13,42.87,0.2271,1.29,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+307,neutral,1,56.02,43.98,0.2855,1.94,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+308,neutral,1,57.03,42.97,0.3201,2.18,0.9333,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+309,neutral,1,58.45,41.55,0.2528,2.96,0.9667,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+310,neutral,1,57.41,42.59,0.2086,1.33,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+311,neutral,1,56.75,43.25,0.2368,1.19,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+312,neutral,1,56.59,43.41,0.3033,2.52,0.9667,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+313,neutral,1,57.24,42.76,0.227,0.91,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+314,neutral,1,56.68,43.32,0.2644,2.44,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+315,neutral,1,56.62,43.38,0.2823,2.25,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+316,neutral,1,55.79,44.21,0.3071,2.57,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+317,neutral,1,56.88,43.12,0.2427,1.69,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+318,neutral,1,56.91,43.09,0.2601,2.02,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+319,neutral,1,56.22,43.78,0.2798,1.49,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+320,neutral,1,55.68,44.32,0.295,2.54,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+321,neutral,1,56.87,43.13,0.2428,1.3,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+322,neutral,1,56.86,43.14,0.2681,2.07,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+323,neutral,1,56.66,43.34,0.2713,2.2,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+324,neutral,1,56.32,43.68,0.2979,3.12,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+325,neutral,1,57.0,43.0,0.2544,1.2,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+326,neutral,1,57.12,42.88,0.2325,1.11,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+327,neutral,1,55.91,44.09,0.2908,3.68,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+328,neutral,1,56.95,43.05,0.2334,0.92,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+329,neutral,1,56.88,43.12,0.2395,1.69,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+330,neutral,1,55.2,44.8,0.2935,2.39,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+331,neutral,1,56.99,43.01,0.2689,2.96,0.9667,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+332,neutral,1,55.69,44.31,0.337,2.25,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+333,neutral,1,57.25,42.75,0.2265,1.17,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+334,neutral,1,57.22,42.78,0.2354,1.4,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+335,neutral,1,56.63,43.37,0.259,1.35,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+336,neutral,1,56.7,43.3,0.3074,2.51,0.9667,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+337,neutral,1,56.91,43.09,0.2626,1.56,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+338,neutral,1,56.55,43.45,0.2754,1.08,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+339,neutral,1,56.85,43.15,0.2617,2.47,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+340,neutral,1,57.0,43.0,0.2481,1.58,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+341,neutral,1,55.04,44.96,0.3325,2.37,1.0,0.0,Junior,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+342,neutral,1,56.46,43.54,0.2757,1.47,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+343,neutral,1,57.03,42.97,0.244,1.04,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+344,neutral,1,55.81,44.19,0.2864,1.87,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+345,neutral,1,57.37,42.63,0.2148,1.02,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+346,neutral,1,57.34,42.66,0.228,1.12,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+347,neutral,1,56.42,43.58,0.2677,2.31,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+348,neutral,1,56.94,43.06,0.2442,2.66,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+349,neutral,1,56.99,43.01,0.2381,1.07,1.0,0.0,Junior,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+350,neutral,1,55.87,44.13,0.3195,1.97,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+351,neutral,1,57.22,42.78,0.2331,0.93,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+352,neutral,1,56.39,43.61,0.2903,1.62,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+353,neutral,1,56.88,43.12,0.2635,1.88,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+354,neutral,1,56.35,43.65,0.2866,3.33,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+355,neutral,1,56.99,43.01,0.2527,2.08,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+356,neutral,1,56.19,43.81,0.3435,3.47,0.9667,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+357,neutral,1,56.47,43.53,0.2931,2.43,1.0,0.0,Confirmé,3,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+358,neutral,1,55.93,44.07,0.3069,1.84,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+359,neutral,1,56.77,43.23,0.266,2.2,1.0,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+360,neutral,1,56.45,43.55,0.3052,2.85,0.9667,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+361,neutral,1,57.46,42.54,0.228,0.93,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+362,neutral,1,57.2,42.8,0.2404,2.17,1.0,0.0,Junior,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+363,neutral,1,56.79,43.21,0.2546,1.55,1.0,0.0,Confirmé,4,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+364,neutral,1,56.94,43.06,0.2592,2.75,0.9667,0.0,Confirmé,2,Posture correcte — sondage et synthèse,Posture acceptable — ouvrez légèrement les épaules pour projeter plus de confiance.
+365,slouched,2,63.24,36.76,0.1345,2.37,0.6,0.1,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+366,slouched,2,67.57,32.43,0.1326,3.03,0.5,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+367,slouched,2,60.31,39.69,0.0861,2.42,0.8667,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+368,slouched,2,56.84,43.16,0.0781,1.35,1.0,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+369,slouched,2,57.82,42.18,0.103,1.34,0.9333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+370,slouched,2,57.78,42.22,0.0932,1.62,0.9667,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+371,slouched,2,62.37,37.63,0.128,2.23,0.7,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+372,slouched,2,58.92,41.08,0.087,1.66,0.8667,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+373,slouched,2,61.13,38.87,0.1148,2.2,0.8,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+374,slouched,2,57.66,42.34,0.0787,1.15,0.9333,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+375,slouched,2,62.01,37.99,0.104,2.32,0.8,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+376,slouched,2,59.47,40.53,0.115,2.6,0.8667,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+377,slouched,2,62.48,37.52,0.124,3.68,0.7,0.0333,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+378,slouched,2,57.37,42.63,0.0895,1.27,1.0,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+379,slouched,2,62.81,37.19,0.1069,1.59,0.7,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+380,slouched,2,60.02,39.98,0.1439,2.23,0.8,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+381,slouched,2,57.76,42.24,0.084,1.38,0.9333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+382,slouched,2,58.49,41.51,0.1329,1.44,0.8667,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+383,slouched,2,60.27,39.73,0.1107,1.8,0.8667,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+384,slouched,2,59.83,40.17,0.091,1.92,0.8333,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+385,slouched,2,60.18,39.82,0.1221,2.32,0.8,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+386,slouched,2,61.04,38.96,0.11,2.89,0.7333,0.1667,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+387,slouched,2,62.41,37.59,0.1331,2.14,0.7333,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+388,slouched,2,59.73,40.27,0.1008,2.27,0.8667,0.0667,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+389,slouched,2,61.57,38.43,0.1321,2.79,0.7667,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+390,slouched,2,61.36,38.64,0.1106,1.88,0.7667,0.0333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+391,slouched,2,58.89,41.11,0.0995,2.06,0.9333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+392,slouched,2,59.78,40.22,0.1012,1.62,0.8333,0.0667,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+393,slouched,2,65.02,34.98,0.1348,2.96,0.6,0.0667,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+394,slouched,2,65.77,34.23,0.1461,2.07,0.5333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+395,slouched,2,59.49,40.51,0.1033,1.91,0.8333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+396,slouched,2,60.35,39.65,0.0952,2.53,0.8667,0.0333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+397,slouched,2,59.41,40.59,0.1465,2.64,0.8333,0.0667,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+398,slouched,2,62.01,37.99,0.1147,3.12,0.7,0.1333,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+399,slouched,2,57.28,42.72,0.0732,1.47,0.9667,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+400,slouched,2,58.59,41.41,0.0963,1.47,0.9333,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+401,slouched,2,65.76,34.24,0.1352,3.2,0.5,0.1,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+402,slouched,2,62.79,37.21,0.1091,1.96,0.7,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+403,slouched,2,62.73,37.27,0.141,3.87,0.6333,0.1,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+404,slouched,2,61.45,38.55,0.1034,1.93,0.7,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+405,slouched,2,61.37,38.63,0.087,2.61,0.8,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+406,slouched,2,63.67,36.33,0.1337,2.79,0.6,0.0667,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+407,slouched,2,61.12,38.88,0.1672,3.49,0.6667,0.2,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+408,slouched,2,60.12,39.88,0.1421,3.37,0.7667,0.1333,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+409,slouched,2,62.21,37.79,0.1143,2.89,0.7667,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+410,slouched,2,63.03,36.96,0.1379,2.59,0.7,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+411,slouched,2,60.03,39.97,0.1249,2.78,0.8,0.0333,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+412,slouched,2,59.96,40.04,0.1416,2.61,0.8,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+413,slouched,2,59.43,40.57,0.1321,2.07,0.8667,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+414,slouched,2,66.78,33.22,0.1355,3.13,0.5333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+415,slouched,2,57.93,42.07,0.093,1.5,0.9333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+416,slouched,2,58.09,41.91,0.1387,2.07,0.9333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+417,slouched,2,60.25,39.75,0.1268,2.18,0.7667,0.0333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+418,slouched,2,57.48,42.52,0.0996,1.95,0.9667,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+419,slouched,2,58.14,41.86,0.081,1.52,0.9,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+420,slouched,2,65.05,34.95,0.1032,2.46,0.5333,0.0333,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+421,slouched,2,63.42,36.58,0.1382,3.07,0.6333,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+422,slouched,2,60.62,39.38,0.1461,3.06,0.7,0.1667,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+423,slouched,2,63.47,36.53,0.1422,3.4,0.6,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+424,slouched,2,64.92,35.08,0.1094,2.07,0.5333,0.1,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+425,slouched,2,60.26,39.74,0.1148,1.95,0.8333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+426,slouched,2,61.18,38.82,0.0994,1.67,0.7667,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+427,slouched,2,63.8,36.2,0.1407,3.67,0.6333,0.1333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+428,slouched,2,61.89,38.11,0.1405,2.07,0.7333,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+429,slouched,2,61.24,38.76,0.1401,1.71,0.7667,0.0333,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+430,slouched,2,63.03,36.97,0.1199,2.27,0.6667,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+431,slouched,2,60.31,39.69,0.1319,1.83,0.8333,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+432,slouched,2,62.76,37.24,0.1245,2.59,0.7,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+433,slouched,2,64.05,35.95,0.1683,2.9,0.6,0.0333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+434,slouched,2,57.54,42.46,0.1233,1.65,0.9333,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+435,slouched,2,57.37,42.63,0.106,1.54,0.9667,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+436,slouched,2,61.49,38.51,0.1306,2.46,0.7,0.1,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+437,slouched,2,58.65,41.35,0.0905,1.55,0.9,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+438,slouched,2,57.63,42.37,0.0763,1.32,0.9333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+439,slouched,2,57.93,42.07,0.0983,1.63,0.9333,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+440,slouched,2,60.53,39.47,0.1266,3.03,0.7667,0.0667,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+441,slouched,2,59.21,40.79,0.09,1.6,0.9,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+442,slouched,2,57.93,42.07,0.1048,1.58,0.9333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+443,slouched,2,64.13,35.87,0.1371,2.79,0.6,0.1,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+444,slouched,2,60.28,39.72,0.1303,2.98,0.8,0.0667,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+445,slouched,2,64.33,35.67,0.1694,3.48,0.5333,0.1,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+446,slouched,2,60.23,39.77,0.1379,3.05,0.8,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+447,slouched,2,62.01,37.99,0.1376,2.82,0.7,0.0667,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+448,slouched,2,60.31,39.69,0.1233,2.85,0.8,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+449,slouched,2,66.19,33.81,0.135,3.09,0.5333,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+450,slouched,2,58.51,41.49,0.0769,1.35,0.9333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+451,slouched,2,64.19,35.81,0.1457,2.47,0.6,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+452,slouched,2,58.48,41.52,0.0932,1.35,0.9333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+453,slouched,2,60.28,39.72,0.1373,2.8,0.8333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+454,slouched,2,61.11,38.89,0.103,2.05,0.8,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+455,slouched,2,64.78,35.22,0.1346,2.77,0.6,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+456,slouched,2,59.01,40.99,0.1042,1.96,0.9,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+457,slouched,2,59.77,40.23,0.1029,1.84,0.8667,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+458,slouched,2,62.46,37.54,0.1481,2.71,0.6667,0.1,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+459,slouched,2,59.94,40.06,0.1059,2.13,0.8333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+460,slouched,2,60.96,39.04,0.1264,3.22,0.7667,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+461,slouched,2,58.74,41.26,0.0962,1.63,0.8667,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+462,slouched,2,62.58,37.42,0.1445,2.86,0.7,0.1333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+463,slouched,2,68.64,31.36,0.1094,3.2,0.4333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+464,slouched,2,60.55,39.45,0.095,1.72,0.8333,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+465,slouched,2,67.91,32.09,0.1189,2.43,0.3667,0.1,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+466,slouched,2,58.46,41.54,0.0991,1.71,0.9,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+467,slouched,2,58.11,41.89,0.1241,1.83,0.9333,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+468,slouched,2,61.38,38.62,0.1119,1.9,0.7333,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+469,slouched,2,59.99,40.01,0.0742,2.27,0.8333,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+470,slouched,2,62.45,37.55,0.1264,1.97,0.7,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+471,slouched,2,58.7,41.3,0.1166,1.52,0.9,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+472,slouched,2,63.33,36.67,0.1229,2.4,0.7,0.0333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+473,slouched,2,57.07,42.93,0.0896,1.37,1.0,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+474,slouched,2,57.51,42.49,0.0734,1.41,1.0,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+475,slouched,2,60.38,39.62,0.1262,1.84,0.8,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+476,slouched,2,61.12,38.88,0.1497,3.34,0.7667,0.1667,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+477,slouched,2,60.27,39.73,0.1183,2.66,0.8333,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+478,slouched,2,59.04,40.96,0.0954,1.59,0.8667,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+479,slouched,2,61.28,38.72,0.1378,3.24,0.7667,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+480,slouched,2,62.88,37.12,0.1365,2.65,0.6667,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+481,slouched,2,60.3,39.7,0.1198,2.59,0.8,0.0,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+482,slouched,2,64.45,35.55,0.1358,2.88,0.5333,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+483,slouched,2,58.99,41.01,0.083,1.14,0.9,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+484,slouched,2,63.13,36.87,0.1476,3.2,0.6,0.1333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+485,slouched,2,58.87,41.13,0.0853,1.39,0.8667,0.0,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+486,slouched,2,62.45,37.55,0.1316,2.43,0.7333,0.0667,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+487,slouched,2,58.74,41.26,0.0979,1.28,0.9,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+488,slouched,2,60.89,39.11,0.1343,2.41,0.7667,0.0667,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+489,slouched,2,62.01,37.99,0.1271,2.24,0.7,0.0667,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+490,slouched,2,64.62,35.38,0.1603,3.94,0.6,0.0333,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+491,slouched,2,57.64,42.36,0.0678,1.47,0.9667,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+492,slouched,2,60.87,39.13,0.138,2.61,0.8,0.0667,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+493,slouched,2,61.23,38.77,0.1139,2.43,0.7333,0.1333,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+494,slouched,2,58.94,41.06,0.0954,1.72,0.8667,0.0,Junior,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+495,slouched,2,64.92,35.08,0.1389,2.4,0.5667,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+496,slouched,2,60.66,39.35,0.0754,1.6,0.8333,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+497,slouched,2,64.33,35.67,0.1407,2.53,0.6,0.0333,Junior,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+498,slouched,2,64.01,35.99,0.1507,3.6,0.6,0.0333,Débutant,2,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
+499,slouched,2,61.19,38.81,0.1018,2.11,0.8,0.0,Débutant,1,Posture fermée — signal de stress ou d'hésitation,Posture voûtée détectée — redressez-vous et ouvrez les épaules pour convaincre.
