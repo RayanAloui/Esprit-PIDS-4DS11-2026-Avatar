@@ -1,0 +1,438 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ALIA — Accueil{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hero {
+    text-align: center;
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 72px;
+    letter-spacing: 4px;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .hero-title span {
+    color: var(--cyan);
+  }
+
+  .hero-sub {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--white-dim);
+    margin-bottom: 20px;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: var(--white-dim);
+    max-width: 560px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 700px) {
+    .modules-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .module-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: all .25s;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--border-2);
+    transition: background .25s;
+  }
+
+  .module-card:hover {
+    border-color: var(--border-2);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+
+  .module-card:hover::before {
+    background: linear-gradient(90deg, var(--cyan), var(--gold));
+  }
+
+  .module-card.active-card {
+    border-color: rgba(0, 212, 255, .3);
+  }
+
+  .module-card.active-card::before {
+    background: linear-gradient(90deg, var(--cyan), var(--gold));
+  }
+
+  .module-card.inactive-card {
+    opacity: .55;
+    cursor: default;
+  }
+
+  .module-card.inactive-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .module-icon {
+    font-size: 28px;
+  }
+
+  .module-dso {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    background: rgba(0, 212, 255, .08);
+    border: 1px solid rgba(0, 212, 255, .2);
+    border-radius: 20px;
+    padding: 3px 10px;
+  }
+
+  .module-status-badge {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+
+  .module-status-badge.done {
+    background: rgba(0, 230, 118, .08);
+    border-color: rgba(0, 230, 118, .3);
+    color: var(--green);
+  }
+
+  .module-status-badge.soon {
+    background: rgba(255, 152, 0, .08);
+    border-color: rgba(255, 152, 0, .3);
+    color: var(--orange);
+  }
+
+  .module-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .module-desc {
+    font-size: 13px;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  .module-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .module-tag {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--glass-2);
+    border: 1px solid var(--border);
+    color: var(--white-dim);
+  }
+
+  .tdsp-section {
+    margin-bottom: 48px;
+  }
+
+  .tdsp-steps {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    overflow-x: auto;
+    padding: 4px 0;
+  }
+
+  .tdsp-step {
+    flex: 1;
+    min-width: 150px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+  }
+
+  .tdsp-step:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+
+  .tdsp-step:last-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .tdsp-step.done-step {
+    border-color: rgba(0, 230, 118, .3);
+    background: rgba(0, 230, 118, .04);
+  }
+
+  .tdsp-step.current-step {
+    border-color: rgba(0, 212, 255, .4);
+    background: rgba(0, 212, 255, .06);
+  }
+
+  .tdsp-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 28px;
+    color: var(--white-dim);
+    line-height: 1;
+  }
+
+  .tdsp-step.done-step .tdsp-num {
+    color: var(--green);
+  }
+
+  .tdsp-step.current-step .tdsp-num {
+    color: var(--cyan);
+  }
+
+  .tdsp-name {
+    font-size: 12px;
+    color: var(--white-dim);
+    margin-top: 6px;
+  }
+
+  .tdsp-arrow {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--white-dim);
+    z-index: 1;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-eyebrow">Projet Data Science · VITAL SA · 2026</div>
+  <h1 class="hero-title">A<span>LIA</span></h1>
+  <p class="hero-sub">The AI Avatar for Medical &amp; Pharma Excellence</p>
+  <p class="hero-desc">
+    Avatar intelligent de simulation de visites médicales pour
+    les délégués VITAL SA
+  </p>
+  <div class="hero-ctas">
+    <a href="{% url 'avatar:index' %}" class="btn btn-primary btn-lg">
+      🤖 Lancer le Scoring NLP
+    </a>
+    <a href="{% url 'routes:index' %}" class="btn btn-secondary btn-lg">
+      🗺️ Optimiser une tournée
+    </a>
+  </div>
+</section>
+
+<!-- ── STATS ──────────────────────────────────────────────────── -->
+<div class="stats-row" style="margin-bottom:48px">
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.pharmacies }}</div>
+    <div class="stat-label">Pharmacies Grand Tunis</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.produits }}</div>
+    <div class="stat-label">Produits VITAL réels</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.niveaux }}</div>
+    <div class="stat-label">Niveaux ALIA</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.objections }}</div>
+    <div class="stat-label">Paires A-C-R-V</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">6</div>
+    <div class="stat-label">Tâches NLP</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">20%</div>
+    <div class="stat-label">Gain distance 2-Opt</div>
+  </div>
+</div>
+
+<!-- ── MODULES ────────────────────────────────────────────────── -->
+<div style="margin-bottom:12px">
+  <div class="card-title">Modules du système ALIA</div>
+</div>
+<div class="modules-grid">
+
+  <!-- DSO 1 — NLP -->
+  <a href="{% url 'avatar:index' %}" class="module-card active-card">
+    <div class="module-header">
+      <span class="module-icon">🧠</span>
+      <span class="module-dso">DSO 1</span>
+      <span class="module-status-badge done">✅ Disponible</span>
+    </div>
+    <div class="module-title">NLP Scoring Model</div>
+    <div class="module-desc">
+      Évalue la qualité des réponses des délégués médicaux en temps réel —
+      6 dimensions : qualité, scores détaillés, sentiment, niveau ALIA,
+      format visite et conformité (détection mots tueurs).
+    </div>
+    <div class="module-tags">
+      <span class="module-tag">TF-IDF 8000</span>
+      <span class="module-tag">SVM RBF</span>
+      <span class="module-tag">A-C-R-V</span>
+      <span class="module-tag">6 tâches</span>
+      <span class="module-tag">SQLite</span>
+    </div>
+  </a>
+
+  <!-- DSO 1 — LSTM -->
+  <div class="module-card inactive-card">
+    <div class="module-header">
+      <span class="module-icon">🎥</span>
+      <span class="module-dso">DSO 1</span>
+      <span class="module-status-badge soon">🔌 Webcam requise</span>
+    </div>
+    <div class="module-title">Body Language Detection</div>
+    <div class="module-desc">
+      Détecte la posture et le niveau de stress du délégué en temps réel
+      via webcam — 3 classes (upright / neutral / slouched), feedback
+      coaching aligné sur les 4 niveaux ALIA.
+    </div>
+    <div class="module-tags">
+      <span class="module-tag">MediaPipe</span>
+      <span class="module-tag">Random Forest</span>
+      <span class="module-tag">30 frames/seq</span>
+      <span class="module-tag">Coaching ALIA</span>
+    </div>
+  </div>
+
+  <!-- DSO 4 — Routes -->
+  <a href="{% url 'routes:index' %}" class="module-card active-card">
+    <div class="module-header">
+      <span class="module-icon">🗺️</span>
+      <span class="module-dso">DSO 4</span>
+      <span class="module-status-badge done">✅ Disponible</span>
+    </div>
+    <div class="module-title">Route Optimizer</div>
+    <div class="module-desc">
+      Optimise les tournées journalières des délégués sur le Grand Tunis —
+      64 pharmacies, scoring de priorité (affluence + géo), clustering
+      4 zones, TSP Nearest Neighbor + 2-Opt (−20% distance).
+    </div>
+    <div class="module-tags">
+      <span class="module-tag">TSP 2-Opt</span>
+      <span class="module-tag">K-Means k=4</span>
+      <span class="module-tag">k-NN imputation</span>
+      <span class="module-tag">Leaflet.js</span>
+    </div>
+  </a>
+
+  <!-- DSO 2 — RAG -->
+  <div class="module-card inactive-card">
+    <div class="module-header">
+      <span class="module-icon">💬</span>
+      <span class="module-dso">DSO 2</span>
+      <span class="module-status-badge soon">🔜 En développement</span>
+    </div>
+    <div class="module-title">Dialogue Avatar RAG</div>
+    <div class="module-desc">
+      Moteur de réponses automatiques basé sur RAG (Retrieval-Augmented
+      Generation) — KB objections/réponses VITAL SA, traduction
+      multilingue et speech-to-text (Citrinet).
+    </div>
+    <div class="module-tags">
+      <span class="module-tag">LLM RAG</span>
+      <span class="module-tag">TensorFlow</span>
+      <span class="module-tag">Citrinet STT</span>
+      <span class="module-tag">Multilingue</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── TDSP PIPELINE ──────────────────────────────────────────── -->
+<div class="tdsp-section">
+  <div class="card-title" style="margin-bottom:16px">Méthodologie TDSP — Avancement</div>
+  <div class="tdsp-steps">
+    <div class="tdsp-step done-step">
+      <div class="tdsp-num">1</div>
+      <div class="tdsp-name">Business<br>Understanding</div>
+      <div class="tdsp-arrow">›</div>
+    </div>
+    <div class="tdsp-step done-step">
+      <div class="tdsp-num">2</div>
+      <div class="tdsp-name">Data<br>Understanding</div>
+      <div class="tdsp-arrow">›</div>
+    </div>
+    <div class="tdsp-step done-step">
+      <div class="tdsp-num">3</div>
+      <div class="tdsp-name">Data<br>Preparation</div>
+      <div class="tdsp-arrow">›</div>
+    </div>
+    <div class="tdsp-step current-step">
+      <div class="tdsp-num">4</div>
+      <div class="tdsp-name">Model<br>Deployment</div>
+      <div class="tdsp-arrow">›</div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

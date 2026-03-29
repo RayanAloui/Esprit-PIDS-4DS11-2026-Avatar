@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ALIA — Avatar Visite Médicale{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- ── NAVBAR ──────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="{% url 'home:index' %}" class="nav-brand">
+        <div class="nav-logo">A</div>
+        <div class="nav-brand-text">
+          <span class="nav-title">ALIA</span>
+          <span class="nav-sub">VITAL SA</span>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="{% url 'home:index' %}"
+           class="nav-link {% if page == 'home' %}active{% endif %}">
+          <span class="nav-icon">🏠</span> Accueil
+        </a>
+        <a href="{% url 'avatar:index' %}"
+           class="nav-link {% if page == 'avatar' %}active{% endif %}">
+          <span class="nav-icon">🤖</span> Avatar NLP
+        </a>
+        <a href="{% url 'routes:index' %}"
+           class="nav-link {% if page == 'routes' %}active{% endif %}">
+          <span class="nav-icon">🗺️</span> Tournées
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── CONTENT ─────────────────────────────────────────────────── -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ── FOOTER ──────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>ALIA · Avatar Visite Médicale · <strong>VITAL SA</strong></span>
+    </div>
+  </footer>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

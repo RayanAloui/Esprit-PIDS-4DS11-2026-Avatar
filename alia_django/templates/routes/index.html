@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ALIA — Route Optimizer{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<style>
+.routes-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px; align-items: start;
+}
+@media (max-width: 1000px) { .routes-grid { grid-template-columns: 1fr; } }
+
+#map {
+  height: 520px; border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--navy-2);
+}
+.leaflet-popup-content-wrapper {
+  background: var(--navy-3) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--white) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow) !important;
+}
+.leaflet-popup-tip { background: var(--navy-3) !important; }
+.leaflet-popup-content { font-family: 'Source Sans 3', sans-serif; font-size: 13px; }
+
+/* ── Result cards ──── */
+.result-metric {
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px; text-align: center;
+}
+.result-metric-val {
+  font-family: 'Bebas Neue', cursive; font-size: 32px;
+  color: var(--cyan); line-height: 1;
+}
+.result-metric-label { font-size: 11px; color: var(--white-dim); margin-top: 4px; }
+
+/* ── Stops list ──── */
+.stops-list { display: flex; flex-direction: column; gap: 6px; }
+.stop-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color .2s;
+}
+.stop-item:hover { border-color: var(--border-2); }
+.stop-item.depot-item { border-color: rgba(0,212,255,.3); background: rgba(0,212,255,.05); }
+
+.stop-order {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', cursive; font-size: 14px;
+  flex-shrink: 0;
+}
+.stop-order.depot { background: var(--cyan); color: var(--navy); }
+.stop-order.pharm { background: var(--navy-4); color: var(--white); border: 1px solid var(--border-2); }
+
+.stop-info { flex: 1; min-width: 0; }
+.stop-name  { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stop-meta  { font-size: 11px; color: var(--white-dim); margin-top: 2px; }
+.stop-dist  { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--white-dim); flex-shrink: 0; }
+.stop-score { flex-shrink: 0; }
+
+/* ── Improvement badge ──── */
+.improvement-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  background: rgba(0,230,118,.1); border: 1px solid rgba(0,230,118,.3);
+  color: var(--green); font-size: 13px; font-weight: 700;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Route <span>Optimizer</span></h1>
+  <p>Optimisez les tournées journalières des délégués VITAL SA sur le Grand Tunis —
+     64 pharmacies, scoring de priorité, algorithme TSP 2-Opt.</p>
+</div>
+
+<div class="routes-grid">
+
+  <!-- ══════════════════════════════════════════════════
+       LEFT — Paramètres
+  ══════════════════════════════════════════════════ -->
+  <div style="display:flex; flex-direction:column; gap:18px;">
+
+    <div class="card">
+      <div class="card-title">Paramètres de tournée</div>
+
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <div class="form-group">
+          <label class="form-label">Jour de tournée</label>
+          <select id="selDay" class="form-control">
+            {% for d, d_fr in days %}
+              <option value="{{ d }}" {% if d == 'Thursday' %}selected{% endif %}>{{ d_fr }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Heure de départ</label>
+          <select id="selHour" class="form-control">
+            {% for h in hours %}
+              <option value="{{ h }}" {% if h == 10 %}selected{% endif %}>{{ h }}h00</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nombre de stops (4–10)</label>
+          <input id="selStops" type="range" min="4" max="10" value="8"
+                 oninput="document.getElementById('stopsVal').textContent=this.value"
+                 style="width:100%; accent-color:var(--cyan);">
+          <div style="text-align:center; font-family:'Bebas Neue',cursive; font-size:24px; color:var(--cyan)" id="stopsVal">8</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Zone géographique</label>
+          <select id="selZone" class="form-control">
+            {% for zid, zname in zones %}
+              <option value="{{ zid }}">{{ zname }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div style="border-top:1px solid var(--border); padding-top:14px;">
+          <label class="form-label" style="margin-bottom:8px; display:block;">Point de départ (dépôt)</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label class="form-label" style="font-size:10px;">Latitude</label>
+              <input id="depotLat" type="number" class="form-control" value="36.8190" step="0.0001">
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="font-size:10px;">Longitude</label>
+              <input id="depotLon" type="number" class="form-control" value="10.1660" step="0.0001">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full btn-lg" id="optimizeBtn" onclick="optimize()">
+      🗺️ Optimiser la tournée
+    </button>
+
+    <div id="loadingRow" style="display:none; align-items:center; gap:10px; justify-content:center; padding:10px; color:var(--cyan)">
+      <div class="spinner"></div> <span>Optimisation en cours…</span>
+    </div>
+    <div class="alert alert-error" id="errorMsg"></div>
+
+    <!-- Métriques résultat -->
+    <div id="metricsPanel" style="display:none; flex-direction:column; gap:10px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div class="result-metric">
+          <div class="result-metric-val" id="mDist">—</div>
+          <div class="result-metric-label">Distance (km)</div>
+        </div>
+        <div class="result-metric">
+          <div class="result-metric-val" id="mTime">—</div>
+          <div class="result-metric-label">Durée (min)</div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <span class="improvement-badge" id="mImprove">—</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       RIGHT — Carte + résultats
+  ══════════════════════════════════════════════════ -->
+  <div style="display:flex; flex-direction:column; gap:18px;">
+
+    <!-- Carte -->
+    <div id="map"></div>
+
+    <!-- Liste stops -->
+    <div class="card" id="stopsCard" style="display:none;">
+      <div class="card-title">Route optimisée</div>
+      <div class="stops-list" id="stopsList"></div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ── Init carte ────────────────────────────────────────────────────────
+const map = L.map('map').setView([36.819, 10.166], 12);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© OpenStreetMap © CARTO', maxZoom: 19
+}).addTo(map);
+
+// ── Marqueurs initiaux (toutes pharmacies) ─────────────────────────────
+const allPharmacies = {{ pharmacies|safe }};
+const pharmaMarkers = [];
+allPharmacies.forEach(p => {
+  if (!p.latitude || !p.longitude) return;
+  const color = p.priority_score >= .7 ? '#2ecc71' : p.priority_score >= .4 ? '#f39c12' : '#e74c3c';
+  const m = L.circleMarker([p.latitude, p.longitude], {
+    radius: 6, fillColor: color, color: '#fff',
+    weight: 1, opacity: .8, fillOpacity: .7
+  }).addTo(map);
+  m.bindPopup(`<strong>${p.venue_name}</strong><br>
+    Score: <b>${(p.priority_score||0).toFixed(3)}</b><br>
+    Affluence moy: ${(p.day_mean||0).toFixed(0)}%<br>
+    Source: ${p.data_source||'—'}`);
+  pharmaMarkers.push(m);
+});
+
+// Dépôt
+const depot = {{ depot|safe }};
+L.marker([depot.lat, depot.lon], {
+  icon: L.divIcon({
+    html:`<div style="background:var(--cyan,#00d4ff);color:#050d1a;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;border:2px solid #fff;"><span style="transform:rotate(45deg)">D</span></div>`,
+    iconSize:[32,32], iconAnchor:[16,32], popupAnchor:[0,-32],
+    className:''
+  })
+}).addTo(map).bindPopup(`<strong>${depot.name}</strong><br>Point de départ`);
+
+// ── Couches route ─────────────────────────────────────────────────────
+let routeLayer = null, routeMarkers = [];
+
+function clearRoute() {
+  if (routeLayer) { map.removeLayer(routeLayer); routeLayer = null; }
+  routeMarkers.forEach(m => map.removeLayer(m));
+  routeMarkers = [];
+}
+
+function drawRoute(stops) {
+  clearRoute();
+  const pts = stops.map(s => [s.latitude, s.longitude]);
+  routeLayer = L.polyline(pts, {color:'#00d4ff', weight:3, opacity:.8, dashArray:'8 4'}).addTo(map);
+
+  stops.forEach((s, i) => {
+    const isDepot = s.is_depot;
+    const color   = isDepot ? '#00d4ff' : (s.priority_score >= .7 ? '#2ecc71' : s.priority_score >= .4 ? '#f39c12' : '#e74c3c');
+    const label   = isDepot ? 'D' : String(s.order);
+    const m = L.marker([s.latitude, s.longitude], {
+      icon: L.divIcon({
+        html:`<div style="background:${color};color:${isDepot?'#050d1a':'#fff'};width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5)">${label}</div>`,
+        iconSize:[28,28], iconAnchor:[14,14], className:''
+      })
+    }).addTo(map);
+    m.bindPopup(`<strong>${s.venue_name}</strong><br>
+      Score: <b>${s.priority_score}</b><br>
+      +${s.dist_from_prev_km} km depuis stop précédent`);
+    routeMarkers.push(m);
+  });
+  if (pts.length > 1) map.fitBounds(L.latLngBounds(pts).pad(.1));
+}
+
+// ── Optimisation ───────────────────────────────────────────────────────
+async function optimize() {
+  setLoading(true); hideError();
+  const zone = document.getElementById('selZone').value;
+  try {
+    const res = await fetch('/routes/optimize/', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body: JSON.stringify({
+        target_day  : document.getElementById('selDay').value,
+        target_hour : parseInt(document.getElementById('selHour').value),
+        n_stops     : parseInt(document.getElementById('selStops').value),
+        depot_lat   : parseFloat(document.getElementById('depotLat').value),
+        depot_lon   : parseFloat(document.getElementById('depotLon').value),
+        cluster_id  : zone === '-1' ? null : parseInt(zone),
+      })
+    });
+    const data = await res.json();
+    if (data.error) { showError(data.message); return; }
+    renderResult(data);
+  } catch(e) { showError('Erreur réseau : ' + e.message); }
+  finally { setLoading(false); }
+}
+
+function renderResult(r) {
+  // Métriques
+  document.getElementById('mDist').textContent    = r.total_distance_km;
+  document.getElementById('mTime').textContent    = Math.round(r.total_time_min);
+  document.getElementById('mImprove').textContent = `2-Opt : −${r.improvement_pct}% vs Nearest Neighbor`;
+  document.getElementById('metricsPanel').style.display = 'flex';
+
+  // Carte
+  drawRoute(r.route);
+
+  // Liste
+  const list = document.getElementById('stopsList');
+  list.innerHTML = '';
+  r.route.forEach(s => {
+    const isDepot = s.is_depot;
+    const scoreColor = s.priority_score >= .7 ? 'badge-green' : s.priority_score >= .4 ? 'badge-gold' : 'badge-red';
+    list.innerHTML += `
+      <div class="stop-item ${isDepot?'depot-item':''}">
+        <div class="stop-order ${isDepot?'depot':'pharm'}">${isDepot?'▶':s.order}</div>
+        <div class="stop-info">
+          <div class="stop-name">${s.venue_name}</div>
+          <div class="stop-meta">${s.zone_name||''} · ${s.data_source||''}</div>
+        </div>
+        ${!isDepot ? `<span class="badge ${scoreColor} stop-score">${s.priority_score}</span>` : ''}
+        <div class="stop-dist">${s.dist_from_prev_km > 0 ? '+'+s.dist_from_prev_km+'km' : ''}</div>
+      </div>`;
+  });
+  document.getElementById('stopsCard').style.display = 'block';
+}
+
+function setLoading(on) {
+  document.getElementById('optimizeBtn').disabled = on;
+  document.getElementById('loadingRow').style.display = on ? 'flex' : 'none';
+}
+function showError(msg) { const e=document.getElementById('errorMsg'); e.textContent=msg; e.classList.add('show'); }
+function hideError()    { document.getElementById('errorMsg').classList.remove('show'); }
+function getCookie(name) {
+  let v=null; document.cookie.split(';').forEach(c=>{c=c.trim();if(c.startsWith(name+'='))v=decodeURIComponent(c.slice(name.length+1));}); return v;
+}
+</script>
+{% endblock %}

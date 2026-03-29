@@ -1,0 +1,6 @@
+17:58:11  INFO      RouteOptimizer chargé — v1.0.0 | 2026-03-28T15:01:01 | 64 pharmacies
+17:58:11  INFO      RouteOptimizer chargé avec succès
+17:58:18  INFO      Optimisation : Thursday 10h | 8 stops | dépôt (36.8190, 10.1660)
+18:11:01  INFO      NLPScoringModel chargé — v2.0.0 | trained: ?
+18:11:01  INFO      NLPScoringModel V2 chargé avec succès
+18:14:41  INFO      Optimisation : Tuesday 9h | 8 stops | dépôt (36.8190, 10.1660)

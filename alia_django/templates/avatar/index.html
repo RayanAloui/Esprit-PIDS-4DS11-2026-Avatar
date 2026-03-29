@@ -1,0 +1,663 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ALIA — Avatar NLP Scoring{% endblock %}
+
+{% block extra_css %}
+<style>
+.avatar-grid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 24px; align-items: start;
+}
+@media (max-width: 1000px) { .avatar-grid { grid-template-columns: 1fr; } }
+
+/* ── Niveau buttons ──── */
+.niveau-btns { display: grid; grid-template-columns: repeat(4,1fr); gap:6px; }
+.niveau-btn {
+  padding:8px 4px; background:var(--glass); border:1px solid var(--border);
+  border-radius:7px; color:var(--white-dim); font-family:'Source Sans 3',sans-serif;
+  font-size:11px; cursor:pointer; transition:all .2s; text-align:center;
+}
+.niveau-btn:hover { border-color:var(--border-2); color:var(--white); }
+.niveau-btn.active { background:rgba(0,212,255,.12); border-color:var(--cyan); color:var(--cyan); }
+
+/* ── Example chips ───── */
+.chip-row { display:flex; gap:6px; flex-wrap:wrap; }
+.chip {
+  padding:5px 12px; background:var(--glass); border:1px solid var(--border);
+  border-radius:20px; font-size:11px; cursor:pointer; color:var(--white-dim);
+  transition:all .2s;
+}
+.chip:hover { border-color:rgba(240,192,64,.4); color:var(--gold); }
+
+/* ── Results panel ──── */
+.results-panel { opacity:0; transform:translateY(16px); transition:all .45s cubic-bezier(.23,1,.32,1); pointer-events:none; }
+.results-panel.show { opacity:1; transform:translateY(0); pointer-events:auto; }
+
+/* ── Hero result ──── */
+.result-hero {
+  display:grid; grid-template-columns:1fr 1fr; gap:24px;
+  background:var(--glass); border:1px solid var(--border);
+  border-radius:var(--radius); padding:28px;
+  position:relative; overflow:hidden; margin-bottom:20px;
+}
+.result-hero::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--cyan),var(--gold),var(--cyan));
+  background-size:200% 100%; animation:shimmer 3s infinite;
+}
+@keyframes shimmer { 0%,100%{background-position:0 0} 50%{background-position:100% 0} }
+
+.quality-display { display:flex; flex-direction:column; gap:8px; }
+.quality-label   { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--white-dim); }
+.quality-value   { font-family:'Bebas Neue',cursive; font-size:52px; line-height:1; transition:color .4s; }
+.quality-value.Excellent { color:var(--green); text-shadow:0 0 30px rgba(0,230,118,.4); }
+.quality-value.Bon       { color:var(--gold);  text-shadow:0 0 30px rgba(240,192,64,.4); }
+.quality-value.Faible    { color:var(--red);   text-shadow:0 0 30px rgba(255,68,68,.4); }
+
+.score-display { display:flex; flex-direction:column; gap:10px; }
+.score-big-row { display:flex; align-items:flex-end; gap:8px; }
+.score-big  { font-family:'Bebas Neue',cursive; font-size:64px; color:var(--cyan); line-height:1; }
+.score-denom{ font-family:'Bebas Neue',cursive; font-size:24px; color:var(--white-dim); padding-bottom:10px; }
+
+.score-bar-bg  { height:8px; background:rgba(255,255,255,.08); border-radius:4px; overflow:hidden; }
+.score-bar-fill{ height:100%; border-radius:4px; background:linear-gradient(90deg,var(--cyan),var(--green)); transition:width 1s cubic-bezier(.23,1,.32,1); width:0; }
+
+/* ── ACRV grid ──── */
+.acrv-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.acrv-item {
+  padding:10px 12px; border-radius:8px; border:1px solid;
+  display:flex; align-items:center; gap:8px;
+}
+.acrv-item.present { border-color:rgba(0,230,118,.3); background:rgba(0,230,118,.05); }
+.acrv-item.absent  { border-color:rgba(255,68,68,.2);  background:rgba(255,68,68,.04); }
+.acrv-letter { font-family:'Bebas Neue',cursive; font-size:15px; }
+.acrv-item.present .acrv-letter { color:var(--green); }
+.acrv-item.absent  .acrv-letter { color:rgba(255,68,68,.6); }
+.acrv-desc { font-size:10px; color:var(--white-dim); }
+
+/* ── Niveau track ──── */
+.niveau-track { display:flex; align-items:center; margin:16px 0 10px; }
+.n-node { display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; }
+.n-dot  {
+  width:12px; height:12px; border-radius:50%;
+  background:rgba(255,255,255,.1); border:2px solid rgba(255,255,255,.2);
+  transition:all .4s; position:relative; z-index:1;
+}
+.n-dot.passed  { background:var(--green); border-color:var(--green); }
+.n-dot.current { background:var(--cyan); border-color:var(--cyan); box-shadow:0 0 14px rgba(0,212,255,.5); width:16px; height:16px; }
+.n-name { font-size:9px; color:var(--white-dim); text-align:center; }
+.n-name.current { color:var(--cyan); font-weight:700; }
+.n-line { flex:1; height:2px; background:rgba(255,255,255,.1); margin-bottom:18px; }
+.n-line.passed { background:var(--green); }
+
+/* ── Feedback ──── */
+.feedback-item {
+  padding:10px 14px; border-left:3px solid var(--cyan);
+  border-radius:0 7px 7px 0; font-size:13px; line-height:1.5;
+  background:rgba(0,0,0,.2); margin-bottom:8px;
+  opacity:0; transform:translateX(-8px); transition:all .35s;
+}
+.feedback-item.show { opacity:1; transform:translateX(0); }
+.feedback-item.warn { border-left-color:var(--red); }
+.feedback-item.good { border-left-color:var(--green); }
+
+/* ── Conformité banner ──── */
+.conformite-banner {
+  padding:12px 16px; border-radius:8px; border:1px solid;
+  display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600;
+}
+.conformite-banner.ok   { background:rgba(0,230,118,.07); border-color:rgba(0,230,118,.3); color:var(--green); }
+.conformite-banner.fail { background:rgba(255,68,68,.07); border-color:rgba(255,68,68,.3); color:var(--red); animation:alert-pulse 1s .3s 3; }
+@keyframes alert-pulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 18px rgba(255,68,68,.3)} }
+
+/* ── History table ──── */
+.history-table { width:100%; border-collapse:collapse; font-size:13px; }
+.history-table th {
+  text-align:left; padding:8px 12px; font-size:10px; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--white-dim);
+  border-bottom:1px solid var(--border);
+}
+.history-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.04); }
+.history-table tr:last-child td { border-bottom:none; }
+.history-table tr:hover td { background:rgba(255,255,255,.02); }
+
+/* ── LSTM section ──── */
+.lstm-postures { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.posture-card {
+  background:var(--glass); border:1px solid var(--border);
+  border-radius:10px; padding:16px; text-align:center;
+  transition:all .25s;
+}
+.posture-card:hover { border-color:var(--border-2); }
+.posture-emoji { font-size:32px; margin-bottom:8px; }
+.posture-name  { font-family:'Bebas Neue',cursive; font-size:16px; letter-spacing:1px; margin-bottom:6px; }
+.posture-name.upright  { color:var(--green); }
+.posture-name.neutral  { color:var(--gold); }
+.posture-name.slouched { color:var(--red); }
+.posture-scores { font-size:11px; color:var(--white-dim); }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Avatar <span>NLP</span> Scoring</h1>
+  <p>Évaluez la qualité d'une réponse de délégué médical selon la méthode ALIA —
+     6 dimensions, feedback coaching personnalisé par niveau.</p>
+</div>
+
+<!-- ── Stats globales ─────────────────────────────────────────── -->
+{% if stats.total > 0 %}
+<div class="stats-row" style="margin-bottom:28px">
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.total }}</div>
+    <div class="stat-label">Analyses effectuées</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.avg_score }}</div>
+    <div class="stat-label">Score moyen /10</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.pct_excellent }}%</div>
+    <div class="stat-label">Taux Excellent</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.pct_conforme }}%</div>
+    <div class="stat-label">Taux conformité</div>
+  </div>
+</div>
+{% endif %}
+
+<div class="avatar-grid">
+
+  <!-- ══════════════════════════════════════════════════
+       LEFT — Input panel
+  ══════════════════════════════════════════════════ -->
+  <div style="display:flex; flex-direction:column; gap:18px;">
+
+    <!-- Saisie -->
+    <div class="card">
+      <div class="card-title">Analyse de réponse</div>
+
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label">Objection du médecin</label>
+        <textarea id="objection" class="form-control" rows="3"
+          placeholder="Ex : Pas convaincu par ce produit..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Réponse du délégué médical</label>
+        <textarea id="response" class="form-control" rows="5"
+          placeholder="Saisissez la réponse à évaluer..."></textarea>
+      </div>
+    </div>
+
+    <!-- Niveau ALIA -->
+    <div class="card">
+      <div class="card-title">Niveau ALIA déclaré</div>
+      <div class="niveau-btns" id="niveauBtns">
+        <button class="niveau-btn" data-n="Débutant">Débutant</button>
+        <button class="niveau-btn active" data-n="Junior">Junior</button>
+        <button class="niveau-btn" data-n="Confirmé">Confirmé</button>
+        <button class="niveau-btn" data-n="Expert">Expert</button>
+      </div>
+    </div>
+
+    <!-- Exemples -->
+    <div class="card">
+      <div class="card-title">Exemples rapides</div>
+      <div class="chip-row">
+        <span class="chip" data-ex="excellent">⭐ Excellent</span>
+        <span class="chip" data-ex="bon">👍 Bon</span>
+        <span class="chip" data-ex="faible">⚠️ Faible</span>
+        <span class="chip" data-ex="mottueur">🚨 Mot tueur</span>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full btn-lg" id="analyzeBtn" onclick="analyze()">
+      ▶ Analyser la réponse
+    </button>
+
+    <div id="loadingRow" style="display:none; align-items:center; gap:10px; justify-content:center; padding:10px; color:var(--cyan)">
+      <div class="spinner"></div> <span>Analyse en cours…</span>
+    </div>
+    <div class="alert alert-error" id="errorMsg"></div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       RIGHT — Results panel
+  ══════════════════════════════════════════════════ -->
+  <div>
+
+    <!-- Empty state -->
+    <div id="emptyState" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; gap:14px; color:var(--white-dim); text-align:center;">
+      <div style="font-size:48px; opacity:.25">🔬</div>
+      <div style="font-family:'Bebas Neue',cursive; font-size:20px; letter-spacing:2px; opacity:.4">En attente d'analyse</div>
+      <div style="font-size:13px; opacity:.4; max-width:260px">Saisissez une objection et une réponse puis cliquez sur Analyser.</div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-panel" id="resultsPanel" style="display:flex; flex-direction:column; gap:18px;">
+
+      <!-- Hero -->
+      <div class="result-hero">
+        <div class="quality-display">
+          <div class="quality-label">Qualité de réponse</div>
+          <div class="quality-value" id="qualVal">—</div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--white-dim); margin-top:4px" id="qualProba"></div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px" id="heroBadges"></div>
+        </div>
+        <div class="score-display">
+          <div class="quality-label">Score global ALIA</div>
+          <div class="score-big-row">
+            <div class="score-big" id="scoreBig">—</div>
+            <div class="score-denom">/ 10</div>
+          </div>
+          <div class="score-bar-bg">
+            <div class="score-bar-fill" id="scoreBar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 colonnes : scores + ACRV -->
+      <div class="grid-2">
+
+        <div class="card">
+          <div class="card-title">Scores détaillés</div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="gauge-wrap">
+              <div class="gauge-header">
+                <span class="gauge-label">🔬 Précision scientifique</span>
+                <span class="gauge-val" id="gvSci">—</span>
+              </div>
+              <div class="gauge-bg"><div class="gauge-fill gauge-cyan" id="gfSci"></div></div>
+            </div>
+            <div class="gauge-wrap">
+              <div class="gauge-header">
+                <span class="gauge-label">💬 Clarté communication</span>
+                <span class="gauge-val" id="gvClar">—</span>
+              </div>
+              <div class="gauge-bg"><div class="gauge-fill gauge-gold" id="gfClar"></div></div>
+            </div>
+            <div class="gauge-wrap">
+              <div class="gauge-header">
+                <span class="gauge-label">🎯 Gestion objections</span>
+                <span class="gauge-val" id="gvObj">—</span>
+              </div>
+              <div class="gauge-bg"><div class="gauge-fill gauge-green" id="gfObj"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Méthode A-C-R-V</div>
+          <div class="acrv-grid" id="acrvGrid"></div>
+          <div style="text-align:center; padding:10px 0; border-top:1px solid var(--border); margin-top:12px;">
+            <div style="font-family:'Bebas Neue',cursive; font-size:36px; color:var(--cyan)" id="acrvScore">—</div>
+            <div style="font-size:11px; color:var(--white-dim)">/ 4 étapes complétées</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conformité -->
+      <div class="conformite-banner" id="conformBanner">
+        <span id="conformIcon">—</span>
+        <span id="conformText">—</span>
+      </div>
+
+      <!-- Progression ALIA -->
+      <div class="card">
+        <div class="card-title">Progression Niveau ALIA</div>
+        <div class="niveau-track" id="niveauTrack"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(0,0,0,.2); border-radius:8px; border:1px solid var(--border);">
+          <span style="font-size:12px; color:var(--white-dim)" id="progLabel">—</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--gold); font-weight:600" id="progValue">—</span>
+        </div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="card">
+        <div class="card-title">Feedback Coaching</div>
+        <div id="feedbackList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     LSTM Section — Body Language Demo
+══════════════════════════════════════════════════ -->
+<div style="margin-top:48px; padding-top:36px; border-top:1px solid var(--border);">
+  <div class="page-header" style="border-bottom:none; margin-bottom:24px; padding-bottom:0;">
+    <h1 style="font-size:28px;">Body <span>Language</span> Model</h1>
+    <p>Le modèle LSTM détecte la posture du délégué depuis un flux webcam en temps réel.
+       La détection nécessite MediaPipe et une caméra — ci-dessous les 3 classes reconnues
+       avec leurs feedbacks coaching ALIA.</p>
+  </div>
+
+  <div class="lstm-postures">
+    <div class="posture-card">
+      <div class="posture-emoji">🧍</div>
+      <div class="posture-name upright">UPRIGHT</div>
+      <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
+        <span class="badge badge-green">Confiance : 92%</span>
+        <span class="badge badge-dim">Stress : 8%</span>
+      </div>
+      <div class="posture-scores">
+        Posture droite, épaules ouvertes, mains visibles.<br>
+        <strong style="color:var(--green)">Expert :</strong> Posture exemplaire — maintenez cet engagement pendant le closing.
+      </div>
+    </div>
+    <div class="posture-card">
+      <div class="posture-emoji">🙆</div>
+      <div class="posture-name neutral">NEUTRAL</div>
+      <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
+        <span class="badge badge-gold">Confiance : 58%</span>
+        <span class="badge badge-dim">Stress : 42%</span>
+      </div>
+      <div class="posture-scores">
+        Posture correcte, légèrement voûtée.<br>
+        <strong style="color:var(--gold)">Confirmé :</strong> Redressez-vous lors de l'étape argumentation (étape 5).
+      </div>
+    </div>
+    <div class="posture-card">
+      <div class="posture-emoji">😔</div>
+      <div class="posture-name slouched">SLOUCHED</div>
+      <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
+        <span class="badge badge-red">Confiance : 30%</span>
+        <span class="badge badge-orange">Stress : 70%</span>
+      </div>
+      <div class="posture-scores">
+        Voûtement, bras croisés ou mains près du visage.<br>
+        <strong style="color:var(--red)">Junior :</strong> Posture fermée — redressez-vous et ouvrez les bras.
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:16px; padding:14px 18px; background:rgba(0,212,255,.05); border:1px solid rgba(0,212,255,.15); border-radius:8px; font-size:13px; color:var(--white-dim);">
+    💡 <strong style="color:var(--cyan)">Intégration Django :</strong>
+    Pour activer la détection live, lancez <code style="background:rgba(0,0,0,.3); padding:2px 7px; border-radius:4px;">python Body-language-detection.py</code>
+    avec <code style="background:rgba(0,0,0,.3); padding:2px 7px; border-radius:4px;">from lstm_model_v2 import BodyLanguageModel</code>.
+    L'interface <code>get_hud_data()</code> est un drop-in pour <code>draw_hud()</code>.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     HISTORY Section
+══════════════════════════════════════════════════ -->
+{% if history %}
+<div style="margin-top:48px; padding-top:36px; border-top:1px solid var(--border);">
+  <div class="card-title" style="margin-bottom:16px">Historique des analyses ({{ stats.total }} total)</div>
+  <div class="card" style="padding:0; overflow:hidden;">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Qualité</th>
+          <th>Score</th>
+          <th>Niveau</th>
+          <th>ACRV</th>
+          <th>Conformité</th>
+          <th>Objection</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in history %}
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--white-dim);">
+            {{ a.created_at|date:"d/m/Y H:i" }}
+          </td>
+          <td>
+            <span class="badge {% if a.quality == 'Excellent' %}badge-green{% elif a.quality == 'Bon' %}badge-gold{% else %}badge-red{% endif %}">
+              {{ a.quality }}
+            </span>
+          </td>
+          <td style="font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--cyan);">
+            {{ a.overall_score|floatformat:2 }}
+          </td>
+          <td><span class="badge badge-cyan">{{ a.niveau_alia_pred }}</span></td>
+          <td style="font-family:'JetBrains Mono',monospace; color:var(--white-dim);">{{ a.acrv_score }}/4</td>
+          <td>
+            {% if a.conformite %}
+              <span class="badge badge-green">✅ OK</span>
+            {% else %}
+              <span class="badge badge-red">🚨 Non</span>
+            {% endif %}
+          </td>
+          <td style="font-size:12px; color:var(--white-dim); max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+            {{ a.objection|truncatechars:50 }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const NIVEAUX = ['Débutant','Junior','Confirmé','Expert'];
+const SEUILS  = {'Débutant':7,'Junior':8,'Confirmé':9,'Expert':10};
+const NEXT    = {'Débutant':'Junior','Junior':'Confirmé','Confirmé':'Expert','Expert':null};
+
+const EXAMPLES = {
+  excellent:{
+    obj:'Pas convaincu par ce produit',
+    resp:'Je comprends tout à fait votre préoccupation. Quand vous dites pas convaincu, c\'est plutôt sur la composition ou la tolérance ? Selon les données disponibles, voici un repère ciblé et une proposition de test sur 2 à 3 patients. Est-ce que ce repère suffit pour envisager un test ? (selon la notice)',
+    niv:'Expert'
+  },
+  bon:{
+    obj:'J\'ai mes habitudes avec un autre produit',
+    resp:'Je comprends votre réticence. Sur ce type de patients, on peut positionner ce produit en plan B sur les cas moins satisfaits. Je vous laisse une fiche et je repasse dans 15 jours.',
+    niv:'Junior'
+  },
+  faible:{
+    obj:'Pas le temps pour une présentation',
+    resp:'C\'est un bon produit. Vos patients seront satisfaits. Je vous laisse une fiche.',
+    niv:'Débutant'
+  },
+  mottueur:{
+    obj:'Pas convaincu par l\'efficacité',
+    resp:'Ce produit est révolutionnaire, je vous garantis des résultats immédiats. Aucun effet secondaire signalé, c\'est le meilleur produit de notre gamme.',
+    niv:'Débutant'
+  }
+};
+
+let selectedNiveau = 'Junior';
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.niveau-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.niveau-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedNiveau = btn.dataset.n;
+    });
+  });
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const ex = EXAMPLES[chip.dataset.ex];
+      document.getElementById('objection').value = ex.obj;
+      document.getElementById('response').value  = ex.resp;
+      document.querySelectorAll('.niveau-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.n === ex.niv);
+      });
+      selectedNiveau = ex.niv;
+    });
+  });
+});
+
+async function analyze() {
+  const obj  = document.getElementById('objection').value.trim();
+  const resp = document.getElementById('response').value.trim();
+  if (!obj || !resp) { showError('Veuillez saisir l\'objection et la réponse.'); return; }
+
+  setLoading(true); hideError();
+  try {
+    const res = await fetch('/avatar/analyze/', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken': getCookie('csrftoken')},
+      body: JSON.stringify({objection:obj, response:resp, niveau_alia:selectedNiveau})
+    });
+    const data = await res.json();
+    if (data.error) { showError(data.message); return; }
+    renderResults(data);
+  } catch(e) { showError('Erreur réseau : ' + e.message); }
+  finally { setLoading(false); }
+}
+
+function renderResults(r) {
+  document.getElementById('emptyState').style.display = 'none';
+  const panel = document.getElementById('resultsPanel');
+  panel.style.display = 'flex';
+  setTimeout(() => panel.classList.add('show'), 10);
+
+  // Quality
+  const qEl = document.getElementById('qualVal');
+  qEl.textContent = r.quality.toUpperCase();
+  qEl.className = 'quality-value ' + r.quality;
+
+  // Proba
+  if (r.quality_proba) {
+    const ps = Object.entries(r.quality_proba).map(([k,v]) => `${k} ${(v*100).toFixed(0)}%`).join(' · ');
+    document.getElementById('qualProba').textContent = ps;
+  }
+
+  // Score
+  document.getElementById('scoreBig').textContent = parseFloat(r.overall_score).toFixed(2);
+  setTimeout(() => {
+    document.getElementById('scoreBar').style.width = (r.overall_score/10*100) + '%';
+  }, 200);
+
+  // Hero badges
+  const hb = document.getElementById('heroBadges');
+  hb.innerHTML = '';
+  if (r.visit_format) hb.innerHTML += badge(r.visit_format, 'cyan', '📋');
+  if (r.sentiment)    hb.innerHTML += badge(r.sentiment, r.sentiment==='Positif'?'green':r.sentiment==='Négatif'?'red':'dim', '💬');
+  if (r.niveau_alia)  hb.innerHTML += badge(r.niveau_alia, 'cyan', '🎓');
+
+  // Gauges
+  setGauge('Sci',  r.scores?.scientific_accuracy);
+  setGauge('Clar', r.scores?.communication_clarity);
+  setGauge('Obj',  r.scores?.objection_handling);
+
+  // ACRV
+  renderACRV(r.acrv_detail || {}, r.acrv_score);
+
+  // Conformité
+  const cb = document.getElementById('conformBanner');
+  if (r.conformite) {
+    cb.className = 'conformite-banner ok';
+    document.getElementById('conformIcon').textContent = '✅';
+    document.getElementById('conformText').textContent = 'Réponse conforme — aucun mot tueur détecté';
+  } else {
+    cb.className = 'conformite-banner fail';
+    document.getElementById('conformIcon').textContent = '🚨';
+    document.getElementById('conformText').textContent = `NON CONFORME — ${r.n_mots_tueurs||0} mot(s) tueur(s). Supprimez les surpromesses.`;
+  }
+
+  // Niveau track
+  renderNiveauTrack(r.niveau_alia, r.overall_score);
+
+  // Feedback
+  renderFeedback(r.feedback_coaching || []);
+}
+
+function setGauge(key, val) {
+  if (!val && val !== 0) return;
+  const v = parseFloat(val).toFixed(1);
+  document.getElementById('gv'+key).textContent = v + ' / 10';
+  setTimeout(() => {
+    document.getElementById('gf'+key).style.width = (val/10*100) + '%';
+  }, 300);
+}
+
+function renderACRV(detail, score) {
+  const defs = [
+    {key:'accueil',letter:'A',desc:'Accueil',icon:'🤝'},
+    {key:'clarif', letter:'C',desc:'Clarif.', icon:'🔍'},
+    {key:'reponse',letter:'R',desc:'Réponse',icon:'💡'},
+    {key:'validation',letter:'V',desc:'Valid.', icon:'✔️'},
+  ];
+  const grid = document.getElementById('acrvGrid');
+  grid.innerHTML = '';
+  defs.forEach(d => {
+    const ok = detail[d.key] === 1;
+    grid.innerHTML += `<div class="acrv-item ${ok?'present':'absent'}">
+      <span>${d.icon}</span>
+      <div><div class="acrv-letter">${d.letter} ${ok?'✓':'✗'}</div><div class="acrv-desc">${d.desc}</div></div>
+    </div>`;
+  });
+  document.getElementById('acrvScore').textContent = score || 0;
+}
+
+function renderNiveauTrack(current, score) {
+  const track = document.getElementById('niveauTrack');
+  track.innerHTML = '';
+  const idx = NIVEAUX.indexOf(current);
+  NIVEAUX.forEach((n, i) => {
+    const passed  = i < idx;
+    const isCur   = i === idx;
+    track.innerHTML += `<div class="n-node">
+      <div class="n-dot ${passed?'passed':''} ${isCur?'current':''}"></div>
+      <div class="n-name ${isCur?'current':''}">${n}</div>
+    </div>`;
+    if (i < NIVEAUX.length-1)
+      track.innerHTML += `<div class="n-line ${passed?'passed':''}"></div>`;
+  });
+  const next  = NEXT[current];
+  const seuil = next ? SEUILS[next] : null;
+  document.getElementById('progLabel').textContent =
+    next ? `${current} → ${next} (seuil : ${seuil}/10)` : 'Niveau Expert — Performance maximale';
+  const ecart = seuil ? Math.max(0, seuil - score).toFixed(2) : 0;
+  document.getElementById('progValue').textContent =
+    next ? (ecart > 0 ? `+${ecart} pts nécessaires` : '✅ Seuil atteint') : '🏆 Top performer';
+}
+
+function renderFeedback(items) {
+  const list = document.getElementById('feedbackList');
+  list.innerHTML = '';
+  if (!items.length) {
+    list.innerHTML = '<div class="feedback-item good show">✅ Aucune amélioration critique — excellente réponse.</div>';
+    return;
+  }
+  items.forEach((txt, i) => {
+    const isWarn = txt.includes('⚠️') || txt.includes('CONFORMITÉ');
+    const isGood = txt.includes('✅');
+    const el = document.createElement('div');
+    el.className = `feedback-item ${isWarn?'warn':''} ${isGood?'good':''}`;
+    el.textContent = txt;
+    list.appendChild(el);
+    setTimeout(() => el.classList.add('show'), 80 + i*70);
+  });
+}
+
+function badge(text, color, icon) {
+  return `<span class="badge badge-${color}">${icon} ${text}</span>`;
+}
+
+function setLoading(on) {
+  document.getElementById('analyzeBtn').disabled = on;
+  document.getElementById('loadingRow').style.display = on ? 'flex' : 'none';
+}
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg; el.classList.add('show');
+}
+function hideError() { document.getElementById('errorMsg').classList.remove('show'); }
+
+function getCookie(name) {
+  let v = null;
+  document.cookie.split(';').forEach(c => {
+    c = c.trim();
+    if (c.startsWith(name+'=')) v = decodeURIComponent(c.slice(name.length+1));
+  });
+  return v;
+}
+</script>
+{% endblock %}
