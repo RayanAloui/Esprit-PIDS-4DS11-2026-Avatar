@@ -361,9 +361,9 @@ class SimpleBodyLanguageModel:
         # Les seuils ont été calibrés empiriquement pour correspondre
         # à des comportements réels observés avec MediaPipe.
 
-        if upright_ratio > 0.55 and slouch_mean < 0.28 and hunch_mean < 0.22:
+        if upright_ratio > 0.40 and slouch_mean < 0.42 and hunch_mean < 0.38:
             posture = 'upright'
-        elif slouch_mean > 0.52 or hunch_mean > 0.48 or spine_mean > 18.0:
+        elif slouch_mean > 0.62 or hunch_mean > 0.55 or spine_mean > 22.0:
             posture = 'slouched'
         else:
             posture = 'neutral'
@@ -396,6 +396,16 @@ class SimpleBodyLanguageModel:
         stress     = float(np.clip(stress, 0.0, 100.0))
         confidence = round(100.0 - stress, 1)
         stress     = round(stress,         1)
+
+        # ── Override posture basé sur la confidence ───────────────────
+        #
+        # Si la confidence est élevée (≥ 75%) et que la posture n'est pas
+        # clairement voûtée, on force "upright" — car un score de confiance
+        # élevé traduit un faible stress global et donc une posture ouverte.
+        # Seuil : 75% (ajustable via CONFIDENCE_UPRIGHT_THRESHOLD)
+        CONFIDENCE_UPRIGHT_THRESHOLD = 82.0
+        if confidence >= CONFIDENCE_UPRIGHT_THRESHOLD and posture != 'slouched':
+            posture = 'upright'
 
         # ── Retour compatible draw_hud() ──────────────────────────────
         return {

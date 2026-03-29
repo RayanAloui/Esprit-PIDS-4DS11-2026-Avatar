@@ -329,59 +329,135 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     LSTM Section — Body Language Demo
+     BODY LANGUAGE — Webcam Live
 ══════════════════════════════════════════════════ -->
 <div style="margin-top:48px; padding-top:36px; border-top:1px solid var(--border);">
+
   <div class="page-header" style="border-bottom:none; margin-bottom:24px; padding-bottom:0;">
-    <h1 style="font-size:28px;">Body <span>Language</span> Model</h1>
-    <p>Le modèle LSTM détecte la posture du délégué depuis un flux webcam en temps réel.
-       La détection nécessite MediaPipe et une caméra — ci-dessous les 3 classes reconnues
-       avec leurs feedbacks coaching ALIA.</p>
+    <h1 style="font-size:28px;">Body <span>Language</span> — Live</h1>
+    <p>Détection temps réel de la posture via webcam et MediaPipe.
+       Analyse géométrique sur 30 frames — Confiance, Stress, Posture, Bras croisés.</p>
   </div>
 
-  <div class="lstm-postures">
-    <div class="posture-card">
-      <div class="posture-emoji">🧍</div>
-      <div class="posture-name upright">UPRIGHT</div>
-      <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
-        <span class="badge badge-green">Confiance : 92%</span>
-        <span class="badge badge-dim">Stress : 8%</span>
+  <div style="display:grid; grid-template-columns:1fr 340px; gap:24px; align-items:start;">
+
+    <!-- Flux webcam -->
+    <div>
+      <div style="position:relative; border-radius:var(--radius); overflow:hidden;
+                  border:1px solid var(--border); background:var(--navy-2);">
+        <img id="webcamStream" src="" alt="Flux webcam"
+             style="width:100%; display:block; min-height:300px; object-fit:cover;">
+        <div id="streamOffline" style="position:absolute; inset:0; display:flex;
+             flex-direction:column; align-items:center; justify-content:center;
+             gap:12px; color:var(--white-dim); background:var(--navy-2);">
+          <div style="font-size:48px; opacity:.3">📷</div>
+          <div style="font-family:'Bebas Neue',cursive; font-size:18px; letter-spacing:2px; opacity:.4">
+            Caméra non active
+          </div>
+          <div style="font-size:12px; opacity:.35">Cliquez sur Démarrer pour activer</div>
+        </div>
+        <!-- Badge live -->
+        <div id="liveBadge" style="display:none; position:absolute; top:12px; right:12px;
+             background:rgba(255,68,68,.85); color:#fff; padding:4px 12px;
+             border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1px;
+             backdrop-filter:blur(4px);">
+          ● LIVE
+        </div>
       </div>
-      <div class="posture-scores">
-        Posture droite, épaules ouvertes, mains visibles.<br>
-        <strong style="color:var(--green)">Expert :</strong> Posture exemplaire — maintenez cet engagement pendant le closing.
+
+      <!-- Contrôles -->
+      <div style="display:flex; gap:10px; margin-top:12px;">
+        <button id="btnStart" class="btn btn-primary" onclick="startStream()" style="flex:1">
+          ▶ Démarrer la caméra
+        </button>
+        <button id="btnStop" class="btn btn-secondary" onclick="stopStream()"
+                style="flex:1; display:none">
+          ⏹ Arrêter
+        </button>
       </div>
     </div>
-    <div class="posture-card">
-      <div class="posture-emoji">🙆</div>
-      <div class="posture-name neutral">NEUTRAL</div>
-      <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
-        <span class="badge badge-gold">Confiance : 58%</span>
-        <span class="badge badge-dim">Stress : 42%</span>
+
+    <!-- Panneau scores -->
+    <div style="display:flex; flex-direction:column; gap:14px;">
+
+      <!-- Posture -->
+      <div class="card" style="text-align:center; padding:20px;">
+        <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase;
+                    color:var(--white-dim); margin-bottom:8px;">Posture détectée</div>
+        <div id="blPosture" style="font-family:'Bebas Neue',cursive; font-size:40px;
+             line-height:1; color:var(--white-dim);">—</div>
+        <div id="blCoaching" style="font-size:12px; color:var(--white-dim); margin-top:8px;
+             line-height:1.4; min-height:36px;">En attente…</div>
       </div>
-      <div class="posture-scores">
-        Posture correcte, légèrement voûtée.<br>
-        <strong style="color:var(--gold)">Confirmé :</strong> Redressez-vous lors de l'étape argumentation (étape 5).
+
+      <!-- Confiance -->
+      <div class="card" style="padding:16px;">
+        <div class="gauge-wrap">
+          <div class="gauge-header">
+            <span class="gauge-label">💪 Confiance</span>
+            <span class="gauge-val" id="blConf">—</span>
+          </div>
+          <div class="gauge-bg">
+            <div class="gauge-fill gauge-green" id="blConfBar" style="width:0%"></div>
+          </div>
+        </div>
       </div>
+
+      <!-- Stress -->
+      <div class="card" style="padding:16px;">
+        <div class="gauge-wrap">
+          <div class="gauge-header">
+            <span class="gauge-label">😰 Stress</span>
+            <span class="gauge-val" id="blStress">—</span>
+          </div>
+          <div class="gauge-bg">
+            <div class="gauge-fill" id="blStressBar"
+                 style="width:0%; background:linear-gradient(90deg,#e74c3c,#c0392b)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicateurs -->
+      <div class="card" style="padding:16px;">
+        <div class="card-title" style="margin-bottom:12px;">Indicateurs</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; color:var(--white-dim);">Bras croisés</span>
+            <span id="blArms" class="badge badge-dim">—</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; color:var(--white-dim);">Mains au visage</span>
+            <span id="blFace" class="badge badge-dim">—</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+            <span style="font-size:13px; color:var(--white-dim);">Buffer</span>
+            <div class="gauge-bg" style="flex:1; margin-left:12px;">
+              <div class="gauge-fill gauge-cyan" id="blBuffer" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classes de référence -->
+      <div class="card" style="padding:14px;">
+        <div class="card-title" style="margin-bottom:10px; font-size:11px;">3 classes</div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="color:var(--green); font-family:'Bebas Neue',cursive;">UPRIGHT</span>
+            <span style="color:var(--white-dim);">Posture confiante</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="color:var(--gold); font-family:'Bebas Neue',cursive;">NEUTRAL</span>
+            <span style="color:var(--white-dim);">Posture correcte</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="color:var(--red); font-family:'Bebas Neue',cursive;">SLOUCHED</span>
+            <span style="color:var(--white-dim);">Posture voûtée</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="posture-card">
-      <div class="posture-emoji">😔</div>
-      <div class="posture-name slouched">SLOUCHED</div>
-      <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
-        <span class="badge badge-red">Confiance : 30%</span>
-        <span class="badge badge-orange">Stress : 70%</span>
-      </div>
-      <div class="posture-scores">
-        Voûtement, bras croisés ou mains près du visage.<br>
-        <strong style="color:var(--red)">Junior :</strong> Posture fermée — redressez-vous et ouvrez les bras.
-      </div>
-    </div>
-  </div>
-  <div style="margin-top:16px; padding:14px 18px; background:rgba(0,212,255,.05); border:1px solid rgba(0,212,255,.15); border-radius:8px; font-size:13px; color:var(--white-dim);">
-    💡 <strong style="color:var(--cyan)">Intégration Django :</strong>
-    Pour activer la détection live, lancez <code style="background:rgba(0,0,0,.3); padding:2px 7px; border-radius:4px;">python Body-language-detection.py</code>
-    avec <code style="background:rgba(0,0,0,.3); padding:2px 7px; border-radius:4px;">from lstm_model_v2 import BodyLanguageModel</code>.
-    L'interface <code>get_hud_data()</code> est un drop-in pour <code>draw_hud()</code>.
   </div>
 </div>
 
@@ -658,6 +734,127 @@ function getCookie(name) {
     if (c.startsWith(name+'=')) v = decodeURIComponent(c.slice(name.length+1));
   });
   return v;
+}
+
+// ══════════════════════════════════════════════════
+// BODY LANGUAGE — Webcam Live
+// ══════════════════════════════════════════════════
+
+let statusInterval = null;
+
+async function startStream() {
+  try {
+    // Démarrer le thread webcam côté serveur
+    await fetch('/avatar/body-control/', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body: JSON.stringify({action:'start'})
+    });
+
+    // Brancher le flux MJPEG
+    const img = document.getElementById('webcamStream');
+    img.src   = '/avatar/stream/?' + Date.now();
+    img.style.minHeight = 'auto';
+
+    // Cacher l'overlay "offline"
+    document.getElementById('streamOffline').style.display = 'none';
+    document.getElementById('liveBadge').style.display     = 'block';
+
+    // Basculer les boutons
+    document.getElementById('btnStart').style.display = 'none';
+    document.getElementById('btnStop').style.display  = '';
+
+    // Polling des scores toutes les secondes
+    statusInterval = setInterval(updateStatus, 1000);
+
+  } catch(e) {
+    console.error('Erreur démarrage stream :', e);
+  }
+}
+
+async function stopStream() {
+  // Arrêter le polling
+  if (statusInterval) { clearInterval(statusInterval); statusInterval = null; }
+
+  // Arrêter le thread serveur
+  await fetch('/avatar/body-control/', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+    body: JSON.stringify({action:'stop'})
+  });
+
+  // Couper l'image
+  const img = document.getElementById('webcamStream');
+  img.src   = '';
+
+  // Réafficher l'overlay
+  document.getElementById('streamOffline').style.display = 'flex';
+  document.getElementById('liveBadge').style.display     = 'none';
+  document.getElementById('btnStart').style.display = '';
+  document.getElementById('btnStop').style.display  = 'none';
+
+  // Remettre les scores à zéro
+  resetBodyScores();
+}
+
+async function updateStatus() {
+  try {
+    const res    = await fetch('/avatar/body-status/');
+    const scores = await res.json();
+    renderBodyScores(scores);
+  } catch(e) { /* silencieux */ }
+}
+
+function renderBodyScores(s) {
+  if (!s.active) return;
+
+  // Posture
+  const postureEl = document.getElementById('blPosture');
+  const colors    = {upright:'var(--green)', neutral:'var(--gold)', slouched:'var(--red)'};
+  postureEl.textContent  = (s.posture || '—').toUpperCase();
+  postureEl.style.color  = colors[s.posture] || 'var(--white-dim)';
+
+  // Coaching
+  document.getElementById('blCoaching').textContent = s.coaching || '';
+
+  // Confiance
+  const conf = parseFloat(s.confidence || 0).toFixed(0);
+  document.getElementById('blConf').textContent    = conf + '%';
+  document.getElementById('blConfBar').style.width = conf + '%';
+
+  // Stress
+  const stress = parseFloat(s.stress || 0).toFixed(0);
+  document.getElementById('blStress').textContent    = stress + '%';
+  document.getElementById('blStressBar').style.width = stress + '%';
+
+  // Bras croisés
+  const armsEl = document.getElementById('blArms');
+  armsEl.textContent = s.arms_crossed ? '🔴 OUI' : '🟢 NON';
+  armsEl.className   = 'badge ' + (s.arms_crossed ? 'badge-red' : 'badge-green');
+
+  // Mains au visage
+  const faceEl = document.getElementById('blFace');
+  faceEl.textContent = s.face_touch ? '🔴 OUI' : '🟢 NON';
+  faceEl.className   = 'badge ' + (s.face_touch ? 'badge-red' : 'badge-green');
+
+  // Buffer fill
+  const fill = parseFloat(s.fill_ratio || 0) * 100;
+  document.getElementById('blBuffer').style.width = fill + '%';
+}
+
+function resetBodyScores() {
+  document.getElementById('blPosture').textContent = '—';
+  document.getElementById('blPosture').style.color = 'var(--white-dim)';
+  document.getElementById('blCoaching').textContent = 'En attente…';
+  document.getElementById('blConf').textContent = '—';
+  document.getElementById('blConfBar').style.width = '0%';
+  document.getElementById('blStress').textContent = '—';
+  document.getElementById('blStressBar').style.width = '0%';
+  document.getElementById('blArms').textContent = '—';
+  document.getElementById('blArms').className = 'badge badge-dim';
+  document.getElementById('blFace').textContent = '—';
+  document.getElementById('blFace').className = 'badge badge-dim';
+  document.getElementById('blBuffer').style.width = '0%';
 }
 </script>
 {% endblock %}
