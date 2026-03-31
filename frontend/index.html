@@ -191,6 +191,8 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+// ═══ BACKEND CONFIGURATION ═══════════════════════════════
+const BACKEND_URL = 'http://localhost:8000';
 // ═══ STATE ═══════════════════════════════════════════════
 let currentMode = null;          // 'commercial' | 'training'
 let trainingStarted = false;
@@ -228,7 +230,7 @@ function initScene(){
     scene.add(new THREE.AmbientLight(0xffffff,.75));
     const k=new THREE.DirectionalLight(0xffffff,1.1); k.position.set(1,2.5,2); scene.add(k);
     const f=new THREE.DirectionalLight(0x8bb8ff,.35); f.position.set(-2,1,1); scene.add(f);
-    new GLTFLoader().load('/static/avatar.glb', gltf=>{
+    new GLTFLoader().load('../static/avatar.glb', gltf=>{
         av.model=gltf.scene; av.model.rotation.y=Math.PI+10.15; scene.add(av.model);
         if(gltf.animations.length){
             av.mixer=new THREE.AnimationMixer(av.model);
@@ -415,7 +417,7 @@ window.goHome = function(){
     document.getElementById('landing').style.display='flex';
     document.getElementById('navbar').style.display='none';
     document.getElementById('controls').style.display='none';
-    hideSub(); setStatus('','Standby');
+    setStatus('','Standby');
 };
 
 // ═══ TRAINING START ════════════════════════════════════════
@@ -426,10 +428,10 @@ window.startTraining = async function(){
     setStatus('thinking','Préparation…');
 
     try {
-        const r=await fetch('/start_training',{method:'POST'});
+        const r=await fetch(`${BACKEND_URL}/start_training`,{method:'POST'});
         const d=await r.json();
         if(d.text){ setHint('Répondez en cliquant sur le micro'); }
-        if(d.audio_url) await playAudio(d.audio_url);
+        if(d.audio_url) {await playAudio(`${BACKEND_URL}${d.audio_url}`);}
         trainingStarted=true;
     } catch(e){ console.error(e); setStatus('','Erreur'); }
     finally{ isProcessing=false; }
@@ -454,13 +456,13 @@ async function toggleMic(){
             const btn=document.getElementById('micBtn');
             btn.classList.remove('recording'); btn.textContent='🎤'; btn.disabled=true;
             stream.getTracks().forEach(t=>t.stop());
-            hideSub(); setStatus('thinking','Transcription…'); setHint('Traitement…');
+            setStatus('thinking','Transcription…'); setHint('Traitement…');
 
             // ① STT
             const blob=new Blob(audioChunks,{type:'audio/webm'});
             const fd=new FormData(); fd.append('audio',blob,'rec.webm');
             try {
-                const r1=await fetch('/listen',{method:'POST',body:fd});
+                const r1=await fetch(`${BACKEND_URL}/listen`,{method:'POST',body:fd});
                 const d1=await r1.json();
                 const userText=(d1.text||'').trim();
                 if(!userText){ setStatus('','Standby'); setHint('Répétez svp'); btn.disabled=false; return; }
@@ -470,7 +472,7 @@ async function toggleMic(){
                 // ② RAG
                 isProcessing=true;
                 setStatus('thinking','Réflexion…');
-                const r2=await fetch('/ask_alia',{
+                const r2=await fetch(`${BACKEND_URL}/ask_alia`,{
                     method:'POST', headers:{'Content-Type':'application/json'},
                     body:JSON.stringify({text:userText, mode:currentMode})
                 });
@@ -490,7 +492,7 @@ async function toggleMic(){
 
 
                 // ③ Audio + lip sync
-                if(d2.audio_url) await playAudio(d2.audio_url);
+                if(d2.audio_url) {await playAudio(`${BACKEND_URL}${d2.audio_url}`);}
                 else setStatus('','Standby');
 
             } catch(e){
@@ -505,7 +507,7 @@ async function toggleMic(){
         isRecording=true;
         const btn=document.getElementById('micBtn');
         btn.classList.add('recording'); btn.textContent='⏹';
-        hideSub(); setStatus('listening','Écoute…');
+        setStatus('listening','Écoute…');
         setHint('Cliquez pour arrêter');
 
     } catch(e){
