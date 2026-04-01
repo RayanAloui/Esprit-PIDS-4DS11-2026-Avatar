@@ -35,6 +35,10 @@
            class="nav-link {% if page == 'routes' %}active{% endif %}">
           <span class="nav-icon">🗺️</span> Tournées
         </a>
+        <a href="{% url 'analytics:index' %}"
+           class="nav-link {% if page == 'analytics' %}active{% endif %}">
+          <span class="nav-icon">📊</span> Analytics
+        </a>
       </div>
     </div>
   </nav>

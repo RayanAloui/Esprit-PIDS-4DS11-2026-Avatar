@@ -284,6 +284,9 @@
     <a href="{% url 'routes:index' %}" class="btn btn-secondary btn-lg">
       🗺️ Optimiser une tournée
     </a>
+    <a href="{% url 'analytics:index' %}" class="btn btn-secondary btn-lg">
+      📊 Voir les analyses
+    </a>
   </div>
 </section>
 
@@ -344,13 +347,13 @@
   </a>
 
   <!-- DSO 1 — LSTM -->
-  <div class="module-card inactive-card">
+  <a href="{% url 'avatar:index' %}" class="module-card active-card">
     <div class="module-header">
       <span class="module-icon">🎥</span>
       <span class="module-dso">DSO 1</span>
-      <span class="module-status-badge soon">🔌 Webcam requise</span>
+      <span class="module-status-badge done">✅ Disponible</span>
     </div>
-    <div class="module-title">Body Language Detection</div>
+    <div class="module-title">LSTM Body Language Detection</div>
     <div class="module-desc">
       Détecte la posture et le niveau de stress du délégué en temps réel
       via webcam — 3 classes (upright / neutral / slouched), feedback
@@ -362,7 +365,7 @@
       <span class="module-tag">30 frames/seq</span>
       <span class="module-tag">Coaching ALIA</span>
     </div>
-  </div>
+  </a>
 
   <!-- DSO 4 — Routes -->
   <a href="{% url 'routes:index' %}" class="module-card active-card">
@@ -406,6 +409,27 @@
     </div>
   </div>
 
+  <!-- Analytics -->
+  <a href="{% url 'analytics:index' %}" class="module-card active-card">
+    <div class="module-header">
+      <span class="module-icon">📊</span>
+      <span class="module-dso">ALIA</span>
+      <span class="module-status-badge done">✅ Disponible</span>
+    </div>
+    <div class="module-title">Analytics — Coach IA</div>
+    <div class="module-desc">
+      Tableau de bord de progression personnalisée — courbe d'évolution,
+      radar des 5 compétences, clustering des objections, conformité
+      dans le temps et plan d'action IA généré automatiquement.
+    </div>
+    <div class="module-tags">
+      <span class="module-tag">Chart.js</span>
+      <span class="module-tag">SQLite</span>
+      <span class="module-tag">K-Means</span>
+      <span class="module-tag">API Claude</span>
+    </div>
+  </a>
+
 </div>
 
 <!-- ── TDSP PIPELINE ──────────────────────────────────────────── -->
@@ -424,13 +448,12 @@
     </div>
     <div class="tdsp-step done-step">
       <div class="tdsp-num">3</div>
-      <div class="tdsp-name">Data<br>Preparation</div>
+      <div class="tdsp-name">Modeling</div>
       <div class="tdsp-arrow">›</div>
     </div>
     <div class="tdsp-step current-step">
       <div class="tdsp-num">4</div>
-      <div class="tdsp-name">Model<br>Deployment</div>
-      <div class="tdsp-arrow">›</div>
+      <div class="tdsp-name">Deployment</div>
     </div>
   </div>
 </div>

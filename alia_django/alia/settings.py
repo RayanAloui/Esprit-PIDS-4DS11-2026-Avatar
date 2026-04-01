@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.avatar',
     'apps.routes',
+    'apps.analytics',
 ]
 
 MIDDLEWARE = [
