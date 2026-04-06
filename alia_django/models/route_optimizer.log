@@ -1,0 +1,6 @@
+00:47:57  INFO      RouteOptimizer chargé — v1.0.0 | 2026-03-28T15:01:01 | 64 pharmacies
+00:47:57  INFO      RouteOptimizer chargé — v1.0.0 | 2026-03-28T15:01:01 | 64 pharmacies
+00:47:57  INFO      RouteOptimizer chargé avec succès
+00:47:57  INFO      RouteOptimizer chargé avec succès
+00:57:07  INFO      NLPScoringModel chargé — v2.0.0 | trained: ?
+00:57:08  ERROR     Claude API error: HTTP Error 401: Unauthorized

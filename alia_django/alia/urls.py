@@ -1,6 +1,3 @@
-"""
-ALIA — URL Configuration principale
-"""
 from django.contrib import admin
 from django.urls    import path, include
 from django.conf    import settings
@@ -12,4 +9,5 @@ urlpatterns = [
     path('avatar/',     include('apps.avatar.urls')),
     path('routes/',     include('apps.routes.urls')),
     path('analytics/',  include('apps.analytics.urls')),
+    path('simulator/',  include('apps.simulator.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

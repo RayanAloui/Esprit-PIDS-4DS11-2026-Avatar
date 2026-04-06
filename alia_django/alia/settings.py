@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'apps.avatar',
     'apps.routes',
     'apps.analytics',
+    'apps.simulator',
 ]
 
 MIDDLEWARE = [
