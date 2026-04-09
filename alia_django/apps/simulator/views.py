@@ -105,3 +105,56 @@ def reset_simulation(request):
     if SESSION_KEY in request.session:
         del request.session[SESSION_KEY]
     return JsonResponse({'ok': True})
+
+
+# ══════════════════════════════════════════════════════════════════════
+# BODY LANGUAGE — réutilise CameraStream de apps.avatar
+# ══════════════════════════════════════════════════════════════════════
+
+from django.http import StreamingHttpResponse
+import time as _time
+
+def sim_body_stream(request):
+    """GET /simulator/stream/ — flux MJPEG webcam pour le simulator."""
+    from apps.avatar.camera import CameraStream
+    stream = CameraStream.get_instance()
+    if not stream.is_running:
+        stream.start()
+
+    def generate():
+        while True:
+            frame = stream.get_latest_frame()
+            if frame:
+                yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n'
+                       + frame + b'\r\n')
+            _time.sleep(0.033)
+
+    return StreamingHttpResponse(
+        generate(),
+        content_type='multipart/x-mixed-replace; boundary=frame'
+    )
+
+
+@require_http_methods(["GET"])
+def sim_body_status(request):
+    """GET /simulator/body-status/ — scores LSTM JSON."""
+    from apps.avatar.camera import CameraStream
+    return JsonResponse(CameraStream.get_instance().get_latest_scores())
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def sim_body_control(request):
+    """POST /simulator/body-control/ — {action: 'start'|'stop'}."""
+    from apps.avatar.camera import CameraStream
+    try:
+        data   = json.loads(request.body)
+        action = data.get('action', 'start')
+        stream = CameraStream.get_instance()
+        if action == 'start':
+            stream.start()
+            return JsonResponse({'status': 'started'})
+        stream.stop()
+        return JsonResponse({'status': 'stopped'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

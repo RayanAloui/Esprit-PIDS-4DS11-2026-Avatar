@@ -31,6 +31,10 @@
            class="nav-link {% if page == 'avatar' %}active{% endif %}">
           <span class="nav-icon">🤖</span> Avatar NLP
         </a>
+        <a href="{{ modeling_url }}"
+           class="nav-link {% if page == 'modeling' %}active{% endif %}">
+          <span class="nav-icon">🧠</span> RAG
+        </a>
         <a href="{% url 'routes:index' %}"
            class="nav-link {% if page == 'routes' %}active{% endif %}">
           <span class="nav-icon">🗺️</span> Tournées

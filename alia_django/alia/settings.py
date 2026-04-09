@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'apps.routes',
     'apps.analytics',
     'apps.simulator',
+    'apps.modeling',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.modeling.context_processors.modeling_nav',
             ],
         },
     },
@@ -87,3 +89,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ── Chemins modèles IA ────────────────────────────────────────────────
 MODELS_AI_DIR = BASE_DIR / 'models_ai'
+
+# ── FastAPI ALIA RAG (apps.modeling), monté sous MODELING_API_MOUNT_PATH ──
+MODELING_DIR = BASE_DIR / 'apps' / 'modeling'
+MODELING_DATA_DIR = MODELING_DIR / 'data'
+MODELING_CSV = MODELING_DATA_DIR / 'vital_products.csv'
+MODELING_KB_DIR = MODELING_DATA_DIR / 'alia_knowledge_db'
+MODELING_STATIC_DIR = MODELING_DATA_DIR / 'static'
+MODELING_AUDIO_DIR = MODELING_STATIC_DIR / 'audio'
+MODELING_API_MOUNT_PATH = '/alia-api'
+
