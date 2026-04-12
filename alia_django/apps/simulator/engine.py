@@ -1,21 +1,11 @@
 """
 engine.py
 =========
-Moteur de simulation — Version RAG + Ollama.
+Moteur de simulation intégré — NLP + LSTM + RAG + SessionState.
 
-Architecture LLM :
-    Ollama (llama3.2) joue le médecin virtuel.
-    RAG (ChromaDB + BM25) enrichit chaque réponse avec les vraies
-    données produit VITAL SA extraites de vital_products.csv.
-    Claude API reste utilisé UNIQUEMENT pour le rapport final.
-    Si Ollama est indisponible → fallback Claude pour le médecin aussi.
-
-Flux par tour :
-    1. NLPScoringModel évalue la réponse du délégué (T1→T6)
-    2. RAG récupère le contexte produit pertinent (ChromaDB + BM25)
-    3. Ollama génère la réaction du médecin (profil + historique + contexte RAG)
-    4. Variation ouverture médecin selon score NLP
-    5. Coaching temps réel retourné au frontend
+Tous les modules poussent leurs données dans SessionState à chaque tour.
+Fix répétition Ollama : historique des 4 dernières réponses médecin injecté
+dans le prompt comme liste "INTERDIT de répéter".
 """
 
 import json
@@ -25,15 +15,17 @@ import urllib.request
 from pathlib import Path
 from typing  import Dict, List, Optional
 
-from .profiles import get_product, get_doctor, VISIT_STEPS
+from .profiles      import get_product, get_doctor, VISIT_STEPS
+from .session_state import SessionState
 
 log = logging.getLogger(__name__)
 
 MAX_TURNS      = 8
 MAX_TOKENS_RPT = 1200
 
+
 # ══════════════════════════════════════════════════════════════════════
-# NLP MODEL — singleton
+# NLP MODEL
 # ══════════════════════════════════════════════════════════════════════
 
 def _get_nlp_model():
@@ -42,7 +34,7 @@ def _get_nlp_model():
         models_dir = str(settings.MODELS_AI_DIR)
         if models_dir not in sys.path:
             sys.path.insert(0, models_dir)
-        import nlp_scoring_train_v2  # noqa — requis pour joblib
+        import nlp_scoring_train_v2  # noqa
         from nlp_scoring_model_v2 import NLPScoringModel
         bundle = Path(settings.MODELS_AI_DIR) / 'nlp_scoring_bundle_v2.pkl'
         return NLPScoringModel.load(str(bundle))
@@ -52,75 +44,68 @@ def _get_nlp_model():
 
 
 # ══════════════════════════════════════════════════════════════════════
-# RAG — contexte produit depuis la KB VITAL SA
+# RAG
 # ══════════════════════════════════════════════════════════════════════
 
 def _get_rag_context(product_name: str, delegate_text: str) -> str:
-    """
-    Interroge la base RAG (ChromaDB + BM25) via le runtime ALIA.
-    Retourne un contexte produit concis à injecter dans le prompt Ollama.
-
-    On passe le nom du produit + le texte du délégué comme query
-    pour récupérer les chunks les plus pertinents de vital_products.csv.
-    """
     try:
         from apps.modeling.runtime import get_runtime
         rt    = get_runtime()
         query = f"{product_name} {delegate_text}"
         docs  = rt.kb.retriever.invoke(query)
-
         if not docs:
             return ""
-
-        # Garder les 3 meilleurs documents, concis
         parts = []
         for doc in docs[:3]:
             name    = doc.metadata.get('name', '')
-            # Tronquer à 300 chars pour ne pas surcharger le prompt
             preview = doc.page_content[:300].replace('\n', ' ').strip()
             parts.append(f"• {name} : {preview}")
-
         return "\n".join(parts)
-
     except Exception as e:
         log.warning(f"RAG context indisponible : {e}")
         return ""
 
 
 # ══════════════════════════════════════════════════════════════════════
-# OLLAMA — LLM local pour le médecin virtuel
+# OLLAMA — avec fix anti-répétition
 # ══════════════════════════════════════════════════════════════════════
 
 def _call_ollama(system: str, history: List[Dict],
-                 rag_context: str) -> str:
+                 rag_context: str, recent_doctor_msgs: List[str]) -> str:
     """
-    Appelle Ollama (llama3.2) pour générer la réponse du médecin.
-
-    On reconstruit un prompt texte complet car Ollama /api/generate
-    est plus simple que /api/chat pour injecter le contexte RAG.
+    Appelle Ollama (llama3.2).
+    Fix répétition : les 4 dernières réponses médecin sont injectées
+    dans le prompt comme liste INTERDITE.
     """
-    # Reconstruire l'historique en texte
+    # Historique conversationnel
     history_text = ""
     for msg in history:
         role = "Délégué" if msg["role"] == "user" else "Médecin"
         history_text += f"\n{role} : {msg['content']}"
 
-    # Section contexte RAG — injectée seulement si disponible
+    # Section RAG
     rag_section = ""
     if rag_context:
         rag_section = (
-            f"\n\n[CONTEXTE PRODUIT — base de connaissances VITAL SA]\n"
-            f"{rag_context}\n"
-            f"Utilise ces informations si le délégué en parle. "
-            f"Ne les récite pas mot à mot — réagis naturellement.\n"
+            f"\n\n[DONNÉES PRODUIT — Base VITAL SA]\n{rag_context}\n"
+            f"Utilise ces données si pertinent. Ne les récite pas.\n"
+        )
+
+    # FIX RÉPÉTITION — liste des phrases interdites
+    forbidden_section = ""
+    if recent_doctor_msgs:
+        forbidden_list = "\n".join(f"  - \"{m[:80]}\"" for m in recent_doctor_msgs)
+        forbidden_section = (
+            f"\n\n[PHRASES QUE TU AS DÉJÀ DITES — INTERDITES]\n"
+            f"{forbidden_list}\n"
+            f"Ne commence PAS ta réponse par l'une de ces phrases. Varie obligatoirement.\n"
         )
 
     full_prompt = (
         f"{system}"
         f"{rag_section}"
-        f"\n\n[CONVERSATION]\n"
-        f"{history_text}"
-        f"\nMédecin :"
+        f"{forbidden_section}"
+        f"\n\n[CONVERSATION]\n{history_text}\nMédecin :"
     )
 
     payload = json.dumps({
@@ -136,81 +121,61 @@ def _call_ollama(system: str, history: List[Dict],
 
     req = urllib.request.Request(
         'http://localhost:11434/api/generate',
-        data    = payload,
-        headers = {'Content-Type': 'application/json'},
-        method  = 'POST',
+        data=payload, headers={'Content-Type': 'application/json'}, method='POST'
     )
     with urllib.request.urlopen(req, timeout=30) as resp:
         data     = json.loads(resp.read())
         response = data.get('response', '').strip()
-        # Nettoyer les artefacts éventuels
         response = response.split('\nDélégué')[0].strip()
         response = response.split('\nMédecin')[0].strip()
         return response
 
 
 def _call_claude_doctor(system: str, history: List[Dict]) -> str:
-    """Fallback Claude pour le médecin si Ollama est indisponible."""
     payload = json.dumps({
-        "model"     : "claude-sonnet-4-20250514",
-        "max_tokens": 400,
-        "system"    : system,
-        "messages"  : history,
+        "model": "claude-sonnet-4-20250514", "max_tokens": 400,
+        "system": system, "messages": history,
     }).encode('utf-8')
     req = urllib.request.Request(
         'https://api.anthropic.com/v1/messages',
-        data    = payload,
-        headers = {'Content-Type': 'application/json'},
-        method  = 'POST',
+        data=payload, headers={'Content-Type': 'application/json'}, method='POST'
     )
     with urllib.request.urlopen(req, timeout=25) as resp:
-        data = json.loads(resp.read())
-        return data['content'][0]['text'].strip()
+        return json.loads(resp.read())['content'][0]['text'].strip()
 
 
 def _call_claude_report(messages: List[Dict], system: str) -> str:
-    """Claude pour le rapport final uniquement."""
     payload = json.dumps({
-        "model"     : "claude-sonnet-4-20250514",
-        "max_tokens": MAX_TOKENS_RPT,
-        "system"    : system,
-        "messages"  : messages,
+        "model": "claude-sonnet-4-20250514", "max_tokens": MAX_TOKENS_RPT,
+        "system": system, "messages": messages,
     }).encode('utf-8')
     req = urllib.request.Request(
         'https://api.anthropic.com/v1/messages',
-        data    = payload,
-        headers = {'Content-Type': 'application/json'},
-        method  = 'POST',
+        data=payload, headers={'Content-Type': 'application/json'}, method='POST'
     )
     with urllib.request.urlopen(req, timeout=30) as resp:
-        data = json.loads(resp.read())
-        return data['content'][0]['text'].strip()
+        return json.loads(resp.read())['content'][0]['text'].strip()
 
 
 def _generate_doctor_response(system: str, history: List[Dict],
                                rag_context: str,
+                               recent_doctor_msgs: List[str],
                                fallback_fn) -> tuple:
-    """
-    Tente Ollama en premier.
-    Si Ollama échoue → fallback Claude.
-    Retourne (message, engine_used).
-    """
     try:
-        msg = _call_ollama(system, history, rag_context)
+        msg = _call_ollama(system, history, rag_context, recent_doctor_msgs)
         if not msg:
             raise ValueError("Réponse Ollama vide")
-        return msg, "ollama+rag"
+        return msg, "ollama+rag" if rag_context else "ollama"
     except Exception as e_ollama:
-        log.info(f"Ollama indisponible ({e_ollama}) → fallback Claude")
+        log.info(f"Ollama → fallback Claude ({e_ollama})")
         try:
-            msg = _call_claude_doctor(system, history)
-            return msg, "claude_fallback"
+            return _call_claude_doctor(system, history), "claude_fallback"
         except Exception:
             return fallback_fn(), "static_fallback"
 
 
 # ══════════════════════════════════════════════════════════════════════
-# PROMPT SYSTÈME DU MÉDECIN
+# PROMPT SYSTÈME
 # ══════════════════════════════════════════════════════════════════════
 
 def _build_doctor_system(doctor: dict, product: dict,
@@ -220,55 +185,49 @@ def _build_doctor_system(doctor: dict, product: dict,
 PERSONNALITÉ :
 {doctor['personnalite']}
 
-CONTEXTE DE LA VISITE :
+CONTEXTE :
 - Produit présenté : {product['nom']} ({product['categorie']})
 - Tour actuel : {turn}/{MAX_TURNS}
-- Ton niveau d'ouverture : {openness:.1f}/5
+- Ouverture : {openness:.1f}/5
 
-RÈGLE ABSOLUE N°1 — RÉAGIS AU DERNIER MESSAGE PRÉCISÉMENT :
+RÈGLE ABSOLUE — RÉAGIS AU DERNIER MESSAGE PRÉCISÉMENT :
 Lis ce que vient de dire le délégué et réponds-y DIRECTEMENT.
-Si le délégué mentionne une donnée (ex: "1200 patients") → réagis à cette donnée.
-Si le délégué pose une question → réponds à CETTE question précise.
-INTERDIT : répéter une phrase que tu as déjà dite dans cette conversation.
+Ne répète jamais une formulation déjà utilisée dans cette conversation.
 
-RÈGLE ABSOLUE N°2 — PROGRESSION NATURELLE :
-Tour 1-2 : accueil + première question ou objection initiale.
-Tour 3-4 : approfondissement ou objection plus précise.
+PROGRESSION ({_openness_behavior(openness)})
+
+Tour 1-2 : accueil + première objection/question.
+Tour 3-4 : approfondissement, objection précise.
 Tour 5-6 : position claire selon ton ouverture.
-Tour 7-8 : conclusion de la visite.
+Tour 7-8 : conclusion.
 
-TON NIVEAU D'OUVERTURE {openness:.1f}/5 :
-{_openness_behavior(openness)}
-
-STYLE : 2-3 phrases maximum. Ton : {doctor['description_ui']}.
-Varie tes formules — ne commence jamais par la même phrase deux fois.
-
-OBJECTIONS QUE TU UTILISES TYPIQUEMENT :
-{chr(10).join(f'- {o}' for o in doctor['objections_favorites'])}
-
+STYLE : 2-3 phrases max. Ton : {doctor['description_ui']}.
 Réponds UNIQUEMENT avec tes paroles. Pas de guillemets, pas de préfixe.
+
+OBJECTIONS TYPIQUES :
+{chr(10).join(f'- {o}' for o in doctor['objections_favorites'])}
 """
-
-
-def _build_report_system() -> str:
-    return (
-        "Tu es ALIA, le système d'évaluation IA de VITAL SA. "
-        "Génère un rapport de visite concis et actionnable. "
-        "Réponds UNIQUEMENT en JSON valide, sans markdown ni explication."
-    )
 
 
 def _openness_behavior(openness: float) -> str:
     if openness >= 4.2:
-        return "Tu es clairement intéressé. Pose des questions positives sur la mise en pratique."
+        return "Tu es clairement intéressé — questions positives sur la mise en pratique."
     elif openness >= 3.5:
-        return "Tu commences à t'ouvrir. Demande des précisions sans t'engager encore."
+        return "Tu t'ouvres — demande des précisions sans t'engager."
     elif openness >= 2.5:
-        return "Tu es neutre. Écoute mais reste prudent. Pose une objection modérée."
+        return "Tu es neutre — objection modérée."
     elif openness >= 1.5:
-        return "Tu es sceptique. Exprime un doute direct sur ce que vient de dire le délégué."
+        return "Tu es sceptique — doute direct sur le dernier argument."
     else:
-        return "Tu es très fermé. Montre de l'impatience. La visite touche à sa fin."
+        return "Tu es très fermé — impatience, fin de visite imminente."
+
+
+def _build_report_system() -> str:
+    return (
+        "Tu es ALIA, évaluateur IA de VITAL SA. "
+        "Génère un rapport de visite concis et actionnable. "
+        "Réponds UNIQUEMENT en JSON valide, sans markdown."
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -277,11 +236,9 @@ def _openness_behavior(openness: float) -> str:
 
 class SimulationSession:
     """
-    Gère l'état complet d'une session de simulation.
-
-    Médecin virtuel : Ollama + RAG (fallback Claude si Ollama down).
-    Évaluation      : NLPScoringModel V2 à chaque tour.
-    Rapport final   : Claude API.
+    Session de simulation intégrée.
+    Tous les modules (NLP, LSTM, RAG) alimentent SessionState
+    à chaque tour pour un score global cohérent en temps réel.
     """
 
     def __init__(self, doctor_id: str, product_id: str, niveau_alia: str):
@@ -295,57 +252,56 @@ class SimulationSession:
         self.step_history   = []
         self.is_finished    = False
         self.nlp_model      = _get_nlp_model()
+        # ── État centralisé ───────────────────────────────────────────
+        self.state          = SessionState()
 
-    # ── Premier message du médecin ─────────────────────────────────────
+    # ── Extraction des N dernières réponses du médecin ──────────────
+    def _recent_doctor_msgs(self, n: int = 4) -> List[str]:
+        """Retourne les N dernières réponses du médecin (fix répétition)."""
+        msgs = [m["content"] for m in self.history if m["role"] == "assistant"]
+        return msgs[-n:] if msgs else []
+
+    # ── Premier message ─────────────────────────────────────────────
 
     def first_message(self) -> Dict:
-        system = _build_doctor_system(
-            self.doctor, self.product, 0, self.openness)
-
-        # RAG : récupérer infos produit pour enrichir l'accueil
+        system  = _build_doctor_system(self.doctor, self.product, 0, self.openness)
         rag_ctx = _get_rag_context(
             self.product['nom'],
             f"présentation {self.product['categorie']} {self.product['indication']}"
         )
-
-        opening_msg = {
-            "role"   : "user",
+        opening = {
+            "role": "user",
             "content": (
-                f"Un délégué médical de VITAL SA entre dans ton cabinet "
-                f"pour te présenter {self.product['nom']} ({self.product['categorie']}). "
+                f"Un délégué de VITAL SA entre pour présenter "
+                f"{self.product['nom']} ({self.product['categorie']}). "
                 f"Accueille-le en 1-2 phrases selon ta personnalité."
             )
         }
-
         msg, engine = _generate_doctor_response(
-            system      = system,
-            history     = [opening_msg],
-            rag_context = rag_ctx,
-            fallback_fn = lambda: "Oui, entrez. Vous avez quelques minutes, je vous écoute.",
+            system=system, history=[opening],
+            rag_context=rag_ctx, recent_doctor_msgs=[],
+            fallback_fn=lambda: "Oui, entrez. Je vous écoute.",
         )
-
         self.history.append({"role": "assistant", "content": msg})
 
-        log.info(f"[Simulator] First message — engine={engine}, rag={'oui' if rag_ctx else 'non'}")
+        # Push RAG dans SessionState
+        self.state.push_rag_hit(0, self.product['nom'], bool(rag_ctx), engine)
 
+        log.info(f"[Simulator] Start — engine={engine} rag={'oui' if rag_ctx else 'non'}")
         return {
-            "message"  : msg,
-            "turn"     : self.turn,
-            "openness" : round(self.openness, 1),
-            "step"     : None,
-            "score"    : None,
-            "coach"    : "La visite commence — gérez bien la permission (Étape 1).",
-            "is_first" : True,
-            "engine"   : engine,
-            "rag_used" : bool(rag_ctx),
+            "message" : msg, "turn": self.turn,
+            "openness": round(self.openness, 1),
+            "step": None, "score": None,
+            "coach": "La visite commence — gérez bien la permission (Étape 1).",
+            "is_first": True, "engine": engine, "rag_used": bool(rag_ctx),
         }
 
-    # ── Tour de conversation ───────────────────────────────────────────
+    # ── Tour de conversation ────────────────────────────────────────
 
     def process_delegate_response(self, delegate_text: str) -> Dict:
         self.turn += 1
 
-        # ── 1. Évaluation NLP (T1→T6) ─────────────────────────────────
+        # ── 1. NLP évaluation ────────────────────────────────────────
         nlp        = self._evaluate_nlp(delegate_text)
         score      = nlp.get('overall_score', 5.0)
         acrv       = nlp.get('acrv_score', 0)
@@ -356,90 +312,97 @@ class SimulationSession:
         feedback   = nlp.get('feedback_coaching', [])
 
         self.scores_history.append({
-            'turn': self.turn, 'score': score,
-            'quality': quality, 'acrv': acrv, 'conformite': conformite,
+            'turn': self.turn, 'score': score, 'quality': quality,
+            'acrv': acrv, 'conformite': conformite,
         })
 
-        # ── 2. Variation ouverture du médecin ──────────────────────────
+        # ── 2. Push NLP → SessionState ────────────────────────────────
+        # Variation ouverture médecin
         delta        = self._delta_openness(score, conformite, quality)
         self.openness = max(1.0, min(5.0, self.openness + delta))
 
-        # ── 3. Détection étape VM ──────────────────────────────────────
+        self.state.push_nlp_turn(
+            turn=self.turn, score=score, quality=quality,
+            acrv=acrv, conformite=conformite, scores_det=scores_det,
+            feedback=feedback, openness=self.openness,
+        )
+
+        # ── 3. Détection étape VM + push SessionState ─────────────────
         step = self._detect_step(delegate_text)
         self.step_history.append(step)
+        self.state.push_vm_step(step)
 
-        # ── 4. Coaching temps réel ─────────────────────────────────────
+        # ── 4. Coaching NLP ──────────────────────────────────────────
         coach = self._build_coaching(score, acrv, conformite, step, quality, feedback)
 
-        # ── 5. Fin de visite ? ─────────────────────────────────────────
+        # ── 5. Fin de visite ? ────────────────────────────────────────
         should_close = (
             self.turn >= MAX_TURNS
             or (self.openness >= 4.2 and self.turn >= 4)
             or (self.openness <= 1.2 and self.turn >= 3)
         )
 
-        # ── 6. Ajouter message délégué à l'historique ─────────────────
+        # ── 6. Historique + RAG ───────────────────────────────────────
         self.history.append({"role": "user", "content": delegate_text})
-
-        # ── 7. RAG — contexte produit lié au message du délégué ────────
         rag_ctx = _get_rag_context(self.product['nom'], delegate_text)
 
-        # ── 8. Prompt système médecin ──────────────────────────────────
+        # ── 7. Prompt médecin ─────────────────────────────────────────
         system = _build_doctor_system(
             self.doctor, self.product, self.turn, self.openness)
-
         if should_close:
             if self.openness >= 4.0:
-                system += (
-                    "\n\nFIN DE VISITE. Tu es intéressé. "
-                    "Conclus positivement en 2 phrases : "
-                    "intérêt pour tester ou demande de documentation."
-                )
+                system += "\n\nFIN VISITE — Tu es intéressé. Conclus positivement en 2 phrases."
             else:
-                system += (
-                    "\n\nFIN DE VISITE. "
-                    "Conclus poliment en 1-2 phrases. "
-                    "Tu as d'autres patients qui attendent."
-                )
+                system += "\n\nFIN VISITE — Conclus poliment en 1-2 phrases. Tu as d'autres patients."
 
-        # ── 9. Générer réponse médecin (Ollama + RAG → fallback Claude) ─
+        # ── 8. Générer réponse médecin ────────────────────────────────
+        # Passer les dernières réponses du médecin pour éviter la répétition
+        recent_msgs = self._recent_doctor_msgs(n=4)
         msg, engine = _generate_doctor_response(
-            system      = system,
-            history     = self.history,
-            rag_context = rag_ctx,
-            fallback_fn = lambda: self._static_fallback(should_close),
+            system=system, history=self.history,
+            rag_context=rag_ctx, recent_doctor_msgs=recent_msgs,
+            fallback_fn=lambda: self._static_fallback(should_close),
         )
-
         self.history.append({"role": "assistant", "content": msg})
+
+        # ── 9. Push RAG → SessionState ────────────────────────────────
+        self.state.push_rag_hit(self.turn, self.product['nom'],
+                                bool(rag_ctx), engine)
 
         if should_close:
             self.is_finished = True
 
+        # Score global depuis SessionState
+        global_score  = self.state.global_score
+        global_niveau = self.state.global_niveau
+
         log.info(
-            f"[Simulator] Tour {self.turn} — score={score:.2f} "
-            f"openness={self.openness:.1f} engine={engine} "
-            f"rag={'oui' if rag_ctx else 'non'}"
+            f"[Sim] Tour {self.turn} | NLP={score:.2f} | open={self.openness:.1f} "
+            f"| global={global_score:.2f} | engine={engine} | rag={'Y' if rag_ctx else 'N'}"
         )
 
         return {
-            "message"    : msg,
-            "turn"       : self.turn,
-            "openness"   : round(self.openness, 1),
-            "step"       : step,
-            "score"      : round(score, 2),
-            "quality"    : quality,
-            "acrv"       : acrv,
-            "acrv_detail": acrv_det,
-            "conformite" : conformite,
-            "scores"     : scores_det,
-            "coach"      : coach,
-            "is_finished": self.is_finished,
-            "delta_open" : round(delta, 2),
-            "engine"     : engine,
-            "rag_used"   : bool(rag_ctx),
+            "message"      : msg,
+            "turn"         : self.turn,
+            "openness"     : round(self.openness, 1),
+            "step"         : step,
+            "score"        : round(score, 2),
+            "quality"      : quality,
+            "acrv"         : acrv,
+            "acrv_detail"  : acrv_det,
+            "conformite"   : conformite,
+            "scores"       : scores_det,
+            "coach"        : coach,
+            "is_finished"  : self.is_finished,
+            "delta_open"   : round(delta, 2),
+            "engine"       : engine,
+            "rag_used"     : bool(rag_ctx),
+            # Données intégrées
+            "global_score" : global_score,
+            "global_niveau": global_niveau,
         }
 
-    # ── Rapport final ──────────────────────────────────────────────────
+    # ── Rapport final ───────────────────────────────────────────────
 
     def generate_report(self) -> Dict:
         n = len(self.scores_history)
@@ -449,7 +412,7 @@ class SimulationSession:
         scores    = [s['score'] for s in self.scores_history]
         avg_score = round(sum(scores) / n, 2)
         max_score = round(max(scores), 2)
-        acrv_avg  = round(sum(s['acrv']  for s in self.scores_history) / n, 2)
+        acrv_avg  = round(sum(s['acrv'] for s in self.scores_history) / n, 2)
         taux_conf = round(sum(1 for s in self.scores_history if s['conformite']) / n * 100)
         n_exc     = sum(1 for s in self.scores_history if s['quality'] == 'Excellent')
 
@@ -463,86 +426,90 @@ class SimulationSession:
         steps_done   = list(set(s for s in self.step_history if s))
         niveau_final = self._infer_niveau(avg_score)
 
+        # Score global final depuis SessionState
+        global_score_final = self.state.global_score
+
         summary = {
-            "produit"      : self.product['nom'],
-            "medecin"      : self.doctor['nom'],
-            "difficulte"   : self.doctor['difficulte'],
-            "tours"        : n,
-            "score_moyen"  : avg_score,
-            "score_max"    : max_score,
-            "acrv_moyen"   : acrv_avg,
-            "conformite"   : f"{taux_conf}%",
-            "ouverture_fin": round(self.openness, 1),
-            "resultat"     : resultat,
+            "produit": self.product['nom'], "medecin": self.doctor['nom'],
+            "difficulte": self.doctor['difficulte'], "tours": n,
+            "score_nlp": avg_score, "score_global": global_score_final,
+            "acrv_moyen": acrv_avg, "conformite": f"{taux_conf}%",
+            "ouverture_fin": round(self.openness, 1), "resultat": resultat,
+            "lstm_score": self.state.lstm_posture_score,
+            "vm_steps": sorted(list(self.state.vm_steps_done)),
+            "rag_hits": len([h for h in self.state.rag_hits if h['context_used']]),
         }
 
-        # Rapport qualitatif via Claude API
         try:
             prompt = (
-                f"Analyse cette visite médicale et génère un rapport.\n"
-                f"Données : {json.dumps(summary, ensure_ascii=False)}\n\n"
-                f"Retourne UNIQUEMENT ce JSON :\n"
+                f"Analyse cette visite médicale intégrée (NLP + LSTM + RAG) :\n"
+                f"{json.dumps(summary, ensure_ascii=False)}\n\n"
+                f'Retourne UNIQUEMENT :\n'
                 f'{{ "points_forts": ["...", "..."], '
                 f'"axes_travail": ["...", "..."], '
                 f'"conseil_final": "..." }}'
             )
-            raw = _call_claude_report(
-                messages = [{"role": "user", "content": prompt}],
-                system   = _build_report_system(),
+            raw      = _call_claude_report(
+                messages=[{"role": "user", "content": prompt}],
+                system=_build_report_system(),
             )
             analysis = json.loads(raw.replace('```json','').replace('```','').strip())
         except Exception:
             analysis = {
-                "points_forts" : ["Engagement dans la simulation"],
+                "points_forts" : ["Engagement dans la simulation intégrée"],
                 "axes_travail" : ["Améliorer le closing BIP", "Renforcer l'A-C-R-V"],
-                "conseil_final": "Continuez à pratiquer la méthode A-C-R-V sur ce profil médecin.",
+                "conseil_final": "Continuez à pratiquer sur ce profil médecin.",
             }
 
         return {
-            "doctor"        : self.doctor,
-            "product"       : self.product,
-            "turns"         : n,
-            "avg_score"     : avg_score,
-            "max_score"     : max_score,
-            "acrv_avg"      : acrv_avg,
-            "taux_conforme" : taux_conf,
-            "pct_excellent" : round(n_exc / n * 100),
-            "ouverture_fin" : round(self.openness, 1),
-            "niveau_final"  : niveau_final,
-            "resultat"      : resultat,
-            "resultat_ico"  : ico,
-            "resultat_col"  : col,
-            "steps_done"    : steps_done,
-            "scores_history": self.scores_history,
-            "points_forts"  : analysis.get('points_forts', []),
-            "axes_travail"  : analysis.get('axes_travail', []),
-            "conseil_final" : analysis.get('conseil_final', ''),
+            "doctor"         : self.doctor,
+            "product"        : self.product,
+            "turns"          : n,
+            "avg_score"      : avg_score,
+            "max_score"      : max_score,
+            "global_score"   : global_score_final,
+            "acrv_avg"       : acrv_avg,
+            "taux_conforme"  : taux_conf,
+            "pct_excellent"  : round(n_exc / n * 100),
+            "ouverture_fin"  : round(self.openness, 1),
+            "niveau_final"   : niveau_final,
+            "resultat"       : resultat,
+            "resultat_ico"   : ico,
+            "resultat_col"   : col,
+            "steps_done"     : steps_done,
+            "scores_history" : self.scores_history,
+            "points_forts"   : analysis.get('points_forts', []),
+            "axes_travail"   : analysis.get('axes_travail', []),
+            "conseil_final"  : analysis.get('conseil_final', ''),
+            # Données intégrées dans le rapport
+            "lstm_score"     : self.state.lstm_posture_score,
+            "rag_hits"       : len([h for h in self.state.rag_hits if h['context_used']]),
+            "vm_steps_done"  : sorted(list(self.state.vm_steps_done)),
+            "state_snapshot" : self.state.dashboard_data(),
         }
 
-    # ── Helpers privés ─────────────────────────────────────────────────
+    # ── Helpers ────────────────────────────────────────────────────
 
     def _evaluate_nlp(self, delegate_text: str) -> Dict:
         if self.nlp_model is None:
             return {
-                'overall_score': 5.0, 'quality': 'Bon',
-                'acrv_score': 2, 'acrv_detail': {},
-                'conformite': True, 'feedback_coaching': [], 'scores': {},
+                'overall_score': 5.0, 'quality': 'Bon', 'acrv_score': 2,
+                'acrv_detail': {}, 'conformite': True,
+                'feedback_coaching': [], 'scores': {},
             }
         last_doctor = next(
-            (m["content"] for m in reversed(self.history)
-             if m["role"] == "assistant"), ""
+            (m["content"] for m in reversed(self.history) if m["role"] == "assistant"), ""
         )
         try:
             return self.nlp_model.predict(last_doctor, delegate_text)
         except Exception:
             return {
-                'overall_score': 5.0, 'quality': 'Bon',
-                'acrv_score': 2, 'acrv_detail': {},
-                'conformite': True, 'feedback_coaching': [], 'scores': {},
+                'overall_score': 5.0, 'quality': 'Bon', 'acrv_score': 2,
+                'acrv_detail': {}, 'conformite': True,
+                'feedback_coaching': [], 'scores': {},
             }
 
-    def _delta_openness(self, score: float,
-                        conformite: bool, quality: str) -> float:
+    def _delta_openness(self, score: float, conformite: bool, quality: str) -> float:
         d = 0.0
         if score >= 8.5:   d += 0.8
         elif score >= 7.0: d += 0.4
@@ -561,8 +528,7 @@ class SimulationSession:
                 return step['num']
         return None
 
-    def _build_coaching(self, score, acrv, conformite,
-                         step, quality, feedback) -> str:
+    def _build_coaching(self, score, acrv, conformite, step, quality, feedback) -> str:
         msgs = []
         if not conformite:
             msgs.append("🚨 MOT TUEUR — évitez les promesses !")
@@ -591,19 +557,19 @@ class SimulationSession:
     def _static_fallback(self, closing: bool) -> str:
         import random
         if closing and self.openness >= 4:
-            return "C'est intéressant. Laissez-moi votre documentation, je vais y réfléchir."
+            return "C'est intéressant. Laissez-moi votre documentation."
         if closing:
             return "Bien, merci pour votre passage. J'ai d'autres patients."
         options = [
-            "Qu'est-ce qui distingue vraiment votre produit de ce que j'utilise ?",
-            "Et sur le plan des données cliniques, qu'avez-vous exactement ?",
-            "Hmm. Et côté tolérance, vous avez des retours terrain ?",
-            "Intéressant. Quel profil de patient ciblez-vous précisément ?",
-            "Je vois. Vous avez des études sur ce point spécifique ?",
+            "Qu'est-ce qui distingue vraiment votre produit ?",
+            "Et sur le plan des données cliniques, qu'avez-vous ?",
+            "Hmm. Et côté tolérance, des retours terrain ?",
+            "Quel profil de patient ciblez-vous précisément ?",
+            "Vous avez des études sur ce point ?",
         ]
         return random.choice(options)
 
-    # ── Sérialisation session Django ───────────────────────────────────
+    # ── Sérialisation ──────────────────────────────────────────────
 
     def to_dict(self) -> dict:
         return {
@@ -616,6 +582,7 @@ class SimulationSession:
             'scores_history': self.scores_history,
             'step_history'  : self.step_history,
             'is_finished'   : self.is_finished,
+            'state'         : self.state.to_dict(),
         }
 
     @classmethod
@@ -627,4 +594,6 @@ class SimulationSession:
         s.scores_history= data['scores_history']
         s.step_history  = data['step_history']
         s.is_finished   = data['is_finished']
+        if 'state' in data:
+            s.state = SessionState.from_dict(data['state'])
         return s
