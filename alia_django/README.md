@@ -144,6 +144,18 @@ Dans `alia/settings.py` :
 MODELS_AI_DIR = BASE_DIR / 'models_ai'  # Chemin des modèles IA
 ```
 
+Pour la génération de flyers Gemini, créez aussi un fichier `.env` à la racine :
+
+```env
+GEMINI_API_KEY=put_your_gemini_api_key_here
+```
+
+Commande de génération (module `modeling`) :
+
+```bash
+python manage.py generate_flyers --limit 5
+```
+
 ---
 
 ## 🧪 Test rapide

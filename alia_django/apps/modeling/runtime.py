@@ -24,6 +24,19 @@ class _Runtime:
         self.kb.load_or_create(docs)
         self.alia = rag_mod.AliaOrchestrator(self.kb)
 
+        # Préchargement de Whisper au démarrage pour éviter le délai
+        # de 5-10 secondes au premier appel micro
+        print("[modeling] Préchargement du modèle Whisper...")
+        try:
+            import whisper
+            self.whisper_model = whisper.load_model("small", device="cpu")
+            # Partage le modèle avec handlers.py pour éviter un double chargement
+            import apps.modeling.handlers as _handlers
+            _handlers._whisper_model = self.whisper_model
+            print("[modeling] Whisper prêt.")
+        except Exception as e:
+            print(f"[modeling] Whisper non disponible au démarrage : {e}")
+
 
 def get_runtime() -> _Runtime:
     global _runtime

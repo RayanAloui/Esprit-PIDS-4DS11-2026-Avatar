@@ -11,7 +11,8 @@ uvicorn[standard]>=0.27
 starlette>=0.37
 fastapi>=0.110
 pydantic>=2.0
-edge-tts>=6.1
+openai-whisper>=20231117
+pyttsx3>=2.90
 
 # LangChain stack (Ollama + Chroma; requires local Ollama)
 langchain-core>=0.3
@@ -20,3 +21,6 @@ langchain-ollama>=0.2
 langchain-community>=0.3
 chromadb>=0.5
 rank-bm25>=0.2
+google-genai>=1.14.0
+python-dotenv>=1.0.1
+python-pptx

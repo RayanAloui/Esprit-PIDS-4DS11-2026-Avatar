@@ -7,7 +7,6 @@ _rf = RequestFactory()
 
 
 def modeling_page_context():
-    """API base path without trailing slash (e.g. /alia-api) for fetch / static URLs."""
     return {
         "page": "modeling",
         "modeling_api_base": reverse("modeling_index").rstrip("/"),
