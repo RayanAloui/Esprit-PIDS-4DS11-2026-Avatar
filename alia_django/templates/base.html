@@ -7,11 +7,59 @@
   <title>{% block title %}ALIA — Avatar Visite Médicale{% endblock %}</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    /* ── User menu navbar ── */
+    .nav-user{
+      display:flex;align-items:center;gap:10px;margin-left:auto;
+      flex-shrink:0;
+    }
+    .nav-user-avatar{
+      width:34px;height:34px;border-radius:50%;
+      background:linear-gradient(135deg,rgba(0,212,255,0.2),rgba(0,153,187,0.1));
+      border:1px solid rgba(0,212,255,0.3);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Bebas Neue',cursive;font-size:13px;color:#00d4ff;
+      letter-spacing:1px;cursor:pointer;flex-shrink:0;
+      transition:border-color .2s;
+    }
+    .nav-user-avatar:hover{border-color:rgba(0,212,255,0.6);}
+    .nav-user-info{display:flex;flex-direction:column;line-height:1.2;}
+    .nav-user-name{font-size:13px;font-weight:600;color:#f0f4ff;}
+    .nav-user-role{
+      font-size:9px;letter-spacing:1px;text-transform:uppercase;
+      color:#00d4ff;font-family:'JetBrains Mono',monospace;
+    }
+    .nav-user-sep{
+      width:1px;height:24px;background:rgba(0,212,255,0.15);flex-shrink:0;
+    }
+    .nav-logout-form{margin:0;}
+    .nav-logout-btn{
+      padding:6px 14px;border-radius:7px;
+      background:transparent;border:1px solid rgba(255,68,68,0.25);
+      color:rgba(255,136,136,0.7);font-size:12px;
+      font-family:'Source Sans 3',sans-serif;cursor:pointer;
+      transition:all .2s;white-space:nowrap;
+    }
+    .nav-logout-btn:hover{
+      background:rgba(255,68,68,0.08);border-color:rgba(255,68,68,0.45);
+      color:#ff8888;
+    }
+    .nav-profile-link{
+      padding:6px 12px;border-radius:7px;
+      background:transparent;border:1px solid rgba(0,212,255,0.15);
+      color:#8899bb;font-size:12px;text-decoration:none;
+      transition:all .2s;white-space:nowrap;
+    }
+    .nav-profile-link:hover{
+      background:rgba(0,212,255,0.06);color:#00d4ff;
+      border-color:rgba(0,212,255,0.3);
+    }
+  </style>
   {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-  <!-- ── NAVBAR ──────────────────────────────────────────────────── -->
+  <!-- ── NAVBAR ────────────────────────────────────────────────────── -->
   <nav class="navbar">
     <div class="nav-inner">
       <a href="{% url 'home:index' %}" class="nav-brand">
@@ -48,18 +96,45 @@
           <span class="nav-icon">🎭</span> Simulator
         </a>
       </div>
+
+      {% if user.is_authenticated %}
+      <div class="nav-user">
+        {% with profile=user.profile %}
+        <a href="{% url 'accounts:profile' %}" class="nav-user-avatar"
+           title="Mon profil">
+          {{ profile.initials }}
+        </a>
+        <div class="nav-user-info">
+          <span class="nav-user-name">{{ profile.display_name }}</span>
+          <span class="nav-user-role">{{ profile.get_role_display }}</span>
+        </div>
+        {% endwith %}
+        <div class="nav-user-sep"></div>
+        <a href="{% url 'accounts:profile' %}" class="nav-profile-link">Profil</a>
+        <form class="nav-logout-form" method="post" action="{% url 'accounts:logout' %}">
+          {% csrf_token %}
+          <button class="nav-logout-btn" type="submit">Déconnexion</button>
+        </form>
+      </div>
+      {% endif %}
+
     </div>
   </nav>
 
-  <!-- ── CONTENT ─────────────────────────────────────────────────── -->
+  <!-- ── CONTENT ───────────────────────────────────────────────────── -->
   <main class="main-content">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ── FOOTER ──────────────────────────────────────────────────── -->
+  <!-- ── FOOTER ────────────────────────────────────────────────────── -->
   <footer class="footer">
     <div class="footer-inner">
       <span>ALIA · Avatar Visite Médicale · <strong>VITAL SA</strong></span>
+      {% if user.is_authenticated %}
+      <span style="color:rgba(0,212,255,0.3);font-size:11px;margin-left:16px;">
+        {{ user.username }}
+      </span>
+      {% endif %}
     </div>
   </footer>
 

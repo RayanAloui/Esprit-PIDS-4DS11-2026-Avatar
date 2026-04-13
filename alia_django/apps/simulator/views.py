@@ -11,6 +11,7 @@ from django.views.decorators.http import require_http_methods
 
 from .profiles import DOCTOR_PROFILES, VITAL_PRODUCTS
 from .engine   import SimulationSession
+from django.contrib.auth.decorators import login_required
 
 SESSION_KEY = 'alia_sim_session'
 
@@ -19,6 +20,7 @@ SESSION_KEY = 'alia_sim_session'
 # PAGE PRINCIPALE
 # ══════════════════════════════════════════════════════════════════════
 
+@login_required
 def simulator_index(request):
     context = {
         'page'    : 'simulator',

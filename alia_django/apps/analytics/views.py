@@ -4,6 +4,7 @@ Analytics Views — Tableau de bord de progression ALIA
 import json
 import math
 from collections import defaultdict
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http      import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -14,6 +15,7 @@ from django.utils     import timezone
 from apps.avatar.models import NLPAnalysis
 
 
+@login_required
 def analytics_index(request):
     """Page principale Analytics."""
     total = NLPAnalysis.objects.count()

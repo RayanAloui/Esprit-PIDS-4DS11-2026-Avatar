@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # ALIA apps
+    'apps.accounts',   # ← Auth ALIA
     'apps.home',
     'apps.avatar',
     'apps.routes',
@@ -87,15 +88,19 @@ USE_TZ        = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# ── Authentification ──────────────────────────────────────────────────
+LOGIN_URL          = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL= '/accounts/login/'
+
 # ── Chemins modèles IA ────────────────────────────────────────────────
 MODELS_AI_DIR = BASE_DIR / 'models_ai'
 
-# ── FastAPI ALIA RAG (apps.modeling), monté sous MODELING_API_MOUNT_PATH ──
-MODELING_DIR = BASE_DIR / 'apps' / 'modeling'
-MODELING_DATA_DIR = MODELING_DIR / 'data'
-MODELING_CSV = MODELING_DATA_DIR / 'vital_products.csv'
-MODELING_KB_DIR = MODELING_DATA_DIR / 'alia_knowledge_db'
-MODELING_STATIC_DIR = MODELING_DATA_DIR / 'static'
-MODELING_AUDIO_DIR = MODELING_STATIC_DIR / 'audio'
+# ── FastAPI ALIA RAG (apps.modeling) ─────────────────────────────────
+MODELING_DIR          = BASE_DIR / 'apps' / 'modeling'
+MODELING_DATA_DIR     = MODELING_DIR / 'data'
+MODELING_CSV          = MODELING_DATA_DIR / 'vital_products.csv'
+MODELING_KB_DIR       = MODELING_DATA_DIR / 'alia_knowledge_db'
+MODELING_STATIC_DIR   = MODELING_DATA_DIR / 'static'
+MODELING_AUDIO_DIR    = MODELING_STATIC_DIR / 'audio'
 MODELING_API_MOUNT_PATH = '/alia-api'
-

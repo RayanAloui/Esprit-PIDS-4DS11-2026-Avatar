@@ -2,6 +2,7 @@
 Avatar Views — NLP Scoring + Body Language Stream
 """
 import json
+from django.contrib.auth.decorators import login_required
 from django.shortcuts    import render
 from django.http         import JsonResponse, StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,6 +13,7 @@ from .models   import NLPAnalysis
 from .camera   import CameraStream
 
 
+@login_required
 def avatar_index(request):
     history = NLPAnalysis.objects.order_by('-created_at')[:10]
     stats   = _compute_stats()
@@ -41,6 +43,7 @@ def analyze_api(request):
 
 
 @require_http_methods(["GET"])
+@login_required
 def history_api(request):
     analyses = NLPAnalysis.objects.order_by('-created_at')[:20]
     data = [{'id':a.id,'quality':a.quality,'overall_score':a.overall_score,

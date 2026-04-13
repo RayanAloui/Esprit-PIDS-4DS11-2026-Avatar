@@ -377,58 +377,6 @@
     <!-- COL 3 — Dashboard unifié -->
     <div class="right-col">
 
-      <!-- Score Global -->
-      <div class="score-ring-card">
-        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:10px;text-align:center">Score Global Intégré</div>
-        <div class="score-ring-wrap">
-          <canvas id="scoreRingCanvas" width="110" height="110"></canvas>
-          <div class="score-ring-val">
-            <div class="score-ring-num" id="globalScoreNum">—</div>
-            <div class="score-ring-lbl">/10</div>
-          </div>
-        </div>
-        <div class="score-niveau" id="globalNiveau">En attente…</div>
-        <div class="contrib-bars">
-          <div class="contrib-row"><span class="contrib-lbl">NLP 40%</span><div class="contrib-bar-bg"><div class="contrib-fill c-nlp" id="cNlp"></div></div><span class="contrib-val" id="cvNlp">—</span></div>
-          <div class="contrib-row"><span class="contrib-lbl">LSTM 25%</span><div class="contrib-bar-bg"><div class="contrib-fill c-lstm" id="cLstm"></div></div><span class="contrib-val" id="cvLstm">—</span></div>
-          <div class="contrib-row"><span class="contrib-lbl">Conform. 20%</span><div class="contrib-bar-bg"><div class="contrib-fill c-conf" id="cConf"></div></div><span class="contrib-val" id="cvConf">—</span></div>
-          <div class="contrib-row"><span class="contrib-lbl">Étapes 15%</span><div class="contrib-bar-bg"><div class="contrib-fill c-vm" id="cVm"></div></div><span class="contrib-val" id="cvVm">—</span></div>
-        </div>
-      </div>
-
-      <!-- Modules NLP + LSTM + RAG + VM -->
-      <div class="module-cards">
-        <div class="mod-card">
-          <div class="mod-card-title"><div class="mod-dot active" id="nlpDot"></div>NLP Score</div>
-          <div class="mod-val" id="nlpScoreVal">—</div>
-          <div class="mod-sub" id="nlpQuality">En attente</div>
-          <canvas id="nlpMiniChart"></canvas>
-        </div>
-        <div class="mod-card">
-          <div class="mod-card-title"><div class="mod-dot" id="lstmDot"></div>LSTM Posture</div>
-          <div id="lstmPostureBadge"><span class="posture-badge pb-neutral">—</span></div>
-          <div class="lstm-mini-gauge">
-            <div class="lstm-mg-row"><div class="lstm-mg-lbl"><span>Conf.</span><span id="lstmConfVal">—</span></div><div class="lstm-mg-bg"><div class="lstm-mg-fill lstm-conf-fill" id="lstmConfBar"></div></div></div>
-            <div class="lstm-mg-row"><div class="lstm-mg-lbl"><span>Stress</span><span id="lstmStressVal">—</span></div><div class="lstm-mg-bg"><div class="lstm-mg-fill lstm-stress-fill" id="lstmStressBar"></div></div></div>
-          </div>
-        </div>
-        <div class="mod-card">
-          <div class="mod-card-title"><div class="mod-dot" id="ragDot"></div>RAG</div>
-          <div class="mod-val" id="ragHitsVal">0</div>
-          <div class="mod-sub">contextes utilisés</div>
-          <div class="rag-status"><div class="rag-dot-sm" id="ragDotSm"></div><span id="ragEngine">—</span></div>
-        </div>
-        <div class="mod-card">
-          <div class="mod-card-title"><div class="mod-dot active"></div>Étapes VM</div>
-          <div class="mod-val" id="vmStepsVal">0/6</div>
-          <div class="vm-steps-mini">
-            <div class="vm-pip" id="vmp1">1</div><div class="vm-pip" id="vmp2">2</div>
-            <div class="vm-pip" id="vmp3">3</div><div class="vm-pip" id="vmp4">4</div>
-            <div class="vm-pip" id="vmp5">5</div><div class="vm-pip" id="vmp6">6</div>
-          </div>
-        </div>
-      </div>
-
       <!-- Webcam LSTM — grande zone responsive -->
       <div class="webcam-card">
         <div class="webcam-card-header">
@@ -466,6 +414,58 @@
               <span class="wcam-g-val" id="wcamStressVal">—</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Modules NLP + LSTM + RAG + VM -->
+      <div class="module-cards">
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot active" id="nlpDot"></div>NLP Score</div>
+          <div class="mod-val" id="nlpScoreVal">—</div>
+          <div class="mod-sub" id="nlpQuality">En attente</div>
+          <canvas id="nlpMiniChart"></canvas>
+        </div>
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot" id="lstmDot"></div>LSTM Posture</div>
+          <div id="lstmPostureBadge"><span class="posture-badge pb-neutral">—</span></div>
+          <div class="lstm-mini-gauge">
+            <div class="lstm-mg-row"><div class="lstm-mg-lbl"><span>Conf.</span><span id="lstmConfVal">—</span></div><div class="lstm-mg-bg"><div class="lstm-mg-fill lstm-conf-fill" id="lstmConfBar"></div></div></div>
+            <div class="lstm-mg-row"><div class="lstm-mg-lbl"><span>Stress</span><span id="lstmStressVal">—</span></div><div class="lstm-mg-bg"><div class="lstm-mg-fill lstm-stress-fill" id="lstmStressBar"></div></div></div>
+          </div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot" id="ragDot"></div>RAG</div>
+          <div class="mod-val" id="ragHitsVal">0</div>
+          <div class="mod-sub">contextes utilisés</div>
+          <div class="rag-status"><div class="rag-dot-sm" id="ragDotSm"></div><span id="ragEngine">—</span></div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot active"></div>Étapes VM</div>
+          <div class="mod-val" id="vmStepsVal">0/6</div>
+          <div class="vm-steps-mini">
+            <div class="vm-pip" id="vmp1">1</div><div class="vm-pip" id="vmp2">2</div>
+            <div class="vm-pip" id="vmp3">3</div><div class="vm-pip" id="vmp4">4</div>
+            <div class="vm-pip" id="vmp5">5</div><div class="vm-pip" id="vmp6">6</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score Global -->
+      <div class="score-ring-card">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:10px;text-align:center">Score Global Intégré</div>
+        <div class="score-ring-wrap">
+          <canvas id="scoreRingCanvas" width="110" height="110"></canvas>
+          <div class="score-ring-val">
+            <div class="score-ring-num" id="globalScoreNum">—</div>
+            <div class="score-ring-lbl">/10</div>
+          </div>
+        </div>
+        <div class="score-niveau" id="globalNiveau">En attente…</div>
+        <div class="contrib-bars">
+          <div class="contrib-row"><span class="contrib-lbl">NLP 40%</span><div class="contrib-bar-bg"><div class="contrib-fill c-nlp" id="cNlp"></div></div><span class="contrib-val" id="cvNlp">—</span></div>
+          <div class="contrib-row"><span class="contrib-lbl">LSTM 25%</span><div class="contrib-bar-bg"><div class="contrib-fill c-lstm" id="cLstm"></div></div><span class="contrib-val" id="cvLstm">—</span></div>
+          <div class="contrib-row"><span class="contrib-lbl">Conform. 20%</span><div class="contrib-bar-bg"><div class="contrib-fill c-conf" id="cConf"></div></div><span class="contrib-val" id="cvConf">—</span></div>
+          <div class="contrib-row"><span class="contrib-lbl">Étapes 15%</span><div class="contrib-bar-bg"><div class="contrib-fill c-vm" id="cVm"></div></div><span class="contrib-val" id="cvVm">—</span></div>
         </div>
       </div>
 
