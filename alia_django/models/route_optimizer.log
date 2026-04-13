@@ -1,4 +1,4 @@
-21:49:54  ERROR     Erreur chargement RouteOptimizer : (<StringDtype(storage='python', na_value=nan)>, array(['ven_415578655435645668734a5249525f32736265307834764a496843',
+23:35:47  ERROR     Erreur chargement RouteOptimizer : (str, array(['ven_415578655435645668734a5249525f32736265307834764a496843',
        'ven_456a61765a6134594b41455249525f30344262695652474a496843',
        'ven_4570736d7045625255366d5249525f306f6575694177704a496843',
        'ven_45796d544b6c587130495a5249525f315555787a3865584a496843',
@@ -63,8 +63,4 @@
        'ven_6367784b396334364d706a5249525f4c4a695f4c765f694a496843',
        'ven_7375726370454c495430715249525f7a6b5a31696536684a496843'],
       dtype=object))
-21:55:59  INFO      HTTP Request: POST http://127.0.0.1:11434/api/embed "HTTP/1.1 200 OK"
-21:56:30  INFO      Imported existing <module 'comtypes.gen' from 'C:\\Users\\DELL\\AppData\\Roaming\\Python\\Python314\\site-packages\\comtypes\\gen\\__init__.py'>
-21:56:30  INFO      Using writeable comtypes cache directory: 'C:\Users\DELL\AppData\Roaming\Python\Python314\site-packages\comtypes\gen'
-21:56:59  INFO      HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
-21:57:16  WARNING   Not Found: /favicon.ico
+23:35:47  WARNING   Not Found: /favicon.ico

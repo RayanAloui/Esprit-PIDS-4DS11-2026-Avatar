@@ -616,7 +616,6 @@ class AliaOrchestrator:
             
             # Create a user-friendly response
             response = f"J'ai généré la présentation PowerPoint pour {product_name} !\n\n"
-            response += f"Le fichier a été sauvegardé dans : {output_path}\n\n"
             response += "La présentation comprend :\n"
             response += "• Une slide d'accroche avec le positionnement produit\n"
             response += "• L'analyse de la problématique patient\n"
