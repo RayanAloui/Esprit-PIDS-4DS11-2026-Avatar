@@ -1,0 +1,638 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ALIA Analytics — Progression{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── KPI Cards ──────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px; margin-bottom: 28px;
+}
+@media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 700px)  { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+
+.kpi-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px; text-align: center;
+  position: relative; overflow: hidden;
+  transition: border-color .25s;
+}
+.kpi-card:hover { border-color: var(--border-2); }
+.kpi-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.kpi-card.cyan-top::before  { background: var(--cyan); }
+.kpi-card.gold-top::before  { background: var(--gold); }
+.kpi-card.green-top::before { background: var(--green); }
+.kpi-card.red-top::before   { background: var(--red); }
+.kpi-card.white-top::before { background: var(--white-dim); }
+
+.kpi-icon  { font-size: 24px; margin-bottom: 6px; }
+.kpi-val   {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 40px; line-height: 1; color: var(--cyan);
+}
+.kpi-label { font-size: 11px; color: var(--white-dim); margin-top: 4px; letter-spacing:.5px; }
+.kpi-trend {
+  font-size: 11px; margin-top: 6px; font-weight: 700;
+}
+.kpi-trend.up   { color: var(--green); }
+.kpi-trend.down { color: var(--red); }
+.kpi-trend.flat { color: var(--white-dim); }
+
+/* ── Charts grid ─────────────────────────────────────────────── */
+.charts-grid-main {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px; margin-bottom: 20px;
+}
+.charts-grid-bottom {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; margin-bottom: 20px;
+}
+.charts-grid-bottom2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; margin-bottom: 28px;
+}
+@media (max-width: 1100px) {
+  .charts-grid-main   { grid-template-columns: 1fr; }
+  .charts-grid-bottom { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .charts-grid-bottom  { grid-template-columns: 1fr; }
+  .charts-grid-bottom2 { grid-template-columns: 1fr; }
+}
+
+.chart-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px; position: relative;
+}
+.chart-canvas-wrap {
+  position: relative; width: 100%;
+}
+
+/* ── Plan d'action ───────────────────────────────────────────── */
+.action-plan-section {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px; margin-bottom: 28px;
+}
+.plan-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--cyan), var(--cyan-dim));
+  color: var(--navy); font-family: 'Bebas Neue', cursive;
+  font-size: 16px; letter-spacing: 2px;
+  border: none; cursor: pointer; transition: all .25s;
+}
+.plan-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,.3); }
+.plan-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.action-items { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+
+.action-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 18px;
+  background: rgba(0,0,0,.2);
+  border-radius: 10px; border: 1px solid var(--border);
+  opacity: 0; transform: translateX(-12px);
+  transition: all .4s;
+}
+.action-item.show { opacity: 1; transform: translateX(0); }
+
+.action-priority {
+  flex-shrink: 0; padding: 4px 10px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  border: 1px solid;
+}
+.action-priority.haute   { background: rgba(255,68,68,.1); border-color: rgba(255,68,68,.3); color: var(--red); }
+.action-priority.moyenne { background: rgba(255,152,0,.1); border-color: rgba(255,152,0,.3); color: var(--orange); }
+.action-priority.faible  { background: rgba(0,212,255,.1); border-color: rgba(0,212,255,.3); color: var(--cyan); }
+
+.action-content { flex: 1; }
+.action-axe  { font-weight: 700; font-size: 14px; color: var(--white); margin-bottom: 4px; }
+.action-desc { font-size: 13px; color: var(--white-dim); line-height: 1.5; }
+.action-seuil{
+  margin-top: 6px; font-size: 11px;
+  font-family: 'JetBrains Mono', monospace; color: var(--cyan);
+}
+
+/* ── Objection clusters ─────────────────────────────────────── */
+.cluster-grid { display: flex; flex-direction: column; gap: 10px; }
+.cluster-row  { display: flex; align-items: center; gap: 10px; }
+.cluster-name { font-size: 12px; color: var(--white-dim); width: 110px; flex-shrink: 0; }
+.cluster-bar-bg {
+  flex: 1; height: 8px; background: rgba(255,255,255,.08);
+  border-radius: 4px; overflow: hidden;
+}
+.cluster-bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  transition: width 1s cubic-bezier(.23,1,.32,1); width: 0%;
+}
+.cluster-count { font-size: 11px; color: var(--white-dim); width: 24px; text-align: right; }
+.cluster-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--gold); width: 42px; text-align: right;
+}
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.empty-analytics {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 400px; gap: 16px; text-align: center;
+  color: var(--white-dim);
+}
+.empty-analytics .icon { font-size: 56px; opacity: .25; }
+.empty-analytics h2 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 24px; letter-spacing: 2px; opacity: .4;
+}
+.empty-analytics p { font-size: 13px; opacity: .4; max-width: 300px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>ALIA <span>Analytics</span></h1>
+  <p>Tableau de bord de progression personnalisée — visualisez votre évolution,
+     identifiez vos axes de travail et recevez un plan d'action IA.</p>
+</div>
+
+{% if not has_data %}
+<!-- ── EMPTY STATE ─────────────────────────────────────────── -->
+<div class="empty-analytics">
+  <div class="icon">📊</div>
+  <h2>Pas encore de données</h2>
+  <p>Effectuez au moins 2 analyses NLP sur la page Avatar pour voir votre tableau de bord de progression.</p>
+  <a href="{% url 'avatar:index' %}" class="btn btn-primary" style="margin-top:8px">
+    🤖 Aller à l'Avatar NLP
+  </a>
+</div>
+
+{% else %}
+
+<!-- ── KPI CARDS ──────────────────────────────────────────── -->
+<div class="kpi-grid" id="kpiGrid">
+  <!-- Remplies par JS -->
+</div>
+
+<!-- ── PROGRESSION + RADAR ────────────────────────────────── -->
+<div class="charts-grid-main">
+
+  <div class="chart-card">
+    <div class="card-title">Courbe de progression — Score ALIA</div>
+    <div class="chart-canvas-wrap" style="height:260px">
+      <canvas id="chartProgression"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="card-title">Radar des compétences</div>
+    <div class="chart-canvas-wrap" style="height:260px">
+      <canvas id="chartRadar"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── NIVEAU + QUALITÉ + ACRV ────────────────────────────── -->
+<div class="charts-grid-bottom">
+
+  <div class="chart-card">
+    <div class="card-title">Évolution du niveau ALIA</div>
+    <div class="chart-canvas-wrap" style="height:200px">
+      <canvas id="chartNiveau"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="card-title">Distribution qualité</div>
+    <div class="chart-canvas-wrap" style="height:200px">
+      <canvas id="chartQualite"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="card-title">Score A-C-R-V / session</div>
+    <div class="chart-canvas-wrap" style="height:200px">
+      <canvas id="chartAcrv"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── CONFORMITÉ + OBJECTIONS ────────────────────────────── -->
+<div class="charts-grid-bottom2">
+
+  <div class="chart-card">
+    <div class="card-title">Conformité réglementaire</div>
+    <div style="display:flex; align-items:center; gap:20px; margin-bottom:14px;">
+      <div style="text-align:center;">
+        <div style="font-family:'Bebas Neue',cursive; font-size:48px; color:var(--green); line-height:1;"
+             id="tauxConformite">—</div>
+        <div style="font-size:11px; color:var(--white-dim);">taux conformité</div>
+      </div>
+      <div class="chart-canvas-wrap" style="height:160px; flex:1">
+        <canvas id="chartConformite"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="card-title">Types d'objections & score moyen</div>
+    <div class="cluster-grid" id="clusterGrid">
+      <!-- Rempli par JS -->
+    </div>
+  </div>
+
+</div>
+
+<!-- ── PLAN D'ACTION IA ────────────────────────────────────── -->
+<div class="action-plan-section">
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:6px;">
+    <div>
+      <div class="card-title" style="margin-bottom:4px;">Plan d'action personnalisé — ALIA Coach IA</div>
+      <p style="font-size:13px; color:var(--white-dim); margin:0;">
+        Basé sur votre historique complet, ALIA génère vos 3 axes de progression prioritaires.
+      </p>
+    </div>
+    <button class="plan-btn" id="planBtn" onclick="generatePlan()">
+      ✨ Générer mon plan d'action
+    </button>
+  </div>
+
+  <div id="planLoading" style="display:none; align-items:center; gap:10px; padding:16px 0; color:var(--cyan);">
+    <div class="spinner"></div>
+    <span>ALIA analyse votre progression…</span>
+  </div>
+
+  <div class="action-items" id="actionItems"></div>
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+{% if has_data %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ── Data depuis Django ────────────────────────────────────────────────
+const DATA = {{ data|safe }};
+
+// ── Defaults Chart.js ──────────────────────────────────────────────────
+Chart.defaults.color          = '#8899bb';
+Chart.defaults.font.family    = "'Source Sans 3', sans-serif";
+Chart.defaults.font.size      = 11;
+Chart.defaults.borderColor    = 'rgba(0,212,255,0.1)';
+
+const CYAN    = '#00d4ff';
+const GOLD    = '#f0c040';
+const GREEN   = '#00e676';
+const RED     = '#ff4444';
+const ORANGE  = '#ff9800';
+const NAVY    = '#0a1628';
+
+// ══════════════════════════════════════════════════════════════════════
+// KPI CARDS
+// ══════════════════════════════════════════════════════════════════════
+
+function buildKPIs() {
+  const s = DATA.summary_stats;
+  if (!s) return;
+
+  const trend = s.trend >= 0
+    ? `▲ +${s.trend} pts vs débuts`
+    : `▼ ${s.trend} pts vs débuts`;
+  const trendClass = s.trend > 0 ? 'up' : s.trend < 0 ? 'down' : 'flat';
+
+  const kpis = [
+    { icon:'🎯', val: s.avg_score, label:'Score moyen /10',    color:'cyan-top',  trend: trend, trendClass },
+    { icon:'🏆', val: s.dernier_niveau, label:'Niveau actuel', color:'gold-top',  trend: `Max atteint : ${s.max_score}`, trendClass:'flat' },
+    { icon:'⭐', val: s.taux_excellent+'%', label:'Taux Excellent', color:'green-top', trend:`${s.total} analyses totales`, trendClass:'flat' },
+    { icon:'✅', val: s.taux_conforme+'%', label:'Taux conformité',  color: s.taux_conforme >= 90 ? 'green-top' : 'red-top', trend: s.taux_conforme >= 90 ? 'Excellent' : 'À améliorer', trendClass: s.taux_conforme >= 90 ? 'up' : 'down' },
+    { icon:'📋', val: DATA.acrv_trend?.avg ?? '—', label:'ACRV moyen /4', color:'white-top', trend:'Méthode A-C-R-V', trendClass:'flat' },
+  ];
+
+  const grid = document.getElementById('kpiGrid');
+  grid.innerHTML = kpis.map(k => `
+    <div class="kpi-card ${k.color}">
+      <div class="kpi-icon">${k.icon}</div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-trend ${k.trendClass}">${k.trend}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// GRAPHIQUES
+// ══════════════════════════════════════════════════════════════════════
+
+function buildProgression() {
+  const d = DATA.progression;
+  if (!d?.labels?.length) return;
+  new Chart(document.getElementById('chartProgression'), {
+    type: 'line',
+    data: {
+      labels: d.labels,
+      datasets: [
+        {
+          label: 'Score global', data: d.scores,
+          borderColor: CYAN, backgroundColor: 'rgba(0,212,255,0.08)',
+          borderWidth: 2, pointRadius: 4, pointBackgroundColor: CYAN,
+          fill: true, tension: 0.35,
+        },
+        {
+          label: 'Moy. mobile (3)', data: d.moving_avg,
+          borderColor: GOLD, borderWidth: 2, borderDash: [5,3],
+          pointRadius: 0, fill: false, tension: 0.35,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        y: {
+          min: 0, max: 10,
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { stepSize: 2 }
+        },
+        x: { grid: { color: 'rgba(255,255,255,0.03)' } }
+      }
+    }
+  });
+}
+
+function buildRadar() {
+  const d = DATA.radar;
+  if (!d?.labels?.length) return;
+  new Chart(document.getElementById('chartRadar'), {
+    type: 'radar',
+    data: {
+      labels: d.labels,
+      datasets: [{
+        label: 'Compétences',
+        data: d.values,
+        backgroundColor: 'rgba(0,212,255,0.15)',
+        borderColor: CYAN,
+        borderWidth: 2,
+        pointBackgroundColor: CYAN,
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          min: 0, max: 10,
+          grid       : { color: 'rgba(255,255,255,0.07)' },
+          angleLines : { color: 'rgba(255,255,255,0.07)' },
+          pointLabels: { font: { size: 10 }, color: '#8899bb' },
+          ticks      : { stepSize: 2, color: 'rgba(136,153,187,0.5)', backdropColor: 'transparent' }
+        }
+      }
+    }
+  });
+}
+
+function buildNiveau() {
+  const d = DATA.niveau_hist;
+  if (!d?.labels?.length) return;
+  const colors = ['#90CAF9','#42A5F5','#1976D2','#00d4ff'];
+  new Chart(document.getElementById('chartNiveau'), {
+    type: 'line',
+    data: {
+      labels: d.labels,
+      datasets: [{
+        label: 'Niveau ALIA',
+        data: d.timeline,
+        borderColor: GOLD,
+        backgroundColor: 'rgba(240,192,64,0.1)',
+        borderWidth: 2, fill: true, tension: 0.2,
+        pointRadius: 5,
+        pointBackgroundColor: d.timeline.map(v => colors[v] || CYAN),
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: {
+          min: -0.3, max: 3.3,
+          ticks: {
+            stepSize: 1,
+            callback: v => ['Débutant','Junior','Confirmé','Expert'][v] ?? ''
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        },
+        x: { grid: { color: 'rgba(255,255,255,0.03)' } }
+      }
+    }
+  });
+}
+
+function buildQualite() {
+  const d = DATA.quality_dist;
+  if (!d) return;
+  new Chart(document.getElementById('chartQualite'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Excellent','Bon','Faible'],
+      datasets: [{
+        data: [d.Excellent, d.Bon, d.Faible],
+        backgroundColor: [GREEN, GOLD, RED],
+        borderColor: NAVY, borderWidth: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '65%',
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+}
+
+function buildAcrv() {
+  const d = DATA.acrv_trend;
+  if (!d?.labels?.length) return;
+  const colors = d.values.map(v => v >= 3 ? GREEN : v >= 2 ? GOLD : RED);
+  new Chart(document.getElementById('chartAcrv'), {
+    type: 'bar',
+    data: {
+      labels: d.labels,
+      datasets: [{
+        label: 'ACRV /4',
+        data: d.values,
+        backgroundColor: colors,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        annotation: {}
+      },
+      scales: {
+        y: { min: 0, max: 4, ticks: { stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function buildConformite() {
+  const d = DATA.conformite;
+  if (!d) return;
+
+  document.getElementById('tauxConformite').textContent = d.taux + '%';
+  document.getElementById('tauxConformite').style.color = d.taux >= 90 ? GREEN : d.taux >= 70 ? GOLD : RED;
+
+  new Chart(document.getElementById('chartConformite'), {
+    type: 'bar',
+    data: {
+      labels: d.labels,
+      datasets: [{
+        label: 'Conformité (%)',
+        data: d.tranches,
+        backgroundColor: d.tranches.map(v => v >= 90 ? 'rgba(0,230,118,0.5)' : v >= 70 ? 'rgba(240,192,64,0.5)' : 'rgba(255,68,68,0.5)'),
+        borderColor    : d.tranches.map(v => v >= 90 ? GREEN : v >= 70 ? GOLD : RED),
+        borderWidth: 1, borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min: 0, max: 100, ticks: { callback: v => v+'%' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function buildClusters() {
+  const d = DATA.objection_clusters;
+  if (!d || !Object.keys(d).length) return;
+
+  const grid  = document.getElementById('clusterGrid');
+  const max   = Math.max(...Object.values(d).map(v => v.count));
+  grid.innerHTML = '';
+
+  Object.entries(d)
+    .sort((a,b) => b[1].count - a[1].count)
+    .forEach(([cat, info]) => {
+      const pct = Math.round(info.count / max * 100);
+      const scoreColor = info.avg_score >= 7 ? GREEN : info.avg_score >= 5 ? GOLD : RED;
+      grid.innerHTML += `
+        <div class="cluster-row">
+          <div class="cluster-name">${cat}</div>
+          <div class="cluster-bar-bg">
+            <div class="cluster-bar-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="cluster-count">${info.count}</div>
+          <div class="cluster-score" style="color:${scoreColor}">${info.avg_score}</div>
+        </div>`;
+    });
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// PLAN D'ACTION IA
+// ══════════════════════════════════════════════════════════════════════
+
+async function generatePlan() {
+  const s = DATA.summary_stats;
+  const r = DATA.radar;
+
+  const summary = `Délégué médical VITAL SA.
+Sessions totales : ${s.total}
+Score global moyen : ${s.avg_score}/10
+Tendance : ${s.trend >= 0 ? '+' : ''}${s.trend} pts vs sessions initiales
+Niveau actuel : ${s.dernier_niveau}
+Taux Excellent : ${s.taux_excellent}%
+Taux conformité : ${s.taux_conforme}%
+Compétences (radar) : ${r.labels.map((l,i) => l.replace('\n',' ')+' = '+r.values[i]+'/10').join(' | ')}
+Score ACRV moyen : ${DATA.acrv_trend?.avg}/4
+Distribution qualité : Excellent=${DATA.quality_dist?.Excellent} Bon=${DATA.quality_dist?.Bon} Faible=${DATA.quality_dist?.Faible}`;
+
+  document.getElementById('planBtn').disabled = true;
+  document.getElementById('planLoading').style.display = 'flex';
+  document.getElementById('actionItems').innerHTML = '';
+
+  try {
+    const res  = await fetch('/analytics/action-plan/', {
+      method : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken' : getCookie('csrftoken'),
+      },
+      body: JSON.stringify({ summary })
+    });
+    const data = await res.json();
+    renderPlan(data.plan || []);
+  } catch(e) {
+    console.error(e);
+  } finally {
+    document.getElementById('planBtn').disabled = false;
+    document.getElementById('planLoading').style.display = 'none';
+  }
+}
+
+function renderPlan(items) {
+  const list = document.getElementById('actionItems');
+  list.innerHTML = '';
+  items.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'action-item';
+    el.innerHTML = `
+      <div class="action-priority ${item.priorite}">${item.priorite}</div>
+      <div class="action-content">
+        <div class="action-axe">${item.axe}</div>
+        <div class="action-desc">${item.description}</div>
+        <div class="action-seuil">→ Cible : ${item.seuil_cible}</div>
+      </div>`;
+    list.appendChild(el);
+    setTimeout(() => el.classList.add('show'), 100 + i * 120);
+  });
+}
+
+function getCookie(name) {
+  let v = null;
+  document.cookie.split(';').forEach(c => {
+    c = c.trim();
+    if (c.startsWith(name+'=')) v = decodeURIComponent(c.slice(name.length+1));
+  });
+  return v;
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildKPIs();
+  buildProgression();
+  buildRadar();
+  buildNiveau();
+  buildQualite();
+  buildAcrv();
+  buildConformite();
+  buildClusters();
+});
+</script>
+{% endif %}
+{% endblock %}
