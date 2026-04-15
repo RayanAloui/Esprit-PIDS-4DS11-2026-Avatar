@@ -128,7 +128,16 @@ def set_mode_view(request):
         
         # Call set_mode synchronously in thread pool
         _run_sync(rt.alia.set_mode, mode)
-        return JsonResponse({"status": "ok", "mode": mode})
+        # Greeting uniquement en mode training
+       # Retourner le message d'accueil directement depuis set_mode
+        greeting = rt.alia.get_greeting()
+        
+        return JsonResponse({
+            "status": "ok", 
+            "mode": mode,
+            "greeting": greeting["text"],
+            "persona": greeting["persona"]
+        })
     except Exception as e:
         print(f"[ERROR] set_mode_view: {str(e)}")
         import traceback
@@ -147,7 +156,7 @@ def force_training_mode(request):
         return JsonResponse({"status": "ok", "mode": "training"})
     except Exception as e:
         return JsonResponse({"status": "error", "detail": str(e)}, status=500)
-        
+
 @require_GET
 def health_view(request):
     return JsonResponse(health_json())
