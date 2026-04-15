@@ -1,0 +1,154 @@
+20:32:39  INFO      ======================================================================
+20:32:39  INFO        ALIA — NLP Scoring Training Pipeline V2
+20:32:39  INFO        Started  : 2026-03-27 20:32:39
+20:32:39  INFO        Dataset  : conversation_transcripts_v2.csv
+20:32:39  INFO        Tune     : False
+20:32:39  INFO        6 tâches : T1 qualité | T2 scores | T3 sentiment | T4 niveau | T5 format | T6 conformité
+20:32:39  INFO      ======================================================================
+20:32:39  INFO      Dataset chargé    : 600 conversations × 25 colonnes
+20:32:39  INFO      Qualité           : {'Bon': 252, 'Excellent': 210, 'Faible': 138}
+20:32:39  INFO      Niveau ALIA       : {'Junior': 237, 'Confirmé': 213, 'Expert': 86, 'Débutant': 64}
+20:32:39  INFO      Visit format      : {'Standard': 276, 'Flash': 203, 'Approfondie': 121}
+20:32:39  INFO      Conformité        : {1: 462, 0: 138}
+20:32:39  INFO      TF-IDF            : (600, 1525)  (ngram=(1, 2))
+20:32:39  INFO      Features ling.    : (600, 24)  (24 features)
+20:32:39  INFO      X_combined        : (600, 1549)
+20:32:39  INFO      Labels encodés    :
+20:32:39  INFO        t1 classes : ['Bon', 'Excellent', 'Faible']
+20:32:39  INFO        t3 classes : ['Neutre', 'Négatif', 'Positif']
+20:32:39  INFO        t4 classes : ['Confirmé', 'Débutant', 'Expert', 'Junior']
+20:32:39  INFO        t5 classes : ['Approfondie', 'Flash', 'Standard']
+20:32:39  INFO      Split             : train=480 | test=120
+20:32:39  INFO      
+============================================================
+20:32:39  INFO        T1 — Classification Qualité — SVM RBF
+20:32:39  INFO      ============================================================
+20:32:40  INFO        CV F1-Macro : 1.0000 ± 0.0000
+20:32:40  INFO        Test F1-Macro : 1.0000
+20:32:40  INFO        Test Accuracy : 1.0000
+20:32:40  INFO      
+              precision    recall  f1-score   support
+
+         Bon     1.0000    1.0000    1.0000        50
+   Excellent     1.0000    1.0000    1.0000        42
+      Faible     1.0000    1.0000    1.0000        28
+
+    accuracy                         1.0000       120
+   macro avg     1.0000    1.0000    1.0000       120
+weighted avg     1.0000    1.0000    1.0000       120
+
+20:32:40  INFO      
+============================================================
+20:32:40  INFO        T2 — Régression Scores — Ridge MultiOutput
+20:32:40  INFO      ============================================================
+20:32:40  INFO        scientific_accuracy_score           MAE=1.0375  R²=0.6089
+20:32:40  INFO        communication_clarity_score         MAE=0.9732  R²=0.6948
+20:32:40  INFO        objection_handling_score            MAE=0.9135  R²=0.6488
+20:32:40  INFO      
+  Overall Score (ALIA)               MAE=0.7097  R²=0.7574
+20:32:40  INFO        Formule : 0.25×sci + 0.3×clar + 0.45×obj
+20:32:40  INFO      
+============================================================
+20:32:40  INFO        T3 — Sentiment Client — Logistic Regression
+20:32:40  INFO      ============================================================
+20:32:40  INFO        CV F1-Macro : 0.7587 ± 0.0380
+20:32:40  INFO        Test F1-Macro : 0.6890
+20:32:40  INFO      
+              precision    recall  f1-score   support
+
+      Neutre     0.6034    0.6604    0.6306        53
+     Négatif     0.7692    0.9524    0.8511        21
+     Positif     0.6667    0.5217    0.5854        46
+
+    accuracy                         0.6583       120
+   macro avg     0.6798    0.7115    0.6890       120
+weighted avg     0.6567    0.6583    0.6519       120
+
+20:32:40  INFO      
+============================================================
+20:32:40  INFO        T4 — Niveau ALIA — SVM RBF (GridSearch recommandé)
+20:32:40  INFO      ============================================================
+20:32:41  INFO        CV F1-Macro : 0.5844 ± 0.0783
+20:32:42  INFO        Test F1-Macro : 0.6740
+20:32:42  INFO        Test Accuracy : 0.7500
+20:32:42  INFO      
+              precision    recall  f1-score   support
+
+    Confirmé     0.7838    0.6905    0.7342        42
+    Débutant     0.5000    0.4444    0.4706         9
+      Expert     0.6667    0.6667    0.6667        15
+      Junior     0.7833    0.8704    0.8246        54
+
+    accuracy                         0.7500       120
+   macro avg     0.6834    0.6680    0.6740       120
+weighted avg     0.7477    0.7500    0.7466       120
+
+20:32:42  INFO      
+============================================================
+20:32:42  INFO        T5 — Format Visite — Logistic Regression
+20:32:42  INFO      ============================================================
+20:32:42  INFO        CV F1-Macro : 0.7668 ± 0.0455
+20:32:42  INFO        Test F1-Macro : 0.7281
+20:32:42  INFO      
+              precision    recall  f1-score   support
+
+ Approfondie     0.5357    0.6522    0.5882        23
+       Flash     0.9394    0.7949    0.8611        39
+    Standard     0.7288    0.7414    0.7350        58
+
+    accuracy                         0.7417       120
+   macro avg     0.7346    0.7295    0.7281       120
+weighted avg     0.7602    0.7417    0.7479       120
+
+20:32:42  INFO      
+============================================================
+20:32:42  INFO        T6 — Conformité — Règle regex + LogReg backup
+20:32:42  INFO      ============================================================
+20:32:42  INFO        CV F1-Macro : 1.0000 ± 0.0000
+20:32:42  INFO        Test F1-Macro : 1.0000
+20:32:42  INFO        Test Accuracy : 1.0000
+20:32:42  INFO        Note : la règle déterministe (regex mots tueurs) est
+20:32:42  INFO               prioritaire sur le modèle ML pour T6.
+20:32:42  INFO      
+======================================================================
+20:32:42  INFO        BENCHMARK FINAL — 6 tâches NLP Scoring V2
+20:32:42  INFO      ======================================================================
+20:32:42  INFO        Tâche     Description               Métrique  Statut
+20:32:42  INFO        ----------------------------------------------------------
+20:32:42  INFO      ======================================================================
+20:32:42  INFO      
+  Artifacts :
+20:32:42  INFO          feature_extractor_v2.pkl                           0.1 KB
+20:32:42  INFO          label_encoders_v2.pkl                              1.5 KB
+20:32:42  INFO          lstm_baseline_rf.pkl                             304.5 KB
+20:32:42  INFO          lstm_body_language.pkl                          1097.7 KB
+20:32:42  INFO          lstm_geom_scaler.pkl                               0.9 KB
+20:32:42  INFO          lstm_training.log                                  0.1 KB
+20:32:42  INFO          lstm_training_report.json                          5.6 KB
+20:32:42  INFO          nlp_scoring_bundle_v2.pkl                        759.4 KB
+20:32:42  INFO          nlp_scoring_model.pkl                            217.7 KB
+20:32:42  INFO          nlp_training_report_v2.json                        1.3 KB
+20:32:42  INFO          nlp_training_v2.log                                7.0 KB
+20:32:42  INFO          route_artifacts.pkl                               30.1 KB
+20:32:42  INFO          scaler_feats_v2.pkl                                1.2 KB
+20:32:42  INFO          t1_label_encoder.pkl                               0.5 KB
+20:32:42  INFO          t1_quality_classifier.pkl                         97.9 KB
+20:32:42  INFO          t1_quality_v2.pkl                                191.5 KB
+20:32:42  INFO          t2_score_regressor.pkl                            60.1 KB
+20:32:42  INFO          t2_scores_v2.pkl                                  37.3 KB
+20:32:42  INFO          t3_label_encoder.pkl                               0.5 KB
+20:32:42  INFO          t3_sentiment_classifier.pkl                       60.0 KB
+20:32:42  INFO          t3_sentiment_v2.pkl                               37.1 KB
+20:32:42  INFO          t4_niveau_v2.pkl                                 424.9 KB
+20:32:42  INFO          t5_format_v2.pkl                                  37.1 KB
+20:32:42  INFO          t6_conformite_v2.pkl                              13.0 KB
+20:32:42  INFO          tfidf_v2.pkl                                      56.1 KB
+20:32:42  INFO          training.log                                       5.2 KB
+20:32:42  INFO          training_report.json                               1.5 KB
+20:32:42  INFO      
+============================================================
+20:32:42  INFO        DÉMO INFÉRENCE — 3 cas test
+20:32:42  INFO      ============================================================
+20:32:42  INFO           Niveau ALIA  : Expert  |  Format : Approfondie  |  Sentiment : Neutre
+20:32:42  INFO           Niveau ALIA  : Junior  |  Format : Standard  |  Sentiment : Neutre
+20:32:42  INFO           Niveau ALIA  : Junior  |  Format : Flash  |  Sentiment : Négatif

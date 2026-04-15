@@ -1,0 +1,36 @@
+{
+  "route_indices": [
+    0,
+    1,
+    7,
+    3,
+    4,
+    2,
+    8,
+    5,
+    6,
+    0
+  ],
+  "route_names": [
+    "VITAL SA — Siège (Tunis)",
+    "Pharmacie Mustapha MRAD",
+    "صيدلية غربال الأزرق",
+    "Pharmacie Chaouch - Tunis",
+    "Pharmacie Chaabouni Haykel",
+    "Pharmacie Nada Soussou",
+    "Pharmacie Khemiri Lassaad",
+    "Pharmacie TUNIS Ben Yahmed A-Hصيدلية",
+    "Night Pharmacy",
+    "VITAL SA — Siège (Tunis)"
+  ],
+  "total_distance_km": 23.7,
+  "improvement_pct": 20.3,
+  "n_stops": 8,
+  "target_day": "Monday",
+  "target_hour": 10,
+  "depot": {
+    "name": "VITAL SA — Siège (Tunis)",
+    "lat": 36.819,
+    "lon": 10.166
+  }
+}

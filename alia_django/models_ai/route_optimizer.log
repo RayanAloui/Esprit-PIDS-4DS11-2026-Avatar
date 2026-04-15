@@ -1,0 +1,56 @@
+01:22:37  INFO      ======================================================================
+01:22:37  INFO        ALIA — Route Optimizer Pipeline V1
+01:22:37  INFO        Started  : 2026-03-28 01:22:37
+01:22:37  INFO        Tournée  : Monday 10h | 8 stops
+01:22:37  INFO        Dépôt    : (36.8190, 10.1660)
+01:22:37  INFO      ======================================================================
+01:22:37  INFO      Dataset brut chargé : (232, 34)
+01:22:37  INFO      Grand Tunis        : 64 pharmacies
+01:22:37  INFO        Données réelles  : 18
+01:22:37  INFO        À imputer (k-NN) : 46
+01:22:37  INFO      Imputation k-NN (k=3) : OK
+01:22:37  INFO        NaN restants : 0
+01:22:37  INFO      Priority Scores calculés (Monday 10h) :
+01:22:37  INFO        Range : 0.015 – 0.930
+01:22:37  INFO        Moyenne : 0.400
+01:22:39  INFO      Clustering K-Means (k=4) :
+01:22:39  INFO        Zone A — Nord-Est (La Marsa / Carthage) : 16 pharmacies
+01:22:39  INFO        Zone B — Centre (Tunis Médina / Belvédère) : 6 pharmacies
+01:22:39  INFO        Zone C — Centre-Ouest (Bardo / Manouba) : 23 pharmacies
+01:22:39  INFO        Zone D — Sud (Ben Arous / Mégrine) : 19 pharmacies
+01:22:39  INFO      
+  Stops sélectionnés (8) :
+01:22:39  INFO          0.930  Pharmacie Mustapha MRAD
+01:22:39  INFO          0.873  Pharmacie Nada Soussou
+01:22:39  INFO          0.820  Pharmacie Chaouch - Tunis
+01:22:39  INFO          0.813  Pharmacie Chaabouni Haykel
+01:22:39  INFO          0.734  Night Pharmacy
+01:22:39  INFO          0.702  Pharmacie Khemiri Lassaad
+01:22:39  INFO      
+  Optimisation TSP :
+01:22:39  INFO        Nearest Neighbor : 29.74 km (0.4ms)
+01:22:39  INFO        2-Opt optimisé   : 23.70 km (6.7ms)
+01:22:39  INFO        Amélioration     : -20.3%
+01:22:39  INFO      
+======================================================================
+01:22:39  INFO        ROUTE OPTIMALE — Monday 10h
+01:22:39  INFO      ======================================================================
+01:22:39  INFO           1  Pharmacie Mustapha MRAD                   +5.1km
+01:22:39  INFO           3  Pharmacie Chaouch - Tunis                 +2.5km
+01:22:39  INFO           4  Pharmacie Chaabouni Haykel                +1.7km
+01:22:39  INFO           5  Pharmacie Nada Soussou                    +0.1km
+01:22:39  INFO           6  Pharmacie Khemiri Lassaad                 +4.5km
+01:22:39  INFO           8  Night Pharmacy                            +1.6km
+01:22:39  INFO      
+  Distance totale : 23.70 km
+01:22:39  INFO        Durée totale    : 81 min
+01:22:39  INFO        Amélioration    : -20.3% vs NN
+01:22:39  INFO      ======================================================================
+01:22:39  INFO      
+  Artifacts :
+01:22:39  INFO          nlp_scoring_bundle_v2.pkl                        759.4 KB
+01:22:39  INFO          nlp_training_report_v2.json                        1.3 KB
+01:22:39  INFO          nlp_training_v2.log                                6.9 KB
+01:22:39  INFO          route_model.pkl                                   30.4 KB
+01:22:39  INFO          route_optimizer.log                                3.0 KB
+01:22:39  INFO          route_training_report.json                         0.2 KB

@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALIA — NLP Scoring Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── CSS Variables ─────────────────────────────────────── */
+    :root {
+      --navy:       #050d1a;
+      --navy-2:     #0a1628;
+      --navy-3:     #0f2044;
+      --navy-4:     #162952;
+      --cyan:       #00d4ff;
+      --cyan-dim:   #0099bb;
+      --gold:       #f0c040;
+      --gold-dim:   #a88020;
+      --green:      #00e676;
+      --orange:     #ff9800;
+      --red:        #ff4444;
+      --white:      #f0f4ff;
+      --white-dim:  #8899bb;
+      --glass:      rgba(255,255,255,0.04);
+      --glass-2:    rgba(255,255,255,0.08);
+      --border:     rgba(0,212,255,0.15);
+      --border-2:   rgba(0,212,255,0.30);
+      --shadow:     0 8px 40px rgba(0,0,0,0.6);
+      --shadow-cyan:0 0 30px rgba(0,212,255,0.15);
+
+      /* Niveau ALIA colors */
+      --expert:     #00d4ff;
+      --confirme:   #4fc3f7;
+      --junior:     #81d4fa;
+      --debutant:   #b3e5fc;
+    }
+
+    /* ── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated Background ───────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(0,212,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 90% 80%, rgba(240,192,64,0.04) 0%, transparent 60%),
+        repeating-linear-gradient(
+          0deg, transparent, transparent 59px,
+          rgba(0,212,255,0.03) 59px, rgba(0,212,255,0.03) 60px
+        ),
+        repeating-linear-gradient(
+          90deg, transparent, transparent 59px,
+          rgba(0,212,255,0.02) 59px, rgba(0,212,255,0.02) 60px
+        );
+      pointer-events: none;
+    }
+
+    /* ── Layout ────────────────────────────────────────────── */
+    .app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 0 24px 60px; }
+
+    /* ── Header ────────────────────────────────────────────── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+
+    .logo-group { display: flex; align-items: center; gap: 16px; }
+
+    .logo-mark {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--cyan), var(--navy-4));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 20px; color: var(--navy);
+      box-shadow: 0 0 20px rgba(0,212,255,0.3);
+      flex-shrink: 0;
+    }
+
+    .logo-text h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 28px; letter-spacing: 3px;
+      color: var(--white); line-height: 1;
+    }
+    .logo-text p {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cyan); opacity: 0.8;
+    }
+
+    .header-badge {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px; letter-spacing: 1px;
+      color: var(--white-dim);
+    }
+    .header-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    /* ── Main Grid ─────────────────────────────────────────── */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1000px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Cards ─────────────────────────────────────────────── */
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.3s;
+    }
+    .card:hover { border-color: var(--border-2); }
+
+    .card-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 14px; letter-spacing: 2px;
+      color: var(--cyan); text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .card-title::before {
+      content: ''; display: block;
+      width: 20px; height: 2px;
+      background: var(--cyan);
+    }
+
+    /* ── Input Panel ───────────────────────────────────────── */
+    .input-panel { display: flex; flex-direction: column; gap: 20px; }
+
+    .input-group { display: flex; flex-direction: column; gap: 8px; }
+
+    label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cyan); font-weight: 600;
+    }
+
+    textarea {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: var(--white);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px; line-height: 1.6;
+      resize: vertical; min-height: 90px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none; width: 100%;
+    }
+    textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+    textarea::placeholder { color: rgba(136,153,187,0.5); }
+
+    /* ── Selector ──────────────────────────────────────────── */
+    .niveau-select-group { display: flex; flex-direction: column; gap: 8px; }
+
+    .niveau-btns {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    }
+
+    .niveau-btn {
+      padding: 8px 4px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--white-dim);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 11px; cursor: pointer;
+      transition: all 0.2s; text-align: center;
+    }
+    .niveau-btn:hover { border-color: var(--border-2); color: var(--white); }
+    .niveau-btn.active {
+      background: rgba(0,212,255,0.12);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ── Examples ──────────────────────────────────────────── */
+    .examples-row {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .example-chip {
+      padding: 5px 12px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 11px; cursor: pointer;
+      color: var(--white-dim);
+      transition: all 0.2s;
+    }
+    .example-chip:hover {
+      border-color: var(--gold-dim); color: var(--gold);
+    }
+
+    /* ── CTA Button ────────────────────────────────────────── */
+    .cta-btn {
+      width: 100%; padding: 16px;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-dim) 100%);
+      border: none; border-radius: 12px;
+      color: var(--navy);
+      font-family: 'Bebas Neue', cursive;
+      font-size: 18px; letter-spacing: 3px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .cta-btn:hover::before { opacity: 1; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,0.4); }
+    .cta-btn:active { transform: translateY(0); }
+    .cta-btn:disabled {
+      opacity: 0.5; cursor: not-allowed; transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Loading State ─────────────────────────────────────── */
+    .loading-overlay {
+      display: none; align-items: center; justify-content: center;
+      gap: 12px; padding: 20px;
+      color: var(--cyan); font-size: 13px; letter-spacing: 1px;
+    }
+    .loading-overlay.active { display: flex; }
+
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(0,212,255,0.2);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Results Panel ─────────────────────────────────────── */
+    .results-panel {
+      display: flex; flex-direction: column; gap: 20px;
+      opacity: 0; transform: translateY(20px);
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      pointer-events: none;
+    }
+    .results-panel.visible {
+      opacity: 1; transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ── Hero Result Card ──────────────────────────────────── */
+    .hero-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      position: relative; overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--gold), var(--cyan));
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer { 0%,100% { background-position: 0% 0; } 50% { background-position: 100% 0; } }
+
+    .quality-block { display: flex; flex-direction: column; gap: 10px; }
+
+    .quality-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--white-dim);
+    }
+
+    .quality-value {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 52px; line-height: 1;
+      transition: color 0.5s;
+    }
+    .quality-value.excellent { color: var(--green); text-shadow: 0 0 30px rgba(0,230,118,0.4); }
+    .quality-value.bon       { color: var(--gold);  text-shadow: 0 0 30px rgba(240,192,64,0.4); }
+    .quality-value.faible    { color: var(--red);   text-shadow: 0 0 30px rgba(255,68,68,0.4);  }
+
+    .quality-proba {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--white-dim);
+    }
+
+    .score-block { display: flex; flex-direction: column; gap: 12px; }
+
+    .overall-score-display {
+      display: flex; align-items: flex-end; gap: 8px;
+    }
+    .score-big {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 64px; line-height: 1; color: var(--cyan);
+    }
+    .score-denom {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 24px; color: var(--white-dim); padding-bottom: 10px;
+    }
+
+    .score-bar-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .score-bar-bg {
+      height: 8px; background: rgba(255,255,255,0.08);
+      border-radius: 4px; overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      transition: width 1s cubic-bezier(0.23,1,0.32,1);
+      width: 0%;
+    }
+    .score-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--white-dim);
+    }
+
+    /* ── Badges Row ────────────────────────────────────────── */
+    .badges-row {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+      border: 1px solid;
+    }
+    .badge-green  { background: rgba(0,230,118,0.1);  border-color: rgba(0,230,118,0.3);  color: var(--green); }
+    .badge-red    { background: rgba(255,68,68,0.1);   border-color: rgba(255,68,68,0.3);   color: var(--red);   }
+    .badge-gold   { background: rgba(240,192,64,0.1);  border-color: rgba(240,192,64,0.3);  color: var(--gold);  }
+    .badge-cyan   { background: rgba(0,212,255,0.1);   border-color: rgba(0,212,255,0.3);   color: var(--cyan);  }
+    .badge-dim    { background: rgba(136,153,187,0.1); border-color: rgba(136,153,187,0.3); color: var(--white-dim); }
+
+    /* ── Grid 2 colonnes ───────────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Score Jauges ──────────────────────────────────────── */
+    .scores-list { display: flex; flex-direction: column; gap: 18px; }
+
+    .score-row { display: flex; flex-direction: column; gap: 6px; }
+    .score-row-header {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .score-name { font-size: 12px; color: var(--white-dim); letter-spacing: 0.5px; }
+    .score-num  {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; color: var(--white); font-weight: 600;
+    }
+    .gauge-bg {
+      height: 6px; background: rgba(255,255,255,0.08);
+      border-radius: 3px; overflow: hidden;
+    }
+    .gauge-fill {
+      height: 100%; border-radius: 3px;
+      transition: width 1.2s cubic-bezier(0.23,1,0.32,1);
+      width: 0%;
+    }
+    .gauge-sci  { background: linear-gradient(90deg, #00d4ff, #0099bb); }
+    .gauge-clar { background: linear-gradient(90deg, #f0c040, #a88020); }
+    .gauge-obj  { background: linear-gradient(90deg, #00e676, #00a854); }
+
+    /* ── ACRV Radar ────────────────────────────────────────── */
+    .acrv-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+
+    .acrv-item {
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      border: 1px solid;
+      display: flex; align-items: center; gap: 10px;
+      transition: all 0.4s;
+    }
+    .acrv-item.present {
+      border-color: rgba(0,230,118,0.3);
+      background: rgba(0,230,118,0.06);
+    }
+    .acrv-item.absent {
+      border-color: rgba(255,68,68,0.2);
+      background: rgba(255,68,68,0.04);
+    }
+
+    .acrv-icon { font-size: 18px; }
+    .acrv-info { flex: 1; }
+    .acrv-letter {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 16px; letter-spacing: 1px;
+    }
+    .acrv-item.present .acrv-letter { color: var(--green); }
+    .acrv-item.absent  .acrv-letter { color: rgba(255,68,68,0.6); }
+    .acrv-desc { font-size: 10px; color: var(--white-dim); }
+
+    .acrv-score-display {
+      text-align: center; padding: 14px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 12px;
+    }
+    .acrv-score-num {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 40px; color: var(--cyan);
+    }
+    .acrv-score-label { font-size: 11px; color: var(--white-dim); }
+
+    /* ── Niveau ALIA Progress ──────────────────────────────── */
+    .niveau-track {
+      display: flex; align-items: center;
+      gap: 0; margin: 20px 0 12px;
+    }
+
+    .niveau-node {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 6px; flex: 1;
+      position: relative;
+    }
+
+    .niveau-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.2);
+      transition: all 0.5s; position: relative; z-index: 1;
+    }
+    .niveau-dot.active {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0,212,255,0.6);
+      width: 18px; height: 18px;
+    }
+    .niveau-dot.passed {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .niveau-name { font-size: 10px; color: var(--white-dim); text-align: center; }
+    .niveau-name.active { color: var(--cyan); font-weight: 700; }
+
+    .niveau-line {
+      flex: 1; height: 2px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+    }
+    .niveau-line.passed { background: var(--green); }
+
+    .progression-detail {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .prog-label { font-size: 12px; color: var(--white-dim); }
+    .prog-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; color: var(--gold); font-weight: 600;
+    }
+
+    /* ── Conformité ────────────────────────────────────────── */
+    .conformite-banner {
+      padding: 14px 18px;
+      border-radius: 10px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; font-weight: 600;
+      border: 1px solid;
+      transition: all 0.4s;
+    }
+    .conformite-banner.ok {
+      background: rgba(0,230,118,0.08);
+      border-color: rgba(0,230,118,0.3);
+      color: var(--green);
+    }
+    .conformite-banner.fail {
+      background: rgba(255,68,68,0.08);
+      border-color: rgba(255,68,68,0.4);
+      color: var(--red);
+      animation: alert-pulse 1s ease 0.5s 3;
+    }
+    @keyframes alert-pulse {
+      0%,100% { box-shadow: none; }
+      50% { box-shadow: 0 0 20px rgba(255,68,68,0.3); }
+    }
+    .conformite-icon { font-size: 20px; }
+
+    /* ── Feedback ──────────────────────────────────────────── */
+    .feedback-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .feedback-item {
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.2);
+      border-left: 3px solid var(--cyan);
+      border-radius: 0 8px 8px 0;
+      font-size: 13px; line-height: 1.5;
+      color: var(--white);
+      opacity: 0; transform: translateX(-10px);
+      transition: all 0.4s;
+    }
+    .feedback-item.visible {
+      opacity: 1; transform: translateX(0);
+    }
+    .feedback-item.warning { border-left-color: var(--red); }
+    .feedback-item.positive { border-left-color: var(--green); }
+
+    /* ── Actions ───────────────────────────────────────────── */
+    .actions-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .action-item {
+      padding: 10px 14px;
+      background: rgba(240,192,64,0.05);
+      border: 1px solid rgba(240,192,64,0.15);
+      border-radius: 8px;
+      font-size: 12px; color: var(--white-dim);
+      display: flex; align-items: flex-start; gap: 10px;
+      opacity: 0; transform: translateY(8px);
+      transition: all 0.4s;
+    }
+    .action-item.visible { opacity: 1; transform: translateY(0); }
+    .action-arrow { color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+    /* ── Sentiment tag ─────────────────────────────────────── */
+    .meta-row {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+
+    /* ── Empty State ───────────────────────────────────────── */
+    .empty-state {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 400px; gap: 16px;
+      color: var(--white-dim); text-align: center;
+    }
+    .empty-icon { font-size: 48px; opacity: 0.3; }
+    .empty-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 20px; letter-spacing: 2px;
+      color: rgba(136,153,187,0.5);
+    }
+    .empty-sub { font-size: 13px; opacity: 0.5; max-width: 280px; }
+
+    /* ── Error ─────────────────────────────────────────────── */
+    .error-msg {
+      padding: 14px 18px;
+      background: rgba(255,68,68,0.08);
+      border: 1px solid rgba(255,68,68,0.3);
+      border-radius: 10px;
+      color: var(--red); font-size: 13px;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+
+    /* ── Scrollbar ─────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--navy-4); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 32px 0 0;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+      font-size: 11px; color: var(--white-dim);
+      letter-spacing: 1px;
+    }
+    footer span { color: var(--cyan); }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- ── HEADER ─────────────────────────────────────────── -->
+  <header>
+    <div class="logo-group">
+      <div class="logo-mark">A</div>
+      <div class="logo-text">
+        <h1>ALIA</h1>
+        <p>NLP Scoring Dashboard · DSO 1</p>
+      </div>
+    </div>
+    <div class="header-badge">
+      <div class="dot"></div>
+      <span>VITAL SA · Avatar Visite Médicale</span>
+    </div>
+  </header>
+
+  <!-- ── MAIN GRID ──────────────────────────────────────── -->
+  <div class="main-grid">
+
+    <!-- ══════════════════════════════════════════
+         LEFT PANEL — Input
+    ══════════════════════════════════════════ -->
+    <div class="input-panel">
+
+      <!-- Saisie -->
+      <div class="card">
+        <div class="card-title">Analyse de Réponse</div>
+
+        <div class="input-group" style="margin-bottom:16px">
+          <label>Objection du médecin</label>
+          <textarea id="objection" rows="3"
+            placeholder="Ex : Pas convaincu par ce produit, j'ai mes habitudes..."></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>Réponse du délégué médical</label>
+          <textarea id="response" rows="5"
+            placeholder="Saisissez la réponse du délégué à évaluer..."></textarea>
+        </div>
+      </div>
+
+      <!-- Niveau ALIA -->
+      <div class="card">
+        <div class="card-title">Niveau ALIA du délégué</div>
+        <div class="niveau-btns" id="niveauBtns">
+          <button class="niveau-btn" data-niveau="Débutant">Débutant</button>
+          <button class="niveau-btn active" data-niveau="Junior">Junior</button>
+          <button class="niveau-btn" data-niveau="Confirmé">Confirmé</button>
+          <button class="niveau-btn" data-niveau="Expert">Expert</button>
+        </div>
+      </div>
+
+      <!-- Exemples rapides -->
+      <div class="card">
+        <div class="card-title">Exemples rapides</div>
+        <div class="examples-row">
+          <span class="example-chip" data-ex="excellent">⭐ Excellent</span>
+          <span class="example-chip" data-ex="bon">👍 Bon</span>
+          <span class="example-chip" data-ex="faible">⚠️ Faible</span>
+          <span class="example-chip" data-ex="mottueur">🚨 Mot tueur</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <button class="cta-btn" id="analyzeBtn" onclick="analyze()">
+        ▶ Analyser la réponse
+      </button>
+
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <span>Analyse en cours…</span>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         RIGHT PANEL — Results
+    ══════════════════════════════════════════ -->
+    <div id="resultsWrapper">
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🔬</div>
+        <div class="empty-title">En attente d'analyse</div>
+        <div class="empty-sub">Saisissez une objection et une réponse, puis cliquez sur Analyser.</div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-panel" id="resultsPanel">
+
+        <!-- Hero card -->
+        <div class="hero-card" id="heroCard">
+          <div class="quality-block">
+            <div class="quality-label">Qualité de réponse</div>
+            <div class="quality-value" id="qualityVal">—</div>
+            <div class="quality-proba" id="qualityProba"></div>
+            <div class="badges-row" style="margin-top:12px" id="badgesRow"></div>
+          </div>
+          <div class="score-block">
+            <div class="quality-label">Score global ALIA</div>
+            <div class="overall-score-display">
+              <div class="score-big" id="scoreBig">—</div>
+              <div class="score-denom">/ 10</div>
+            </div>
+            <div class="score-bar-wrap">
+              <div class="score-bar-bg">
+                <div class="score-bar-fill" id="scoreBarFill"></div>
+              </div>
+              <div class="score-bar-label">
+                <span>0</span><span id="scoreBarLabel">—</span><span>10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scores détaillés + ACRV -->
+        <div class="two-col">
+
+          <!-- Scores -->
+          <div class="card">
+            <div class="card-title">Scores détaillés</div>
+            <div class="scores-list">
+              <div class="score-row">
+                <div class="score-row-header">
+                  <span class="score-name">🔬 Précision scientifique</span>
+                  <span class="score-num" id="scoreSci">—</span>
+                </div>
+                <div class="gauge-bg">
+                  <div class="gauge-fill gauge-sci" id="gaugeSci"></div>
+                </div>
+              </div>
+              <div class="score-row">
+                <div class="score-row-header">
+                  <span class="score-name">💬 Clarté communication</span>
+                  <span class="score-num" id="scoreClar">—</span>
+                </div>
+                <div class="gauge-bg">
+                  <div class="gauge-fill gauge-clar" id="gaugeClar"></div>
+                </div>
+              </div>
+              <div class="score-row">
+                <div class="score-row-header">
+                  <span class="score-name">🎯 Gestion objections</span>
+                  <span class="score-num" id="scoreObj">—</span>
+                </div>
+                <div class="gauge-bg">
+                  <div class="gauge-fill gauge-obj" id="gaugeObj"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:20px">
+              <div class="card-title">Format & Sentiment</div>
+              <div class="meta-row" id="metaRow"></div>
+            </div>
+          </div>
+
+          <!-- ACRV -->
+          <div class="card">
+            <div class="card-title">Méthode A-C-R-V</div>
+            <div class="acrv-grid" id="acrvGrid"></div>
+            <div class="acrv-score-display">
+              <div class="acrv-score-num" id="acrvScore">—</div>
+              <div class="acrv-score-label">/ 4 étapes complétées</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Conformité -->
+        <div class="conformite-banner" id="conformiteBanner">
+          <div class="conformite-icon" id="conformiteIcon">—</div>
+          <div id="conformiteText">—</div>
+        </div>
+
+        <!-- Progression ALIA -->
+        <div class="card">
+          <div class="card-title">Progression Niveau ALIA</div>
+
+          <div class="niveau-track" id="niveauTrack">
+            <!-- Filled by JS -->
+          </div>
+
+          <div class="progression-detail">
+            <span class="prog-label" id="progLabel">—</span>
+            <span class="prog-value" id="progValue">—</span>
+          </div>
+        </div>
+
+        <!-- Two col : Feedback + Actions -->
+        <div class="two-col">
+
+          <div class="card">
+            <div class="card-title">Feedback Coaching</div>
+            <div class="feedback-list" id="feedbackList"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Actions pour progresser</div>
+            <div class="actions-list" id="actionsList"></div>
+          </div>
+
+        </div>
+
+      </div><!-- /results-panel -->
+    </div><!-- /resultsWrapper -->
+
+  </div><!-- /main-grid -->
+
+  <footer>
+    <p>ALIA · Avatar Visite Médicale · VITAL SA &nbsp;|&nbsp;
+       DSO 1 · <span>NLP Scoring Model V2</span> &nbsp;|&nbsp;
+       TDSP Phase 3 — Model Development
+    </p>
+  </footer>
+
+</div><!-- /app -->
+
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════════════════════════
+
+const NIVEAUX = ['Débutant','Junior','Confirmé','Expert'];
+const SEUILS  = { 'Débutant':7.0, 'Junior':8.0, 'Confirmé':9.0, 'Expert':10.0 };
+const NEXT    = { 'Débutant':'Junior','Junior':'Confirmé','Confirmé':'Expert','Expert':null };
+
+const EXAMPLES = {
+  excellent: {
+    obj : "Pas convaincu par ce produit",
+    resp: "Je comprends tout à fait votre préoccupation. Quand vous dites pas convaincu, c'est plutôt sur la composition ou la tolérance ? Selon les données disponibles, voici un repère ciblé et une proposition de test sur 2 à 3 patients. Est-ce que ce repère suffit pour envisager un test ? (selon la notice)",
+    niv : "Expert"
+  },
+  bon: {
+    obj : "J'ai mes habitudes avec un autre produit",
+    resp: "Je comprends votre réticence. Sur ce type de patients, on peut positionner ce produit en plan B sur les cas moins satisfaits. Je vous laisse une fiche et je repasse dans 15 jours pour votre retour d'expérience.",
+    niv : "Junior"
+  },
+  faible: {
+    obj : "Pas le temps pour une présentation",
+    resp: "C'est un bon produit. Vos patients seront satisfaits. Je vous laisse une fiche.",
+    niv : "Débutant"
+  },
+  mottueur: {
+    obj : "Pas convaincu par l'efficacité",
+    resp: "Ce produit est révolutionnaire, je vous garantis des résultats immédiats. Aucun effet secondaire signalé, c'est le meilleur produit de notre gamme. Vos patients vont adorer, c'est toujours efficace.",
+    niv : "Débutant"
+  }
+};
+
+// ── Le prompt système ──────────────────────────────────────────────────
+const SYSTEM_PROMPT = `Tu es le moteur NLP Scoring du projet ALIA — Avatar Visite Médicale VITAL SA.
+
+Tu évalues les réponses des délégués médicaux aux objections des médecins selon 6 dimensions précises, en respectant exactement la méthodologie ALIA.
+
+FORMULE SCORE GLOBAL : overall = 0.25 × scientific + 0.30 × clarity + 0.45 × objection
+
+MÉTHODE A-C-R-V (Manuel VITAL section 4.4) :
+- A (Accueil) : "je comprends", "c'est légitime", "votre point est valable"
+- C (Clarification) : "quand vous dites", "c'est plutôt", "pour bien vous répondre"
+- R (Réponse) : fait + preuve + profil patient + selon la notice
+- V (Validation) : "est-ce que ça répond", "seriez-vous d'accord", "pensez-vous que"
+
+SEUILS NIVEAUX ALIA (Référentiel officiel) :
+- Débutant → Junior : score >= 7.0
+- Junior → Confirmé : score >= 8.0
+- Confirmé → Expert : score >= 9.0
+
+MOTS TUEURS (conformité = false si présents) :
+"garanti", "100%", "révolutionnaire", "miracle", "toujours efficace",
+"meilleur produit", "aucun effet secondaire", "sans aucun risque"
+
+RETOURNE UNIQUEMENT ce JSON (sans markdown, sans explication) :
+{
+  "quality": "Excellent" | "Bon" | "Faible",
+  "quality_proba": {"Excellent": 0.0, "Bon": 0.0, "Faible": 0.0},
+  "scores": {
+    "scientific_accuracy": 0.0,
+    "communication_clarity": 0.0,
+    "objection_handling": 0.0
+  },
+  "overall_score": 0.0,
+  "sentiment": "Positif" | "Neutre" | "Négatif",
+  "niveau_alia": "Débutant" | "Junior" | "Confirmé" | "Expert",
+  "visit_format": "Flash" | "Standard" | "Approfondie",
+  "conformite": true | false,
+  "n_mots_tueurs": 0,
+  "acrv": {
+    "accueil": 0 | 1,
+    "clarif": 0 | 1,
+    "reponse": 0 | 1,
+    "validation": 0 | 1,
+    "score": 0
+  },
+  "feedback_coaching": ["..."],
+  "next_level_actions": ["..."],
+  "ecart_seuil": 0.0
+}`;
+
+// ══════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════
+
+let selectedNiveau = 'Junior';
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Niveau buttons
+  document.querySelectorAll('.niveau-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.niveau-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedNiveau = btn.dataset.niveau;
+    });
+  });
+
+  // Example chips
+  document.querySelectorAll('.example-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const ex = EXAMPLES[chip.dataset.ex];
+      document.getElementById('objection').value = ex.obj;
+      document.getElementById('response').value  = ex.resp;
+      // Set niveau
+      document.querySelectorAll('.niveau-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.niveau === ex.niv);
+      });
+      selectedNiveau = ex.niv;
+    });
+  });
+});
+
+// ══════════════════════════════════════════════════════════════
+// MAIN ANALYZE FUNCTION
+// ══════════════════════════════════════════════════════════════
+
+async function analyze() {
+  const objection = document.getElementById('objection').value.trim();
+  const response  = document.getElementById('response').value.trim();
+
+  if (!objection || !response) {
+    showError("Veuillez saisir l'objection et la réponse du délégué.");
+    return;
+  }
+
+  setLoading(true);
+  hideError();
+
+  try {
+    const result = await callClaudeAPI(objection, response, selectedNiveau);
+    renderResults(result);
+  } catch (err) {
+    showError(`Erreur : ${err.message}`);
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// API CALL
+// ══════════════════════════════════════════════════════════════
+
+async function callClaudeAPI(objection, response, niveau) {
+  const userPrompt = `Niveau ALIA déclaré du délégué : ${niveau}
+
+Objection du médecin :
+"${objection}"
+
+Réponse du délégué médical :
+"${response}"
+
+Évalue cette réponse selon les 6 dimensions ALIA et retourne uniquement le JSON demandé.`;
+
+  const apiResponse = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userPrompt }]
+    })
+  });
+
+  if (!apiResponse.ok) {
+    const err = await apiResponse.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API Error ${apiResponse.status}`);
+  }
+
+  const data = await apiResponse.json();
+  const raw  = data.content?.[0]?.text || '';
+
+  // Parse JSON — strip markdown fences if any
+  const clean = raw.replace(/```json|```/g, '').trim();
+  try {
+    return JSON.parse(clean);
+  } catch {
+    throw new Error('Réponse API non parseable. Réessayez.');
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER RESULTS
+// ══════════════════════════════════════════════════════════════
+
+function renderResults(r) {
+  // Show results, hide empty state
+  document.getElementById('emptyState').style.display = 'none';
+  const panel = document.getElementById('resultsPanel');
+  panel.classList.add('visible');
+
+  // ── Hero card ────────────────────────────────────────────────
+  const qEl = document.getElementById('qualityVal');
+  qEl.textContent = r.quality.toUpperCase();
+  qEl.className   = 'quality-value ' + r.quality.toLowerCase();
+
+  // Proba
+  const probaStr = Object.entries(r.quality_proba)
+    .map(([k,v]) => `${k} ${(v*100).toFixed(0)}%`).join(' · ');
+  document.getElementById('qualityProba').textContent = probaStr;
+
+  // Score global
+  const score = parseFloat(r.overall_score).toFixed(2);
+  document.getElementById('scoreBig').textContent = score;
+  document.getElementById('scoreBarLabel').textContent = score;
+  setTimeout(() => {
+    document.getElementById('scoreBarFill').style.width = (r.overall_score / 10 * 100) + '%';
+  }, 200);
+
+  // Badges
+  const bRow = document.getElementById('badgesRow');
+  bRow.innerHTML = '';
+  bRow.innerHTML += badgeHTML(r.visit_format, 'cyan', '📋');
+  bRow.innerHTML += badgeHTML(r.sentiment,
+    r.sentiment==='Positif'?'green':r.sentiment==='Négatif'?'red':'dim', '💬');
+  bRow.innerHTML += badgeHTML(r.niveau_alia, 'cyan', '🎓');
+
+  // ── Scores détaillés ─────────────────────────────────────────
+  setScore('Sci', r.scores.scientific_accuracy);
+  setScore('Clar', r.scores.communication_clarity);
+  setScore('Obj', r.scores.objection_handling);
+
+  // ── Meta row ─────────────────────────────────────────────────
+  const metaRow = document.getElementById('metaRow');
+  metaRow.innerHTML = '';
+  metaRow.innerHTML += badgeHTML(r.visit_format, 'cyan', '📋');
+  metaRow.innerHTML += badgeHTML(r.sentiment,
+    r.sentiment==='Positif'?'green':r.sentiment==='Négatif'?'red':'dim', '😊');
+
+  // ── ACRV ─────────────────────────────────────────────────────
+  renderACRV(r.acrv);
+
+  // ── Conformité ───────────────────────────────────────────────
+  const banner = document.getElementById('conformiteBanner');
+  if (r.conformite) {
+    banner.className = 'conformite-banner ok';
+    document.getElementById('conformiteIcon').textContent = '✅';
+    document.getElementById('conformiteText').textContent =
+      'Réponse conforme — aucun mot tueur ni surpromesse détecté';
+  } else {
+    banner.className = 'conformite-banner fail';
+    document.getElementById('conformiteIcon').textContent = '🚨';
+    document.getElementById('conformiteText').textContent =
+      `NON CONFORME — ${r.n_mots_tueurs} mot(s) tueur(s) détecté(s). Supprimez les surpromesses immédiatement.`;
+  }
+
+  // ── Progression ALIA ─────────────────────────────────────────
+  renderNiveauTrack(r.niveau_alia, r.overall_score);
+
+  // ── Feedback ─────────────────────────────────────────────────
+  renderFeedback(r.feedback_coaching || []);
+
+  // ── Actions ──────────────────────────────────────────────────
+  renderActions(r.next_level_actions || []);
+
+  // Scroll to results on mobile
+  if (window.innerWidth < 1000) {
+    document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// ── Score gauge helper ────────────────────────────────────────
+function setScore(key, val) {
+  const v = parseFloat(val).toFixed(1);
+  document.getElementById(`score${key}`).textContent = `${v} / 10`;
+  setTimeout(() => {
+    document.getElementById(`gauge${key}`).style.width = (val / 10 * 100) + '%';
+  }, 300);
+}
+
+// ── Badge helper ──────────────────────────────────────────────
+function badgeHTML(text, color, icon) {
+  return `<span class="badge badge-${color}">${icon} ${text}</span>`;
+}
+
+// ── ACRV render ───────────────────────────────────────────────
+function renderACRV(acrv) {
+  const defs = [
+    { key:'accueil',    letter:'A', desc:'Accueil',       icon:'🤝' },
+    { key:'clarif',     letter:'C', desc:'Clarification', icon:'🔍' },
+    { key:'reponse',    letter:'R', desc:'Réponse',       icon:'💡' },
+    { key:'validation', letter:'V', desc:'Validation',    icon:'✔️' },
+  ];
+  const grid = document.getElementById('acrvGrid');
+  grid.innerHTML = '';
+  defs.forEach(d => {
+    const present = acrv[d.key] === 1;
+    grid.innerHTML += `
+      <div class="acrv-item ${present?'present':'absent'}">
+        <div class="acrv-icon">${d.icon}</div>
+        <div class="acrv-info">
+          <div class="acrv-letter">${d.letter} — ${present?'✓':'✗'}</div>
+          <div class="acrv-desc">${d.desc}</div>
+        </div>
+      </div>`;
+  });
+  document.getElementById('acrvScore').textContent = acrv.score;
+}
+
+// ── Niveau track ──────────────────────────────────────────────
+function renderNiveauTrack(niveauActuel, score) {
+  const track = document.getElementById('niveauTrack');
+  track.innerHTML = '';
+  const idxActuel = NIVEAUX.indexOf(niveauActuel);
+
+  NIVEAUX.forEach((n, i) => {
+    const isPassed = i < idxActuel;
+    const isActive = i === idxActuel;
+
+    track.innerHTML += `
+      <div class="niveau-node">
+        <div class="niveau-dot ${isPassed?'passed':''} ${isActive?'active':''}"></div>
+        <div class="niveau-name ${isActive?'active':''}">${n}</div>
+      </div>`;
+
+    if (i < NIVEAUX.length - 1) {
+      track.innerHTML += `<div class="niveau-line ${isPassed?'passed':''}"></div>`;
+    }
+  });
+
+  // Progression detail
+  const next  = NEXT[niveauActuel];
+  const seuil = next ? SEUILS[next] : null;
+  const ecart = next ? Math.max(0, seuil - score).toFixed(2) : 0;
+  const progLabel = document.getElementById('progLabel');
+  const progValue = document.getElementById('progValue');
+
+  if (next) {
+    progLabel.textContent = `${niveauActuel} → ${next} (seuil : ${seuil}/10)`;
+    progValue.textContent = ecart > 0 ? `+${ecart} pts nécessaires` : '✅ Seuil atteint';
+  } else {
+    progLabel.textContent = 'Niveau Expert — Performance maximale';
+    progValue.textContent = '🏆 Top performer';
+  }
+}
+
+// ── Feedback ──────────────────────────────────────────────────
+function renderFeedback(items) {
+  const list = document.getElementById('feedbackList');
+  list.innerHTML = '';
+  if (!items.length) {
+    list.innerHTML = '<div class="feedback-item visible positive">✅ Aucune amélioration critique — excellente réponse.</div>';
+    return;
+  }
+  items.forEach((txt, i) => {
+    const isWarn    = txt.includes('⚠️') || txt.includes('CONFORMITÉ') || txt.includes('MOT TUEUR');
+    const isPositif = txt.includes('✅');
+    const cls = isWarn ? 'warning' : isPositif ? 'positive' : '';
+    const el = document.createElement('div');
+    el.className = `feedback-item ${cls}`;
+    el.textContent = txt;
+    list.appendChild(el);
+    setTimeout(() => el.classList.add('visible'), 100 + i * 80);
+  });
+}
+
+// ── Actions ───────────────────────────────────────────────────
+function renderActions(items) {
+  const list = document.getElementById('actionsList');
+  list.innerHTML = '';
+  if (!items.length) {
+    list.innerHTML = '<div class="action-item visible"><span class="action-arrow">→</span><span>Maintenez ce niveau de performance.</span></div>';
+    return;
+  }
+  items.forEach((txt, i) => {
+    const el = document.createElement('div');
+    el.className = 'action-item';
+    el.innerHTML = `<span class="action-arrow">→</span><span>${txt}</span>`;
+    list.appendChild(el);
+    setTimeout(() => el.classList.add('visible'), 150 + i * 100);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════════════════════════
+
+function setLoading(on) {
+  document.getElementById('analyzeBtn').disabled = on;
+  document.getElementById('loadingOverlay').classList.toggle('active', on);
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg; el.classList.add('visible');
+}
+
+function hideError() {
+  document.getElementById('errorMsg').classList.remove('visible');
+}
+</script>
+</body>
+</html>

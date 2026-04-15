@@ -1,0 +1,10 @@
+{
+  "total_distance_km": 23.7,
+  "improvement_pct": 20.3,
+  "n_stops": 8,
+  "total_time_min": 80.6,
+  "target_day": "Monday",
+  "target_hour": 10,
+  "trained_at": "2026-03-28T01:22:39.120410",
+  "version": "1.0.0"
+}

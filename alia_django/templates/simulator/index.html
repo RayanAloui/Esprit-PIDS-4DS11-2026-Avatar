@@ -1,0 +1,1227 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ALIA Simulator — Visite Médicale Intégrée{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ecru:#1C1710;--ecru-2:#241E14;--ecru-3:#2E2618;--bordeaux:#8B1A1A;--bord-dim:#5C1010;--or:#C8960C;--cream:#E8DCC8;--cream-2:#B8A888;--glass-w:rgba(232,220,200,0.04);--bw:rgba(200,150,12,0.2)}
+
+/* SETUP */
+#setupScreen{max-width:900px;margin:0 auto}
+.setup-title{font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--cream);text-align:center;margin-bottom:6px}
+.setup-title span{color:var(--or)}
+.setup-sub{text-align:center;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--cream-2);margin-bottom:36px}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+@media(max-width:700px){.setup-grid{grid-template-columns:1fr}}
+.setup-section{background:var(--glass-w);border:1px solid var(--bw);border-radius:14px;padding:18px}
+.setup-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:12px;display:block}
+.doctor-cards{display:flex;flex-direction:column;gap:7px}
+.doctor-card{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;border:1px solid rgba(200,150,12,0.15);cursor:pointer;transition:all .2s;background:transparent}
+.doctor-card:hover{background:rgba(200,150,12,0.05);border-color:rgba(200,150,12,0.3)}
+.doctor-card.selected{background:rgba(200,150,12,0.1);border-color:var(--or)}
+.doctor-avatar{font-size:22px;flex-shrink:0}
+.doctor-info{flex:1}
+.doctor-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--cream);font-weight:700}
+.doctor-spec{font-size:10px;color:var(--cream-2)}
+.doctor-diff{font-size:10px;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace}
+.diff-1{background:rgba(42,74,42,.3);color:#6BCB6B}.diff-2{background:rgba(200,150,12,.2);color:var(--or)}
+.diff-3{background:rgba(139,26,26,.3);color:#E06060}.diff-4{background:rgba(139,26,26,.5);color:#FF4444;border:1px solid rgba(255,68,68,.3)}
+.product-cards{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.product-card{padding:10px;border-radius:9px;border:1px solid rgba(200,150,12,0.15);cursor:pointer;transition:all .2s;background:transparent}
+.product-card:hover{background:rgba(200,150,12,0.05);border-color:rgba(200,150,12,0.3)}
+.product-card.selected{background:rgba(200,150,12,0.1);border-color:var(--or)}
+.product-nom{font-family:'Playfair Display',serif;font-size:12px;color:var(--cream);font-weight:700}
+.product-cat{font-size:9px;color:var(--cream-2);margin-top:1px}
+.niveau-selector{display:flex;gap:7px}
+.niveau-opt{flex:1;padding:7px 4px;text-align:center;border:1px solid rgba(200,150,12,.15);border-radius:7px;cursor:pointer;font-size:11px;color:var(--cream-2);transition:all .2s;font-family:'DM Sans',sans-serif}
+.niveau-opt.selected{background:rgba(200,150,12,.1);border-color:var(--or);color:var(--or)}
+.start-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--bordeaux),var(--bord-dim));border:none;border-radius:12px;font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--cream);cursor:pointer;letter-spacing:1px;transition:all .3s}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(139,26,26,.5)}
+.start-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* SIM LAYOUT — 3 colonnes */
+#simScreen{display:none}
+.sim-layout{display:grid;grid-template-columns:280px 1fr 360px;gap:14px;align-items:start}
+@media(max-width:1300px){.sim-layout{grid-template-columns:240px 1fr 320px}}
+@media(max-width:1000px){.sim-layout{grid-template-columns:1fr}.right-col{display:none}}
+
+/* ── COL 1 : Avatar 3D RÉEL ──────────────────────────────── */
+.doctor-panel{background:var(--glass-w);border:1px solid var(--bw);border-radius:14px;overflow:hidden}
+
+/* Container du vrai avatar GLB */
+#avatar3dContainer{
+  width:100%;
+  height:300px;
+  position:relative;
+  background:var(--ecru-2);
+}
+#avatar3dContainer canvas{
+  width:100% !important;
+  height:100% !important;
+  display:block;
+}
+#avatar3dError{
+  position:absolute;inset:0;display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;font-family:'DM Mono',monospace;font-size:10px;
+  color:rgba(184,168,136,.5);text-align:center;padding:16px;
+}
+#avatar3dError .av-ico{font-size:36px;opacity:.4}
+
+/* Infos médecin sous l'avatar */
+.doctor-info-panel{padding:14px}
+.dr-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--cream);text-align:center;font-weight:700;margin-bottom:1px}
+.dr-spec-small{font-size:9px;color:var(--cream-2);text-align:center;margin-bottom:12px}
+.openness-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--cream-2);text-transform:uppercase;margin-bottom:4px}
+.openness-track{display:flex;gap:3px;margin-bottom:2px}
+.openness-pip{flex:1;height:4px;border-radius:2px;background:rgba(200,150,12,.15);transition:background .5s}
+.openness-pip.filled{background:var(--or);box-shadow:0 0 4px rgba(200,150,12,.4)}
+.openness-val{font-family:'DM Mono',monospace;font-size:9px;color:var(--or);text-align:right}
+.steps-list{margin-top:10px;display:flex;flex-direction:column;gap:3px}
+.step-item{display:flex;align-items:center;gap:6px;font-size:9px;color:var(--cream-2);padding:3px 6px;border-radius:4px;transition:all .3s}
+.step-item.done{color:var(--or);background:rgba(200,150,12,.08)}
+.step-num{width:14px;height:14px;border-radius:50%;background:rgba(200,150,12,.1);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;color:var(--cream-2);flex-shrink:0}
+.step-item.done .step-num{background:var(--or);color:#1C1710}
+.turn-info{margin-top:8px;text-align:center;font-family:'DM Mono',monospace;font-size:9px;color:var(--cream-2)}
+.turn-bar-bg{height:3px;background:rgba(200,150,12,.1);border-radius:2px;margin-top:4px;overflow:hidden}
+.turn-bar-fill{height:100%;background:var(--or);border-radius:2px;transition:width .5s}
+.end-btn{width:100%;padding:7px;background:transparent;border:1px solid rgba(139,26,26,.4);border-radius:0 0 14px 14px;color:rgba(224,96,96,.7);font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;transition:all .2s;margin-top:10px}
+.end-btn:hover{background:rgba(139,26,26,.1);color:#E06060}
+
+/* CHAT */
+.chat-area{background:var(--glass-w);border:1px solid var(--bw);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:560px}
+.chat-header{padding:12px 16px;border-bottom:1px solid var(--bw);display:flex;align-items:center;gap:10px}
+.chat-product-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--or);background:rgba(200,150,12,.1);border:1px solid rgba(200,150,12,.2);padding:2px 8px;border-radius:20px}
+.chat-title{font-family:'Playfair Display',serif;font-size:14px;color:var(--cream);font-weight:700}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:11px}
+.msg-row{display:flex;gap:8px;opacity:0;transform:translateY(6px);animation:msgIn .3s forwards}
+.msg-row.doctor{align-items:flex-start}
+.msg-row.delegate{align-items:flex-start;flex-direction:row-reverse}
+.msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;border:1px solid rgba(200,150,12,.2)}
+.msg-row.doctor .msg-avatar{background:var(--ecru-3)}
+.msg-row.delegate .msg-avatar{background:rgba(200,150,12,.1)}
+.msg-bubble{max-width:76%;padding:10px 13px;border-radius:12px;line-height:1.6;font-family:'DM Sans',sans-serif;font-size:13px}
+.msg-row.doctor .msg-bubble{background:var(--ecru-3);border:1px solid rgba(200,150,12,.15);color:var(--cream);border-radius:3px 12px 12px 12px}
+.msg-row.delegate .msg-bubble{background:rgba(139,26,26,.25);border:1px solid rgba(139,26,26,.3);color:var(--cream);border-radius:12px 3px 12px 12px}
+.msg-meta{font-family:'DM Mono',monospace;font-size:8px;color:var(--cream-2);margin-top:2px}
+.msg-score{color:var(--or)}
+.msg-engine{color:rgba(184,168,136,.4);font-size:7px;margin-left:5px}
+.typing-dots{display:flex;gap:4px;align-items:center;padding:3px 0}
+.typing-dots span{width:5px;height:5px;border-radius:50%;background:var(--cream-2);animation:blink 1.4s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+@keyframes msgIn{to{opacity:1;transform:translateY(0)}}
+.chat-input-area{padding:12px 16px;border-top:1px solid var(--bw);display:flex;gap:8px;align-items:flex-end}
+.chat-textarea{flex:1;background:var(--ecru-3);border:1px solid rgba(200,150,12,.2);border-radius:8px;padding:10px 12px;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5;resize:none;min-height:42px;max-height:100px;outline:none;transition:border-color .2s}
+.chat-textarea:focus{border-color:var(--or)}
+.chat-textarea::placeholder{color:rgba(184,168,136,.4)}
+.chat-textarea:disabled{opacity:.5}
+.send-btn{width:42px;height:42px;border-radius:8px;border:none;background:var(--bordeaux);color:var(--cream);font-size:15px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.send-btn:hover{background:#A02020;transform:scale(1.05)}
+.send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.mic-btn{width:42px;height:42px;border-radius:8px;border:1px solid rgba(200,150,12,.2);background:var(--ecru-3);color:var(--cream-2);font-size:17px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mic-btn:hover{background:rgba(200,150,12,.08);border-color:var(--or);color:var(--or)}
+.mic-btn.is-recording{background:rgba(139,26,26,.3);border-color:#E06060;color:#E06060;animation:micpulse 1s infinite}
+.mic-btn:disabled{opacity:.4;cursor:not-allowed}
+@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(224,96,96,.4)}50%{box-shadow:0 0 0 6px rgba(224,96,96,0)}}
+.decision-banner{position:fixed;bottom:80px;right:24px;z-index:200;padding:14px 20px;border-radius:12px;max-width:320px;font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5;border:1px solid;animation:decisionIn .4s cubic-bezier(.23,1,.32,1)}
+@keyframes decisionIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.decision-banner.commande{background:rgba(42,74,42,.35);border-color:#6BCB6B;color:#6BCB6B}
+.decision-banner.conditions{background:rgba(200,150,12,.15);border-color:var(--or);color:var(--or)}
+.decision-banner.refus{background:rgba(139,26,26,.3);border-color:#E06060;color:#E06060}
+.decision-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.decision-reason{font-size:11px;opacity:.75;font-family:'DM Mono',monospace}
+.sim-tts-indicator{display:none;position:absolute;top:6px;left:6px;background:rgba(139,26,26,.8);color:#fff;padding:2px 8px;border-radius:20px;font-size:8px;font-family:'DM Mono',monospace;letter-spacing:1px;z-index:3}
+.sim-tts-indicator.active{display:block;animation:mpulse 1.5s infinite}
+
+/* DASHBOARD DROIT */
+.right-col{display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+
+/* Score global anneau */
+.score-ring-card{background:var(--glass-w);border:1px solid var(--bw);border-radius:14px;padding:16px;text-align:center}
+.score-ring-wrap{position:relative;width:110px;height:110px;margin:0 auto 10px}
+#scoreRingCanvas{width:110px;height:110px}
+.score-ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--or);line-height:1}
+.score-ring-lbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--cream-2);margin-top:1px}
+.score-niveau{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--cream);margin-bottom:8px;text-transform:uppercase}
+.contrib-bars{display:flex;flex-direction:column;gap:5px}
+.contrib-row{display:flex;align-items:center;gap:7px}
+.contrib-lbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--cream-2);width:60px;flex-shrink:0}
+.contrib-bar-bg{flex:1;height:5px;background:rgba(200,150,12,.1);border-radius:3px;overflow:hidden}
+.contrib-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.23,1,.32,1);width:0%}
+.c-nlp{background:linear-gradient(90deg,#1976D2,#42A5F5)}
+.c-lstm{background:linear-gradient(90deg,#1e7e34,#00e676)}
+.c-conf{background:linear-gradient(90deg,#8B1A1A,#C8960C)}
+.c-vm{background:linear-gradient(90deg,#5C1010,#C8960C)}
+.contrib-val{font-family:'DM Mono',monospace;font-size:8px;color:var(--or);width:24px;text-align:right;flex-shrink:0}
+
+/* Module cards */
+.module-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mod-card{background:var(--glass-w);border:1px solid var(--bw);border-radius:10px;padding:10px}
+.mod-card-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--or);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.mod-dot{width:5px;height:5px;border-radius:50%;background:rgba(200,150,12,.3);flex-shrink:0}
+.mod-dot.active{background:var(--or);box-shadow:0 0 5px rgba(200,150,12,.5);animation:mpulse 2s infinite}
+@keyframes mpulse{0%,100%{opacity:1}50%{opacity:.5}}
+.mod-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--cream);line-height:1;margin-bottom:2px}
+.mod-sub{font-size:9px;color:var(--cream-2)}
+#nlpMiniChart{width:100%;height:40px;display:block;margin-top:4px}
+.lstm-mini-gauge{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+.lstm-mg-row{display:flex;flex-direction:column;gap:1px}
+.lstm-mg-lbl{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:7px;color:var(--cream-2)}
+.lstm-mg-bg{height:3px;background:rgba(200,150,12,.1);border-radius:2px;overflow:hidden}
+.lstm-mg-fill{height:100%;border-radius:2px;transition:width .6s}
+.lstm-conf-fill{background:linear-gradient(90deg,#1e7e34,#00e676)}
+.lstm-stress-fill{background:linear-gradient(90deg,#8b1a1a,#e74c3c)}
+.posture-badge{display:inline-block;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;font-size:8px;font-weight:700;margin-top:4px}
+.pb-upright{background:rgba(42,74,42,.3);color:#6BCB6B}
+.pb-neutral{background:rgba(200,150,12,.2);color:var(--or)}
+.pb-slouched{background:rgba(139,26,26,.3);color:#E06060}
+.rag-status{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:8px;color:var(--cream-2);margin-top:4px}
+.rag-dot-sm{width:5px;height:5px;border-radius:50%;background:rgba(200,150,12,.3)}
+.rag-dot-sm.on{background:var(--or);animation:mpulse 2s infinite}
+.vm-steps-mini{display:flex;gap:3px;margin-top:4px;flex-wrap:wrap}
+.vm-pip{width:18px;height:18px;border-radius:4px;background:rgba(200,150,12,.08);border:1px solid rgba(200,150,12,.15);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;color:rgba(184,168,136,.4);transition:all .4s}
+.vm-pip.done{background:rgba(200,150,12,.15);border-color:var(--or);color:var(--or)}
+
+/* ── WEBCAM — grande zone responsive ─────────────────────── */
+.webcam-card{background:var(--glass-w);border:1px solid var(--bw);border-radius:12px;overflow:hidden}
+.webcam-card-header{padding:8px 12px;border-bottom:1px solid var(--bw);display:flex;align-items:center;justify-content:space-between}
+.webcam-card-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--or)}
+.webcam-btns{display:flex;gap:5px}
+.wcam-btn{padding:3px 10px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:9px;cursor:pointer;transition:all .2s;border:1px solid var(--bw)}
+.wcam-start{background:rgba(200,150,12,.08);color:var(--or)}
+.wcam-start:hover{background:rgba(200,150,12,.15)}
+.wcam-retry{background:rgba(25,118,210,.1);color:#42A5F5;display:none}
+.wcam-retry:hover{background:rgba(25,118,210,.2)}
+.wcam-stop{background:rgba(139,26,26,.08);color:#E06060;display:none}
+.wcam-stop:hover{background:rgba(139,26,26,.15)}
+
+/* Zone vidéo — responsive, grande */
+.webcam-video-zone{
+  position:relative;
+  width:100%;
+  height:clamp(240px, calc(100vh - 600px), 360px);
+  min-height:240px;
+  background:var(--ecru-2);
+  overflow:hidden;
+}
+.webcam-video-zone img#lstmStream{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  display:none;
+}
+.webcam-offline{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:6px;
+}
+.webcam-offline-ico{font-size:32px;opacity:.3}
+.webcam-offline-txt{font-family:'DM Mono',monospace;font-size:9px;color:rgba(184,168,136,.4);text-align:center}
+.webcam-error{
+  position:absolute;inset:0;display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;background:rgba(139,26,26,.1);
+}
+.webcam-error-txt{font-family:'DM Mono',monospace;font-size:9px;color:#E06060;text-align:center;padding:0 12px}
+#lstmLiveBadge{
+  display:none;position:absolute;top:6px;right:6px;
+  background:rgba(139,26,26,.85);color:#fff;
+  padding:2px 8px;border-radius:20px;
+  font-size:9px;font-weight:700;letter-spacing:1px;
+  z-index:2;
+}
+/* Scores posture sous la vidéo */
+.webcam-scores{padding:8px 10px;border-top:1px solid var(--bw);display:flex;gap:8px;align-items:center}
+.wcam-posture{font-family:'DM Mono',monospace;font-size:9px;font-weight:700}
+.wcam-posture.upright{color:#6BCB6B}
+.wcam-posture.neutral{color:var(--or)}
+.wcam-posture.slouched{color:#E06060}
+.wcam-gauges{flex:1;display:flex;flex-direction:column;gap:3px}
+.wcam-g-row{display:flex;align-items:center;gap:4px}
+.wcam-g-lbl{font-family:'DM Mono',monospace;font-size:7px;color:var(--cream-2);width:32px}
+.wcam-g-bg{flex:1;height:3px;background:rgba(200,150,12,.1);border-radius:2px;overflow:hidden}
+.wcam-g-fill{height:100%;border-radius:2px;transition:width .5s}
+.wcam-g-conf{background:linear-gradient(90deg,#1e7e34,#00e676)}
+.wcam-g-stress{background:linear-gradient(90deg,#8b1a1a,#e74c3c)}
+.wcam-g-val{font-family:'DM Mono',monospace;font-size:7px;color:var(--or);width:24px;text-align:right}
+
+/* Events feed */
+.events-card{background:var(--glass-w);border:1px solid var(--bw);border-radius:12px;padding:10px}
+.events-card-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--or);margin-bottom:7px}
+.events-feed{display:flex;flex-direction:column;gap:3px;max-height:100px;overflow-y:auto}
+.event-item{display:flex;align-items:flex-start;gap:5px;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--cream-2);padding:3px 5px;border-radius:4px;animation:evIn .3s forwards}
+@keyframes evIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
+.event-item.success{color:#6BCB6B;background:rgba(42,74,42,.1)}
+.event-item.error,.event-item.critical{color:#E06060;background:rgba(139,26,26,.1)}
+.event-item.warning{color:var(--or);background:rgba(200,150,12,.06)}
+.event-item.lstm{color:#42A5F5;background:rgba(25,118,210,.08)}
+.event-item.rag{color:#CE93D8;background:rgba(156,39,176,.08)}
+.event-item.vm{color:#6BCB6B;background:rgba(42,74,42,.08)}
+.event-time{font-family:'DM Mono',monospace;font-size:7px;color:rgba(184,168,136,.4);flex-shrink:0;margin-top:1px}
+
+/* REPORT */
+#reportScreen{display:none;max-width:820px;margin:0 auto}
+.report-hero{background:var(--glass-w);border:1px solid var(--bw);border-radius:16px;padding:28px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
+.report-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--bordeaux),var(--or),var(--bordeaux))}
+.report-resultat-ico{font-size:48px;margin-bottom:10px}
+.report-resultat-txt{font-family:'Playfair Display',serif;font-size:21px;color:var(--cream);font-weight:700;margin-bottom:5px}
+.report-sub{font-size:12px;color:var(--cream-2)}
+.report-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:700px){.report-kpis{grid-template-columns:1fr 1fr}}
+.report-kpi{background:var(--glass-w);border:1px solid var(--bw);border-radius:10px;padding:14px;text-align:center}
+.report-kpi-val{font-family:'Playfair Display',serif;font-size:30px;color:var(--or);line-height:1;font-weight:900}
+.report-kpi-lbl{font-size:9px;color:var(--cream-2);margin-top:3px;font-family:'DM Mono',monospace}
+.report-two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:700px){.report-two{grid-template-columns:1fr}}
+.report-card{background:var(--glass-w);border:1px solid var(--bw);border-radius:10px;padding:16px}
+.report-card-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:10px}
+.report-item{display:flex;align-items:flex-start;gap:7px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cream-2);margin-bottom:6px;line-height:1.5}
+.report-conseil{background:rgba(200,150,12,.08);border:1px solid rgba(200,150,12,.2);border-radius:9px;padding:12px;margin-bottom:16px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cream);line-height:1.6}
+.replay-btn{width:100%;padding:14px;border:none;border-radius:11px;background:linear-gradient(135deg,var(--bordeaux),var(--bord-dim));font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--cream);cursor:pointer;transition:all .3s}
+.replay-btn:hover{transform:translateY(-2px);box-shadow:0 9px 26px rgba(139,26,26,.5)}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- SETUP -->
+<div id="setupScreen">
+  <div class="setup-title">ALIA <span>Simulator</span></div>
+  <div class="setup-sub">NLP · LSTM Body Language · RAG VITAL SA · Avatar 3D · Dashboard Temps Réel</div>
+  <div class="setup-grid">
+    <div class="setup-section">
+      <span class="setup-label">Choisir le médecin</span>
+      <div class="doctor-cards">
+        {% for d in doctors %}
+        <div class="doctor-card" data-id="{{ d.id }}" onclick="selectDoctor('{{ d.id }}')">
+          <div class="doctor-avatar">{{ d.avatar }}</div>
+          <div class="doctor-info">
+            <div class="doctor-name">{{ d.nom }}</div>
+            <div class="doctor-spec">{{ d.specialite }} · {{ d.ville }}</div>
+            <div style="font-size:9px;color:rgba(184,168,136,.5);margin-top:1px">{{ d.description_ui }}</div>
+          </div>
+          <div class="doctor-diff diff-{{ d.difficulte_n }}">{{ d.difficulte }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="setup-section">
+        <span class="setup-label">Produit VITAL SA</span>
+        <div class="product-cards">
+          {% for p in products %}
+          <div class="product-card" data-id="{{ p.id }}" onclick="selectProduct('{{ p.id }}')">
+            <div class="product-nom">{{ p.nom }}</div>
+            <div class="product-cat">{{ p.categorie }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="setup-section">
+        <span class="setup-label">Niveau ALIA déclaré</span>
+        <div class="niveau-selector">
+          {% for n in niveaux %}
+          <div class="niveau-opt" data-n="{{ n }}" onclick="selectNiveau('{{ n }}')">{{ n }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="start-btn" id="startBtn" onclick="startSim()" disabled>▶ Commencer la visite médicale</button>
+  <div id="setupLoading" style="display:none;text-align:center;padding:16px;color:var(--or);font-family:'DM Mono',monospace;font-size:11px;">
+    <span class="spinner" style="border-color:rgba(200,150,12,.3);border-top-color:var(--or)"></span>&nbsp;Initialisation RAG + NLP…
+  </div>
+</div>
+
+<!-- SIMULATION -->
+<div id="simScreen">
+  <div class="sim-layout">
+
+    <!-- COL 1 — Avatar 3D RÉEL + infos médecin -->
+    <div class="doctor-panel">
+      <!-- Conteneur du vrai GLB -->
+      <div id="avatar3dContainer">
+        <div class="sim-tts-indicator" id="simTtsIndicator">● PARLE</div>
+        <div id="avatar3dError">
+          <div class="av-ico">👨‍⚕️</div>
+          <div id="avatar3dErrorMsg">Chargement avatar…</div>
+        </div>
+      </div>
+      <div class="doctor-info-panel">
+        <div class="dr-name" id="simDrName">Dr. —</div>
+        <div class="dr-spec-small" id="simDrSpec">—</div>
+        <div class="openness-label">Ouverture médecin</div>
+        <div class="openness-track" id="opennessPips">
+          <div class="openness-pip"></div><div class="openness-pip"></div>
+          <div class="openness-pip"></div><div class="openness-pip"></div>
+          <div class="openness-pip"></div>
+        </div>
+        <div class="openness-val" id="opennessVal">—</div>
+        <div class="steps-list" id="stepsList"></div>
+        <div class="turn-info">
+          Tour <span id="turnCur">0</span>/<span id="turnMax">8</span>
+          <div class="turn-bar-bg"><div class="turn-bar-fill" id="turnBar"></div></div>
+        </div>
+      </div>
+      <button class="end-btn" onclick="endSim()">⏹ Terminer la visite</button>
+    </div>
+
+    <!-- COL 2 — Chat -->
+    <div class="chat-area">
+      <div class="chat-header">
+        <div>
+          <div class="chat-title" id="chatTitle">Visite médicale</div>
+          <div style="font-size:9px;color:var(--cream-2);margin-top:1px" id="chatSub">—</div>
+        </div>
+        <div class="chat-product-tag" id="chatProduct">—</div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-area">
+        <textarea id="delegateInput" class="chat-textarea" rows="2"
+          placeholder="Répondez au médecin… (Entrée pour envoyer)"
+          onkeydown="handleKey(event)"></textarea>
+        <button class="mic-btn" id="simMicBtn" onclick="toggleSimMic()" title="Parler (STT)">🎤</button>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">▶</button>
+      </div>
+    </div>
+
+    <!-- COL 3 — Dashboard unifié -->
+    <div class="right-col">
+
+      <!-- Webcam LSTM — grande zone responsive -->
+      <div class="webcam-card">
+        <div class="webcam-card-header">
+          <span class="webcam-card-title">Body Language LSTM</span>
+          <div class="webcam-btns">
+            <button class="wcam-btn wcam-start" id="wmStart" onclick="startCam()">▶ Activer</button>
+            <button class="wcam-btn wcam-retry" id="wmRetry" onclick="retryCam()">↺ Retry</button>
+            <button class="wcam-btn wcam-stop"  id="wmStop"  onclick="stopCam()">⏹ Stop</button>
+          </div>
+        </div>
+        <div class="webcam-video-zone">
+          <!-- Le flux MJPEG Django (annoté par MediaPipe) -->
+          <img id="lstmStream" src="" alt="flux webcam">
+          <div class="webcam-offline" id="lstmOffline">
+            <div class="webcam-offline-ico">📷</div>
+            <div class="webcam-offline-txt">Caméra non active<br>Cliquez ▶ Activer</div>
+          </div>
+          <div class="webcam-error" id="lstmError">
+            <div class="webcam-offline-ico">⚠️</div>
+            <div class="webcam-error-txt" id="lstmErrorMsg">Erreur caméra</div>
+          </div>
+          <div id="lstmLiveBadge">● LIVE</div>
+        </div>
+        <div class="webcam-scores" id="webcamScores" style="display:none">
+          <div class="wcam-posture neutral" id="wcamPosture">—</div>
+          <div class="wcam-gauges">
+            <div class="wcam-g-row">
+              <span class="wcam-g-lbl">Conf.</span>
+              <div class="wcam-g-bg"><div class="wcam-g-fill wcam-g-conf" id="wcamConfBar"></div></div>
+              <span class="wcam-g-val" id="wcamConfVal">—</span>
+            </div>
+            <div class="wcam-g-row">
+              <span class="wcam-g-lbl">Stress</span>
+              <div class="wcam-g-bg"><div class="wcam-g-fill wcam-g-stress" id="wcamStressBar"></div></div>
+              <span class="wcam-g-val" id="wcamStressVal">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modules NLP + LSTM + RAG + VM -->
+      <div class="module-cards">
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot active" id="nlpDot"></div>NLP Score</div>
+          <div class="mod-val" id="nlpScoreVal">—</div>
+          <div class="mod-sub" id="nlpQuality">En attente</div>
+          <canvas id="nlpMiniChart"></canvas>
+        </div>
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot" id="lstmDot"></div>LSTM Posture</div>
+          <div id="lstmPostureBadge"><span class="posture-badge pb-neutral">—</span></div>
+          <div class="lstm-mini-gauge">
+            <div class="lstm-mg-row"><div class="lstm-mg-lbl"><span>Conf.</span><span id="lstmConfVal">—</span></div><div class="lstm-mg-bg"><div class="lstm-mg-fill lstm-conf-fill" id="lstmConfBar"></div></div></div>
+            <div class="lstm-mg-row"><div class="lstm-mg-lbl"><span>Stress</span><span id="lstmStressVal">—</span></div><div class="lstm-mg-bg"><div class="lstm-mg-fill lstm-stress-fill" id="lstmStressBar"></div></div></div>
+          </div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot" id="ragDot"></div>RAG</div>
+          <div class="mod-val" id="ragHitsVal">0</div>
+          <div class="mod-sub">contextes utilisés</div>
+          <div class="rag-status"><div class="rag-dot-sm" id="ragDotSm"></div><span id="ragEngine">—</span></div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-card-title"><div class="mod-dot active"></div>Étapes VM</div>
+          <div class="mod-val" id="vmStepsVal">0/6</div>
+          <div class="vm-steps-mini">
+            <div class="vm-pip" id="vmp1">1</div><div class="vm-pip" id="vmp2">2</div>
+            <div class="vm-pip" id="vmp3">3</div><div class="vm-pip" id="vmp4">4</div>
+            <div class="vm-pip" id="vmp5">5</div><div class="vm-pip" id="vmp6">6</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score Global -->
+      <div class="score-ring-card">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:10px;text-align:center">Score Global Intégré</div>
+        <div class="score-ring-wrap">
+          <canvas id="scoreRingCanvas" width="110" height="110"></canvas>
+          <div class="score-ring-val">
+            <div class="score-ring-num" id="globalScoreNum">—</div>
+            <div class="score-ring-lbl">/10</div>
+          </div>
+        </div>
+        <div class="score-niveau" id="globalNiveau">En attente…</div>
+        <div class="contrib-bars">
+          <div class="contrib-row"><span class="contrib-lbl">NLP 40%</span><div class="contrib-bar-bg"><div class="contrib-fill c-nlp" id="cNlp"></div></div><span class="contrib-val" id="cvNlp">—</span></div>
+          <div class="contrib-row"><span class="contrib-lbl">LSTM 25%</span><div class="contrib-bar-bg"><div class="contrib-fill c-lstm" id="cLstm"></div></div><span class="contrib-val" id="cvLstm">—</span></div>
+          <div class="contrib-row"><span class="contrib-lbl">Conform. 20%</span><div class="contrib-bar-bg"><div class="contrib-fill c-conf" id="cConf"></div></div><span class="contrib-val" id="cvConf">—</span></div>
+          <div class="contrib-row"><span class="contrib-lbl">Étapes 15%</span><div class="contrib-bar-bg"><div class="contrib-fill c-vm" id="cVm"></div></div><span class="contrib-val" id="cvVm">—</span></div>
+        </div>
+      </div>
+
+      <!-- Feed événements -->
+      <div class="events-card">
+        <div class="events-card-title">Événements temps réel</div>
+        <div class="events-feed" id="eventsFeed">
+          <div class="event-item" style="opacity:.4"><span class="event-time">0.0s</span><span>En attente de la simulation…</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- REPORT -->
+<div id="reportScreen">
+  <div class="report-hero">
+    <div class="report-resultat-ico" id="rIco">🏆</div>
+    <div class="report-resultat-txt" id="rResultat">—</div>
+    <div class="report-sub" id="rSub">—</div>
+  </div>
+  <div class="report-kpis">
+    <div class="report-kpi"><div class="report-kpi-val" id="rScore">—</div><div class="report-kpi-lbl">Score NLP</div></div>
+    <div class="report-kpi"><div class="report-kpi-val" id="rGlobal">—</div><div class="report-kpi-lbl">Score Global</div></div>
+    <div class="report-kpi"><div class="report-kpi-val" id="rNiveau">—</div><div class="report-kpi-lbl">Niveau ALIA</div></div>
+    <div class="report-kpi"><div class="report-kpi-val" id="rAcrv">—</div><div class="report-kpi-lbl">ACRV moyen</div></div>
+    <div class="report-kpi"><div class="report-kpi-val" id="rConf">—</div><div class="report-kpi-lbl">Conformité</div></div>
+  </div>
+  <div class="report-two">
+    <div class="report-card"><div class="report-card-title">✅ Points forts</div><div id="rForts"></div></div>
+    <div class="report-card"><div class="report-card-title">🎯 Axes de travail</div><div id="rAxes"></div></div>
+  </div>
+  <div class="report-conseil" id="rConseil"></div>
+  <button class="replay-btn" onclick="resetSim()">↺ Nouvelle simulation</button>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- importmap pour Three.js ES module + GLTFLoader (comme modeling/index.html) -->
+<script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.162.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/" } }
+</script>
+
+<!-- Avatar 3D — module ES6, copié exactement de modeling/index.html -->
+<script type="module">
+  import * as THREE from 'three';
+  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+  const AVATAR_URL = '/alia-api/static/avatar.glb';
+
+  const avatarState = {
+    model: null, mixer: null,
+    neck: null, spine1: null,
+    leftShoulder: null, rightShoulder: null,
+    leftArm: null, rightArm: null,
+    loaded: false,
+  };
+
+  let scene, camera, renderer, animFrameId;
+  const clock = new THREE.Clock();
+  let containerReady = false;
+
+  // Exposer une fonction globale pour démarrer quand la sim commence
+  window._initAvatar3D = function() {
+    const container = document.getElementById('avatar3dContainer');
+    if (!container || containerReady) return;
+    containerReady = true;
+
+    scene  = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(28, 1, 0.1, 1000);
+    camera.position.set(0, 1.55, 2.5);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    function refitCanvas() {
+      if (!container || !renderer || !camera) return;
+      const w = Math.max(1, container.clientWidth);
+      const h = Math.max(1, container.clientHeight);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    }
+    refitCanvas();
+    container.appendChild(renderer.domElement);
+
+    // Lumières
+    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+    const key = new THREE.DirectionalLight(0xffffff, 1.1);
+    key.position.set(1, 2.5, 2); scene.add(key);
+    const fill = new THREE.DirectionalLight(0x8bb8ff, 0.35);
+    fill.position.set(-2, 1, 1); scene.add(fill);
+
+    // Masquer l'écran d'erreur pendant le chargement
+    const errEl = document.getElementById('avatar3dError');
+    if (errEl) errEl.style.display = 'none';
+
+    // Charger le GLB
+    new GLTFLoader().load(
+      AVATAR_URL,
+      (gltf) => {
+        avatarState.model = gltf.scene;
+        avatarState.model.rotation.y = 0.15; // FIX: was Math.PI+0.15 (showing back)
+        scene.add(avatarState.model);
+
+        if (gltf.animations.length > 0) {
+          avatarState.mixer = new THREE.AnimationMixer(avatarState.model);
+          const action = avatarState.mixer.clipAction(gltf.animations[0]);
+          action.setLoop(THREE.LoopRepeat, Infinity);
+          action.play();
+        }
+
+        avatarState.model.traverse((child) => {
+          if (child.isBone) {
+            switch(child.name) {
+              case 'Neck':          avatarState.neck          = child; break;
+              case 'LeftShoulder':  avatarState.leftShoulder  = child; break;
+              case 'RightShoulder': avatarState.rightShoulder = child; break;
+              case 'LeftArm':       avatarState.leftArm       = child; break;
+              case 'RightArm':      avatarState.rightArm      = child; break;
+              case 'Spine1':        avatarState.spine1        = child; break;
+            }
+          }
+        });
+
+        // Pose de repos
+        if (avatarState.leftShoulder)  avatarState.leftShoulder.rotation.set(0.1, 0,  0.28);
+        if (avatarState.rightShoulder) avatarState.rightShoulder.rotation.set(0.1, 0, -0.28);
+        if (avatarState.leftArm)       avatarState.leftArm.rotation.set(0, 0,  0.75);
+        if (avatarState.rightArm)      avatarState.rightArm.rotation.set(0, 0, -0.75);
+        if (avatarState.spine1)        avatarState.spine1.rotation.x = 0.03;
+
+        avatarState.loaded = true;
+        refitCanvas();
+        if (errEl) errEl.style.display = 'none';
+      },
+      undefined,
+      (err) => {
+        console.warn('Avatar GLB load error:', err);
+        if (errEl) {
+          errEl.style.display = 'flex';
+          const msg = errEl.querySelector('#avatar3dErrorMsg');
+          if (msg) msg.textContent = 'Avatar 3D indisponible';
+        }
+      }
+    );
+
+    // Boucle render
+    function animate() {
+      animFrameId = requestAnimationFrame(animate);
+      const t = performance.now() * 0.001;
+      const delta = clock.getDelta();
+      if (avatarState.mixer) avatarState.mixer.update(delta);
+      if (avatarState.neck) {
+        avatarState.neck.rotation.y = Math.sin(t * 0.38) * 0.022;
+        avatarState.neck.rotation.z = Math.sin(t * 0.27) * 0.009;
+      }
+      if (avatarState.spine1) {
+        avatarState.spine1.rotation.x = 0.02 + Math.sin(t * 0.55) * 0.007;
+      }
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    new ResizeObserver(refitCanvas).observe(container);
+    window.addEventListener('resize', refitCanvas, { passive: true });
+  };
+
+  // Exposer destroy pour reset
+  window._destroyAvatar3D = function() {
+    if (animFrameId) cancelAnimationFrame(animFrameId);
+    containerReady = false;
+    avatarState.loaded = false;
+    avatarState.model  = null;
+    const container = document.getElementById('avatar3dContainer');
+    if (container && renderer) {
+      try { container.removeChild(renderer.domElement); } catch(e) {}
+      renderer.dispose();
+      renderer = null;
+    }
+  };
+</script>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// STT / TTS — SPEECH INTERFACE
+// ════════════════════════════════════════════════════════════════════
+const SIM_SILENCE_THRESHOLD=0.012,SIM_SILENCE_DELAY_MS=1200,SIM_MIN_SPEECH_MS=400;
+let simVadStream=null,simVadCtx=null,simVadAnalyser=null;
+let simMediaRecorder=null,simAudioChunks=[];
+let simIsRecording=false,simSpeechStart=null,simSilenceTimer=null;
+let simIsSpeaking=false,simAudioCtx=null;
+
+async function toggleSimMic(){
+  if(simIsSpeaking)return;
+  if(simIsRecording){_stopSimListening();return;}
+  await _startSimListening();
+}
+async function _startSimListening(){
+  const btn=document.getElementById('simMicBtn');
+  if(!btn||btn.disabled)return;
+  try{
+    simVadStream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    simVadCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const src=simVadCtx.createMediaStreamSource(simVadStream);
+    simVadAnalyser=simVadCtx.createAnalyser();simVadAnalyser.fftSize=512;
+    src.connect(simVadAnalyser);
+    const mime=MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';
+    simMediaRecorder=new MediaRecorder(simVadStream,mime?{mimeType:mime}:{});
+    simAudioChunks=[];
+    simMediaRecorder.ondataavailable=e=>{if(e.data.size>0)simAudioChunks.push(e.data);};
+    simMediaRecorder.onstop=_onSimRecordingStop;
+    simMediaRecorder.start(100);
+    simIsRecording=true;simSpeechStart=null;simSilenceTimer=null;
+    btn.classList.add('is-recording');btn.textContent='⏹';
+    document.getElementById('delegateInput').placeholder='Parlez… (silence = envoi auto)';
+    _monitorSimVAD();
+  }catch(e){
+    console.error('Sim mic error:',e);
+    appendMsg('doctor','Micro non disponible : '+e.message,'👨‍⚕️',null,null);
+  }
+}
+function _monitorSimVAD(){
+  if(!simIsRecording)return;
+  const buf=new Float32Array(simVadAnalyser.fftSize);
+  simVadAnalyser.getFloatTimeDomainData(buf);
+  let sum=0;for(let i=0;i<buf.length;i++)sum+=buf[i]*buf[i];
+  const rms=Math.sqrt(sum/buf.length),speaking=rms>SIM_SILENCE_THRESHOLD;
+  if(speaking){
+    if(!simSpeechStart)simSpeechStart=Date.now();
+    if(simSilenceTimer){clearTimeout(simSilenceTimer);simSilenceTimer=null;}
+  }else if(simSpeechStart&&!simSilenceTimer){
+    if(Date.now()-simSpeechStart>=SIM_MIN_SPEECH_MS)
+      simSilenceTimer=setTimeout(()=>_stopSimListening(),SIM_SILENCE_DELAY_MS);
+  }
+  requestAnimationFrame(_monitorSimVAD);
+}
+function _stopSimListening(){
+  if(!simIsRecording)return;
+  simIsRecording=false;
+  if(simSilenceTimer){clearTimeout(simSilenceTimer);simSilenceTimer=null;}
+  try{simMediaRecorder?.stop();}catch(e){}
+  simVadStream?.getTracks().forEach(t=>t.stop());
+  if(simVadCtx){simVadCtx.close().catch(()=>{});simVadCtx=null;}
+  simVadAnalyser=null;
+  const btn=document.getElementById('simMicBtn');
+  if(btn){btn.classList.remove('is-recording');btn.textContent='🎤';}
+  document.getElementById('delegateInput').placeholder='Répondez au médecin… (Entrée pour envoyer, 🎤 pour parler)';
+}
+async function _onSimRecordingStop(){
+  if(!simSpeechStart)return;
+  const blob=new Blob(simAudioChunks,{type:simMediaRecorder?.mimeType||'audio/webm'});
+  const fd=new FormData();fd.append('audio',blob,'speech.webm');
+  try{
+    const res=await fetch('/simulator/stt/',{method:'POST',body:fd,
+      headers:{'X-CSRFToken':getCookie('csrftoken')}});
+    const data=await res.json();
+    const txt=(data.text||'').trim();
+    if(!txt)return;
+    document.getElementById('delegateInput').value=txt;
+    sendMessage();
+  }catch(e){console.error('STT error:',e);}
+}
+async function _playSimTts(text){
+  if(!text||simIsSpeaking)return;
+  try{
+    const res=await fetch('/simulator/tts/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body:JSON.stringify({text})
+    });
+    const data=await res.json();
+    if(data.audio_url)await _simPlayAudio(data.audio_url);
+  }catch(e){console.error('TTS error:',e);}
+}
+async function _simPlayAudio(url){
+  return new Promise(async(resolve)=>{
+    simIsSpeaking=true;
+    const ind=document.getElementById('simTtsIndicator');
+    const micBtn=document.getElementById('simMicBtn');
+    if(ind)ind.classList.add('active');
+    if(micBtn)micBtn.disabled=true;
+    if(!simAudioCtx)simAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(simAudioCtx.state==='suspended')await simAudioCtx.resume();
+    const href=url.startsWith('http')?url:(window.location.origin+url);
+    const audio=new Audio(`${href}${href.includes('?')?'&':'?'}t=${Date.now()}`);
+    audio.crossOrigin='anonymous';
+    const cleanup=()=>{
+      simIsSpeaking=false;
+      if(ind)ind.classList.remove('active');
+      if(micBtn)micBtn.disabled=false;
+    };
+    audio.addEventListener('ended',()=>{cleanup();resolve();});
+    audio.addEventListener('error',()=>{cleanup();resolve();});
+    audio.play().catch(()=>{cleanup();resolve();});
+  });
+}
+function _showDecisionBanner(decision){
+  const old=document.getElementById('decisionBanner');if(old)old.remove();
+  if(!decision)return;
+  const d=document.createElement('div');
+  d.id='decisionBanner';
+  d.className=`decision-banner ${decision.decision}`;
+  d.innerHTML=`<div class="decision-title">${decision.icon} ${decision.label}</div>`+
+    `<div class="decision-reason">${decision.reason}</div>`;
+  document.body.appendChild(d);
+  setTimeout(()=>{if(d.parentNode)d.parentNode.removeChild(d);},8000);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+let selDoc=null,selProd=null,selNiv='Junior';
+let openness=2.0,turn=0;
+let dashInterval=null,lstmInterval=null,lstmRetryCount=0;
+const MAX_T=8;
+const STEPS=[{n:1,l:'Permission'},{n:2,l:'Sondage'},{n:3,l:'Synthèse'},
+             {n:4,l:'A-C-R-V'},{n:5,l:'Preuve'},{n:6,l:'BIP/Closing'}];
+let stepsOk=new Set(),nlpHistory=[],ringCtx=null;
+
+// ════════════════════════════════════════════════════════════════════
+// SETUP
+// ════════════════════════════════════════════════════════════════════
+function selectDoctor(id){selDoc=id;document.querySelectorAll('.doctor-card').forEach(c=>c.classList.toggle('selected',c.dataset.id===id));chk()}
+function selectProduct(id){selProd=id;document.querySelectorAll('.product-card').forEach(c=>c.classList.toggle('selected',c.dataset.id===id));chk()}
+function selectNiveau(n){selNiv=n;document.querySelectorAll('.niveau-opt').forEach(o=>o.classList.toggle('selected',o.dataset.n===n))}
+function chk(){document.getElementById('startBtn').disabled=!(selDoc&&selProd)}
+document.addEventListener('DOMContentLoaded',()=>{selectNiveau('Junior');initRingCanvas()});
+
+// ════════════════════════════════════════════════════════════════════
+// SCORE RING
+// ════════════════════════════════════════════════════════════════════
+function initRingCanvas(){
+  const c=document.getElementById('scoreRingCanvas');
+  if(!c)return;
+  ringCtx=c.getContext('2d');drawRing(0);
+}
+function drawRing(score){
+  if(!ringCtx)return;
+  const ctx=ringCtx,W=110,cx=55,cy=55,r=46,lw=7;
+  ctx.clearRect(0,0,W,W);
+  ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,Math.PI*1.5);
+  ctx.strokeStyle='rgba(200,150,12,0.12)';ctx.lineWidth=lw;ctx.stroke();
+  if(score>0){
+    const pct=Math.min(score/10,1);
+    const end=-Math.PI/2+Math.PI*2*pct;
+    const g=ctx.createLinearGradient(cx-r,cy,cx+r,cy);
+    g.addColorStop(0,'#8B1A1A');g.addColorStop(0.5,'#C8960C');g.addColorStop(1,'#6BCB6B');
+    ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,end);
+    ctx.strokeStyle=g;ctx.lineWidth=lw;ctx.lineCap='round';ctx.stroke();
+  }
+}
+function updateRing(score){
+  drawRing(score);
+  const el=document.getElementById('globalScoreNum');
+  if(el)el.textContent=score>0?score.toFixed(1):'—';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// NLP MINI CHART
+// ════════════════════════════════════════════════════════════════════
+function drawNlpChart(){
+  const c=document.getElementById('nlpMiniChart');
+  if(!c||nlpHistory.length<2)return;
+  const ctx=c.getContext('2d');
+  const W=c.parentElement.clientWidth-20||120;c.width=W;c.height=40;
+  ctx.clearRect(0,0,W,40);
+  const pts=nlpHistory.slice(-8);const step=W/(pts.length-1||1);
+  ctx.beginPath();
+  pts.forEach((v,i)=>{const x=i*step;const y=40-(v/10)*36;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)});
+  ctx.strokeStyle='rgba(200,150,12,0.8)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.lineTo((pts.length-1)*step,40);ctx.lineTo(0,40);ctx.closePath();
+  ctx.fillStyle='rgba(200,150,12,0.08)';ctx.fill();
+  const lx=(pts.length-1)*step,ly=40-(pts[pts.length-1]/10)*36;
+  ctx.beginPath();ctx.arc(lx,ly,3,0,Math.PI*2);ctx.fillStyle='#C8960C';ctx.fill();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// START SIM
+// ════════════════════════════════════════════════════════════════════
+async function startSim(){
+  document.getElementById('startBtn').style.display='none';
+  document.getElementById('setupLoading').style.display='block';
+  try{
+    const res=await fetch('/simulator/start/',{method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body:JSON.stringify({doctor_id:selDoc,product_id:selProd,niveau_alia:selNiv})});
+    const d=await res.json();if(!d.ok)throw new Error(d.error);
+    const dr=d.doctor,pr=d.product;
+    document.getElementById('simDrName').textContent=dr.nom;
+    document.getElementById('simDrSpec').textContent=`${dr.specialite} · ${dr.ville}`;
+    document.getElementById('chatTitle').textContent=`Visite — ${dr.nom}`;
+    document.getElementById('chatSub').textContent=`${dr.specialite} · ${dr.difficulte}`;
+    document.getElementById('chatProduct').textContent=pr.nom;
+    document.getElementById('turnMax').textContent=MAX_T;
+    buildSteps();updateOpenness(dr.ouverture_initiale||2);
+    document.getElementById('setupScreen').style.display='none';
+    document.getElementById('simScreen').style.display='block';
+    // Initialiser l'avatar 3D RÉEL
+    if(window._initAvatar3D) window._initAvatar3D();
+    appendMsg('doctor',d.first.message,dr.avatar,null,null);
+    _playSimTts(d.first.message).catch(()=>{});
+    dashInterval=setInterval(pollDashboard,500);
+  }catch(e){
+    alert('Erreur : '+e.message);
+    document.getElementById('startBtn').style.display='';
+    document.getElementById('setupLoading').style.display='none';
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// SEND MESSAGE
+// ════════════════════════════════════════════════════════════════════
+async function sendMessage(){
+  const inp=document.getElementById('delegateInput');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.disabled=true;document.getElementById('sendBtn').disabled=true;
+  const _mb=document.getElementById('simMicBtn');if(_mb)_mb.disabled=true;
+  appendMsg('delegate',txt,'🤝',null,null);
+  const tid=showTyping();
+  try{
+    const res=await fetch('/simulator/message/',{method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body:JSON.stringify({text:txt})});
+    const d=await res.json();if(!d.ok)throw new Error(d.error);
+    removeTyping(tid);
+    turn=d.turn;updateTurnBar();updateOpenness(d.openness);
+    if(d.step){stepsOk.add(d.step);updateSteps()}
+    if(d.score){nlpHistory.push(d.score);drawNlpChart()}
+    const meta=d.score?`${d.score}/10 · ${d.quality}`:null;
+    appendMsg('doctor',d.message,'👨‍⚕️',meta,d.engine);
+    _playSimTts(d.message).catch(()=>{});
+    if(d.final_decision)_showDecisionBanner(d.final_decision);
+    if(d.is_finished)setTimeout(()=>{stopCam();showReport()},2200);
+  }catch(e){
+    removeTyping(tid);
+    appendMsg('doctor','Une erreur est survenue.','👨‍⚕️',null,null);
+  }finally{
+    inp.disabled=false;document.getElementById('sendBtn').disabled=false;
+    const _mb2=document.getElementById('simMicBtn');if(_mb2)_mb2.disabled=false;
+    inp.focus();
+  }
+}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}}
+async function endSim(){if(!confirm('Terminer et voir le rapport ?'))return;stopCam();showReport()}
+
+// ════════════════════════════════════════════════════════════════════
+// DASHBOARD POLLING 500ms
+// ════════════════════════════════════════════════════════════════════
+async function pollDashboard(){
+  try{
+    const res=await fetch('/simulator/dashboard/');
+    const d=await res.json();
+    if(!d.ok||!d.active)return;
+    renderDashboard(d);
+  }catch(e){}
+}
+
+function renderDashboard(d){
+  const gs=d.global_score||0;
+  updateRing(gs);
+  document.getElementById('globalNiveau').textContent=d.global_niveau||'—';
+
+  const c=d.contributions||{};
+  function sc(bid,vid,v){
+    document.getElementById(bid).style.width=Math.min((v/4)*100,100)+'%';
+    document.getElementById(vid).textContent=v.toFixed(2);
+  }
+  sc('cNlp','cvNlp',c.nlp||0);sc('cLstm','cvLstm',c.lstm||0);
+  sc('cConf','cvConf',c.conformite||0);sc('cVm','cvVm',c.vm_steps||0);
+
+  if(d.nlp_score_mean>0){
+    document.getElementById('nlpScoreVal').textContent=d.nlp_score_mean.toFixed(2);
+    const last=d.nlp_scores&&d.nlp_scores.length?d.nlp_scores[d.nlp_scores.length-1]:0;
+    document.getElementById('nlpQuality').textContent=last>=7?'Bon':'À améliorer';
+    document.getElementById('nlpDot').className='mod-dot active';
+  }
+
+  const lstm=d.lstm_latest||{};
+  if(lstm.active){
+    document.getElementById('lstmDot').className='mod-dot active';
+    const cls={upright:'pb-upright',neutral:'pb-neutral',slouched:'pb-slouched'};
+    document.getElementById('lstmPostureBadge').innerHTML=
+      `<span class="posture-badge ${cls[lstm.posture]||'pb-neutral'}">${(lstm.posture||'—').toUpperCase()}</span>`;
+    const conf=parseFloat(lstm.confidence||0).toFixed(0);
+    const stress=parseFloat(lstm.stress||0).toFixed(0);
+    document.getElementById('lstmConfVal').textContent=conf+'%';
+    document.getElementById('lstmConfBar').style.width=conf+'%';
+    document.getElementById('lstmStressVal').textContent=stress+'%';
+    document.getElementById('lstmStressBar').style.width=stress+'%';
+  }
+
+  document.getElementById('ragHitsVal').textContent=d.rag_hits_count||0;
+  document.getElementById('ragEngine').textContent=d.rag_last_engine||'—';
+  const on=d.rag_active;
+  document.getElementById('ragDot').className='mod-dot'+(on?' active':'');
+  document.getElementById('ragDotSm').className='rag-dot-sm'+(on?' on':'');
+
+  const vs=d.vm_steps_done||[];
+  document.getElementById('vmStepsVal').textContent=`${vs.length}/6`;
+  [1,2,3,4,5,6].forEach(n=>{
+    const e=document.getElementById('vmp'+n);if(e)e.classList.toggle('done',vs.includes(n));
+  });
+
+  const evts=d.events||[];
+  if(evts.length>0){
+    const feed=document.getElementById('eventsFeed');
+    const lastTs=parseFloat(feed.dataset.lastTs||'-1');
+    evts.filter(e=>e.ts>lastTs).forEach(evt=>{
+      const div=document.createElement('div');
+      div.className=`event-item ${evt.type||'info'}`;
+      div.innerHTML=`<span class="event-time">${evt.ts}s</span><span>${evt.msg}</span>`;
+      feed.appendChild(div);feed.scrollTop=feed.scrollHeight;
+    });
+    if(evts.length)feed.dataset.lastTs=evts[evts.length-1].ts;
+    while(feed.children.length>20)feed.removeChild(feed.firstChild);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// WEBCAM LSTM — robuste avec retry et gestion d'erreur
+// ════════════════════════════════════════════════════════════════════
+const CAM_TIMEOUT_MS = 8000;  // délai max avant d'afficher l'erreur
+let camLoadTimer = null;
+
+async function startCam(){
+  lstmRetryCount=0;
+  _showCamState('loading');
+  await _startCamStream();
+}
+
+async function retryCam(){
+  lstmRetryCount++;
+  _showCamState('loading');
+  // Arrêter le stream côté serveur puis redémarrer
+  await fetch('/simulator/body-control/',{method:'POST',
+    headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+    body:JSON.stringify({action:'stop'})}).catch(()=>{});
+  await new Promise(r=>setTimeout(r,800));
+  await _startCamStream();
+}
+
+async function _startCamStream(){
+  try{
+    const ctrl=await fetch('/simulator/body-control/',{method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body:JSON.stringify({action:'start'})});
+    const ctrlData=await ctrl.json();
+    if(ctrlData.error) throw new Error(ctrlData.error);
+  }catch(e){
+    _showCamState('error','Impossible de démarrer la caméra: '+e.message);
+    return;
+  }
+
+  const img=document.getElementById('lstmStream');
+
+  // Timeout si le flux ne démarre pas dans CAM_TIMEOUT_MS ms
+  if(camLoadTimer)clearTimeout(camLoadTimer);
+  camLoadTimer=setTimeout(()=>{
+    if(img.style.display==='none'||img.style.display===''){
+      _showCamState('error','Délai dépassé — vérifiez MediaPipe et OpenCV (pip install mediapipe opencv-python)');
+    }
+  }, CAM_TIMEOUT_MS);
+
+  // onload se déclenche une seule fois sur un flux MJPEG —
+  // on utilise un heartbeat séparé pour détecter les interruptions
+  img.onload=()=>{
+    if(camLoadTimer){clearTimeout(camLoadTimer);camLoadTimer=null;}
+    _showCamState('live');
+    if(lstmInterval)clearInterval(lstmInterval);
+    lstmInterval=setInterval(pushLstm,1200);
+    // ── Heartbeat: toutes les 3s vérifie que le serveur est vivant ──
+    if(window._camHb)clearInterval(window._camHb);
+    window._camHb=setInterval(async()=>{
+      try{
+        const r=await fetch('/simulator/body-status/');
+        const s=await r.json();
+        if(s.error && !s.active){
+          clearInterval(window._camHb);window._camHb=null;
+          _showCamState('error','Stream interrompu: '+s.error);
+        }
+      }catch(e){}
+    }, 3000);
+  };
+  img.onerror=()=>{
+    if(camLoadTimer){clearTimeout(camLoadTimer);camLoadTimer=null;}
+    _showCamState('error','Flux vidéo indisponible'+
+      (lstmRetryCount<2?' — cliquez Retry':' — vérifiez la webcam et MediaPipe'));
+  };
+  img.src='/simulator/stream/?t='+Date.now();
+}
+
+function _showCamState(state,msg=''){
+  const img=document.getElementById('lstmStream');
+  const offline=document.getElementById('lstmOffline');
+  const errEl=document.getElementById('lstmError');
+  const errMsg=document.getElementById('lstmErrorMsg');
+  const liveBadge=document.getElementById('lstmLiveBadge');
+  const startBtn=document.getElementById('wmStart');
+  const retryBtn=document.getElementById('wmRetry');
+  const stopBtn=document.getElementById('wmStop');
+  const scores=document.getElementById('webcamScores');
+
+  img.style.display='none';offline.style.display='none';
+  errEl.style.display='none';liveBadge.style.display='none';
+  scores.style.display='none';
+  startBtn.style.display='none';retryBtn.style.display='none';stopBtn.style.display='none';
+
+  if(state==='loading'){
+    offline.style.display='flex';
+    offline.querySelector('.webcam-offline-txt').textContent='Initialisation caméra…';
+    stopBtn.style.display='';
+  } else if(state==='live'){
+    img.style.display='block';liveBadge.style.display='block';
+    scores.style.display='flex';stopBtn.style.display='';
+  } else if(state==='error'){
+    errEl.style.display='flex';
+    if(errMsg)errMsg.textContent=msg||'Erreur caméra';
+    startBtn.style.display='';
+    if(lstmRetryCount<3)retryBtn.style.display='';
+  } else { // offline
+    offline.style.display='flex';
+    offline.querySelector('.webcam-offline-txt').textContent='Caméra non active\nCliquez ▶ Activer';
+    startBtn.style.display='';
+  }
+}
+
+async function stopCam(){
+  if(window._camHb){clearInterval(window._camHb);window._camHb=null;}
+  if(lstmInterval){clearInterval(lstmInterval);lstmInterval=null;}
+  if(camLoadTimer){clearTimeout(camLoadTimer);camLoadTimer=null;}
+  const img=document.getElementById('lstmStream');
+  img.onload=null;img.onerror=null;img.src='';
+  await fetch('/simulator/body-control/',{method:'POST',
+    headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+    body:JSON.stringify({action:'stop'})}).catch(()=>{});
+  _showCamState('offline');
+  // Reset scores webcam
+  const p=document.getElementById('wcamPosture');if(p)p.textContent='—';
+  ['wcamConfBar','wcamStressBar'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.width='0%'});
+}
+
+async function pushLstm(){
+  try{
+    const res=await fetch('/simulator/body-status/');
+    const s=await res.json();
+    // Mettre à jour les scores webcam inline
+    if(s.active){
+      const colors={upright:'#6BCB6B',neutral:'#C8960C',slouched:'#E06060'};
+      const p=document.getElementById('wcamPosture');
+      if(p){
+        p.textContent=(s.posture||'').toUpperCase();
+        p.style.color=colors[s.posture]||'var(--cream-2)';
+      }
+      const conf=parseFloat(s.confidence||0).toFixed(0);
+      const stress=parseFloat(s.stress||0).toFixed(0);
+      const cb=document.getElementById('wcamConfBar');if(cb)cb.style.width=conf+'%';
+      const cv=document.getElementById('wcamConfVal');if(cv)cv.textContent=conf+'%';
+      const sb=document.getElementById('wcamStressBar');if(sb)sb.style.width=stress+'%';
+      const sv=document.getElementById('wcamStressVal');if(sv)sv.textContent=stress+'%';
+    }
+  }catch(e){}
+}
+
+// ════════════════════════════════════════════════════════════════════
+// REPORT
+// ════════════════════════════════════════════════════════════════════
+async function showReport(){
+  if(dashInterval){clearInterval(dashInterval);dashInterval=null;}
+  document.getElementById('simScreen').style.display='none';
+  document.getElementById('reportScreen').style.display='block';
+  try{
+    const res=await fetch('/simulator/report/');
+    const d=await res.json();if(!d.ok)throw new Error(d.error);
+    document.getElementById('rIco').textContent=d.resultat_ico;
+    document.getElementById('rResultat').textContent=d.resultat;
+    document.getElementById('rSub').textContent=`${d.doctor.nom} · ${d.product.nom} · ${d.turns} tours`;
+    document.getElementById('rScore').textContent=d.avg_score;
+    document.getElementById('rGlobal').textContent=d.global_score||'—';
+    document.getElementById('rNiveau').textContent=d.niveau_final;
+    document.getElementById('rAcrv').textContent=d.acrv_avg;
+    document.getElementById('rConf').textContent=d.taux_conforme+'%';
+    document.getElementById('rForts').innerHTML=(d.points_forts||[]).map(p=>`<div class="report-item"><span>✅</span><span>${p}</span></div>`).join('');
+    document.getElementById('rAxes').innerHTML=(d.axes_travail||[]).map(a=>`<div class="report-item"><span>🎯</span><span>${a}</span></div>`).join('');
+    document.getElementById('rConseil').textContent=d.conseil_final||'';
+  }catch(e){document.getElementById('rResultat').textContent='Erreur génération rapport'}
+}
+
+async function resetSim(){
+  if(dashInterval){clearInterval(dashInterval);dashInterval=null;}
+  stopCam();
+  if(window._destroyAvatar3D)window._destroyAvatar3D();
+  await fetch('/simulator/reset/',{method:'POST',
+    headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},body:'{}'});
+  selDoc=null;selProd=null;stepsOk=new Set();turn=0;nlpHistory=[];lstmRetryCount=0;
+  document.getElementById('reportScreen').style.display='none';
+  document.getElementById('setupScreen').style.display='';
+  document.getElementById('startBtn').style.display='';
+  document.getElementById('setupLoading').style.display='none';
+  document.getElementById('chatMessages').innerHTML='';
+  document.querySelectorAll('.doctor-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('startBtn').disabled=true;
+  initRingCanvas();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════════════════════════════════════
+function appendMsg(role,txt,av,meta,eng){
+  const c=document.getElementById('chatMessages');
+  const r=document.createElement('div');r.className=`msg-row ${role}`;
+  r.innerHTML=`<div class="msg-avatar">${av}</div><div><div class="msg-bubble">${esc(txt)}</div>${meta||eng?`<div class="msg-meta">${meta?`<span class="msg-score">${meta}</span>`:''} ${eng?`<span class="msg-engine">[${eng}]</span>`:''}</div>`:''}</div>`;
+  c.appendChild(r);c.scrollTop=c.scrollHeight;
+}
+let tc=0;
+function showTyping(){
+  const id='t-'+(++tc);const c=document.getElementById('chatMessages');
+  const el=document.createElement('div');el.id=id;el.className='msg-row doctor';
+  el.innerHTML='<div class="msg-avatar">👨‍⚕️</div><div class="msg-bubble" style="padding:10px 13px"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+  c.appendChild(el);c.scrollTop=c.scrollHeight;return id;
+}
+function removeTyping(id){const e=document.getElementById(id);if(e)e.remove()}
+function updateOpenness(v){
+  openness=v;
+  document.querySelectorAll('.openness-pip').forEach((p,i)=>p.classList.toggle('filled',i<Math.round(v)));
+  document.getElementById('opennessVal').textContent=v.toFixed(1)+'/5';
+}
+function buildSteps(){
+  document.getElementById('stepsList').innerHTML=STEPS.map(s=>`<div class="step-item" id="si-${s.n}"><div class="step-num">${s.n}</div><span>${s.l}</span></div>`).join('');
+}
+function updateSteps(){stepsOk.forEach(n=>{const e=document.getElementById('si-'+n);if(e)e.classList.add('done')})}
+function updateTurnBar(){
+  document.getElementById('turnCur').textContent=turn;
+  document.getElementById('turnBar').style.width=(turn/MAX_T*100)+'%';
+}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
+function getCookie(n){let v=null;document.cookie.split(';').forEach(c=>{c=c.trim();if(c.startsWith(n+'='))v=decodeURIComponent(c.slice(n.length+1))});return v}
+</script>
+{% endblock %}

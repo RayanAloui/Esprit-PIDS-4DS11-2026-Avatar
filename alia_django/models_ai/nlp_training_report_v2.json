@@ -1,0 +1,60 @@
+{
+  "tasks": {
+    "t1": {
+      "f1_macro": 1.0,
+      "accuracy": 1.0,
+      "per_class": {
+        "Bon": {
+          "f1": 1.0
+        },
+        "Excellent": {
+          "f1": 1.0
+        },
+        "Faible": {
+          "f1": 1.0
+        }
+      }
+    },
+    "t2": {
+      "overall_r2": 0.757385828165732,
+      "overall_mae": 0.7097078656659825,
+      "per_score": {
+        "scientific_accuracy_score": {
+          "mae": 1.0374950291494367,
+          "r2": 0.6089001927976241
+        },
+        "communication_clarity_score": {
+          "mae": 0.9732497222541466,
+          "r2": 0.6948280922246605
+        },
+        "objection_handling_score": {
+          "mae": 0.9134826560034078,
+          "r2": 0.6487727352127735
+        }
+      },
+      "score_weights": [
+        0.25,
+        0.3,
+        0.45
+      ]
+    },
+    "t3": {
+      "f1_macro": 0.6890201046921338
+    },
+    "t4": {
+      "f1_macro": 0.6739983801648574,
+      "accuracy": 0.75
+    },
+    "t5": {
+      "f1_macro": 0.7281297134238311
+    },
+    "t6": {
+      "f1_macro": 1.0,
+      "accuracy": 1.0
+    }
+  },
+  "trained_at": "2026-03-28T01:19:11.266070",
+  "version": "2.0.0",
+  "dataset": "conversation_transcripts_v2.csv",
+  "n_features": 8024
+}

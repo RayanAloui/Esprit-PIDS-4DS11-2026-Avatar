@@ -4,6 +4,10 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import mediapipe as mp
 
+import sys
+sys.path.insert(0, r'C:\Users\MSI\Downloads\Projet DS\alia_django\models_ai')
+from lstm_model_v2 import BodyLanguageModel, SequenceBuffer
+
 
 def angle_between(v1, v2):
     cos = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2) + 1e-9)
@@ -192,6 +196,43 @@ options = vision.PoseLandmarkerOptions(
 )
 detector = vision.PoseLandmarker.create_from_options(options)
 
+import lstm_model_v2
+import sys
+import pickle
+import numpy as np
+
+# Enregistre toutes les classes de lstm_model_v2 dans __main__
+for _name in dir(lstm_model_v2):
+    _obj = getattr(lstm_model_v2, _name)
+    if isinstance(_obj, type):
+        sys.modules['__main__'].__dict__[_name] = _obj
+
+# Patch unpickler pour rediriger __main__ vers lstm_model_v2
+class _Unpickler(pickle.Unpickler):
+    def find_class(self, module, name):
+        if module == '__main__':
+            if hasattr(lstm_model_v2, name):
+                return getattr(lstm_model_v2, name)
+        return super().find_class(module, name)
+
+# Monkey-patch joblib pour utiliser notre unpickler
+import joblib.numpy_pickle as _jnp
+_orig_unpickle = _jnp.NumpyUnpickler
+class _PatchedUnpickler(_orig_unpickle):
+    def find_class(self, module, name):
+        if module == '__main__':
+            if hasattr(lstm_model_v2, name):
+                return getattr(lstm_model_v2, name)
+        return super().find_class(module, name)
+_jnp.NumpyUnpickler = _PatchedUnpickler
+
+import lstm_model_v2 as _lv2
+_preloaded = getattr(_lv2, '_PRELOADED_MODEL', None)
+if _preloaded is None:
+    raise RuntimeError("Modèle non préchargé — lance run_body_language.py")
+lstm_model = _preloaded
+
+buffer = SequenceBuffer(seq_len=30)
 
 # Main capture and detection loop
 cap       = cv2.VideoCapture(0)
@@ -213,12 +254,18 @@ while True:
 
     if result.pose_landmarks:
         landmarks = result.pose_landmarks[0]
-        cues      = analyze_upper_body(landmarks, frame.shape)
+        buffer.add_frame(landmarks)
+        if buffer.is_ready():
+            cues = lstm_model.get_hud_data(
+                lstm_model.predict_from_buffer(buffer, niveau_alia='Junior')
+            )
+        else:
+            cues = analyze_upper_body(landmarks, frame.shape)
         draw_skeleton(frame, landmarks)
         draw_hud(frame, cues)
     else:
         cv2.putText(frame, 'No person detected', (20, 40),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
     cv2.imshow('Body Language Detector — Q to quit', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):

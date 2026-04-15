@@ -1,0 +1,828 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main_extra_class %} main-content--modeling{% endblock %}
+
+{% block title %}ALIA — Assistant RAG{% endblock %}
+
+{% block nav_extra %}
+<div class="modeling-live-badge" id="modeling-status">
+  <span class="modeling-live-badge__dot"></span>
+  <span class="modeling-live-badge__text">Standby</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<style>
+.modeling-mic-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0 12px;
+    gap: 8px;
+}
+.modeling-mic-btn--large {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50% !important;
+    font-size: 2rem !important;
+    background: #2563eb;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.modeling-mic-btn--large:hover { background: #1d4ed8; transform: scale(1.07); }
+.modeling-mic-btn--large:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.modeling-mic-btn--large.is-recording {
+    background: #dc2626 !important;
+    animation: pulse-mic 1.2s infinite;
+}
+@keyframes pulse-mic {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(220,38,38,0.18), 0 4px 16px rgba(220,38,38,0.35); }
+    50%       { box-shadow: 0 0 0 16px rgba(220,38,38,0.08), 0 4px 24px rgba(220,38,38,0.45); }
+}
+.modeling-mic-bar__hint {
+    font-size: 0.78rem;
+    color: #6b7280;
+    letter-spacing: 0.01em;
+}
+/* ── Sélecteur de mode ── */
+.mode-bar {
+    display: flex; justify-content: center; gap: 8px; padding: 8px 0 4px;
+}
+.mode-btn {
+    padding: 5px 18px; border-radius: 20px; border: 2px solid #2563eb;
+    font-size: .82rem; font-weight: 600; cursor: pointer;
+    background: transparent; color: #2563eb;
+    transition: background .15s, color .15s;
+}
+.mode-btn.active { background: #2563eb; color: #fff; }
+</style>
+
+
+<div class="modeling-page" id="modeling-app" data-api-base="{{ modeling_api_base }}" data-avatar-url="{{ modeling_api_base }}/static/avatar.glb">
+  <div class="modeling-split">
+    <div class="modeling-chat">
+      <!-- ── Sélecteur de mode ── --> 
+      <div class="modeling-chat__header">Conversation</div>
+      <div class="modeling-chat__transcript" id="transcript">
+        <div class="modeling-msg modeling-msg--alia">
+          <div class="modeling-msg__sender">ALIA</div>
+          <div class="modeling-msg__bubble">Appuyez sur le micro pour démarrer la conversation.</div>
+        </div>
+      </div>
+
+      <!-- input caché, requis par le JS -->
+      <input type="text" id="userInput" style="display:none" autocomplete="off">
+      <div class="modeling-mic-bar">
+        <button type="button" id="micBtn" class="modeling-mic-btn modeling-mic-btn--large" title="Parler à ALIA" aria-label="Parler à ALIA">
+          <span class="modeling-mic-btn__icon" aria-hidden="true">🎤</span>
+        </button>
+        <div class="modeling-mic-bar__hint" id="micHint">Appuyez pour parler</div>
+      </div>
+    </div>
+    <div class="modeling-viewport">
+      <div id="canvas-container" class="modeling-viewport__canvas" role="img" aria-label="Avatar 3D"></div>
+      <div id="modeling-viewport-error" class="modeling-viewport__error" hidden></div>
+      
+    </div>
+  </div>
+</div>
+
+<script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.162.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/" } }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    /* ════════════════════════════════════════════════════════
+    CONFIGURATION VAD
+    ════════════════════════════════════════════════════════ */
+    const SILENCE_THRESHOLD = 0.012;  // RMS en dessous = silence
+    const SILENCE_DELAY_MS  = 1400;   // ms de silence avant envoi automatique
+    const MIN_SPEECH_MS     = 400;    // durée minimale de parole pour déclencher l'envoi
+
+    /* ════════════════════════════════════════════════════════
+    ÉTAT GLOBAL
+    ════════════════════════════════════════════════════════ */
+    const appEl         = document.getElementById('modeling-app');
+    const MODELING_ROOT = (appEl?.dataset.apiBase || '').replace(/\/$/, '');
+    const AVATAR_GLB_URL = (appEl?.dataset.avatarUrl || '').trim()
+        || `${MODELING_ROOT}/static/avatar.glb`;
+
+    let currentMode    = 'commercial';
+    let conversationOn = false;
+    let isProcessing   = false;
+    let isSpeaking     = false;
+    let isRecording    = false;
+
+    // VAD
+    let vadCtx      = null;
+    let vadAnalyser = null;
+    let vadStream   = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let speechStart  = null;
+    let silenceTimer = null;
+
+
+
+    const avatar = {
+        model: null, mixer: null,
+        neck: null, head: null,
+        leftShoulder: null, rightShoulder: null,
+        leftArm: null, rightArm: null,
+        spine1: null, spine2: null,
+        jawMeshes:     [],
+        visemeMeshes: [],
+        blinkMeshes:   [],
+        eyeLookMeshes: [],
+    };
+
+    const clock = new THREE.Clock();
+    const LIP_FFT = 512;
+    const audioData = new Uint8Array(LIP_FFT / 2);
+    const timeData = new Uint8Array(LIP_FFT);
+    const LIPEASE_VOWEL = 0.32;
+    const LIPEASE_FRIC = 0.38;
+    const LIPEASE_PLOSIVE = 0.52;
+    const LIP_DECAY = 0.2;
+    const LIP_ORDER = ['aa', 'O', 'E', 'I', 'U', 'CH', 'SS', 'FF', 'PP', 'TH', 'DD', 'kk', 'nn', 'RR', 'sil'];
+    const smoothVis = Object.fromEntries(LIP_ORDER.map((k) => [k, k === 'sil' ? 1 : 0]));
+    let scene, camera, renderer, analyzer, audioCtx;
+    
+    let gazeDirX = 0, gazeDirY = 0, gazeTargetX = 0, gazeTargetY = 0, gazeTimer = 0;
+    let smoothIntensity = 0;
+    let prevEnergy = 0;
+    let prevRmsAmp = 0;
+    init();
+
+    function init() {
+        scene  = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(28, 1, 0.1, 1000);
+        camera.position.set(0, 1.55, 2.5);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const container = document.getElementById('canvas-container');
+        function refitCanvas() {
+            const c = document.getElementById('canvas-container');
+            if (!c || !renderer || !camera) return;
+            const w = Math.max(1, c.clientWidth);
+            const h = Math.max(1, c.clientHeight);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+        refitCanvas();
+        container.appendChild(renderer.domElement);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+        const key = new THREE.DirectionalLight(0xffffff, 1.1);
+        key.position.set(1, 2.5, 2);
+        const fill = new THREE.DirectionalLight(0x8bb8ff, 0.35);
+        fill.position.set(-2, 1, 1);
+        scene.add(key, fill);
+
+        const showViewportError = (msg) => {
+            const el = document.getElementById('modeling-viewport-error');
+            if (el) { el.textContent = msg; el.hidden = false; }
+            console.error(msg);
+        };
+
+        new GLTFLoader().load(AVATAR_GLB_URL, (gltf) => {
+            avatar.model = gltf.scene;
+            avatar.model.rotation.y = Math.PI + 10;
+            avatar.model.rotation.y += 0.15;
+            scene.add(avatar.model);
+
+            if (gltf.animations.length > 0) {
+                avatar.mixer = new THREE.AnimationMixer(avatar.model);
+                const action = avatar.mixer.clipAction(gltf.animations[0]);
+                action.setLoop(THREE.LoopRepeat, Infinity);
+                action.play();
+            }
+
+            avatar.model.traverse((child) => {
+                if (child.isBone) {
+                    switch (child.name) {
+                        case 'Neck':          avatar.neck          = child; break;
+                        case 'Head':          avatar.head          = child; break;
+                        case 'LeftShoulder':  avatar.leftShoulder  = child; break;
+                        case 'RightShoulder': avatar.rightShoulder = child; break;
+                        case 'LeftArm':       avatar.leftArm       = child; break;
+                        case 'RightArm':      avatar.rightArm      = child; break;
+                        case 'Spine1':        avatar.spine1        = child; break;
+                        case 'Spine2':        avatar.spine2        = child; break;
+                    }
+                }
+
+                if (child.isSkinnedMesh && child.morphTargetDictionary) {
+                    const d = child.morphTargetDictionary;
+
+                    if (d['jawOpen'] !== undefined) {
+                        avatar.jawMeshes.push({
+                            mesh: child,
+                            jawOpen: d['jawOpen'],
+                            mouthOpen: d['mouthOpen'] ?? null,
+                        });
+                    }
+
+                    if (d['viseme_aa'] !== undefined) {
+                        const pairs = [
+                            ['aa', 'viseme_aa'], ['O', 'viseme_O'], ['E', 'viseme_E'], ['I', 'viseme_I'], ['U', 'viseme_U'],
+                            ['CH', 'viseme_CH'], ['SS', 'viseme_SS'], ['FF', 'viseme_FF'], ['PP', 'viseme_PP'],
+                            ['TH', 'viseme_TH'], ['DD', 'viseme_DD'], ['kk', 'viseme_kk'], ['nn', 'viseme_nn'],
+                            ['RR', 'viseme_RR'], ['sil', 'viseme_sil'],
+                        ];
+                        const vis = {};
+                        for (const [key, morph] of pairs) {
+                            const idx = d[morph];
+                            if (idx !== undefined) vis[key] = idx;
+                        }
+                        avatar.visemeMeshes.push({ mesh: child, vis });
+                    }
+                }
+            });
+
+            applyRestPose();
+            refitCanvas();
+            requestAnimationFrame(() => {
+                refitCanvas();
+                requestAnimationFrame(refitCanvas);
+            });
+        }, undefined, (err) => {
+            showViewportError("Impossible de charger l'avatar 3D. Vérifiez que le fichier est servi sous /alia-api/static/avatar.glb.");
+            console.error('GLTF load error:', err);
+        });
+
+        animate();
+
+        const viewportEl = container.closest('.modeling-viewport');
+        const roTarget = viewportEl || container;
+        new ResizeObserver(refitCanvas).observe(roTarget);
+        window.addEventListener('resize', refitCanvas, { passive: true });
+        requestAnimationFrame(() => {
+            refitCanvas();
+            requestAnimationFrame(refitCanvas);
+        });
+    }
+
+    function applyRestPose() {
+        if (avatar.leftShoulder)  avatar.leftShoulder.rotation.set(0.1,  0,  0.28);
+        if (avatar.rightShoulder) avatar.rightShoulder.rotation.set(0.1,  0, -0.28);
+        if (avatar.leftArm)       avatar.leftArm.rotation.set(0, 0,  0.75);
+        if (avatar.rightArm)      avatar.rightArm.rotation.set(0, 0, -0.75);
+        if (avatar.spine2)        avatar.spine2.rotation.x = 0.03;
+    }
+
+    function resetLipState() {
+        smoothIntensity = 0;
+        prevEnergy = 0;
+        prevRmsAmp = 0;
+        for (const k of LIP_ORDER) smoothVis[k] = k === 'sil' ? 1 : 0;
+    }
+
+    function bandMean(start, end) {
+        let s = 0;
+        const e = Math.min(end, audioData.length);
+        const n = Math.max(1, e - start);
+        for (let i = start; i < e; i++) s += audioData[i] / 255;
+        return s / n;
+    }
+
+    function paintVisemeMeshes(meshBlend = 0.38) {
+        const keyScale = {
+            CH: 0.9, SS: 0.85, FF: 0.8, TH: 0.88, PP: 0.98, DD: 0.94, kk: 0.92, nn: 0.78, RR: 0.82,
+        };
+        for (const vm of avatar.visemeMeshes) {
+            const inf = vm.mesh.morphTargetInfluences;
+            for (const k of LIP_ORDER) {
+                const idx = vm.vis[k];
+                if (idx === undefined) continue;
+                const t = smoothVis[k] * (keyScale[k] ?? 1);
+                inf[idx] = THREE.MathUtils.lerp(inf[idx], t, meshBlend);
+            }
+        }
+    }
+
+    function smoothTowardVis(target, rates) {
+        for (const k of LIP_ORDER) {
+            const r = rates[k] ?? LIPEASE_VOWEL;
+            smoothVis[k] = THREE.MathUtils.lerp(smoothVis[k], target[k], r);
+        }
+    }
+
+    function normalizeCompetitive(weights) {
+        let sum = 0;
+        for (const k in weights) {
+            const w = Math.max(0, weights[k]);
+            weights[k] = w;
+            sum += w;
+        }
+        if (sum <= 0.00001) return weights;
+        for (const k in weights) weights[k] /= sum;
+        return weights;
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const time  = performance.now() * 0.001;
+        const delta = clock.getDelta();
+
+        if (avatar.mixer) avatar.mixer.update(delta);
+        if (!avatar.model) { renderer.render(scene, camera); return; }
+
+        if (avatar.neck) {
+            avatar.neck.rotation.y = Math.sin(time * 0.38) * 0.022;
+            avatar.neck.rotation.z = Math.sin(time * 0.27) * 0.009;
+        }
+        if (avatar.spine1) avatar.spine1.rotation.x = 0.02 + Math.sin(time * 0.55) * 0.007;
+
+        const blinkTarget = Math.sin(time * 3.6) > 0.965 ? 1 : 0;
+        for (const bm of avatar.blinkMeshes) {
+            const inf = bm.mesh.morphTargetInfluences;
+            inf[bm.blinkL] = THREE.MathUtils.lerp(inf[bm.blinkL], blinkTarget, 0.42);
+            if (bm.blinkR !== null) inf[bm.blinkR] = inf[bm.blinkL];
+        }
+
+        gazeTimer -= delta;
+        if (gazeTimer <= 0) {
+            gazeTargetX = (Math.random() - 0.5) * 0.28;
+            gazeTargetY = (Math.random() - 0.5) * 0.14;
+            gazeTimer = 2 + Math.random() * 2;
+        }
+        gazeDirX = THREE.MathUtils.lerp(gazeDirX, gazeTargetX, delta * 1.5);
+        gazeDirY = THREE.MathUtils.lerp(gazeDirY, gazeTargetY, delta * 1.5);
+
+        for (const em of avatar.eyeLookMeshes) {
+            const inf = em.mesh.morphTargetInfluences;
+            const x = gazeDirX;
+            const y = gazeDirY;
+            for (let i = 0; i < inf.length; i++) inf[i] *= 0.85;
+            const clamp = (v) => Math.max(0, Math.min(0.4, v));
+            if (x > 0 && em.inL !== null) inf[em.inL] = clamp(x);
+            if (x < 0 && em.outL !== null) inf[em.outL] = clamp(-x);
+            if (x > 0 && em.outR !== null) inf[em.outR] = clamp(x);
+            if (x < 0 && em.inR !== null) inf[em.inR] = clamp(-x);
+            if (y > 0 && em.upL !== null) inf[em.upL] = clamp(y);
+            if (y < 0 && em.downL !== null) inf[em.downL] = clamp(-y);
+            if (y > 0 && em.upR !== null) inf[em.upR] = clamp(y);
+            if (y < 0 && em.downR !== null) inf[em.downR] = clamp(-y);
+        }
+
+        if (analyzer && isSpeaking) {
+            analyzer.getByteFrequencyData(audioData);
+            analyzer.getByteTimeDomainData(timeData);
+            let sum = 0;
+            for (let i = 0; i < audioData.length; i++) {
+                const v = audioData[i] / 255;
+                sum += v * v;
+            }
+            const rms = Math.sqrt(sum / audioData.length);
+            const noiseGate = 0.035;
+            const gated = Math.max(0, rms - noiseGate);
+            const rawIntensity = Math.min(gated * 3.4, 1.0);
+            smoothIntensity = THREE.MathUtils.lerp(smoothIntensity, rawIntensity, 0.26);
+
+            const vSub = bandMean(1, 10);
+            const vLow = bandMean(2, 22);
+            const vMid = bandMean(12, 48);
+            const vHigh = bandMean(36, 96);
+            const vAir = bandMean(72, audioData.length);
+            const specSum = vLow + vMid + vHigh + 1e-6;
+            const lowN = vLow / specSum;
+            const midN = vMid / specSum;
+            const highN = vHigh / specSum;
+
+            let centroidNum = 0;
+            let centroidDen = 0;
+            for (let i = 2; i < audioData.length; i++) {
+                const e = audioData[i] / 255;
+                centroidNum += i * e;
+                centroidDen += e;
+            }
+            const centroid = centroidDen > 1e-5 ? centroidNum / centroidDen : 0;
+            const cNorm = THREE.MathUtils.clamp(centroid / Math.max(32, audioData.length * 0.85), 0, 1);
+
+            let tdEnergy = 0;
+            let zeroCrossings = 0;
+            let prevSample = (timeData[0] - 128) / 128;
+            for (let i = 0; i < timeData.length; i++) {
+                const sample = (timeData[i] - 128) / 128;
+                tdEnergy += sample * sample;
+                if ((sample >= 0 && prevSample < 0) || (sample < 0 && prevSample >= 0)) zeroCrossings++;
+                prevSample = sample;
+            }
+            tdEnergy = Math.sqrt(tdEnergy / timeData.length);
+            const transient = Math.max(0, tdEnergy - prevEnergy);
+            prevEnergy = THREE.MathUtils.lerp(prevEnergy, tdEnergy, 0.5);
+            const zcrN = THREE.MathUtils.clamp(zeroCrossings / (timeData.length * 0.12), 0, 1);
+            const frication = THREE.MathUtils.clamp(highN * 0.9 + zcrN * 0.55 + vAir * 0.35, 0, 1);
+            const ampMod = Math.abs(rawIntensity - prevRmsAmp);
+            prevRmsAmp = THREE.MathUtils.lerp(prevRmsAmp, rawIntensity, 0.35);
+
+            const gate = THREE.MathUtils.clamp(smoothIntensity * 1.22, 0, 1);
+            const vowelWeights = normalizeCompetitive({
+                aa: vLow * 1.15 + vMid * 0.55 + (1 - cNorm) * 0.35,
+                O: vLow * 1.25 + vSub * 0.4 + midN * 0.2,
+                E: midN * 1.05 + highN * 0.95 + cNorm * 0.45,
+                I: highN * 1.2 + midN * 0.35 + cNorm * 0.5,
+                U: vLow * 1.05 + (1 - midN) * 0.35 + highN * 0.12,
+            });
+
+            let tAA = THREE.MathUtils.clamp(vowelWeights.aa * gate * 1.42, 0, 1);
+            let tO = THREE.MathUtils.clamp(vowelWeights.O * gate * 1.28, 0, 1);
+            let tE = THREE.MathUtils.clamp(vowelWeights.E * gate * 1.28, 0, 1);
+            let tI = THREE.MathUtils.clamp(vowelWeights.I * gate * 1.18, 0, 1);
+            let tU = THREE.MathUtils.clamp(vowelWeights.U * gate * 1.12, 0, 1);
+
+            const tPP = THREE.MathUtils.clamp(transient * 6.2 * gate * (0.55 + lowN), 0, 1);
+            const tDD = THREE.MathUtils.clamp(transient * 5.4 * gate * (0.45 + midN * 1.1), 0, 1);
+            const tKK = THREE.MathUtils.clamp(transient * 4.8 * gate * (0.5 + lowN * 0.95), 0, 1);
+            const tSS = THREE.MathUtils.clamp(frication * zcrN * 1.15 * gate * (0.55 + highN), 0, 1);
+            const tFF = THREE.MathUtils.clamp(frication * gate * (highN * 0.45 + midN * 0.5 + vAir * 0.25), 0, 1);
+            const tTH = THREE.MathUtils.clamp(frication * gate * (midN * 0.65 + highN * 0.35) * (1 - transient * 1.8), 0, 1);
+            const tCH = THREE.MathUtils.clamp((frication * 0.5 + vAir * 0.45) * gate * (1 - transient * 1.2), 0, 1);
+            const tNN = THREE.MathUtils.clamp(gate * midN * vLow * 1.1 * (1 - transient * 2.4) * (0.35 + zcrN * 0.25), 0, 1);
+            const tRR = THREE.MathUtils.clamp(ampMod * 5.5 * gate * (midN * 0.85 + lowN * 0.35), 0, 1);
+
+            const conPeak = Math.max(tPP, tDD, tKK, tSS, tFF, tTH, tCH, tNN * 0.9, tRR * 0.85);
+            const vowelAtten = THREE.MathUtils.clamp(1 - conPeak * 0.82, 0.12, 1);
+            tAA *= vowelAtten; tO *= vowelAtten; tE *= vowelAtten; tI *= vowelAtten; tU *= vowelAtten;
+
+            const targets = {
+                aa: tAA, O: tO, E: tE, I: tI, U: tU,
+                CH: tCH, SS: tSS, FF: tFF, PP: tPP, TH: tTH, DD: tDD, kk: tKK, nn: tNN, RR: tRR,
+                sil: Math.max(0, 1 - smoothIntensity * 2.85 - conPeak * 0.15),
+            };
+
+            const rates = {
+                aa: LIPEASE_VOWEL, O: LIPEASE_VOWEL, E: LIPEASE_VOWEL, I: LIPEASE_VOWEL, U: LIPEASE_VOWEL,
+                CH: LIPEASE_FRIC, SS: LIPEASE_FRIC, FF: LIPEASE_FRIC, TH: LIPEASE_FRIC,
+                PP: LIPEASE_PLOSIVE, DD: LIPEASE_PLOSIVE, kk: LIPEASE_PLOSIVE,
+                nn: LIPEASE_VOWEL * 0.9, RR: LIPEASE_VOWEL * 0.88, sil: 0.22,
+            };
+            smoothTowardVis(targets, rates);
+            paintVisemeMeshes(0.4);
+
+            const vPeak = Math.max(smoothVis.aa, smoothVis.O, smoothVis.E, smoothVis.I, smoothVis.U);
+            const conOpen = Math.max(smoothVis.CH, smoothVis.TH, smoothVis.SS, smoothVis.FF) * 0.38
+                + Math.max(smoothVis.PP, smoothVis.DD, smoothVis.kk) * 0.22;
+            const visemeContrast =
+                Math.abs(smoothVis.aa - smoothVis.O) +
+                Math.abs(smoothVis.aa - smoothVis.E) +
+                Math.abs(smoothVis.O - smoothVis.E) +
+                Math.abs(smoothVis.I - smoothVis.E);
+            const jawBase = smoothIntensity * 0.045;
+            const jawDynamic = vPeak * 0.19 + visemeContrast * 0.1 + smoothVis.aa * 0.11 + conOpen;
+            const targetJaw = THREE.MathUtils.clamp(jawBase + jawDynamic, 0, 0.42);
+
+            for (const jm of avatar.jawMeshes) {
+                const inf = jm.mesh.morphTargetInfluences;
+                inf[jm.jawOpen] = THREE.MathUtils.lerp(inf[jm.jawOpen], targetJaw, 0.28);
+                if (jm.mouthOpen !== null) {
+                    inf[jm.mouthOpen] = THREE.MathUtils.lerp(inf[jm.mouthOpen], targetJaw * 0.34, 0.24);
+                }
+            }
+        } else if (!isSpeaking && (avatar.visemeMeshes.length || avatar.jawMeshes.length)) {
+            smoothIntensity = THREE.MathUtils.lerp(smoothIntensity, 0, LIP_DECAY);
+            for (const k of LIP_ORDER) {
+                const dest = k === 'sil' ? 1 : 0;
+                smoothVis[k] = THREE.MathUtils.lerp(smoothVis[k], dest, LIP_DECAY);
+            }
+            paintVisemeMeshes(LIP_DECAY + 0.04);
+            for (const jm of avatar.jawMeshes) {
+                const inf = jm.mesh.morphTargetInfluences;
+                inf[jm.jawOpen] = THREE.MathUtils.lerp(inf[jm.jawOpen], 0, LIP_DECAY);
+                if (jm.mouthOpen !== null) {
+                    inf[jm.mouthOpen] = THREE.MathUtils.lerp(inf[jm.mouthOpen], 0, LIP_DECAY);
+                }
+            }
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    function resolvePlaybackUrl(url) {
+        if (!url) return url;
+        if (/^https?:\/\//i.test(url)) return url;
+        const path = url.startsWith('/') ? url : `${MODELING_ROOT}/${url}`;
+        return new URL(path, window.location.origin).href;
+    }
+
+    function addMessage(role, text) {
+        const t = document.getElementById('transcript');
+        const div = document.createElement('div');
+        div.className = `modeling-msg modeling-msg--${role==='user'?'user':'alia'}`;
+        div.innerHTML = `<div class="modeling-msg__sender">${role === 'user' ? 'Vous' : 'ALIA'}</div>
+                         <div class="modeling-msg__bubble">${escHtml(text)}</div>`;
+        t.appendChild(div);
+        t.scrollTop = t.scrollHeight;
+    }
+
+    function showThinking() {
+        const t = document.getElementById('transcript');
+        const div = document.createElement('div');
+        div.className = 'modeling-msg modeling-msg--alia';
+        div.id = 'thinking-bubble';
+        div.innerHTML = `<div class="modeling-msg__sender">ALIA</div>
+                         <div class="modeling-msg__thinking"><span></span><span></span><span></span></div>`;
+        t.appendChild(div);
+        t.scrollTop = t.scrollHeight;
+    }
+
+    function removeThinking() { document.getElementById('thinking-bubble')?.remove(); }
+
+    /* ════════════════════════════════════════════════════════
+    UI HELPERS
+    ════════════════════════════════════════════════════════ */
+    function setHint(t) { const h=document.getElementById('micHint'); if(h) h.textContent=t; }
+    function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+
+    function setStatus(state, label) {
+        const el = document.getElementById('modeling-status');
+        if (!el) return;
+        el.classList.remove('is-speaking', 'is-thinking', 'is-error', 'is-listening');
+        if (state === 'speaking') el.classList.add('is-speaking');
+        else if (state === 'thinking') el.classList.add('is-thinking');
+        else if (state === 'error') el.classList.add('is-error');
+        else if (state === 'listening') el.classList.add('is-listening');
+        const tx = el.querySelector('.modeling-live-badge__text');
+        if (tx) tx.textContent = label;
+    }
+
+
+    /* ════════════════════════════════════════════════════════
+    VAD — ÉCOUTE AVEC DÉTECTION DE SILENCE AUTOMATIQUE
+    ════════════════════════════════════════════════════════ */
+    async function startListening() {
+        if (isRecording || isSpeaking || isProcessing) return;
+        try {
+            vadStream   = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+            vadCtx      = new (window.AudioContext || window.webkitAudioContext)();
+            const src   = vadCtx.createMediaStreamSource(vadStream);
+            vadAnalyser = vadCtx.createAnalyser();
+            vadAnalyser.fftSize = 512;
+            src.connect(vadAnalyser);
+
+            const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '';
+            mediaRecorder  = new MediaRecorder(vadStream, mimeType ? {mimeType} : {});
+            audioChunks    = [];
+            mediaRecorder.ondataavailable = e => { if(e.data.size>0) audioChunks.push(e.data); };
+            mediaRecorder.onstop = onRecordingStop;
+            mediaRecorder.start(100);
+
+            isRecording = true;
+            speechStart = null;
+            silenceTimer = null;
+
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.add('is-recording');
+            micBtn.querySelector('.modeling-mic-btn__icon').textContent = '⏹';
+            setStatus('listening', 'Écoute…');
+            setHint('Parlez… (silence = envoi auto)');
+
+            monitorVAD();
+        } catch(e) {
+            console.error('Mic error:', e);
+            addMessage('alia', 'Accès micro refusé : ' + e.message);
+            setStatus('error', 'Micro refusé');
+            conversationOn = false;
+            resetMicBtn();
+        }
+    }
+
+    function monitorVAD() {
+        if (!isRecording) return;
+        const buf = new Float32Array(vadAnalyser.fftSize);
+        vadAnalyser.getFloatTimeDomainData(buf);
+        let sum = 0;
+        for (let i=0; i<buf.length; i++) sum += buf[i]*buf[i];
+        const rms = Math.sqrt(sum / buf.length);
+        const speaking = rms > SILENCE_THRESHOLD;
+
+        if (speaking) {
+            if (!speechStart) speechStart = Date.now();
+            if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer=null; }
+        } else {
+            if (speechStart && !silenceTimer) {
+                const dur = Date.now() - speechStart;
+                if (dur >= MIN_SPEECH_MS) {
+                    silenceTimer = setTimeout(() => stopListening(), SILENCE_DELAY_MS);
+                }
+            }
+        }
+        requestAnimationFrame(monitorVAD);
+    }
+
+    function stopListening() {
+        if (!isRecording) return;
+        isRecording = false;
+        if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer=null; }
+        try { mediaRecorder?.stop(); } catch(e) {}
+        vadStream?.getTracks().forEach(t => t.stop());
+        if (vadCtx) { vadCtx.close().catch(()=>{}); vadCtx=null; }
+        vadAnalyser = null;
+        const micBtn = document.getElementById('micBtn');
+        micBtn.classList.remove('is-recording');
+        micBtn.querySelector('.modeling-mic-btn__icon').textContent = '🎤';
+    }
+
+    async function onRecordingStop() {
+        if (!speechStart) {
+            if (conversationOn) setTimeout(() => startListening(), 300);
+            return;
+        }
+        setStatus('thinking', 'Transcription…');
+        setHint('Transcription…');
+
+        const blob = new Blob(audioChunks, {type: mediaRecorder?.mimeType || 'audio/webm'});
+        const fd   = new FormData();
+        fd.append('audio', blob, 'speech.webm');
+        try {
+            const res  = await fetch(`${MODELING_ROOT}/listen`, {method: 'POST', body: fd});
+            const data = await res.json();
+            const txt  = (data.text || '').trim();
+            if (!txt) {
+                setStatus('', 'Standby');
+                if (conversationOn) setTimeout(() => startListening(), 300);
+                return;
+            }
+            await askAlia(txt);
+        } catch(e) {
+            console.error('STT error:', e);
+            setStatus('error', 'Erreur STT');
+            if (conversationOn) setTimeout(() => startListening(), 800);
+        }
+    }
+    /* ════════════════════════════════════════════════════════
+    BOUTON MICRO — 1 clic démarre, 1 clic arrête
+    ════════════════════════════════════════════════════════ */
+    function resetMicBtn() {
+        const micBtn = document.getElementById('micBtn');
+        micBtn.classList.remove('is-recording');
+        micBtn.querySelector('.modeling-mic-btn__icon').textContent = '🎤';
+        micBtn.disabled = false;
+    }
+
+    async function askAlia(text) {
+
+        if (!text || isProcessing) return;
+        isProcessing = true;
+        setStatus('thinking', 'Réflexion…');
+        setHint('ALIA réfléchit…');
+        addMessage('user', text);
+        showThinking();
+
+        try {
+            const res  = await fetch(`${MODELING_ROOT}/ask_alia`, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ text })
+            });
+            const data = await res.json();
+            removeThinking();
+
+            if (!res.ok) {
+                const errMsg = data.detail || data.error || `Erreur serveur (${res.status})`;
+                addMessage('alia', String(errMsg));
+                setStatus('error', 'Erreur');
+                return;
+            }
+            if (!data.text) { setStatus('error','Erreur'); return; }
+            addMessage('alia', data.text);
+
+            if (data.audio_url) {
+                await playAlia(data.audio_url);
+            } else {
+                setStatus('', 'Standby');
+            }
+        } catch (e) {
+            console.error("Request error:", e);
+            removeThinking();
+            addMessage('alia', "Erreur lors de la requête.");
+            setStatus('error', 'Erreur');
+        } finally {
+            isProcessing = false;
+            if (conversationOn) {
+                await startListening();
+            } else {
+                setHint('Appuyez pour démarrer');
+                setStatus('', 'Standby');
+            }
+        }
+    }
+
+   
+    /* ════════════════════════════════════════════════════════
+    LECTURE AUDIO + LIPSYNC
+    ════════════════════════════════════════════════════════ */
+    function playAlia(url) {
+        return new Promise(async (resolve) => {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+            const href = resolvePlaybackUrl(url);
+            const audio = new Audio(`${href}${href.includes('?') ? '&' : '?'}t=${Date.now()}`);
+            audio.crossOrigin = 'anonymous';
+            const source = audioCtx.createMediaElementSource(audio);
+            analyzer = audioCtx.createAnalyser();
+            analyzer.fftSize = LIP_FFT;
+            analyzer.smoothingTimeConstant = 0.55;
+            source.connect(analyzer);
+            analyzer.connect(audioCtx.destination);
+
+            resetLipState();
+            isSpeaking = true;
+            setStatus('speaking', 'Parle');
+            setHint('ALIA parle…');
+
+            const cleanup = () => {
+                isSpeaking = false;
+                resetLipState();
+                try {
+                    if (analyzer) analyzer.disconnect();
+                    source.disconnect();
+                } catch (_) {}
+                analyzer = null;
+                setStatus('', 'Standby');
+            };
+
+            audio.addEventListener('ended', () => {
+                cleanup();
+                resolve();
+            });
+            audio.addEventListener('error', () => {
+                cleanup();
+                resolve();
+            });
+            audio.play().catch(() => {
+                cleanup();
+                resolve();
+            });
+        });
+    }
+
+    async function toggleConversation() {
+        if (isProcessing || isSpeaking) return;
+
+        if (!conversationOn) {
+            conversationOn = true;
+            fetch(`${MODELING_ROOT}/reset`, {method: 'POST'}).catch(()=>{});
+            await startListening();
+        } else {
+            conversationOn = false;
+            stopListening();
+            resetMicBtn();
+            setStatus('', 'Standby');
+            setHint('Appuyez pour démarrer');
+        }
+    }
+
+    document.getElementById('micBtn').onclick = toggleConversation;
+
+    /* ════════════════════════════════════════════════════════
+    MODE (commercial / training)
+    ════════════════════════════════════════════════════════ */
+    window.setMode = async function(mode) {
+        if (mode === currentMode) return;
+        currentMode = mode;
+         // Arrêter la conversation en cours silencieusement
+        if (conversationOn) {
+            conversationOn = false;
+            stopListening();
+            resetMicBtn();
+            setStatus('', 'Standby');
+            setHint('Appuyez pour parler');
+        }
+ 
+        // Vider le transcript
+        const t = document.getElementById('transcript');
+        t.innerHTML = '';
+
+        document.getElementById('btnCommercial').classList.toggle('active', mode==='commercial');
+        document.getElementById('btnTraining').classList.toggle('active',   mode==='training');
+        try {
+            await Promise.all([
+                fetch(`${MODELING_ROOT}/reset`,    {method: 'POST'}),
+                fetch(`${MODELING_ROOT}/set_mode`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({mode})
+                })
+            ]);
+        } catch(e) { console.warn('set_mode failed', e); }
+    };
+
+    
+</script>
+{% endblock %}
