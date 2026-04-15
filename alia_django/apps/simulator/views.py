@@ -333,3 +333,67 @@ def replay_data(request):
 def replay_page(request):
     """GET /simulator/replay/view — page HTML du replay."""
     return render(request, 'simulator/replay.html', {'page': 'simulator'})
+
+# ══════════════════════════════════════════════════════════════════════
+# STT — Speech-to-Text (Whisper, partagé avec modeling)
+# ══════════════════════════════════════════════════════════════════════
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def sim_stt(request):
+    """
+    POST /simulator/stt/
+    Reçoit un fichier audio (FormData champ "audio"), 
+    transcrit via Whisper et retourne le texte.
+    Réutilise le même pipeline que apps/modeling/handlers.py.
+    """
+    import asyncio
+    from apps.modeling.handlers import listen_json
+
+    audio_file = request.FILES.get("audio")
+    if not audio_file:
+        return JsonResponse({"error": "Fichier audio manquant."}, status=400)
+    try:
+        audio_bytes = audio_file.read()
+        data = asyncio.run(listen_json(audio_bytes))
+        return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+# ══════════════════════════════════════════════════════════════════════
+# TTS — Text-to-Speech (edge-tts, partagé avec modeling)
+# ══════════════════════════════════════════════════════════════════════
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def sim_tts(request):
+    """
+    POST /simulator/tts/
+    Reçoit {"text": "..."}, synthétise via edge-tts et retourne {"audio_url": "..."}.
+    Le fichier audio est sauvegardé dans MODELING_AUDIO_DIR (même dossier que modeling).
+    """
+    import asyncio
+    import uuid
+    from pathlib import Path
+    from django.conf import settings
+    from apps.modeling.handlers import _synthesize_to_file, clean_for_tts, api_prefix
+
+    try:
+        body = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "JSON invalide."}, status=400)
+
+    text = body.get("text", "").strip()
+    if not text:
+        return JsonResponse({"error": "Texte vide."}, status=400)
+
+    try:
+        speech_text = clean_for_tts(text)
+        filename    = f"sim_{uuid.uuid4()}.mp3"
+        path        = Path(settings.MODELING_AUDIO_DIR) / filename
+        asyncio.run(_synthesize_to_file(speech_text, path))
+        prefix = api_prefix()
+        return JsonResponse({"audio_url": f"{prefix}/static/audio/{filename}"})
+    except Exception as e:
+        return JsonResponse({"error": str(e), "audio_url": None}, status=500)

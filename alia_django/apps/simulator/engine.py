@@ -15,8 +15,14 @@ import urllib.request
 from pathlib import Path
 from typing  import Dict, List, Optional
 
-from .profiles      import get_product, get_doctor, VISIT_STEPS
-from .session_state import SessionState
+from .profiles       import get_product, get_doctor, VISIT_STEPS
+from .session_state  import SessionState
+from apps.modeling.simulator_rag import (
+    get_product_context,
+    build_enriched_doctor_system,
+    compute_final_decision,
+    generate_closing_message,
+)
 
 log = logging.getLogger(__name__)
 
@@ -48,22 +54,8 @@ def _get_nlp_model():
 # ══════════════════════════════════════════════════════════════════════
 
 def _get_rag_context(product_name: str, delegate_text: str) -> str:
-    try:
-        from apps.modeling.runtime import get_runtime
-        rt    = get_runtime()
-        query = f"{product_name} {delegate_text}"
-        docs  = rt.kb.retriever.invoke(query)
-        if not docs:
-            return ""
-        parts = []
-        for doc in docs[:3]:
-            name    = doc.metadata.get('name', '')
-            preview = doc.page_content[:300].replace('\n', ' ').strip()
-            parts.append(f"• {name} : {preview}")
-        return "\n".join(parts)
-    except Exception as e:
-        log.warning(f"RAG context indisponible : {e}")
-        return ""
+    """Délègue au SimulatorRAG dédié (données KB VITAL SA enrichies)."""
+    return get_product_context(product_name, delegate_text, n_docs=3)
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -252,6 +244,7 @@ class SimulationSession:
         self.step_history   = []
         self.is_finished    = False
         self.nlp_model      = _get_nlp_model()
+        self.final_decision = None  # Décision finale (commande/refus/conditions)
         # ── État centralisé ───────────────────────────────────────────
         self.state          = SessionState()
 
@@ -264,7 +257,7 @@ class SimulationSession:
     # ── Premier message ─────────────────────────────────────────────
 
     def first_message(self) -> Dict:
-        system  = _build_doctor_system(self.doctor, self.product, 0, self.openness)
+        system  = build_enriched_doctor_system(self.doctor, self.product, 0, self.openness, MAX_TURNS)
         rag_ctx = _get_rag_context(
             self.product['nom'],
             f"présentation {self.product['categorie']} {self.product['indication']}"
@@ -347,22 +340,45 @@ class SimulationSession:
         rag_ctx = _get_rag_context(self.product['nom'], delegate_text)
 
         # ── 7. Prompt médecin ─────────────────────────────────────────
-        system = _build_doctor_system(
-            self.doctor, self.product, self.turn, self.openness)
-        if should_close:
-            if self.openness >= 4.0:
-                system += "\n\nFIN VISITE — Tu es intéressé. Conclus positivement en 2 phrases."
-            else:
-                system += "\n\nFIN VISITE — Conclus poliment en 1-2 phrases. Tu as d'autres patients."
-
+        system = build_enriched_doctor_system(
+            self.doctor, self.product, self.turn, self.openness, MAX_TURNS)
         # ── 8. Générer réponse médecin ────────────────────────────────
-        # Passer les dernières réponses du médecin pour éviter la répétition
         recent_msgs = self._recent_doctor_msgs(n=4)
-        msg, engine = _generate_doctor_response(
-            system=system, history=self.history,
-            rag_context=rag_ctx, recent_doctor_msgs=recent_msgs,
-            fallback_fn=lambda: self._static_fallback(should_close),
-        )
+
+        if should_close:
+            # ── Décision finale intégrée (score global + openness) ────
+            global_score_now = self.state.global_score
+            vm_steps_now     = list(self.state.vm_steps_done)
+            conv_summary     = " | ".join(
+                m["content"][:60] for m in self.history[-4:] if m["role"] == "user"
+            )
+            self.final_decision = compute_final_decision(
+                global_score=global_score_now,
+                openness=self.openness,
+                doctor=self.doctor,
+                product=self.product,
+                vm_steps_done=vm_steps_now,
+                turns=self.turn,
+            )
+            # Message de clôture cohérent avec la décision
+            msg    = generate_closing_message(
+                doctor=self.doctor, product=self.product,
+                decision=self.final_decision,
+                global_score=global_score_now,
+                openness=self.openness,
+                conversation_summary=conv_summary,
+            )
+            engine = "sim_rag_decision"
+            log.info(f"[Sim] Décision finale : {self.final_decision['decision']} | {self.final_decision['label']}")
+        else:
+            if self.openness >= 4.0:
+                system += "\n\nFIN IMMINENTE — Signal positif détecté. Conclus en orientant vers un accord."
+            msg, engine = _generate_doctor_response(
+                system=system, history=self.history,
+                rag_context=rag_ctx, recent_doctor_msgs=recent_msgs,
+                fallback_fn=lambda: self._static_fallback(False),
+            )
+
         self.history.append({"role": "assistant", "content": msg})
 
         # ── 9. Push RAG → SessionState ────────────────────────────────
@@ -400,6 +416,8 @@ class SimulationSession:
             # Données intégrées
             "global_score" : global_score,
             "global_niveau": global_niveau,
+            # Décision finale (peuplée uniquement au dernier tour)
+            "final_decision": self.final_decision,
         }
 
     # ── Rapport final ───────────────────────────────────────────────
@@ -486,6 +504,7 @@ class SimulationSession:
             "rag_hits"       : len([h for h in self.state.rag_hits if h['context_used']]),
             "vm_steps_done"  : sorted(list(self.state.vm_steps_done)),
             "state_snapshot" : self.state.dashboard_data(),
+            "final_decision" : self.final_decision,
         }
 
     # ── Helpers ────────────────────────────────────────────────────
@@ -581,8 +600,9 @@ class SimulationSession:
             'history'       : self.history,
             'scores_history': self.scores_history,
             'step_history'  : self.step_history,
-            'is_finished'   : self.is_finished,
-            'state'         : self.state.to_dict(),
+            'is_finished'    : self.is_finished,
+            'final_decision' : self.final_decision,
+            'state'          : self.state.to_dict(),
         }
 
     @classmethod
@@ -593,7 +613,8 @@ class SimulationSession:
         s.history       = data['history']
         s.scores_history= data['scores_history']
         s.step_history  = data['step_history']
-        s.is_finished   = data['is_finished']
+        s.is_finished    = data['is_finished']
+        s.final_decision = data.get('final_decision', None)
         if 'state' in data:
             s.state = SessionState.from_dict(data['state'])
         return s

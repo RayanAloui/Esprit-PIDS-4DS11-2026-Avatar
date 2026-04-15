@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import threading
 from pathlib import Path
 
 import pandas as pd
 from django.conf import settings
 
 _runtime = None
+_runtime_lock = threading.Lock()
 
 
 class _Runtime:
@@ -24,9 +26,26 @@ class _Runtime:
         self.kb.load_or_create(docs)
         self.alia = rag_mod.AliaOrchestrator(self.kb)
 
+        # Préchargement de Whisper au démarrage pour éviter le délai
+        # de 5-10 secondes au premier appel micro
+        print("[modeling] Préchargement du modèle Whisper...")
+        try:
+            import whisper
+            self.whisper_model = whisper.load_model("small", device="cpu")
+            # Partage le modèle avec handlers.py pour éviter un double chargement
+            import apps.modeling.handlers as _handlers
+            _handlers._whisper_model = self.whisper_model
+            print("[modeling] Whisper prêt.")
+        except Exception as e:
+            print(f"[modeling] Whisper non disponible au démarrage : {e}")
+
 
 def get_runtime() -> _Runtime:
+    """Thread-safe singleton. The dev server handles concurrent requests on multiple threads."""
     global _runtime
-    if _runtime is None:
-        _runtime = _Runtime()
-    return _runtime
+    if _runtime is not None:
+        return _runtime
+    with _runtime_lock:
+        if _runtime is None:
+            _runtime = _Runtime()
+        return _runtime

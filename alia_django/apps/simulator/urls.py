@@ -16,4 +16,7 @@ urlpatterns = [
     # Replay
     path('replay/',       views.replay_data,        name='replay_data'),
     path('replay/view/',  views.replay_page,        name='replay_page'),
+    # STT / TTS — Speech (partagé avec modeling/handlers.py)
+    path('stt/',          views.sim_stt,            name='stt'),
+    path('tts/',          views.sim_tts,            name='tts'),
 ]

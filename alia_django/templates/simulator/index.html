@@ -121,6 +121,20 @@
 .send-btn{width:42px;height:42px;border-radius:8px;border:none;background:var(--bordeaux);color:var(--cream);font-size:15px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .send-btn:hover{background:#A02020;transform:scale(1.05)}
 .send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.mic-btn{width:42px;height:42px;border-radius:8px;border:1px solid rgba(200,150,12,.2);background:var(--ecru-3);color:var(--cream-2);font-size:17px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mic-btn:hover{background:rgba(200,150,12,.08);border-color:var(--or);color:var(--or)}
+.mic-btn.is-recording{background:rgba(139,26,26,.3);border-color:#E06060;color:#E06060;animation:micpulse 1s infinite}
+.mic-btn:disabled{opacity:.4;cursor:not-allowed}
+@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(224,96,96,.4)}50%{box-shadow:0 0 0 6px rgba(224,96,96,0)}}
+.decision-banner{position:fixed;bottom:80px;right:24px;z-index:200;padding:14px 20px;border-radius:12px;max-width:320px;font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5;border:1px solid;animation:decisionIn .4s cubic-bezier(.23,1,.32,1)}
+@keyframes decisionIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.decision-banner.commande{background:rgba(42,74,42,.35);border-color:#6BCB6B;color:#6BCB6B}
+.decision-banner.conditions{background:rgba(200,150,12,.15);border-color:var(--or);color:var(--or)}
+.decision-banner.refus{background:rgba(139,26,26,.3);border-color:#E06060;color:#E06060}
+.decision-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.decision-reason{font-size:11px;opacity:.75;font-family:'DM Mono',monospace}
+.sim-tts-indicator{display:none;position:absolute;top:6px;left:6px;background:rgba(139,26,26,.8);color:#fff;padding:2px 8px;border-radius:20px;font-size:8px;font-family:'DM Mono',monospace;letter-spacing:1px;z-index:3}
+.sim-tts-indicator.active{display:block;animation:mpulse 1.5s infinite}
 
 /* DASHBOARD DROIT */
 .right-col{display:flex;flex-direction:column;gap:12px;overflow-y:auto}
@@ -332,6 +346,7 @@
     <div class="doctor-panel">
       <!-- Conteneur du vrai GLB -->
       <div id="avatar3dContainer">
+        <div class="sim-tts-indicator" id="simTtsIndicator">● PARLE</div>
         <div id="avatar3dError">
           <div class="av-ico">👨‍⚕️</div>
           <div id="avatar3dErrorMsg">Chargement avatar…</div>
@@ -370,6 +385,7 @@
         <textarea id="delegateInput" class="chat-textarea" rows="2"
           placeholder="Répondez au médecin… (Entrée pour envoyer)"
           onkeydown="handleKey(event)"></textarea>
+        <button class="mic-btn" id="simMicBtn" onclick="toggleSimMic()" title="Parler (STT)">🎤</button>
         <button class="send-btn" id="sendBtn" onclick="sendMessage()">▶</button>
       </div>
     </div>
@@ -654,6 +670,131 @@
 
 <script>
 // ════════════════════════════════════════════════════════════════════
+// STT / TTS — SPEECH INTERFACE
+// ════════════════════════════════════════════════════════════════════
+const SIM_SILENCE_THRESHOLD=0.012,SIM_SILENCE_DELAY_MS=1200,SIM_MIN_SPEECH_MS=400;
+let simVadStream=null,simVadCtx=null,simVadAnalyser=null;
+let simMediaRecorder=null,simAudioChunks=[];
+let simIsRecording=false,simSpeechStart=null,simSilenceTimer=null;
+let simIsSpeaking=false,simAudioCtx=null;
+
+async function toggleSimMic(){
+  if(simIsSpeaking)return;
+  if(simIsRecording){_stopSimListening();return;}
+  await _startSimListening();
+}
+async function _startSimListening(){
+  const btn=document.getElementById('simMicBtn');
+  if(!btn||btn.disabled)return;
+  try{
+    simVadStream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    simVadCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const src=simVadCtx.createMediaStreamSource(simVadStream);
+    simVadAnalyser=simVadCtx.createAnalyser();simVadAnalyser.fftSize=512;
+    src.connect(simVadAnalyser);
+    const mime=MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'';
+    simMediaRecorder=new MediaRecorder(simVadStream,mime?{mimeType:mime}:{});
+    simAudioChunks=[];
+    simMediaRecorder.ondataavailable=e=>{if(e.data.size>0)simAudioChunks.push(e.data);};
+    simMediaRecorder.onstop=_onSimRecordingStop;
+    simMediaRecorder.start(100);
+    simIsRecording=true;simSpeechStart=null;simSilenceTimer=null;
+    btn.classList.add('is-recording');btn.textContent='⏹';
+    document.getElementById('delegateInput').placeholder='Parlez… (silence = envoi auto)';
+    _monitorSimVAD();
+  }catch(e){
+    console.error('Sim mic error:',e);
+    appendMsg('doctor','Micro non disponible : '+e.message,'👨‍⚕️',null,null);
+  }
+}
+function _monitorSimVAD(){
+  if(!simIsRecording)return;
+  const buf=new Float32Array(simVadAnalyser.fftSize);
+  simVadAnalyser.getFloatTimeDomainData(buf);
+  let sum=0;for(let i=0;i<buf.length;i++)sum+=buf[i]*buf[i];
+  const rms=Math.sqrt(sum/buf.length),speaking=rms>SIM_SILENCE_THRESHOLD;
+  if(speaking){
+    if(!simSpeechStart)simSpeechStart=Date.now();
+    if(simSilenceTimer){clearTimeout(simSilenceTimer);simSilenceTimer=null;}
+  }else if(simSpeechStart&&!simSilenceTimer){
+    if(Date.now()-simSpeechStart>=SIM_MIN_SPEECH_MS)
+      simSilenceTimer=setTimeout(()=>_stopSimListening(),SIM_SILENCE_DELAY_MS);
+  }
+  requestAnimationFrame(_monitorSimVAD);
+}
+function _stopSimListening(){
+  if(!simIsRecording)return;
+  simIsRecording=false;
+  if(simSilenceTimer){clearTimeout(simSilenceTimer);simSilenceTimer=null;}
+  try{simMediaRecorder?.stop();}catch(e){}
+  simVadStream?.getTracks().forEach(t=>t.stop());
+  if(simVadCtx){simVadCtx.close().catch(()=>{});simVadCtx=null;}
+  simVadAnalyser=null;
+  const btn=document.getElementById('simMicBtn');
+  if(btn){btn.classList.remove('is-recording');btn.textContent='🎤';}
+  document.getElementById('delegateInput').placeholder='Répondez au médecin… (Entrée pour envoyer, 🎤 pour parler)';
+}
+async function _onSimRecordingStop(){
+  if(!simSpeechStart)return;
+  const blob=new Blob(simAudioChunks,{type:simMediaRecorder?.mimeType||'audio/webm'});
+  const fd=new FormData();fd.append('audio',blob,'speech.webm');
+  try{
+    const res=await fetch('/simulator/stt/',{method:'POST',body:fd,
+      headers:{'X-CSRFToken':getCookie('csrftoken')}});
+    const data=await res.json();
+    const txt=(data.text||'').trim();
+    if(!txt)return;
+    document.getElementById('delegateInput').value=txt;
+    sendMessage();
+  }catch(e){console.error('STT error:',e);}
+}
+async function _playSimTts(text){
+  if(!text||simIsSpeaking)return;
+  try{
+    const res=await fetch('/simulator/tts/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body:JSON.stringify({text})
+    });
+    const data=await res.json();
+    if(data.audio_url)await _simPlayAudio(data.audio_url);
+  }catch(e){console.error('TTS error:',e);}
+}
+async function _simPlayAudio(url){
+  return new Promise(async(resolve)=>{
+    simIsSpeaking=true;
+    const ind=document.getElementById('simTtsIndicator');
+    const micBtn=document.getElementById('simMicBtn');
+    if(ind)ind.classList.add('active');
+    if(micBtn)micBtn.disabled=true;
+    if(!simAudioCtx)simAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(simAudioCtx.state==='suspended')await simAudioCtx.resume();
+    const href=url.startsWith('http')?url:(window.location.origin+url);
+    const audio=new Audio(`${href}${href.includes('?')?'&':'?'}t=${Date.now()}`);
+    audio.crossOrigin='anonymous';
+    const cleanup=()=>{
+      simIsSpeaking=false;
+      if(ind)ind.classList.remove('active');
+      if(micBtn)micBtn.disabled=false;
+    };
+    audio.addEventListener('ended',()=>{cleanup();resolve();});
+    audio.addEventListener('error',()=>{cleanup();resolve();});
+    audio.play().catch(()=>{cleanup();resolve();});
+  });
+}
+function _showDecisionBanner(decision){
+  const old=document.getElementById('decisionBanner');if(old)old.remove();
+  if(!decision)return;
+  const d=document.createElement('div');
+  d.id='decisionBanner';
+  d.className=`decision-banner ${decision.decision}`;
+  d.innerHTML=`<div class="decision-title">${decision.icon} ${decision.label}</div>`+
+    `<div class="decision-reason">${decision.reason}</div>`;
+  document.body.appendChild(d);
+  setTimeout(()=>{if(d.parentNode)d.parentNode.removeChild(d);},8000);
+}
+
+// ════════════════════════════════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════════════════════════════════
 let selDoc=null,selProd=null,selNiv='Junior';
@@ -745,6 +886,7 @@ async function startSim(){
     // Initialiser l'avatar 3D RÉEL
     if(window._initAvatar3D) window._initAvatar3D();
     appendMsg('doctor',d.first.message,dr.avatar,null,null);
+    _playSimTts(d.first.message).catch(()=>{});
     dashInterval=setInterval(pollDashboard,500);
   }catch(e){
     alert('Erreur : '+e.message);
@@ -760,6 +902,7 @@ async function sendMessage(){
   const inp=document.getElementById('delegateInput');
   const txt=inp.value.trim();if(!txt)return;
   inp.value='';inp.disabled=true;document.getElementById('sendBtn').disabled=true;
+  const _mb=document.getElementById('simMicBtn');if(_mb)_mb.disabled=true;
   appendMsg('delegate',txt,'🤝',null,null);
   const tid=showTyping();
   try{
@@ -773,12 +916,16 @@ async function sendMessage(){
     if(d.score){nlpHistory.push(d.score);drawNlpChart()}
     const meta=d.score?`${d.score}/10 · ${d.quality}`:null;
     appendMsg('doctor',d.message,'👨‍⚕️',meta,d.engine);
-    if(d.is_finished)setTimeout(()=>{stopCam();showReport()},1400);
+    _playSimTts(d.message).catch(()=>{});
+    if(d.final_decision)_showDecisionBanner(d.final_decision);
+    if(d.is_finished)setTimeout(()=>{stopCam();showReport()},2200);
   }catch(e){
     removeTyping(tid);
     appendMsg('doctor','Une erreur est survenue.','👨‍⚕️',null,null);
   }finally{
-    inp.disabled=false;document.getElementById('sendBtn').disabled=false;inp.focus();
+    inp.disabled=false;document.getElementById('sendBtn').disabled=false;
+    const _mb2=document.getElementById('simMicBtn');if(_mb2)_mb2.disabled=false;
+    inp.focus();
   }
 }
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}}
