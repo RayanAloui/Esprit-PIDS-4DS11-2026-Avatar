@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load simulator_extras %}
 {% block title %}ALIA Simulator — Visite Médicale Intégrée{% endblock %}
 
 {% block extra_css %}
@@ -90,7 +91,7 @@
 .end-btn:hover{background:rgba(139,26,26,.1);color:#E06060}
 
 /* CHAT */
-.chat-area{background:var(--glass-w);border:1px solid var(--bw);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:560px}
+.chat-area{background:var(--glass-w);border:1px solid var(--bw);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;height:calc(100vh - 180px);max-height:calc(100vh - 180px)}
 .chat-header{padding:12px 16px;border-bottom:1px solid var(--bw);display:flex;align-items:center;gap:10px}
 .chat-product-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--or);background:rgba(200,150,12,.1);border:1px solid rgba(200,150,12,.2);padding:2px 8px;border-radius:20px}
 .chat-title{font-family:'Playfair Display',serif;font-size:14px;color:var(--cream);font-weight:700}
@@ -284,34 +285,156 @@
 .report-conseil{background:rgba(200,150,12,.08);border:1px solid rgba(200,150,12,.2);border-radius:9px;padding:12px;margin-bottom:16px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cream);line-height:1.6}
 .replay-btn{width:100%;padding:14px;border:none;border-radius:11px;background:linear-gradient(135deg,var(--bordeaux),var(--bord-dim));font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--cream);cursor:pointer;transition:all .3s}
 .replay-btn:hover{transform:translateY(-2px);box-shadow:0 9px 26px rgba(139,26,26,.5)}
+
+/* ── QCM pré-formation ───────────────────────────────────────────── */
+#qcmScreen{max-width:760px;margin:0 auto}
+.qcm-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--cream);text-align:center;margin-bottom:6px}
+.qcm-title span{color:var(--or)}
+.qcm-sub{text-align:center;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cream-2);margin-bottom:28px;line-height:1.6}
+.qcm-progress{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.qcm-prog-bar{flex:1;height:4px;background:rgba(200,150,12,.12);border-radius:2px;overflow:hidden}
+.qcm-prog-fill{height:100%;background:var(--or);border-radius:2px;transition:width .4s}
+.qcm-prog-lbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--cream-2);white-space:nowrap}
+.qcm-card{background:var(--glass-w);border:1px solid var(--bw);border-radius:14px;padding:22px 24px;margin-bottom:16px;transition:border-color .3s}
+.qcm-card.answered{border-color:rgba(200,150,12,.4)}
+.qcm-q-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:8px}
+.qcm-q-text{font-family:'Playfair Display',serif;font-size:15px;color:var(--cream);font-weight:700;margin-bottom:14px;line-height:1.5}
+.qcm-options{display:flex;flex-direction:column;gap:7px}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:8px;border:1px solid rgba(200,150,12,.12);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cream-2)}
+.qcm-opt:hover{background:rgba(200,150,12,.05);border-color:rgba(200,150,12,.3);color:var(--cream)}
+.qcm-opt.selected{background:rgba(200,150,12,.1);border-color:var(--or);color:var(--cream)}
+.qcm-opt.correct{background:rgba(42,74,42,.3);border-color:#6BCB6B;color:#6BCB6B}
+.qcm-opt.wrong{background:rgba(139,26,26,.2);border-color:#E06060;color:#E06060}
+.qcm-opt-letter{width:20px;height:20px;border-radius:50%;background:rgba(200,150,12,.1);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:var(--or);flex-shrink:0;font-weight:700}
+.qcm-expl{margin-top:10px;padding:8px 12px;background:rgba(200,150,12,.06);border-radius:6px;font-size:11px;color:var(--cream-2);display:none;line-height:1.5}
+.qcm-expl.show{display:block}
+.qcm-actions{display:flex;gap:10px;margin-top:20px}
+.qcm-btn{flex:1;padding:13px;border:none;border-radius:10px;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;letter-spacing:1px}
+.qcm-btn-submit{background:linear-gradient(135deg,var(--bordeaux),var(--bord-dim));color:var(--cream)}
+.qcm-btn-submit:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(139,26,26,.4)}
+.qcm-btn-submit:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.qcm-btn-skip{background:transparent;border:1px solid rgba(200,150,12,.2);color:var(--cream-2);font-size:13px}
+.qcm-btn-skip:hover{border-color:var(--or);color:var(--cream)}
+.qcm-result{text-align:center;padding:28px 20px}
+.qcm-result-score{font-family:'Playfair Display',serif;font-size:64px;font-weight:900;line-height:1;margin-bottom:6px}
+.qcm-result-score.pass{color:#6BCB6B}
+.qcm-result-score.fail{color:#E06060}
+.qcm-result-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cream-2);margin-bottom:16px}
+.qcm-result-niveau{font-family:'DM Mono',monospace;font-size:12px;color:var(--or);margin-bottom:20px;letter-spacing:1px}
+.qcm-result-detail{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.qcm-det-item{background:var(--glass-w);border:1px solid var(--bw);border-radius:8px;padding:8px 14px;text-align:center}
+.qcm-det-val{font-family:'Playfair Display',serif;font-size:20px;color:var(--or);font-weight:700}
+.qcm-det-lbl{font-size:9px;color:var(--cream-2);font-family:'DM Mono',monospace;margin-top:2px}
+/* Onglets */
+.interlocutor-tabs{display:flex;gap:6px;margin-bottom:12px}
+.interloc-tab{flex:1;padding:8px;border-radius:8px;border:1px solid rgba(200,150,12,.15);cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cream-2);transition:all .2s;background:transparent}
+.interloc-tab:hover{background:rgba(200,150,12,.05);border-color:rgba(200,150,12,.3)}
+.interloc-tab.active{background:rgba(200,150,12,.1);border-color:var(--or);color:var(--or)}
+.interloc-tab-emoji{font-size:16px;display:block;margin-bottom:3px}
+/* Mode généraliste */
+.generaliste-toggle{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--glass-w);border:1px solid var(--bw);border-radius:9px;cursor:pointer;margin-bottom:12px;transition:border-color .2s}
+.generaliste-toggle:hover{border-color:rgba(200,150,12,.3)}
+.generaliste-toggle.active{border-color:var(--or);background:rgba(200,150,12,.06)}
+.gen-toggle-switch{width:32px;height:18px;border-radius:9px;background:rgba(200,150,12,.2);position:relative;transition:background .2s;flex-shrink:0}
+.gen-toggle-switch.on{background:var(--or)}
+.gen-toggle-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#1C1710;transition:transform .2s}
+.gen-toggle-switch.on .gen-toggle-knob{transform:translateX(14px)}
+.gen-toggle-label{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cream);font-weight:600}
+.gen-toggle-sub{font-size:10px;color:var(--cream-2);margin-top:1px}
+/* Suggestion */
+.msg-suggestion{margin:0 8px 8px 36px;background:rgba(25,118,210,.08);border:1px solid rgba(25,118,210,.2);border-radius:0 10px 10px 10px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(100,160,255,.9);line-height:1.5;animation:msgIn .3s forwards}
+.msg-suggestion-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(100,160,255,.5);margin-bottom:3px}
+/* Badge interlocuteur */
+.interlocutor-type-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;padding:2px 7px;border-radius:20px;margin-left:8px}
+.badge-doctor{background:rgba(26,74,139,.3);color:#42A5F5}
+.badge-pharmacist{background:rgba(26,107,74,.3);color:#6BCB6B}
 </style>
 {% endblock %}
 
 {% block content %}
 
+<!-- QCM PRÉ-FORMATION -->
+<div id="qcmScreen">
+  <div class="qcm-title">Test de <span>niveau</span></div>
+  <div class="qcm-sub">Répondez à ces questions sur la méthode VITAL SA.<br>Score minimum requis : <strong style="color:var(--or)">{{ qcm_seuil }}%</strong> — Niveau adapté automatiquement.</div>
+  <div class="qcm-progress">
+    <div class="qcm-prog-bar"><div class="qcm-prog-fill" id="qcmProgFill" style="width:0%"></div></div>
+    <span class="qcm-prog-lbl" id="qcmProgLbl">Chargement…</span>
+  </div>
+  <div id="qcmQuestions"><div style="text-align:center;padding:40px;color:var(--cream-2)"><span class="spinner" style="border-color:rgba(200,150,12,.3);border-top-color:var(--or)"></span>&nbsp;Chargement des questions…</div></div>
+  <div id="qcmResult" style="display:none">
+    <div class="qcm-card">
+      <div class="qcm-result">
+        <div class="qcm-result-score" id="qcmScoreDisplay">—</div>
+        <div class="qcm-result-label" id="qcmResultLabel">—</div>
+        <div class="qcm-result-niveau" id="qcmNiveauRecommande">—</div>
+        <div class="qcm-result-detail">
+          <div class="qcm-det-item"><div class="qcm-det-val" id="qcmCorrectCount">—</div><div class="qcm-det-lbl">bonnes réponses</div></div>
+          <div class="qcm-det-item"><div class="qcm-det-val" id="qcmTotalCount">—</div><div class="qcm-det-lbl">questions</div></div>
+        </div>
+        <p style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cream-2);margin-bottom:18px" id="qcmResultMsg">—</p>
+        <button class="qcm-btn qcm-btn-submit" onclick="goToSetup()" style="max-width:300px;margin:0 auto;display:block">Continuer →</button>
+      </div>
+    </div>
+  </div>
+  <div class="qcm-actions" id="qcmActions">
+    <button class="qcm-btn qcm-btn-submit" id="qcmSubmitBtn" onclick="submitQcm()" disabled>Valider mes réponses</button>
+    <button class="qcm-btn qcm-btn-skip" onclick="goToSetup()">Passer le test →</button>
+  </div>
+</div>
+
 <!-- SETUP -->
-<div id="setupScreen">
+<div id="setupScreen" style="display:none">
   <div class="setup-title">ALIA <span>Simulator</span></div>
   <div class="setup-sub">NLP · LSTM Body Language · RAG VITAL SA · Avatar 3D · Dashboard Temps Réel</div>
   <div class="setup-grid">
     <div class="setup-section">
-      <span class="setup-label">Choisir le médecin</span>
-      <div class="doctor-cards">
-        {% for d in doctors %}
-        <div class="doctor-card" data-id="{{ d.id }}" onclick="selectDoctor('{{ d.id }}')">
-          <div class="doctor-avatar">{{ d.avatar }}</div>
-          <div class="doctor-info">
-            <div class="doctor-name">{{ d.nom }}</div>
-            <div class="doctor-spec">{{ d.specialite }} · {{ d.ville }}</div>
-            <div style="font-size:9px;color:rgba(184,168,136,.5);margin-top:1px">{{ d.description_ui }}</div>
+      <div class="interlocutor-tabs">
+        <div class="interloc-tab active" id="tab-doctor" onclick="switchInterlocutorTab('doctor')"><span class="interloc-tab-emoji">&#128104;&#8205;&#9877;&#65039;</span>Médecin</div>
+        <div class="interloc-tab" id="tab-pharmacist" onclick="switchInterlocutorTab('pharmacist')"><span class="interloc-tab-emoji">&#128138;</span>Pharmacien</div>
+      </div>
+      <div id="doctorCards">
+        <span class="setup-label">Choisir le médecin</span>
+        <div class="doctor-cards">
+          {% for d in doctors %}
+          <div class="doctor-card" data-id="{{ d.id }}" onclick="selectInterlocutor('{{ d.id }}')">
+            <div class="doctor-avatar">{{ d.avatar }}</div>
+            <div class="doctor-info">
+              <div class="doctor-name">{{ d.nom }}</div>
+              <div class="doctor-spec">{{ d.specialite }} · {{ d.ville }}</div>
+              <div style="font-size:9px;color:rgba(184,168,136,.5);margin-top:1px">{{ d.description_ui }}</div>
+            </div>
+            <div class="doctor-diff diff-{{ d.difficulte_n }}">{{ d.difficulte }}</div>
           </div>
-          <div class="doctor-diff diff-{{ d.difficulte_n }}">{{ d.difficulte }}</div>
+          {% endfor %}
         </div>
-        {% endfor %}
+      </div>
+      <div id="pharmacistCards" style="display:none">
+        <span class="setup-label">Choisir le pharmacien</span>
+        <div class="doctor-cards">
+          {% for p in pharmacists %}
+          <div class="doctor-card" data-id="{{ p.id }}" onclick="selectInterlocutor('{{ p.id }}')">
+            <div class="doctor-avatar">{{ p.avatar }}</div>
+            <div class="doctor-info">
+              <div class="doctor-name">{{ p.nom }}</div>
+              <div class="doctor-spec">{{ p.specialite }} · {{ p.ville }}</div>
+              <div style="font-size:9px;color:rgba(184,168,136,.5);margin-top:1px">{{ p.description_ui }}</div>
+            </div>
+            <div class="doctor-diff diff-{{ p.difficulte_n }}">{{ p.difficulte }}</div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="setup-section">
+      <div class="generaliste-toggle" id="generalisteToggle" onclick="toggleGeneraliste()">
+        <div class="gen-toggle-switch" id="genSwitch"><div class="gen-toggle-knob"></div></div>
+        <div class="gen-toggle-text">
+          <div class="gen-toggle-label">Mode généraliste</div>
+          <div class="gen-toggle-sub">Entraînement sans produit spécifique</div>
+        </div>
+      </div>
+      <div class="setup-section" id="productSection">
         <span class="setup-label">Produit VITAL SA</span>
         <div class="product-cards">
           {% for p in products %}
@@ -332,11 +455,13 @@
       </div>
     </div>
   </div>
-  <button class="start-btn" id="startBtn" onclick="startSim()" disabled>▶ Commencer la visite médicale</button>
+  <button class="start-btn" id="startBtn" onclick="startSim()" disabled>&#9658; Commencer la visite médicale</button>
   <div id="setupLoading" style="display:none;text-align:center;padding:16px;color:var(--or);font-family:'DM Mono',monospace;font-size:11px;">
     <span class="spinner" style="border-color:rgba(200,150,12,.3);border-top-color:var(--or)"></span>&nbsp;Initialisation RAG + NLP…
   </div>
 </div>
+
+
 
 <!-- SIMULATION -->
 <div id="simScreen">
@@ -355,6 +480,7 @@
       <div class="doctor-info-panel">
         <div class="dr-name" id="simDrName">Dr. —</div>
         <div class="dr-spec-small" id="simDrSpec">—</div>
+        <div style="text-align:center;margin-top:4px"><span class="interlocutor-type-badge badge-doctor" id="simInterlocutorBadge">Médecin</span></div>
         <div class="openness-label">Ouverture médecin</div>
         <div class="openness-track" id="opennessPips">
           <div class="openness-pip"></div><div class="openness-pip"></div>
@@ -798,6 +924,8 @@ function _showDecisionBanner(decision){
 // STATE
 // ════════════════════════════════════════════════════════════════════
 let selDoc=null,selProd=null,selNiv='Junior';
+let selInterlocutorType='doctor';
+let modeGeneraliste=false;
 let openness=2.0,turn=0;
 let dashInterval=null,lstmInterval=null,lstmRetryCount=0;
 const MAX_T=8;
@@ -806,13 +934,134 @@ const STEPS=[{n:1,l:'Permission'},{n:2,l:'Sondage'},{n:3,l:'Synthèse'},
 let stepsOk=new Set(),nlpHistory=[],ringCtx=null;
 
 // ════════════════════════════════════════════════════════════════════
+// QCM PRÉ-FORMATION
+// ════════════════════════════════════════════════════════════════════
+const qcmAnswers={};let qcmAnsweredCount=0;
+let QCM_TOTAL=0;
+let qcmQuestionIds=[];
+
+document.addEventListener('DOMContentLoaded',()=>{
+  selectNiveau('Junior');
+  initRingCanvas();
+  loadQcmQuestions();
+});
+
+async function loadQcmQuestions(){
+  try{
+    const res=await fetch('/simulator/qcm/questions/');
+    const d=await res.json();
+    if(!d.ok)throw new Error('Erreur chargement QCM');
+    const questions=d.questions;
+    QCM_TOTAL=questions.length;
+    qcmQuestionIds=questions.map(q=>q.id);
+    document.getElementById('qcmProgLbl').textContent=`0 / ${QCM_TOTAL}`;
+    const container=document.getElementById('qcmQuestions');
+    container.innerHTML='';
+    const letters='ABCDEFGHIJ';
+    questions.forEach((q,idx)=>{
+      const card=document.createElement('div');
+      card.className='qcm-card';
+      card.id='qcard-'+q.id;
+      card.dataset.qid=q.id;
+      card.dataset.correct=q.correct;
+      let optsHtml='';
+      q.options.forEach((opt,oi)=>{
+        optsHtml+=`<div class="qcm-opt" data-qid="${q.id}" data-idx="${oi}" onclick="selectQcmAnswer('${q.id}',${oi},this)"><div class="qcm-opt-letter">${letters[oi]||oi}</div><span>${esc(opt)}</span></div>`;
+      });
+      card.innerHTML=`<div class="qcm-q-num">Question ${idx+1} / ${QCM_TOTAL}</div><div class="qcm-q-text">${esc(q.question)}</div><div class="qcm-options">${optsHtml}</div><div class="qcm-expl" id="qexpl-${q.id}">\u{1F4A1} ${esc(q.explication)}</div>`;
+      container.appendChild(card);
+    });
+  }catch(e){
+    document.getElementById('qcmQuestions').innerHTML='<div style="text-align:center;padding:20px;color:#E06060">Erreur chargement des questions. <button class="qcm-btn qcm-btn-skip" onclick="loadQcmQuestions()" style="margin-top:8px">Réessayer</button></div>';
+  }
+}
+function selectQcmAnswer(qid,idx,el){
+  document.querySelectorAll('.qcm-opt[data-qid="'+qid+'"]').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  const wasNew=qcmAnswers[qid]===undefined;
+  qcmAnswers[qid]=idx;
+  if(wasNew){
+    qcmAnsweredCount++;
+    document.getElementById('qcard-'+qid).classList.add('answered');
+    const pct=Math.round(qcmAnsweredCount/QCM_TOTAL*100);
+    document.getElementById('qcmProgFill').style.width=pct+'%';
+    document.getElementById('qcmProgLbl').textContent=qcmAnsweredCount+' / '+QCM_TOTAL;
+  }
+  document.getElementById('qcmSubmitBtn').disabled=(qcmAnsweredCount<QCM_TOTAL);
+}
+async function submitQcm(){
+  const btn=document.getElementById('qcmSubmitBtn');
+  btn.disabled=true;btn.textContent='Évaluation…';
+  try{
+    const res=await fetch('/simulator/qcm/',{method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+      body:JSON.stringify({answers:qcmAnswers,question_ids:qcmQuestionIds})});
+    const d=await res.json();if(!d.ok)throw new Error(d.error);
+    d.details.forEach(det=>{
+      document.querySelectorAll('.qcm-opt[data-qid="'+det.id+'"]').forEach(opt=>{
+        const idx=parseInt(opt.dataset.idx);
+        if(idx===det.correct)opt.classList.add('correct');
+        else if(idx===det.user_answer&&!det.is_correct)opt.classList.add('wrong');
+        opt.style.pointerEvents='none';
+      });
+      const expl=document.getElementById('qexpl-'+det.id);if(expl)expl.classList.add('show');
+    });
+    document.getElementById('qcmActions').style.display='none';
+    document.getElementById('qcmResult').style.display='block';
+    const sc=document.getElementById('qcmScoreDisplay');
+    sc.textContent=d.score_pct+'%';sc.className='qcm-result-score '+(d.passed?'pass':'fail');
+    document.getElementById('qcmResultLabel').textContent=d.passed?'✅ Test réussi':'❌ Test non réussi';
+    document.getElementById('qcmNiveauRecommande').textContent='Niveau recommandé : '+d.niveau_recommande;
+    document.getElementById('qcmCorrectCount').textContent=d.correct;
+    document.getElementById('qcmTotalCount').textContent=d.total;
+    document.getElementById('qcmResultMsg').textContent=d.passed
+      ?'Votre niveau a été ajusté automatiquement.'
+      :'Vous pouvez continuer mais révisez les bases de la méthode VITAL.';
+    selNiv=d.niveau_recommande;
+    document.getElementById('qcmResult').scrollIntoView({behavior:'smooth'});
+  }catch(e){btn.disabled=false;btn.textContent='Valider mes réponses';alert('Erreur: '+e.message);}
+}
+function goToSetup(){
+  document.getElementById('qcmScreen').style.display='none';
+  document.getElementById('setupScreen').style.display='';
+  selectNiveau(selNiv);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// ONGLETS MÉDECIN / PHARMACIEN + MODE GÉNÉRALISTE
+// ════════════════════════════════════════════════════════════════════
+function switchInterlocutorTab(type){
+  selInterlocutorType=type;selDoc=null;
+  document.querySelectorAll('.doctor-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('tab-doctor').classList.toggle('active',type==='doctor');
+  document.getElementById('tab-pharmacist').classList.toggle('active',type==='pharmacist');
+  document.getElementById('doctorCards').style.display=type==='doctor'?'':'none';
+  document.getElementById('pharmacistCards').style.display=type==='pharmacist'?'':'none';
+  chk();
+}
+function selectInterlocutor(id){
+  selDoc=id;
+  document.querySelectorAll('.doctor-card').forEach(c=>c.classList.toggle('selected',c.dataset.id===id));
+  chk();
+}
+function toggleGeneraliste(){
+  modeGeneraliste=!modeGeneraliste;
+  document.getElementById('genSwitch').classList.toggle('on',modeGeneraliste);
+  document.getElementById('generalisteToggle').classList.toggle('active',modeGeneraliste);
+  const ps=document.getElementById('productSection');
+  ps.style.opacity=modeGeneraliste?'0.4':'1';
+  ps.style.pointerEvents=modeGeneraliste?'none':'auto';
+  if(modeGeneraliste){selProd='generique';}
+  else{selProd=null;document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected'));}
+  chk();
+}
+
+// ════════════════════════════════════════════════════════════════════
 // SETUP
 // ════════════════════════════════════════════════════════════════════
-function selectDoctor(id){selDoc=id;document.querySelectorAll('.doctor-card').forEach(c=>c.classList.toggle('selected',c.dataset.id===id));chk()}
 function selectProduct(id){selProd=id;document.querySelectorAll('.product-card').forEach(c=>c.classList.toggle('selected',c.dataset.id===id));chk()}
 function selectNiveau(n){selNiv=n;document.querySelectorAll('.niveau-opt').forEach(o=>o.classList.toggle('selected',o.dataset.n===n))}
 function chk(){document.getElementById('startBtn').disabled=!(selDoc&&selProd)}
-document.addEventListener('DOMContentLoaded',()=>{selectNiveau('Junior');initRingCanvas()});
 
 // ════════════════════════════════════════════════════════════════════
 // SCORE RING
@@ -871,7 +1120,7 @@ async function startSim(){
   try{
     const res=await fetch('/simulator/start/',{method:'POST',
       headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
-      body:JSON.stringify({doctor_id:selDoc,product_id:selProd,niveau_alia:selNiv})});
+      body:JSON.stringify({doctor_id:selDoc,interlocutor_id:selDoc,product_id:selProd,niveau_alia:selNiv,mode_generaliste:modeGeneraliste})});
     const d=await res.json();if(!d.ok)throw new Error(d.error);
     const dr=d.doctor,pr=d.product;
     document.getElementById('simDrName').textContent=dr.nom;
@@ -879,6 +1128,8 @@ async function startSim(){
     document.getElementById('chatTitle').textContent=`Visite — ${dr.nom}`;
     document.getElementById('chatSub').textContent=`${dr.specialite} · ${dr.difficulte}`;
     document.getElementById('chatProduct').textContent=pr.nom;
+    const badge=document.getElementById('simInterlocutorBadge');
+    if(badge){const t=d.interlocutor_type||'Médecin';badge.textContent=t;badge.className='interlocutor-type-badge '+(t==='Pharmacien'?'badge-pharmacist':'badge-doctor');}
     document.getElementById('turnMax').textContent=MAX_T;
     buildSteps();updateOpenness(dr.ouverture_initiale||2);
     document.getElementById('setupScreen').style.display='none';
@@ -917,6 +1168,7 @@ async function sendMessage(){
     const meta=d.score?`${d.score}/10 · ${d.quality}`:null;
     appendMsg('doctor',d.message,'👨‍⚕️',meta,d.engine);
     _playSimTts(d.message).catch(()=>{});
+    if(d.suggestion)appendSuggestion(d.suggestion);
     if(d.final_decision)_showDecisionBanner(d.final_decision);
     if(d.is_finished)setTimeout(()=>{stopCam();showReport()},2200);
   }catch(e){
@@ -1188,12 +1440,24 @@ async function resetSim(){
   document.querySelectorAll('.doctor-card').forEach(c=>c.classList.remove('selected'));
   document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected'));
   document.getElementById('startBtn').disabled=true;
+  modeGeneraliste=false;selProd=null;
+  const sw=document.getElementById('genSwitch');if(sw)sw.classList.remove('on');
+  const tog=document.getElementById('generalisteToggle');if(tog)tog.classList.remove('active');
+  const ps=document.getElementById('productSection');if(ps){ps.style.opacity='1';ps.style.pointerEvents='auto';}
+  switchInterlocutorTab('doctor');
   initRingCanvas();
 }
 
 // ════════════════════════════════════════════════════════════════════
 // UI HELPERS
 // ════════════════════════════════════════════════════════════════════
+function appendSuggestion(text){
+  if(!text)return;
+  const c=document.getElementById('chatMessages');
+  const el=document.createElement('div');el.className='msg-suggestion';
+  el.innerHTML='<div class="msg-suggestion-label">Suggestion ALIA</div>'+esc(text);
+  c.appendChild(el);c.scrollTop=c.scrollHeight;
+}
 function appendMsg(role,txt,av,meta,eng){
   const c=document.getElementById('chatMessages');
   const r=document.createElement('div');r.className=`msg-row ${role}`;

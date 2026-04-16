@@ -13,10 +13,13 @@ urlpatterns = [
     path('stream/',       views.sim_body_stream,    name='stream'),
     path('body-status/',  views.sim_body_status,    name='body_status'),
     path('body-control/', views.sim_body_control,   name='body_control'),
+    # QCM pré-formation (Bloc 1)
+    path('qcm/',          views.submit_qcm,         name='qcm'),
+    path('qcm/questions/',views.get_qcm_questions,   name='qcm_questions'),
     # Replay
     path('replay/',       views.replay_data,        name='replay_data'),
     path('replay/view/',  views.replay_page,        name='replay_page'),
-    # STT / TTS — Speech (partagé avec modeling/handlers.py)
+    # STT / TTS — Speech
     path('stt/',          views.sim_stt,            name='stt'),
     path('tts/',          views.sim_tts,            name='tts'),
 ]

@@ -1,5 +1,6 @@
 """
 Simulator Views — Intégrées avec SessionState.
+v2 — Bloc 1 : pharmaciens, QCM, suggestions, mode généraliste
 """
 import json
 import time as _time
@@ -8,10 +9,14 @@ from django.shortcuts   import render
 from django.http        import JsonResponse, StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-
-from .profiles import DOCTOR_PROFILES, VITAL_PRODUCTS
-from .engine   import SimulationSession
 from django.contrib.auth.decorators import login_required
+
+from .profiles import (
+    DOCTOR_PROFILES, PHARMACIST_PROFILES, VITAL_PRODUCTS,
+    QCM_QUESTIONS, QCM_SEUIL_PASSAGE, get_generic_product,
+    get_random_qcm, QCM_NB_QUESTIONS,
+)
+from .engine   import SimulationSession
 
 SESSION_KEY = 'alia_sim_session'
 
@@ -22,13 +27,121 @@ SESSION_KEY = 'alia_sim_session'
 
 @login_required
 def simulator_index(request):
+    # Produits sans le produit généraliste (affiché séparément)
+    products_display = [p for p in VITAL_PRODUCTS if not p.get('_is_generic')]
     context = {
-        'page'    : 'simulator',
-        'doctors' : DOCTOR_PROFILES,
-        'products': VITAL_PRODUCTS,
-        'niveaux' : ['Débutant', 'Junior', 'Confirmé', 'Expert'],
+        'page'        : 'simulator',
+        'doctors'     : DOCTOR_PROFILES,
+        'pharmacists' : PHARMACIST_PROFILES,
+        'products'    : products_display,
+        'niveaux'     : ['Débutant', 'Junior', 'Confirmé', 'Expert'],
+        'qcm_seuil'   : QCM_SEUIL_PASSAGE,
+        'qcm_nb'      : QCM_NB_QUESTIONS,
     }
     return render(request, 'simulator/index.html', context)
+
+
+# ══════════════════════════════════════════════════════════════════════
+# QCM — Validation du niveau pré-formation
+# ══════════════════════════════════════════════════════════════════════
+
+@require_http_methods(["GET"])
+def get_qcm_questions(request):
+    """
+    GET /simulator/qcm/questions/
+    Retourne un jeu de questions aléatoires pour le QCM.
+    Chaque rechargement donne des questions différentes.
+    """
+    questions = get_random_qcm()
+    return JsonResponse({
+        'ok': True,
+        'questions': questions,
+        'total': len(questions),
+        'seuil': QCM_SEUIL_PASSAGE,
+    })
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def submit_qcm(request):
+    """
+    POST /simulator/qcm/
+    Body : { "answers": { "q1": 1, "q2": 0, ... } }
+    Retourne : { ok, score_pct, passed, details, niveau_recommande }
+    """
+    try:
+        data    = json.loads(request.body)
+        answers = data.get('answers', {})
+        qids    = data.get('question_ids', [])  # IDs des questions présentées
+
+        if not answers:
+            return JsonResponse({'ok': False, 'error': 'Aucune réponse soumise.'}, status=400)
+
+        # Construire la map de questions par id
+        q_map = {q['id']: q for q in QCM_QUESTIONS}
+
+        # Utiliser les question_ids envoyés par le frontend, sinon les clés de answers
+        presented_ids = qids if qids else list(answers.keys())
+        presented_questions = [q_map[qid] for qid in presented_ids if qid in q_map]
+
+        if not presented_questions:
+            return JsonResponse({'ok': False, 'error': 'Questions invalides.'}, status=400)
+
+        total   = len(presented_questions)
+        correct = 0
+        details = []
+
+        for q in presented_questions:
+            qid         = q['id']
+            user_answer = answers.get(qid)
+            is_correct  = (user_answer == q['correct'])
+            if is_correct:
+                correct += 1
+            details.append({
+                'id'          : qid,
+                'question'    : q['question'],
+                'user_answer' : user_answer,
+                'correct'     : q['correct'],
+                'is_correct'  : is_correct,
+                'explication' : q['explication'],
+            })
+
+        score_pct = round(correct / total * 100)
+        passed    = score_pct >= QCM_SEUIL_PASSAGE
+
+        # Niveau recommandé selon le score
+        if score_pct >= 85:
+            niveau_recommande = 'Expert'
+        elif score_pct >= 70:
+            niveau_recommande = 'Confirmé'
+        elif score_pct >= QCM_SEUIL_PASSAGE:
+            niveau_recommande = 'Junior'
+        else:
+            niveau_recommande = 'Débutant'
+
+        # Sauvegarder le résultat QCM en session
+        request.session['qcm_result'] = {
+            'score_pct'        : score_pct,
+            'passed'           : passed,
+            'niveau_recommande': niveau_recommande,
+            'correct'          : correct,
+            'total'            : total,
+        }
+        request.session.modified = True
+
+        return JsonResponse({
+            'ok'               : True,
+            'score_pct'        : score_pct,
+            'correct'          : correct,
+            'total'            : total,
+            'passed'           : passed,
+            'niveau_recommande': niveau_recommande,
+            'details'          : details,
+            'seuil'            : QCM_SEUIL_PASSAGE,
+        })
+
+    except Exception as e:
+        return JsonResponse({'ok': False, 'error': str(e)}, status=500)
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -39,18 +152,30 @@ def simulator_index(request):
 @require_http_methods(["POST"])
 def start_simulation(request):
     try:
-        data       = json.loads(request.body)
-        session    = SimulationSession(
-            data.get('doctor_id',   'sceptique'),
-            data.get('product_id',  'ferrimax'),
-            data.get('niveau_alia', 'Junior'),
-        )
-        first = session.first_message()
+        data             = json.loads(request.body)
+        interlocutor_id  = data.get('doctor_id') or data.get('interlocutor_id', 'sceptique')
+        product_id       = data.get('product_id', 'ferrimax')
+        niveau_alia      = data.get('niveau_alia', 'Junior')
+        mode_generaliste = data.get('mode_generaliste', False)
+
+        # Mode généraliste : utiliser le produit fictif générique
+        if mode_generaliste:
+            product_id = 'generique'
+
+        session = SimulationSession(interlocutor_id, product_id, niveau_alia)
+        first   = session.first_message()
+
         request.session[SESSION_KEY] = session.to_dict()
         request.session.modified     = True
-        return JsonResponse({'ok': True, 'first': first,
-                             'doctor': session.doctor,
-                             'product': session.product})
+
+        return JsonResponse({
+            'ok'              : True,
+            'first'           : first,
+            'doctor'          : session.interlocutor,   # compat frontend
+            'interlocutor'    : session.interlocutor,
+            'interlocutor_type': session._label,
+            'product'         : session.product,
+        })
     except Exception as e:
         return JsonResponse({'ok': False, 'error': str(e)}, status=500)
 
@@ -108,15 +233,9 @@ def reset_simulation(request):
 
 @require_http_methods(["GET"])
 def dashboard_data(request):
-    """
-    GET /simulator/dashboard/
-    Retourne toutes les données du SessionState pour le dashboard unifié.
-    Appelé toutes les 500ms par le frontend pendant la simulation.
-    """
     session_data = request.session.get(SESSION_KEY)
     if not session_data:
         return JsonResponse({'ok': False, 'active': False})
-
     try:
         session = SimulationSession.from_dict(session_data)
         data    = session.state.dashboard_data()
@@ -154,21 +273,13 @@ def sim_body_stream(request):
 
 @require_http_methods(["GET"])
 def sim_body_status(request):
-    """
-    GET /simulator/body-status/
-    Retourne les scores LSTM ET les pousse dans SessionState.
-    C'est le point d'intégration LSTM → SessionState.
-    Expose également les erreurs caméra pour le heartbeat frontend.
-    """
     from apps.avatar.camera import CameraStream
     stream = CameraStream.get_instance()
     scores = stream.get_latest_scores()
 
-    # ── Si le stream s'est arrêté, indiquer l'erreur au frontend ────
     if not stream.is_running and not scores.get('error'):
         scores['error'] = 'Stream webcam arrêté.'
 
-    # ── Push LSTM → SessionState si session active ──────────────────
     session_data = request.session.get(SESSION_KEY)
     if session_data and scores.get('active'):
         try:
@@ -183,7 +294,7 @@ def sim_body_status(request):
             request.session[SESSION_KEY] = session.to_dict()
             request.session.modified     = True
         except Exception:
-            pass  # Ne jamais bloquer le stream LSTM
+            pass
 
     return JsonResponse(scores)
 
@@ -191,7 +302,6 @@ def sim_body_status(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def sim_body_control(request):
-    """POST /simulator/body-control/ — {action: 'start'|'stop'}."""
     from apps.avatar.camera import CameraStream
     try:
         data   = json.loads(request.body)
@@ -207,193 +317,130 @@ def sim_body_control(request):
 
 
 # ══════════════════════════════════════════════════════════════════════
-# REPLAY — données complètes pour la timeline interactive
+# REPLAY
 # ══════════════════════════════════════════════════════════════════════
 
 @require_http_methods(["GET"])
 def replay_data(request):
-    """
-    GET /simulator/replay/
-    Retourne toutes les données nécessaires pour reconstruire
-    la timeline interactive de la visite tour par tour.
-    """
     session_data = request.session.get(SESSION_KEY)
     if not session_data:
         return JsonResponse({'ok': False, 'error': 'Aucune session à rejouer.'}, status=400)
-
     try:
         session = SimulationSession.from_dict(session_data)
         state   = session.state
+        history     = session.history
+        nlp_turns   = state.nlp_turns
+        rag_hits    = state.rag_hits
+        openness_tl = state.openness_timeline
+        events_all  = state.events
 
-        # ── Reconstruire la timeline tour par tour ─────────────────
-        # history = alternance assistant / user / assistant / user ...
-        # On aligne : history[0] = message d'ouverture médecin (turn 0)
-        # puis par paires : history[2i-1] = délégué turn i
-        #                   history[2i]   = médecin turn i
-
-        history      = session.history         # [{"role","content"}]
-        nlp_turns    = state.nlp_turns         # [{turn,score,quality,acrv,conformite}]
-        rag_hits     = state.rag_hits           # [{turn,product,context_used,engine}]
-        openness_tl  = state.openness_timeline  # [float] par tour
-        events_all   = state.events             # [{msg,type,ts}]
-
-        # Construire un index RAG par tour
-        rag_by_turn = {}
-        for h in rag_hits:
-            rag_by_turn[h['turn']] = h
-
-        # Construire un index NLP par tour
+        rag_by_turn = {h['turn']: h for h in rag_hits}
         nlp_by_turn = {t['turn']: t for t in nlp_turns}
+        turns_data  = []
 
-        # Reconstruire les moments de la timeline
-        turns_data = []
-
-        # Tour 0 — accueil médecin (pas d'évaluation NLP)
         if history:
             turns_data.append({
-                'turn'       : 0,
-                'type'       : 'opening',
-                'doctor_msg' : history[0]['content'],
-                'delegate_msg': None,
-                'score'      : None,
-                'quality'    : None,
-                'acrv'       : None,
-                'conformite' : None,
-                'openness'   : session.doctor.get('ouverture_initiale', 2),
-                'delta_open' : 0,
-                'step'       : None,
-                'engine'     : rag_by_turn.get(0, {}).get('engine', '—'),
-                'rag_used'   : rag_by_turn.get(0, {}).get('context_used', False),
+                'turn': 0, 'type': 'opening',
+                'doctor_msg': history[0]['content'], 'delegate_msg': None,
+                'score': None, 'quality': None, 'acrv': None, 'conformite': None,
+                'openness': session.interlocutor.get('ouverture_initiale', 2),
+                'delta_open': 0, 'step': None,
+                'engine': rag_by_turn.get(0, {}).get('engine', '—'),
+                'rag_used': rag_by_turn.get(0, {}).get('context_used', False),
             })
 
-        # Tours 1..N
         for turn_num in range(1, session.turn + 1):
-            # Index dans history : délégué à 2*turn_num - 1, médecin à 2*turn_num
             del_idx = 2 * turn_num - 1
             doc_idx = 2 * turn_num
-
             delegate_msg = history[del_idx]['content'] if del_idx < len(history) else ''
             doctor_msg   = history[doc_idx]['content'] if doc_idx < len(history) else ''
-
             nlp  = nlp_by_turn.get(turn_num, {})
             rag  = rag_by_turn.get(turn_num, {})
-            open_val = openness_tl[turn_num - 1] if turn_num - 1 < len(openness_tl) else None
-            open_prev= openness_tl[turn_num - 2] if turn_num >= 2 and turn_num - 2 < len(openness_tl) else None
-            delta    = round(open_val - open_prev, 2) if open_val is not None and open_prev is not None else 0
-
-            # Étape VM détectée à ce tour
-            step = session.step_history[turn_num - 1] if turn_num - 1 < len(session.step_history) else None
+            open_val  = openness_tl[turn_num - 1] if turn_num - 1 < len(openness_tl) else None
+            open_prev = openness_tl[turn_num - 2] if turn_num >= 2 and turn_num - 2 < len(openness_tl) else None
+            delta = round(open_val - open_prev, 2) if open_val is not None and open_prev is not None else 0
+            step  = session.step_history[turn_num - 1] if turn_num - 1 < len(session.step_history) else None
 
             turns_data.append({
-                'turn'        : turn_num,
-                'type'        : 'turn',
-                'doctor_msg'  : doctor_msg,
-                'delegate_msg': delegate_msg,
-                'score'       : nlp.get('score'),
-                'quality'     : nlp.get('quality'),
-                'acrv'        : nlp.get('acrv'),
-                'conformite'  : nlp.get('conformite'),
-                'openness'    : open_val,
-                'delta_open'  : delta,
-                'step'        : step,
-                'engine'      : rag.get('engine', '—'),
-                'rag_used'    : rag.get('context_used', False),
+                'turn': turn_num, 'type': 'turn',
+                'doctor_msg': doctor_msg, 'delegate_msg': delegate_msg,
+                'score': nlp.get('score'), 'quality': nlp.get('quality'),
+                'acrv': nlp.get('acrv'), 'conformite': nlp.get('conformite'),
+                'openness': open_val, 'delta_open': delta, 'step': step,
+                'engine': rag.get('engine', '—'),
+                'rag_used': rag.get('context_used', False),
             })
 
-        # Moments clés : score le plus haut, le plus bas, mot tueur
         scores_only = [t['score'] for t in turns_data if t['score'] is not None]
         best_turn   = max(turns_data, key=lambda t: t['score'] or 0, default=None)
         worst_turn  = min(turns_data, key=lambda t: t['score'] or 10, default=None)
         tueur_turns = [t['turn'] for t in turns_data if t.get('conformite') is False]
 
         return JsonResponse({
-            'ok'          : True,
-            'turns'       : turns_data,
-            'total_turns' : session.turn,
-            'doctor'      : session.doctor,
-            'product'     : session.product,
+            'ok': True, 'turns': turns_data,
+            'total_turns': session.turn,
+            'doctor': session.interlocutor,
+            'interlocutor': session.interlocutor,
+            'interlocutor_type': session._label,
+            'product': session.product,
             'global_score': state.global_score,
             'global_niveau': state.global_niveau,
             'openness_final': round(session.openness, 1),
             'openness_timeline': openness_tl,
-            'events'      : events_all,
-            'highlights'  : {
-                'best_turn'  : best_turn['turn'] if best_turn else None,
-                'worst_turn' : worst_turn['turn'] if worst_turn else None,
+            'events': events_all,
+            'highlights': {
+                'best_turn': best_turn['turn'] if best_turn else None,
+                'worst_turn': worst_turn['turn'] if worst_turn else None,
                 'tueur_turns': tueur_turns,
-                'max_score'  : max(scores_only) if scores_only else 0,
-                'min_score'  : min(scores_only) if scores_only else 0,
+                'max_score': max(scores_only) if scores_only else 0,
+                'min_score': min(scores_only) if scores_only else 0,
             },
         })
-
     except Exception as e:
         return JsonResponse({'ok': False, 'error': str(e)}, status=500)
 
 
 def replay_page(request):
-    """GET /simulator/replay/view — page HTML du replay."""
     return render(request, 'simulator/replay.html', {'page': 'simulator'})
 
+
 # ══════════════════════════════════════════════════════════════════════
-# STT — Speech-to-Text (Whisper, partagé avec modeling)
+# STT / TTS — Speech (partagé avec modeling)
 # ══════════════════════════════════════════════════════════════════════
 
 @csrf_exempt
 @require_http_methods(["POST"])
 def sim_stt(request):
-    """
-    POST /simulator/stt/
-    Reçoit un fichier audio (FormData champ "audio"), 
-    transcrit via Whisper et retourne le texte.
-    Réutilise le même pipeline que apps/modeling/handlers.py.
-    """
     import asyncio
     from apps.modeling.handlers import listen_json
-
     audio_file = request.FILES.get("audio")
     if not audio_file:
         return JsonResponse({"error": "Fichier audio manquant."}, status=400)
     try:
-        audio_bytes = audio_file.read()
-        data = asyncio.run(listen_json(audio_bytes))
+        data = asyncio.run(listen_json(audio_file.read()))
         return JsonResponse(data)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 
 
-# ══════════════════════════════════════════════════════════════════════
-# TTS — Text-to-Speech (edge-tts, partagé avec modeling)
-# ══════════════════════════════════════════════════════════════════════
-
 @csrf_exempt
 @require_http_methods(["POST"])
 def sim_tts(request):
-    """
-    POST /simulator/tts/
-    Reçoit {"text": "..."}, synthétise via edge-tts et retourne {"audio_url": "..."}.
-    Le fichier audio est sauvegardé dans MODELING_AUDIO_DIR (même dossier que modeling).
-    """
-    import asyncio
-    import uuid
+    import asyncio, uuid
     from pathlib import Path
     from django.conf import settings
     from apps.modeling.handlers import _synthesize_to_file, clean_for_tts, api_prefix
-
     try:
         body = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({"error": "JSON invalide."}, status=400)
-
     text = body.get("text", "").strip()
     if not text:
         return JsonResponse({"error": "Texte vide."}, status=400)
-
     try:
-        speech_text = clean_for_tts(text)
-        filename    = f"sim_{uuid.uuid4()}.mp3"
-        path        = Path(settings.MODELING_AUDIO_DIR) / filename
-        asyncio.run(_synthesize_to_file(speech_text, path))
-        prefix = api_prefix()
-        return JsonResponse({"audio_url": f"{prefix}/static/audio/{filename}"})
+        filename = f"sim_{uuid.uuid4()}.mp3"
+        path     = Path(settings.MODELING_AUDIO_DIR) / filename
+        asyncio.run(_synthesize_to_file(clean_for_tts(text), path))
+        return JsonResponse({"audio_url": f"{api_prefix()}/static/audio/{filename}"})
     except Exception as e:
         return JsonResponse({"error": str(e), "audio_url": None}, status=500)
