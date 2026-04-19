@@ -1,0 +1,56 @@
+{% extends "crm/base.html" %}
+{% block crm_title %}Zones — CRM Vitale{% endblock %}
+{% block nav_zones %}active{% endblock %}
+
+{% block crm_content %}
+<div class="crm-page-header">
+    <h1>🗺️ Geographic Zones</h1>
+    <p>Revenue performance analysis by zone across Tunisia</p>
+    <a href="{% url 'crm:overview_pdf' %}" class="crm-pdf-btn">
+        🤖 Generate AI PDF Report
+    </a>
+</div>
+
+<div class="crm-kpi-grid">
+    <div class="crm-kpi-card kpi-blue">
+        <span class="crm-kpi-icon">🥇</span>
+        <span class="crm-kpi-value">{{ top_zone }}</span>
+        <span class="crm-kpi-label">Top Zone</span>
+        <span class="crm-kpi-delta">{{ top_zone_ca }} TND</span>
+    </div>
+    <div class="crm-kpi-card kpi-green">
+        <span class="crm-kpi-icon">📊</span>
+        <span class="crm-kpi-value">{{ top_zone_pct }}%</span>
+        <span class="crm-kpi-label">Top Zone Share</span>
+        <span class="crm-kpi-delta">Of total revenue</span>
+    </div>
+    <div class="crm-kpi-card kpi-orange">
+        <span class="crm-kpi-icon">🗺️</span>
+        <span class="crm-kpi-value">{{ nb_zones }}</span>
+        <span class="crm-kpi-label">Active Zones</span>
+        <span class="crm-kpi-delta">Covered nationally</span>
+    </div>
+    <div class="crm-kpi-card kpi-purple">
+        <span class="crm-kpi-icon">📍</span>
+        <span class="crm-kpi-value">76</span>
+        <span class="crm-kpi-label">Total Tunisia Zones</span>
+        <span class="crm-kpi-delta">Full coverage map</span>
+    </div>
+</div>
+
+<div class="crm-section-header">
+    <span class="crm-section-title">🏆 Zone Rankings</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-grid-2">
+    <div class="crm-chart-card">{{ chart1|safe }}</div>
+    <div class="crm-chart-card">{{ chart2|safe }}</div>
+</div>
+
+<div class="crm-section-header">
+    <span class="crm-section-title">📈 Revenue Evolution — Top 5 Zones</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-full crm-chart-card">{{ chart3|safe }}</div>
+
+{% endblock %}

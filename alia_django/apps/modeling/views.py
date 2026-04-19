@@ -36,8 +36,30 @@ def ask_alia_view(request):
     except json.JSONDecodeError:
         return JsonResponse({"detail": "Invalid JSON"}, status=400)
     text = body.get("text", "")
+    lang = body.get("lang", "fr")
+    
+    text_lower = text.lower()
+    import re
+    if re.search(r'[\u0600-\u06FF]', text_lower):
+        lang = 'ar'
+    else:
+        words = set(re.findall(r'\b\w+\b', text_lower))
+        en_words = {'the', 'is', 'are', 'you', 'and', 'to', 'of', 'in', 'hello', 'doctor', 'i', 'my', 'yes', 'no', 'what', 'how', 'good', 'morning'}
+        es_words = {'el', 'la', 'los', 'las', 'de', 'que', 'en', 'un', 'una', 'hola', 'como', 'para', 'sí', 'no', 'bien', 'buenos', 'días', 'doctor', 'usted'}
+        fr_words = {'le', 'la', 'les', 'des', 'un', 'une', 'bonjour', 'est', 'et', 'pour', 'oui', 'non', 'comment', 'bien', 'docteur', 'vous', 'avec'}
+        
+        score_en = len(words.intersection(en_words))
+        score_es = len(words.intersection(es_words))
+        score_fr = len(words.intersection(fr_words))
+        
+        if score_en > score_es and score_en > score_fr:
+            lang = 'en'
+        elif score_es > score_en and score_es > score_fr:
+            lang = 'es'
+        elif score_fr > score_en and score_fr > score_es:
+            lang = 'fr'
     try:
-        data = asyncio.run(ask_alia_json(text))
+        data = asyncio.run(ask_alia_json(text, lang=lang))
         return JsonResponse(data)
     except Exception as e:
         traceback.print_exc()

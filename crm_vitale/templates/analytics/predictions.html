@@ -1,0 +1,62 @@
+{% extends "analytics/base.html" %}
+{% block title %}Predictions — CRM Vitale{% endblock %}
+{% block nav_predictions %}active{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🔮 Revenue Predictions</h1>
+    <p>ML Model — Random Forest & Linear Regression · 2025 & 2026 Forecast</p>
+</div>
+
+{% if model_ready %}
+
+<div class="kpi-grid">
+    <div class="kpi-card kpi-blue">
+        <span class="kpi-icon">🔮</span>
+        <span class="kpi-value">{{ total_2025 }} TND</span>
+        <span class="kpi-label">Predicted Revenue 2025</span>
+        <span class="kpi-delta">ML Forecast</span>
+    </div>
+    <div class="kpi-card kpi-green">
+        <span class="kpi-icon">📈</span>
+        <span class="kpi-value">{{ total_2026 }} TND</span>
+        <span class="kpi-label">Predicted Revenue 2026</span>
+        <span class="kpi-delta">ML Forecast</span>
+    </div>
+    <div class="kpi-card kpi-orange">
+        <span class="kpi-icon">🤖</span>
+        <span class="kpi-value">{{ best_model }}</span>
+        <span class="kpi-label">Best Model</span>
+        <span class="kpi-delta">R² = {{ r2 }}</span>
+    </div>
+    <div class="kpi-card kpi-purple">
+        <span class="kpi-icon">🎯</span>
+        <span class="kpi-value">{{ mae }} TND</span>
+        <span class="kpi-label">Mean Absolute Error</span>
+        <span class="kpi-delta">Model accuracy</span>
+    </div>
+</div>
+
+<div class="section-header">
+    <span class="section-title">📊 Predictions by Zone</span>
+    <div class="section-line"></div>
+</div>
+<div class="chart-full chart-card">{{ chart1|safe }}</div>
+
+<div class="section-header">
+    <span class="section-title">🏆 Top 10 Zones — 2025 Forecast</span>
+    <div class="section-line"></div>
+</div>
+<div class="chart-grid-equal">
+    <div class="chart-card">{{ chart2|safe }}</div>
+    <div class="chart-card">{{ chart3|safe }}</div>
+</div>
+
+{% else %}
+<div class="alert">
+    ⚠️ Model predictions not found. Please run the ML model first:<br><br>
+    <code>python phase4/model_regression.py</code>
+</div>
+{% endif %}
+
+{% endblock %}

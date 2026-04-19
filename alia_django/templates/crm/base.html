@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% block crm_title %}CRM Vitale — ALIA{% endblock %}{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+  /* ══════════════════════════════════════════════════════════
+     CRM VITALE — Dashboard Layout (embedded in ALIA shell)
+     ══════════════════════════════════════════════════════════ */
+
+  /* Override main-content for CRM to be full-bleed with sidebar */
+  .main-content:has(.crm-layout) {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    min-height: 0;
+  }
+
+  /* CRM layout wrapper */
+  .crm-layout {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    min-height: calc(100vh - 64px);
+  }
+
+  /* Hide the global ALIA footer when CRM is active (sidebar has its own) */
+  .main-content:has(.crm-layout) ~ .footer {
+    display: none;
+  }
+
+  /* Ensure Plotly charts respect their container width */
+  .crm-chart-card .js-plotly-plot,
+  .crm-chart-card .plotly {
+    width: 100% !important;
+  }
+
+  /* ── CRM SIDEBAR ── */
+  .crm-sidebar {
+    width: 250px;
+    min-height: calc(100vh - 64px);
+    background: linear-gradient(180deg, #0a1628 0%, #0d1b2a 100%);
+    border-right: 1px solid rgba(0,212,255,0.08);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+
+  .crm-sidebar-logo {
+    padding: 28px 22px 22px;
+    border-bottom: 1px solid rgba(0,212,255,0.08);
+  }
+  .crm-sidebar-logo h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .crm-sidebar-logo h2 .crm-logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #1565C0, #0D47A1);
+    font-size: 18px;
+    box-shadow: 0 0 18px rgba(21,101,192,0.3);
+  }
+  .crm-sidebar-logo p {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .crm-sidebar-nav { padding: 18px 14px; flex: 1; }
+
+  .crm-nav-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.28);
+    padding: 10px 10px 6px;
+    font-weight: 700;
+  }
+
+  .crm-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 3px;
+    transition: all 0.25s cubic-bezier(.23,1,.32,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .crm-nav-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    opacity: 0;
+    background: linear-gradient(135deg, rgba(21,101,192,0.15), rgba(21,101,192,0.05));
+    transition: opacity 0.25s;
+  }
+  .crm-nav-item:hover {
+    color: #fff;
+    transform: translateX(3px);
+  }
+  .crm-nav-item:hover::before { opacity: 1; }
+
+  .crm-nav-item.active {
+    background: linear-gradient(135deg, #1565C0, #0D47A1);
+    color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(21,101,192,0.35);
+  }
+  .crm-nav-item.active::before { display: none; }
+
+  .crm-nav-icon {
+    font-size: 1.05rem;
+    width: 22px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .crm-nav-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .crm-sidebar-footer {
+    padding: 18px 22px;
+    border-top: 1px solid rgba(0,212,255,0.08);
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.22);
+    line-height: 1.5;
+  }
+
+  /* ── CRM MAIN CONTENT ── */
+  .crm-main {
+    flex: 1;
+    padding: 32px 36px;
+    min-height: 0;
+    background: #0F1923;
+    overflow-y: auto;
+    min-width: 0;
+  }
+
+  /* ── CRM PAGE HEADER ── */
+  .crm-page-header {
+    background: linear-gradient(135deg, #1565C0 0%, #0D47A1 60%, #0a3d91 100%);
+    padding: 26px 30px;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .crm-page-header::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .crm-page-header h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Inter', 'Source Sans 3', sans-serif;
+    position: relative;
+    z-index: 1;
+  }
+  .crm-page-header p {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.88rem;
+    margin-top: 5px;
+    position: relative;
+    z-index: 1;
+  }
+  .crm-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.25s;
+    position: relative;
+    z-index: 1;
+  }
+  .crm-pdf-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  /* ── KPI CARDS ── */
+  .crm-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+  .crm-kpi-card {
+    border-radius: 16px;
+    padding: 22px 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .crm-kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .crm-kpi-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 0 0 0 100%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  .kpi-blue    { background: linear-gradient(135deg, #0D47A1, #1565C0); }
+  .kpi-green   { background: linear-gradient(135deg, #1B5E20, #2E7D32); }
+  .kpi-orange  { background: linear-gradient(135deg, #BF360C, #E64A19); }
+  .kpi-purple  { background: linear-gradient(135deg, #4A148C, #6A1B9A); }
+  .kpi-teal    { background: linear-gradient(135deg, #004D40, #00695C); }
+  .kpi-red     { background: linear-gradient(135deg, #B71C1C, #C62828); }
+  .kpi-navy    { background: linear-gradient(135deg, #1A237E, #283593); }
+  .kpi-gold    { background: linear-gradient(135deg, #4E342E, #6D4C41); }
+
+  .crm-kpi-icon  { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+  .crm-kpi-value {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+    font-family: 'Inter', sans-serif;
+  }
+  .crm-kpi-label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.6);
+    display: block;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 600;
+  }
+  .crm-kpi-delta {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.8);
+    display: block;
+    margin-top: 7px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .crm-section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 32px 0 18px;
+  }
+  .crm-section-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #64B5F6;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+  }
+  .crm-section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(100,181,246,0.3), transparent);
+  }
+
+  /* ── CHART GRIDS ── */
+  .crm-chart-grid-2 {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 22px;
+    margin-bottom: 22px;
+  }
+  .crm-chart-grid-equal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-bottom: 22px;
+  }
+  .crm-chart-full { margin-bottom: 22px; }
+
+  .crm-chart-card {
+    background: #1A2744;
+    border-radius: 18px;
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    transition: border-color 0.3s;
+  }
+  .crm-chart-card:hover {
+    border-color: rgba(100,181,246,0.15);
+  }
+
+  /* ── ALERT ── */
+  .crm-alert {
+    background: rgba(25,118,210,0.12);
+    border: 1px solid rgba(25,118,210,0.25);
+    border-radius: 14px;
+    padding: 22px 26px;
+    color: #90CAF9;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .crm-alert code {
+    background: rgba(0,0,0,0.3);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1100px) {
+    .crm-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .crm-chart-grid-2,
+    .crm-chart-grid-equal { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 800px) {
+    .crm-sidebar { display: none; }
+    .crm-main { padding: 20px 16px; }
+    .crm-kpi-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% block crm_extra_css %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+<div class="crm-layout">
+  <!-- CRM SIDEBAR -->
+  <nav class="crm-sidebar">
+    <div class="crm-sidebar-logo">
+      <h2>
+        <span class="crm-logo-icon">💊</span>
+        CRM Vital
+      </h2>
+      <p>Analytics Dashboard</p>
+    </div>
+    <div class="crm-sidebar-nav">
+      <div class="crm-nav-label">Main Menu</div>
+      <a href="{% url 'crm:overview' %}" class="crm-nav-item {% block nav_overview %}{% endblock %}">
+        <span class="crm-nav-icon">📊</span>
+        <span class="crm-nav-text">Overview</span>
+      </a>
+      <a href="{% url 'crm:zones' %}" class="crm-nav-item {% block nav_zones %}{% endblock %}">
+        <span class="crm-nav-icon">🗺️</span>
+        <span class="crm-nav-text">Zones</span>
+      </a>
+      <a href="{% url 'crm:delegates' %}" class="crm-nav-item {% block nav_delegates %}{% endblock %}">
+        <span class="crm-nav-icon">👥</span>
+        <span class="crm-nav-text">Delegates</span>
+      </a>
+      <a href="{% url 'crm:pharmacies' %}" class="crm-nav-item {% block nav_pharmacies %}{% endblock %}">
+        <span class="crm-nav-icon">🏥</span>
+        <span class="crm-nav-text">Pharmacies</span>
+      </a>
+      <div class="crm-nav-label" style="margin-top: 14px;">ML Models</div>
+      <a href="{% url 'crm:predictions' %}" class="crm-nav-item {% block nav_predictions %}{% endblock %}">
+        <span class="crm-nav-icon">🔮</span>
+        <span class="crm-nav-text">Predictions</span>
+      </a>
+    </div>
+    <div class="crm-sidebar-footer">
+      CRM Vital · Tunisia<br>2019 – 2026
+    </div>
+  </nav>
+
+  <!-- CRM MAIN -->
+  <main class="crm-main">
+    {% block crm_content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

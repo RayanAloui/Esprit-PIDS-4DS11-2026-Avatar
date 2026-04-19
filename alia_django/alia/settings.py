@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'apps.analytics',
     'apps.simulator',
     'apps.modeling',
+    'apps.crm',
 ]
 
 MIDDLEWARE = [

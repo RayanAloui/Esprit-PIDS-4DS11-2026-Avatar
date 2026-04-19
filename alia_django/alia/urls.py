@@ -12,4 +12,5 @@ urlpatterns = [
     path('routes/',      include('apps.routes.urls')),
     path('analytics/',   include('apps.analytics.urls')),
     path('simulator/',   include('apps.simulator.urls')),
+    path('crm/',         include('apps.crm.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

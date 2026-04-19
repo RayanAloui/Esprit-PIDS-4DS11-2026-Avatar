@@ -803,6 +803,17 @@ let simVadStream=null,simVadCtx=null,simVadAnalyser=null;
 let simMediaRecorder=null,simAudioChunks=[];
 let simIsRecording=false,simSpeechStart=null,simSilenceTimer=null;
 let simIsSpeaking=false,simAudioCtx=null;
+let detectedLang='fr';
+const LANG_FLAGS={'fr':'🇫🇷','en':'🇬🇧','es':'🇪🇸','ar':'🇸🇦'};
+const LANG_NAMES={'fr':'Français','en':'English','es':'Español','ar':'العربية'};
+function _updateLangBadge(){
+  let b=document.getElementById('langBadge');
+  if(!b){b=document.createElement('span');b.id='langBadge';
+    b.style.cssText='margin-left:10px;padding:3px 10px;border-radius:12px;font-size:0.78rem;background:rgba(200,150,12,0.15);color:#C8960C;font-weight:600;letter-spacing:0.02em;';
+    const hdr=document.getElementById('chatTitle');if(hdr)hdr.parentNode.insertBefore(b,hdr.nextSibling);
+  }
+  b.textContent=(LANG_FLAGS[detectedLang]||'🌐')+' '+(LANG_NAMES[detectedLang]||detectedLang);
+}
 
 async function toggleSimMic(){
   if(simIsSpeaking)return;
@@ -869,6 +880,7 @@ async function _onSimRecordingStop(){
       headers:{'X-CSRFToken':getCookie('csrftoken')}});
     const data=await res.json();
     const txt=(data.text||'').trim();
+    if(data.detected_lang){detectedLang=data.detected_lang;_updateLangBadge();}
     if(!txt)return;
     document.getElementById('delegateInput').value=txt;
     sendMessage();
@@ -880,7 +892,7 @@ async function _playSimTts(text){
     const res=await fetch('/simulator/tts/',{
       method:'POST',
       headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
-      body:JSON.stringify({text})
+      body:JSON.stringify({text,lang:detectedLang})
     });
     const data=await res.json();
     if(data.audio_url)await _simPlayAudio(data.audio_url);
@@ -1154,19 +1166,33 @@ async function sendMessage(){
   const txt=inp.value.trim();if(!txt)return;
   inp.value='';inp.disabled=true;document.getElementById('sendBtn').disabled=true;
   const _mb=document.getElementById('simMicBtn');if(_mb)_mb.disabled=true;
-  appendMsg('delegate',txt,'🤝',null,null);
+  const delegateMsgId = 'del-' + Date.now();
+  appendMsg('delegate',txt,'🤝',null,null,delegateMsgId);
   const tid=showTyping();
-  try{
+    try{
     const res=await fetch('/simulator/message/',{method:'POST',
       headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
-      body:JSON.stringify({text:txt})});
+      body:JSON.stringify({text:txt,lang:detectedLang})});
     const d=await res.json();if(!d.ok)throw new Error(d.error);
+    
+    if(d.lang && d.lang !== detectedLang){
+      detectedLang=d.lang;
+      _updateLangBadge();
+    }
+    
     removeTyping(tid);
     turn=d.turn;updateTurnBar();updateOpenness(d.openness);
     if(d.step){stepsOk.add(d.step);updateSteps()}
-    if(d.score){nlpHistory.push(d.score);drawNlpChart()}
-    const meta=d.score?`${d.score}/10 · ${d.quality}`:null;
-    appendMsg('doctor',d.message,'👨‍⚕️',meta,d.engine);
+    if(d.score){
+        nlpHistory.push(d.score);
+        drawNlpChart();
+        const delMsg = document.getElementById(delegateMsgId);
+        if (delMsg) {
+            const metaHtml = `<div class="msg-meta"><span class="msg-score">${d.score}/10 · ${d.quality}</span></div>`;
+            delMsg.children[1].insertAdjacentHTML('beforeend', metaHtml);
+        }
+    }
+    appendMsg('doctor',d.message,'👨‍⚕️',null,d.engine);
     _playSimTts(d.message).catch(()=>{});
     if(d.suggestion)appendSuggestion(d.suggestion);
     if(d.final_decision)_showDecisionBanner(d.final_decision);
@@ -1458,9 +1484,10 @@ function appendSuggestion(text){
   el.innerHTML='<div class="msg-suggestion-label">Suggestion ALIA</div>'+esc(text);
   c.appendChild(el);c.scrollTop=c.scrollHeight;
 }
-function appendMsg(role,txt,av,meta,eng){
+function appendMsg(role,txt,av,meta,eng,id){
   const c=document.getElementById('chatMessages');
   const r=document.createElement('div');r.className=`msg-row ${role}`;
+  if(id) r.id=id;
   r.innerHTML=`<div class="msg-avatar">${av}</div><div><div class="msg-bubble">${esc(txt)}</div>${meta||eng?`<div class="msg-meta">${meta?`<span class="msg-score">${meta}</span>`:''} ${eng?`<span class="msg-engine">[${eng}]</span>`:''}</div>`:''}</div>`;
   c.appendChild(r);c.scrollTop=c.scrollHeight;
 }

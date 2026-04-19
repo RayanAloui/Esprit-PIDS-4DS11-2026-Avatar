@@ -3,13 +3,14 @@ Modèles SQLite — Historique des analyses NLP
 """
 from django.db import models
 from django.utils import timezone
-
+from django.conf import settings
 
 class NLPAnalysis(models.Model):
     """
-    Stocke chaque analyse NLP effectuée via la page Avatar.
+    Stocke chaque analyse NLP effectuée via la page Avatar et Simulateur.
     Permet de consulter l'historique des évaluations.
     """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Délégué")
 
     # ── Entrée ────────────────────────────────────────────────────────
     objection      = models.TextField(verbose_name="Objection du médecin")

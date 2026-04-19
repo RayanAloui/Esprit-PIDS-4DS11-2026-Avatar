@@ -83,6 +83,10 @@
            class="nav-link {% if page == 'modeling' %}active{% endif %}">
           <span class="nav-icon">🎭</span> Mode Commercial
         </a>
+         <a href="{% url 'crm:overview' %}"
+           class="nav-link {% if page == 'crm' %}active{% endif %}">
+          <span class="nav-icon">💊</span> CRM
+        </a>
         <a href="{% url 'routes:index' %}"
            class="nav-link {% if page == 'routes' %}active{% endif %}">
           <span class="nav-icon">🗺️</span> Tournées

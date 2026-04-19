@@ -194,12 +194,39 @@ def send_message(request):
             return JsonResponse({'ok': False, 'error': 'Session expirée.'}, status=400)
 
         session = SimulationSession.from_dict(session_data)
-        result  = session.process_delegate_response(text)
+        lang    = data.get('lang', None)
+        
+        # Heuristique de détection de langue si le texte est tapé manuellement
+        # (car côté JS, detectedLang reste souvent "fr" par défaut sans STT)
+        text_lower = text.lower()
+        import re
+        if re.search(r'[\u0600-\u06FF]', text_lower):
+            lang = 'ar'
+        else:
+            words = set(re.findall(r'\b\w+\b', text_lower))
+            en_words = {'the', 'is', 'are', 'you', 'and', 'to', 'of', 'in', 'hello', 'doctor', 'i', 'my', 'yes', 'no', 'what', 'how', 'good', 'morning'}
+            es_words = {'el', 'la', 'los', 'las', 'de', 'que', 'en', 'un', 'una', 'hola', 'como', 'para', 'sí', 'no', 'bien', 'buenos', 'días', 'doctor', 'usted'}
+            fr_words = {'le', 'la', 'les', 'des', 'un', 'une', 'bonjour', 'est', 'et', 'pour', 'oui', 'non', 'comment', 'bien', 'docteur', 'vous', 'avec'}
+            
+            score_en = len(words.intersection(en_words))
+            score_es = len(words.intersection(es_words))
+            score_fr = len(words.intersection(fr_words))
+            
+            if score_en > score_es and score_en > score_fr:
+                lang = 'en'
+            elif score_es > score_en and score_es > score_fr:
+                lang = 'es'
+            elif score_fr > score_en and score_fr > score_es:
+                lang = 'fr'
+
+        user_id = request.user.id if hasattr(request, 'user') and request.user.is_authenticated else None
+        result  = session.process_delegate_response(text, lang=lang, user_id=user_id)
 
         request.session[SESSION_KEY] = session.to_dict()
         request.session.modified     = True
 
         result['ok'] = True
+        result['lang'] = lang
         return JsonResponse(result)
     except Exception as e:
         return JsonResponse({'ok': False, 'error': str(e)}, status=500)
@@ -418,6 +445,7 @@ def sim_stt(request):
         return JsonResponse({"error": "Fichier audio manquant."}, status=400)
     try:
         data = asyncio.run(listen_json(audio_file.read()))
+        # data = {"text": "...", "detected_lang": "fr"|"en"|"es"|"ar"}
         return JsonResponse(data)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
@@ -435,12 +463,13 @@ def sim_tts(request):
     except json.JSONDecodeError:
         return JsonResponse({"error": "JSON invalide."}, status=400)
     text = body.get("text", "").strip()
+    lang = body.get("lang", "fr")
     if not text:
         return JsonResponse({"error": "Texte vide."}, status=400)
     try:
         filename = f"sim_{uuid.uuid4()}.mp3"
         path     = Path(settings.MODELING_AUDIO_DIR) / filename
-        asyncio.run(_synthesize_to_file(clean_for_tts(text), path))
+        asyncio.run(_synthesize_to_file(clean_for_tts(text), path, lang=lang))
         return JsonResponse({"audio_url": f"{api_prefix()}/static/audio/{filename}"})
     except Exception as e:
         return JsonResponse({"error": str(e), "audio_url": None}, status=500)
