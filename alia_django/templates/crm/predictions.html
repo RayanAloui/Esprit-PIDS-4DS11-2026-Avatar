@@ -1,0 +1,62 @@
+{% extends "crm/base.html" %}
+{% block crm_title %}Predictions — CRM Vitale{% endblock %}
+{% block nav_predictions %}active{% endblock %}
+
+{% block crm_content %}
+<div class="crm-page-header">
+    <h1>🔮 Revenue Predictions</h1>
+    <p>ML Model — Random Forest & Linear Regression · 2025 & 2026 Forecast</p>
+</div>
+
+{% if model_ready %}
+
+<div class="crm-kpi-grid">
+    <div class="crm-kpi-card kpi-blue">
+        <span class="crm-kpi-icon">🔮</span>
+        <span class="crm-kpi-value">{{ total_2025 }} TND</span>
+        <span class="crm-kpi-label">Predicted Revenue 2025</span>
+        <span class="crm-kpi-delta">ML Forecast</span>
+    </div>
+    <div class="crm-kpi-card kpi-green">
+        <span class="crm-kpi-icon">📈</span>
+        <span class="crm-kpi-value">{{ total_2026 }} TND</span>
+        <span class="crm-kpi-label">Predicted Revenue 2026</span>
+        <span class="crm-kpi-delta">ML Forecast</span>
+    </div>
+    <div class="crm-kpi-card kpi-orange">
+        <span class="crm-kpi-icon">🤖</span>
+        <span class="crm-kpi-value">{{ best_model }}</span>
+        <span class="crm-kpi-label">Best Model</span>
+        <span class="crm-kpi-delta">R² = {{ r2 }}</span>
+    </div>
+    <div class="crm-kpi-card kpi-purple">
+        <span class="crm-kpi-icon">🎯</span>
+        <span class="crm-kpi-value">{{ mae }} TND</span>
+        <span class="crm-kpi-label">Mean Absolute Error</span>
+        <span class="crm-kpi-delta">Model accuracy</span>
+    </div>
+</div>
+
+<div class="crm-section-header">
+    <span class="crm-section-title">📊 Predictions by Zone</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-full crm-chart-card">{{ chart1|safe }}</div>
+
+<div class="crm-section-header">
+    <span class="crm-section-title">🏆 Top 10 Zones — 2025 Forecast</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-grid-equal">
+    <div class="crm-chart-card">{{ chart2|safe }}</div>
+    <div class="crm-chart-card">{{ chart3|safe }}</div>
+</div>
+
+{% else %}
+<div class="crm-alert">
+    ⚠️ Model predictions not found. Please run the ML model first:<br><br>
+    <code>python phase4/model_regression.py</code>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "analytics/base.html" %}
+{% block title %}Pharmacies — CRM Vitale{% endblock %}
+{% block nav_pharmacies %}active{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🏥 Pharmacy Analysis</h1>
+    <p>Segmentation and activity analysis of tracked pharmacies</p>
+     <a href="{% url 'overview_pdf' %}" style="text-decoration:none;">
+        <button style="
+            margin-top:15px;
+            padding:10px 18px;
+            background:#1976D2;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:600;
+        ">
+            🤖 Generate AI PDF Report
+        </button>
+    </a>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card kpi-blue">
+        <span class="kpi-icon">🏪</span>
+        <span class="kpi-value">{{ total_pharma }}</span>
+        <span class="kpi-label">Total Pharmacies</span>
+        <span class="kpi-delta">National base</span>
+    </div>
+    <div class="kpi-card kpi-green">
+        <span class="kpi-icon">🔥</span>
+        <span class="kpi-value">{{ very_active }}</span>
+        <span class="kpi-label">Very Active (≥20 visits)</span>
+        <span class="kpi-delta">High engagement</span>
+    </div>
+    <div class="kpi-card kpi-red">
+        <span class="kpi-icon">❌</span>
+        <span class="kpi-value">{{ inactive }}</span>
+        <span class="kpi-label">Inactive (<5 visits)</span>
+        <span class="kpi-delta">{{ pct_inactive }}% to re-engage</span>
+    </div>
+    <div class="kpi-card kpi-orange">
+        <span class="kpi-icon">🏆</span>
+        <span class="kpi-value">{{ max_visits }}</span>
+        <span class="kpi-label">Max Visits (1 pharmacy)</span>
+        <span class="kpi-delta">Field record</span>
+    </div>
+</div>
+
+<div class="section-header">
+    <span class="section-title">📊 Pharmacy Segmentation</span>
+    <div class="section-line"></div>
+</div>
+<div class="chart-grid-equal">
+    <div class="chart-card">{{ chart1|safe }}</div>
+    <div class="chart-card">{{ chart2|safe }}</div>
+</div>
+
+<div class="section-header">
+    <span class="section-title">🥧 Segment Breakdown</span>
+    <div class="section-line"></div>
+</div>
+<div class="chart-full chart-card">{{ chart3|safe }}</div>
+
+{% endblock %}

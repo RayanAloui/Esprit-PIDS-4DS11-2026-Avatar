@@ -121,6 +121,9 @@
     let isProcessing   = false;
     let isSpeaking     = false;
     let isRecording    = false;
+    let detectedLang   = 'fr';
+    const LANG_FLAGS   = {'fr':'🇫🇷','en':'🇬🇧','es':'🇪🇸','ar':'🇸🇦'};
+    const LANG_NAMES   = {'fr':'Français','en':'English','es':'Español','ar':'العربية'};
 
     // VAD
     let vadCtx      = null;
@@ -651,6 +654,10 @@
         try {
             const res  = await fetch(`${MODELING_ROOT}/listen`, {method: 'POST', body: fd});
             const data = await res.json();
+            if (data.detected_lang) {
+                detectedLang = data.detected_lang;
+                _updateModelingLangBadge();
+            }
             const txt  = (data.text || '').trim();
             if (!txt) {
                 setStatus('', 'Standby');
@@ -687,10 +694,17 @@
             const res  = await fetch(`${MODELING_ROOT}/ask_alia`, {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify({ text })
+                body:    JSON.stringify({ text, lang: detectedLang })
             });
             const data = await res.json();
             removeThinking();
+            
+            if (data.detected_lang && data.detected_lang !== detectedLang) {
+                detectedLang = data.detected_lang;
+                if (typeof _updateModelingLangBadge === 'function') {
+                    _updateModelingLangBadge();
+                }
+            }
 
             if (!res.ok) {
                 const errMsg = data.detail || data.error || `Erreur serveur (${res.status})`;
@@ -789,6 +803,18 @@
     }
 
     document.getElementById('micBtn').onclick = toggleConversation;
+
+    function _updateModelingLangBadge() {
+        let b = document.getElementById('modelingLangBadge');
+        if (!b) {
+            b = document.createElement('div');
+            b.id = 'modelingLangBadge';
+            b.style.cssText = 'text-align:center;font-size:0.82rem;padding:2px 0;color:#6b7280;font-weight:600;letter-spacing:0.01em;';
+            const hint = document.getElementById('micHint');
+            if (hint) hint.parentNode.insertBefore(b, hint);
+        }
+        b.textContent = (LANG_FLAGS[detectedLang]||'🌐') + ' ' + (LANG_NAMES[detectedLang]||detectedLang);
+    }
 
     /* ════════════════════════════════════════════════════════
     MODE (commercial / training)

@@ -18,20 +18,21 @@ from apps.avatar.models import NLPAnalysis
 @login_required
 def analytics_index(request):
     """Page principale Analytics."""
-    total = NLPAnalysis.objects.count()
+    total = NLPAnalysis.objects.filter(user=request.user).count()
     context = {
         'page' : 'analytics',
         'total': total,
-        'data' : json.dumps(_build_dashboard_data()) if total > 0 else '{}',
+        'data' : json.dumps(_build_dashboard_data(request.user)) if total > 0 else '{}',
         'has_data': total >= 2,
     }
     return render(request, 'analytics/index.html', context)
 
 
+@login_required
 @require_http_methods(["GET"])
 def analytics_data(request):
     """GET /analytics/data/ — données JSON complètes pour les graphiques."""
-    data = _build_dashboard_data()
+    data = _build_dashboard_data(request.user)
     return JsonResponse(data)
 
 
@@ -60,11 +61,11 @@ def action_plan_api(request):
 # AGGREGATIONS
 # ══════════════════════════════════════════════════════════════════════
 
-def _build_dashboard_data() -> dict:
+def _build_dashboard_data(user) -> dict:
     """Construit toutes les données analytiques depuis SQLite."""
-    qs = NLPAnalysis.objects.all().order_by('created_at')
+    qs = NLPAnalysis.objects.filter(user=user).order_by('created_at')
     if not qs.exists():
-        return {}
+        return {'username': user.get_full_name() or user.username if user else 'Inconnu'}
 
     analyses = list(qs.values(
         'id', 'created_at', 'overall_score',
@@ -83,6 +84,7 @@ def _build_dashboard_data() -> dict:
         'format_dist'  : _format_distribution(analyses),
         'summary_stats': _summary_stats(analyses),
         'objection_clusters': _objection_clusters(analyses),
+        'username': user.get_full_name() or user.username if user else 'Inconnu',
     }
 
 
@@ -327,63 +329,124 @@ def _objection_clusters(analyses: list) -> dict:
 
 
 def _generate_action_plan(summary: str) -> list:
-    """Génère un plan d'action via l'API Claude."""
+    """Génère un plan d'action via l'API locale Ollama."""
     import urllib.request
-    import urllib.error
+    import json
 
-    prompt = f"""Tu es ALIA, le coach IA de VITAL SA pour les délégués médicaux.
+    prompt = f"""Tu es ALIA, le coach IA expert de VITAL SA pour les délégués médicaux.
+Ton objectif est de fournir 3 conseils pratiques et concrets pour aider le délégué.
 
 Voici le résumé analytique des performances d'un délégué :
 {summary}
 
 Génère exactement 3 axes de progression prioritaires et actionnables.
-Chaque axe doit être concret, mesurable, et aligné sur la méthode VITAL SA (A-C-R-V, seuils ALIA, conformité).
+Chaque axe doit être très concret, mesurable, et aligné sur la méthode VITAL SA (A-C-R-V, seuils ALIA, conformité).
 
-Réponds UNIQUEMENT en JSON valide, sans markdown, exactement ce format :
+Réponds UNIQUEMENT en JSON valide contenant un tableau de 3 objets avec les clés exactes suivantes : "axe", "description", "priorite", "seuil_cible".
+La clé "priorite" doit valoir "haute", "moyenne" ou "faible".
+
+Exemple de format attendu exact:
 [
-  {{"axe": "Titre court", "description": "Explication concrète en 1-2 phrases.", "priorite": "haute"|"moyenne"|"faible", "seuil_cible": "ex: Score objection > 7.0"}},
-  {{"axe": "...", "description": "...", "priorite": "...", "seuil_cible": "..."}},
-  {{"axe": "...", "description": "...", "priorite": "...", "seuil_cible": "..."}}
+  {{"axe": "Titre court", "description": "Explication concrète.", "priorite": "haute", "seuil_cible": "Score > 7"}},
+  ...
 ]"""
 
     payload = json.dumps({
-        "model"     : "claude-sonnet-4-20250514",
-        "max_tokens": 1000,
-        "messages"  : [{"role": "user", "content": prompt}]
+        "model": "llama3.2:latest",
+        "prompt": prompt,
+        "format": "json",
+        "stream": False,
+        "options": {
+            "temperature": 0.4,
+            "num_predict": 800
+        }
     }).encode('utf-8')
 
     req = urllib.request.Request(
-        'https://api.anthropic.com/v1/messages',
+        'http://localhost:11434/api/generate',
         data=payload,
         headers={'Content-Type': 'application/json'},
         method='POST'
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=20) as resp:
-            result  = json.loads(resp.read())
-            raw     = result['content'][0]['text'].strip()
-            raw     = raw.replace('```json', '').replace('```', '').strip()
-            return json.loads(raw)
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            result = json.loads(resp.read())
+            raw = result.get("response", "").strip()
+            # Clean possible markdown wrap
+            if "```" in raw:
+                import re
+                m = re.search(r'```(?:json)?(.*?)```', raw, re.DOTALL)
+                if m:
+                    raw = m.group(1).strip()
+            
+            parsed = json.loads(raw)
+            if isinstance(parsed, dict):
+                # Parfois Ollama force un objet si 'format':'json'
+                if len(parsed) == 1 and isinstance(list(parsed.values())[0], list):
+                    return list(parsed.values())[0]
+                return [parsed]
+            elif isinstance(parsed, list):
+                return parsed
+            else:
+                return _fallback_plan()
     except Exception as e:
-        # Fallback si API indisponible
-        return [
-            {
-                "axe"         : "Améliorer la gestion des objections",
-                "description" : "Appliquez systématiquement les 4 étapes A-C-R-V pour chaque objection.",
-                "priorite"    : "haute",
-                "seuil_cible" : "Score objection > 7.0"
-            },
-            {
-                "axe"         : "Conformité réglementaire",
-                "description" : "Éliminez tout mot tueur de vos réponses. Reformulez avec 'selon la notice'.",
-                "priorite"    : "haute",
-                "seuil_cible" : "Taux conformité = 100%"
-            },
-            {
-                "axe"         : "Signal BIP et closing",
-                "description" : "Détectez les signaux d'intérêt et proposez un micro-test sur 2-3 patients.",
-                "priorite"    : "moyenne",
-                "seuil_cible" : "BIP signal dans 80% des réponses"
-            },
-        ]
+        import logging
+        logging.error(f"[ALIA] Ollama API error in _generate_action_plan: {e}")
+        return _fallback_plan()
+
+def _fallback_plan() -> list:
+    return [
+        {
+            "axe"         : "Améliorer la gestion des objections",
+            "description" : "Appliquez systématiquement les 4 étapes A-C-R-V.",
+            "priorite"    : "haute",
+            "seuil_cible" : "Score objection > 7.0"
+        },
+        {
+            "axe"         : "Conformité réglementaire",
+            "description" : "Éliminez tout mot tueur de vos réponses.",
+            "priorite"    : "haute",
+            "seuil_cible" : "Taux conformité = 100%"
+        },
+        {
+            "axe"         : "Signal BIP et closing",
+            "description" : "Détectez les signaux d'intérêt très rapidement.",
+            "priorite"    : "moyenne",
+            "seuil_cible" : "BIP signal dans 80%"
+        },
+    ]
+
+
+@csrf_exempt
+@login_required
+@require_http_methods(["POST"])
+def export_pdf_view(request):
+    """
+    Exporte le Dashboard de l'utilisateur en PDF.
+    Si un plan d'action (JSON string) est envoyé depuis le front, il sera intégré au tableau.
+    """
+    from django.http import HttpResponse
+    from .pdf_service import generate_analytics_pdf
+
+    try:
+        # 1. Obtenir les KPI actuels
+        data = _build_dashboard_data(request.user)
+        
+        # 2. Récupérer le plan d'action et les images passés depuis le front
+        req_data = json.loads(request.body)
+        action_plan = req_data.get('action_plan', None)
+        images = req_data.get('images', {})
+        
+        # 3. Générer le PDF
+        pdf_buffer = generate_analytics_pdf(data, action_plan, images)
+        
+        # 4. Retourner le document
+        response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
+        filename = f"ALIA_Analytics_{request.user.username}.pdf"
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
+    except Exception as e:
+        import logging
+        logging.error(f"[ALIA] Export PDF Analytics Failed : {e}")
+        return JsonResponse({"error": True, "message": str(e)}, status=500)

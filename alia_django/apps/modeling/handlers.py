@@ -67,12 +67,26 @@ def _ensure_whisper_loaded():
         _whisper_model = whisper.load_model("small", device="cpu")
         return _whisper_model
 
-# Voix edge-tts utilisée pour ALIA
-# Autres options françaises disponibles :
-#   fr-FR-HenriNeural      (voix masculine)
-#   fr-FR-EloiseNeural     (voix féminine, plus douce)
-#   fr-BE-GerardNeural     (accent belge)
-EDGE_TTS_VOICE = "fr-FR-HenriNeural"
+# Voix edge-tts utilisées pour ALIA — une voix par langue prise en charge
+EDGE_TTS_VOICES = {
+    "fr": "fr-FR-HenriNeural",
+    "en": "en-US-GuyNeural",
+    "es": "es-ES-AlvaroNeural",
+    "ar": "ar-SA-HamedNeural",
+}
+EDGE_TTS_DEFAULT_LANG = "fr"
+
+
+def _resolve_tts_voice(lang: str | None = None) -> str:
+    """Return the edge-tts voice name for the given language code."""
+    if lang and lang in EDGE_TTS_VOICES:
+        return EDGE_TTS_VOICES[lang]
+    # Try 2-letter prefix (e.g. 'fr-FR' -> 'fr')
+    if lang:
+        short = lang[:2].lower()
+        if short in EDGE_TTS_VOICES:
+            return EDGE_TTS_VOICES[short]
+    return EDGE_TTS_VOICES[EDGE_TTS_DEFAULT_LANG]
 
 def api_prefix() -> str:
     return settings.MODELING_API_MOUNT_PATH.rstrip("/") or "/alia-api"
@@ -94,12 +108,13 @@ async def _get_whisper_model():
     return await asyncio.to_thread(_ensure_whisper_loaded)
 
 
-async def _synthesize_to_file(text: str, destination: Path) -> None:
+async def _synthesize_to_file(text: str, destination: Path, lang: str | None = None) -> None:
     """
     Synthèse vocale avec edge-tts (Microsoft Edge Neural TTS).
     Aucune clé API requise — fonctionne comme le navigateur Edge.
     Nécessite une connexion internet.
- 
+    ``lang`` : code ISO-639-1 ("fr", "en", "es", "ar") pour choisir la voix.
+
     Installation : pip install edge-tts
     """
     try:
@@ -108,14 +123,18 @@ async def _synthesize_to_file(text: str, destination: Path) -> None:
         raise RuntimeError(
             "edge-tts n'est pas installé. Lancez : pip install edge-tts"
         ) from e
- 
-    communicate = edge_tts.Communicate(text, EDGE_TTS_VOICE)
+
+    voice = _resolve_tts_voice(lang)
+    communicate = edge_tts.Communicate(text, voice)
     await communicate.save(str(destination))
 
 
 async def listen_json(audio_bytes: bytes) -> dict:
+    """Transcribe audio using Whisper with automatic language detection.
+    Returns {"text": "...", "detected_lang": "fr"|"en"|"es"|"ar"|...}
+    """
     if not audio_bytes:
-        return {"text": ""}
+        return {"text": "", "detected_lang": "fr"}
     _ensure_ffmpeg_available()
     model = await _get_whisper_model()
     fd, tmp_path = tempfile.mkstemp(suffix=".webm")
@@ -126,7 +145,7 @@ async def listen_json(audio_bytes: bytes) -> dict:
         result = await asyncio.to_thread(
             model.transcribe,
             tmp_path,
-            language="fr",
+            language=None,   # auto-detect language
             fp16=False,
             verbose=False,
         )
@@ -136,20 +155,36 @@ async def listen_json(audio_bytes: bytes) -> dict:
         except OSError:
             pass
     text = (result.get("text") or "").strip()
-    return {"text": text}
+    detected_lang = (result.get("language") or "fr").strip()
+    # Normalise to 2-letter code and default to 'fr' if unsupported
+    detected_lang = detected_lang[:2].lower()
+    return {"text": text, "detected_lang": detected_lang}
 
 
-async def ask_alia_json(text: str) -> dict:
-    print(f"\n{'=' * 60}\n[modeling] Query: {text}\n{'=' * 60}")
+# Fallback messages per language
+_FALLBACK_MESSAGES = {
+    "fr": "Je n'ai pas compris votre question.",
+    "en": "I didn't understand your question.",
+    "es": "No he entendido su pregunta.",
+    "ar": "لم أفهم سؤالك.",
+}
+_FALLBACK_EMPTY = {
+    "fr": "Désolée, je n'ai pas pu générer une réponse. Pouvez-vous reformuler ?",
+    "en": "Sorry, I couldn't generate a response. Could you rephrase?",
+    "es": "Lo siento, no pude generar una respuesta. ¿Puede reformular?",
+    "ar": "عذرًا، لم أتمكن من إنشاء إجابة. هل يمكنك إعادة الصياغة؟",
+}
+
+
+async def ask_alia_json(text: str, lang: str = "fr") -> dict:
+    print(f"\n{'=' * 60}\n[modeling] Query ({lang}): {text}\n{'=' * 60}")
     rt = get_runtime()
-    result = await rt.alia.generate(text)
+    result = await rt.alia.generate(text, lang=lang)
     print(f"[modeling] Response intent: {result.get('intent')}")
 
-    text_response = result.get("text", "Je n'ai pas compris votre question.")
+    text_response = result.get("text", _FALLBACK_MESSAGES.get(lang, _FALLBACK_MESSAGES["fr"]))
     if not text_response or not text_response.strip():
-        text_response = (
-            "Désolée, je n'ai pas pu générer une réponse. Pouvez-vous reformuler ?"
-        )
+        text_response = _FALLBACK_EMPTY.get(lang, _FALLBACK_EMPTY["fr"])
 
     speech_text = clean_for_tts(text_response)
     filename = f"{uuid.uuid4()}.mp3"
@@ -157,14 +192,15 @@ async def ask_alia_json(text: str) -> dict:
     prefix = api_prefix()
 
     try:
-        await _synthesize_to_file(speech_text, path)
-        print(f"[modeling] Audio généré : {filename}")
+        await _synthesize_to_file(speech_text, path, lang=lang)
+        print(f"[modeling] Audio généré ({lang}): {filename}")
     except Exception as audio_error:
         print(f"[modeling] Audio generation failed: {audio_error}")
         return {
             "text": text_response,
             "audio_url": None,
             "intent": result.get("intent", "unknown"),
+            "detected_lang": lang,
             "error": "Audio generation failed",
         }
 
@@ -172,6 +208,7 @@ async def ask_alia_json(text: str) -> dict:
         "text": text_response,
         "audio_url": f"{prefix}/static/audio/{filename}",
         "intent": result.get("intent", "unknown"),
+        "detected_lang": lang,
     }
 
 
@@ -184,7 +221,7 @@ def health_json() -> dict:
             "kb_loaded": rt.kb is not None,
             "num_products": len(rt.df) if rt.df is not None else 0,
             "module": rt.rag_mod.__name__,
-            "tts_engine": f"edge-tts ({EDGE_TTS_VOICE})",
+            "tts_engine": f"edge-tts (multilingual: {list(EDGE_TTS_VOICES.keys())})",
         }
     except Exception as e:
         return {"status": "degraded", "error": str(e)}

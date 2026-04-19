@@ -271,6 +271,9 @@
     <button class="plan-btn" id="planBtn" onclick="generatePlan()">
       ✨ Générer mon plan d'action
     </button>
+    <button class="plan-btn" id="exportPdfBtn" onclick="exportToPDF()" style="background: linear-gradient(135deg, var(--green), #00c853); color: white;">
+      📄 Exporter en PDF
+    </button>
   </div>
 
   <div id="planLoading" style="display:none; align-items:center; gap:10px; padding:16px 0; color:var(--cyan);">
@@ -304,6 +307,8 @@ const GREEN   = '#00e676';
 const RED     = '#ff4444';
 const ORANGE  = '#ff9800';
 const NAVY    = '#0a1628';
+
+let currentActionPlan = null; // Store the plan for PDF export
 
 // ══════════════════════════════════════════════════════════════════════
 // KPI CARDS
@@ -558,7 +563,7 @@ async function generatePlan() {
   const s = DATA.summary_stats;
   const r = DATA.radar;
 
-  const summary = `Délégué médical VITAL SA.
+  const summary = `Délégué médical : ${DATA.username || 'VITAL SA'}.
 Sessions totales : ${s.total}
 Score global moyen : ${s.avg_score}/10
 Tendance : ${s.trend >= 0 ? '+' : ''}${s.trend} pts vs sessions initiales
@@ -583,7 +588,8 @@ Distribution qualité : Excellent=${DATA.quality_dist?.Excellent} Bon=${DATA.qua
       body: JSON.stringify({ summary })
     });
     const data = await res.json();
-    renderPlan(data.plan || []);
+    currentActionPlan = data.plan || [];
+    renderPlan(currentActionPlan);
   } catch(e) {
     console.error(e);
   } finally {
@@ -617,6 +623,67 @@ function getCookie(name) {
     if (c.startsWith(name+'=')) v = decodeURIComponent(c.slice(name.length+1));
   });
   return v;
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// EXPORT PDF
+// ══════════════════════════════════════════════════════════════════════
+
+async function exportToPDF() {
+  const btn = document.getElementById('exportPdfBtn');
+  btn.disabled = true;
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<div class="spinner" style="width:14px;height:14px;border-width:2px;border-top-color:white;"></div> Génération...';
+
+  try {
+    const images = {
+      progression: document.getElementById('chartProgression')?.toDataURL('image/png'),
+      radar: document.getElementById('chartRadar')?.toDataURL('image/png'),
+      niveau: document.getElementById('chartNiveau')?.toDataURL('image/png'),
+      qualite: document.getElementById('chartQualite')?.toDataURL('image/png'),
+      acrv: document.getElementById('chartAcrv')?.toDataURL('image/png'),
+      conformite: document.getElementById('chartConformite')?.toDataURL('image/png'),
+    };
+
+    const res = await fetch('/analytics/export-pdf/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+      body: JSON.stringify({ action_plan: currentActionPlan, images })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Erreur réseau: ${res.status}`);
+    }
+
+    // Réception du fichier Blob PDF
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    
+    // Essayer d'extraire le nom du fichier du header Content-Disposition
+    const disposition = res.headers.get('Content-Disposition');
+    let filename = 'ALIA_Analytics.pdf';
+    if (disposition && disposition.indexOf('attachment') !== -1) {
+        const filenameQuery = /filename="(.*)"/.exec(disposition);
+        if (filenameQuery && filenameQuery[1]) filename = filenameQuery[1];
+    }
+    
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (e) {
+    console.error(e);
+    alert('Une erreur est survenue lors de la génération du PDF.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════════

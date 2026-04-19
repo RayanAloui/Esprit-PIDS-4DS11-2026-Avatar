@@ -1,0 +1,67 @@
+{% extends "analytics/base.html" %}
+{% block title %}Zones — CRM Vitale{% endblock %}
+{% block nav_zones %}active{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🗺️ Geographic Zones</h1>
+    <p>Revenue performance analysis by zone across Tunisia</p>
+     <a href="{% url 'overview_pdf' %}" style="text-decoration:none;">
+        <button style="
+            margin-top:15px;
+            padding:10px 18px;
+            background:#1976D2;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:600;
+        ">
+            🤖 Generate AI PDF Report
+        </button>
+    </a>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card kpi-blue">
+        <span class="kpi-icon">🥇</span>
+        <span class="kpi-value">{{ top_zone }}</span>
+        <span class="kpi-label">Top Zone</span>
+        <span class="kpi-delta">{{ top_zone_ca }} TND</span>
+    </div>
+    <div class="kpi-card kpi-green">
+        <span class="kpi-icon">📊</span>
+        <span class="kpi-value">{{ top_zone_pct }}%</span>
+        <span class="kpi-label">Top Zone Share</span>
+        <span class="kpi-delta">Of total revenue</span>
+    </div>
+    <div class="kpi-card kpi-orange">
+        <span class="kpi-icon">🗺️</span>
+        <span class="kpi-value">{{ nb_zones }}</span>
+        <span class="kpi-label">Active Zones</span>
+        <span class="kpi-delta">Covered nationally</span>
+    </div>
+    <div class="kpi-card kpi-purple">
+        <span class="kpi-icon">📍</span>
+        <span class="kpi-value">76</span>
+        <span class="kpi-label">Total Tunisia Zones</span>
+        <span class="kpi-delta">Full coverage map</span>
+    </div>
+</div>
+
+<div class="section-header">
+    <span class="section-title">🏆 Zone Rankings</span>
+    <div class="section-line"></div>
+</div>
+<div class="chart-grid-2">
+    <div class="chart-card">{{ chart1|safe }}</div>
+    <div class="chart-card">{{ chart2|safe }}</div>
+</div>
+
+<div class="section-header">
+    <span class="section-title">📈 Revenue Evolution — Top 5 Zones</span>
+    <div class="section-line"></div>
+</div>
+<div class="chart-full chart-card">{{ chart3|safe }}</div>
+
+{% endblock %}

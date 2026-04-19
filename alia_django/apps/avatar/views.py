@@ -15,8 +15,8 @@ from .camera   import CameraStream
 
 @login_required
 def avatar_index(request):
-    history = NLPAnalysis.objects.order_by('-created_at')[:10]
-    stats   = _compute_stats()
+    history = NLPAnalysis.objects.filter(user=request.user).order_by('-created_at')[:10]
+    stats   = _compute_stats(request.user)
     context = {'page':'avatar','history':history,'stats':stats}
     return render(request, 'avatar/index.html', context)
 
@@ -34,7 +34,7 @@ def analyze_api(request):
         result = analyze_response(objection, response, niveau_alia)
         if result.get('error'):
             return JsonResponse(result, status=500)
-        _save_analysis(objection, response, niveau_alia, result)
+        _save_analysis(request.user, objection, response, niveau_alia, result)
         return JsonResponse(result)
     except json.JSONDecodeError:
         return JsonResponse({'error':True,'message':'JSON invalide.'},status=400)
@@ -45,7 +45,7 @@ def analyze_api(request):
 @require_http_methods(["GET"])
 @login_required
 def history_api(request):
-    analyses = NLPAnalysis.objects.order_by('-created_at')[:20]
+    analyses = NLPAnalysis.objects.filter(user=request.user).order_by('-created_at')[:20]
     data = [{'id':a.id,'quality':a.quality,'overall_score':a.overall_score,
              'niveau_alia':a.niveau_alia_pred,'conformite':a.conformite,
              'acrv_score':a.acrv_score,
@@ -102,10 +102,11 @@ def body_control(request):
         return JsonResponse({'error':str(e)},status=500)
 
 
-def _save_analysis(objection, response, niveau_alia, result):
+def _save_analysis(user, objection, response, niveau_alia, result):
     try:
         scores = result.get('scores',{})
         NLPAnalysis.objects.create(
+            user=user if user.is_authenticated else None,
             objection=objection, response=response,
             niveau_alia_input=niveau_alia,
             quality=result.get('quality','—'),
@@ -123,13 +124,17 @@ def _save_analysis(objection, response, niveau_alia, result):
         pass
 
 
-def _compute_stats():
-    total = NLPAnalysis.objects.count()
+def _compute_stats(user=None):
+    if user:
+        qs = NLPAnalysis.objects.filter(user=user)
+    else:
+        qs = NLPAnalysis.objects.all()
+    total = qs.count()
     if total == 0:
         return {'total':0,'avg_score':0,'pct_excellent':0,'pct_conforme':0}
     from django.db.models import Avg
-    agg=NLPAnalysis.objects.aggregate(avg_score=Avg('overall_score'))
-    n_ex=NLPAnalysis.objects.filter(quality='Excellent').count()
-    n_co=NLPAnalysis.objects.filter(conformite=True).count()
+    agg=qs.aggregate(avg_score=Avg('overall_score'))
+    n_ex=qs.filter(quality='Excellent').count()
+    n_co=qs.filter(conformite=True).count()
     return {'total':total,'avg_score':round(agg['avg_score'] or 0,2),
             'pct_excellent':round(n_ex/total*100),'pct_conforme':round(n_co/total*100)}
