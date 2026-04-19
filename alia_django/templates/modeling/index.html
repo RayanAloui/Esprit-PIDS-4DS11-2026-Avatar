@@ -141,11 +141,13 @@
         neck: null, head: null,
         leftShoulder: null, rightShoulder: null,
         leftArm: null, rightArm: null,
+        leftForeArm: null, rightForeArm: null,
         spine1: null, spine2: null,
         jawMeshes:     [],
         visemeMeshes: [],
         blinkMeshes:   [],
         eyeLookMeshes: [],
+        rest: {},
     };
 
     const clock = new THREE.Clock();
@@ -164,6 +166,8 @@
     let smoothIntensity = 0;
     let prevEnergy = 0;
     let prevRmsAmp = 0;
+    let armWeight = 0;
+    let t_anim = 0;
     init();
 
     function init() {
@@ -222,6 +226,8 @@
                         case 'RightShoulder': avatar.rightShoulder = child; break;
                         case 'LeftArm':       avatar.leftArm       = child; break;
                         case 'RightArm':      avatar.rightArm      = child; break;
+                        case 'LeftForeArm':   avatar.leftForeArm   = child; break;
+                        case 'RightForeArm':  avatar.rightForeArm  = child; break;
                         case 'Spine1':        avatar.spine1        = child; break;
                         case 'Spine2':        avatar.spine2        = child; break;
                     }
@@ -254,6 +260,17 @@
                     }
                 }
             });
+
+            function saveRest(name, bone) {
+                if (!bone) return;
+                avatar.rest[name] = { x: bone.rotation.x, y: bone.rotation.y, z: bone.rotation.z };
+            }
+            saveRest("leftArm",      avatar.leftArm);
+            saveRest("rightArm",     avatar.rightArm);
+            saveRest("leftForeArm",  avatar.leftForeArm);
+            saveRest("rightForeArm", avatar.rightForeArm);
+            saveRest("spine2",       avatar.spine2);
+            saveRest("neck",         avatar.neck);
 
             applyRestPose();
             refitCanvas();
@@ -343,9 +360,13 @@
         if (avatar.mixer) avatar.mixer.update(delta);
         if (!avatar.model) { renderer.render(scene, camera); return; }
 
+        if (isSpeaking) t_anim += delta;
+
         if (avatar.neck) {
-            avatar.neck.rotation.y = Math.sin(time * 0.38) * 0.022;
-            avatar.neck.rotation.z = Math.sin(time * 0.27) * 0.009;
+            let neckY = Math.sin(time * 0.38) * 0.022;
+            if (avatar.rest.neck) neckY += Math.sin(t_anim * 1.7) * 0.04 * smoothIntensity;
+            avatar.neck.rotation.y = (avatar.rest.neck ? avatar.rest.neck.y : 0) + neckY;
+            avatar.neck.rotation.z = (avatar.rest.neck ? avatar.rest.neck.z : 0) + Math.sin(time * 0.27) * 0.009;
         }
         if (avatar.spine1) avatar.spine1.rotation.x = 0.02 + Math.sin(time * 0.55) * 0.007;
 
@@ -509,6 +530,43 @@
                     inf[jm.mouthOpen] = THREE.MathUtils.lerp(inf[jm.mouthOpen], 0, LIP_DECAY);
                 }
             }
+        }
+
+        const energy = smoothIntensity;
+        const targetArmWeight = energy > 0.05 ? 1.0 : 0.0;
+        armWeight += (targetArmWeight - armWeight) * delta * 1.5;
+
+        const pulse1   = Math.sin(t_anim * 5.5) * energy;
+        const pulse2   = Math.sin(t_anim * 4.2 + 1.3) * energy;
+        const emphasis = Math.max(0, Math.sin(t_anim * 1.7)) * energy;
+
+        /* torso */
+        if (avatar.spine2 && avatar.rest.spine2) {
+            avatar.spine2.rotation.y = avatar.rest.spine2.y + Math.sin(t_anim * 1.2) * 0.05 * energy;
+        }
+
+        /* arms */
+        if (avatar.leftArm && avatar.rest.leftArm) {
+            avatar.leftArm.rotation.y = avatar.rest.leftArm.y + 1.25;
+            avatar.leftArm.rotation.x = avatar.rest.leftArm.x - 0.3;
+            avatar.leftArm.rotation.z = avatar.rest.leftArm.z + 1.5 + pulse1 * 0.4;
+        }
+        if (avatar.rightArm && avatar.rest.rightArm) {
+            avatar.rightArm.rotation.y = avatar.rest.rightArm.y - 1.35;
+            avatar.rightArm.rotation.x = avatar.rest.rightArm.x - 0.3;
+            avatar.rightArm.rotation.z = avatar.rest.rightArm.z - 1.5 - pulse2 * 0.4;
+        }
+
+        /* elbows */
+        if (avatar.leftForeArm && avatar.rest.leftForeArm) {
+            avatar.leftForeArm.rotation.x = avatar.rest.leftForeArm.x + (-1.55 - pulse1 * 0.6) * armWeight;
+            avatar.leftForeArm.rotation.y = avatar.rest.leftForeArm.y - Math.PI / 2;
+            avatar.leftForeArm.rotation.z = avatar.rest.leftForeArm.z + emphasis * 0.5;
+        }
+        if (avatar.rightForeArm && avatar.rest.rightForeArm) {
+            avatar.rightForeArm.rotation.x = avatar.rest.rightForeArm.x + (-1.55 - pulse2 * 0.8) * armWeight;
+            avatar.rightForeArm.rotation.y = avatar.rest.rightForeArm.y + Math.PI / 2;
+            avatar.rightForeArm.rotation.z = avatar.rest.rightForeArm.z - emphasis * 0.5;
         }
 
         renderer.render(scene, camera);

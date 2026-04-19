@@ -180,11 +180,23 @@ async def ask_alia_json(text: str, lang: str = "fr") -> dict:
     print(f"\n{'=' * 60}\n[modeling] Query ({lang}): {text}\n{'=' * 60}")
     rt = get_runtime()
     result = await rt.alia.generate(text, lang=lang)
-    print(f"[modeling] Response intent: {result.get('intent')}")
+    intent = result.get("intent", "unknown")
+    print(f"[modeling] Response intent: {intent}")
 
     text_response = result.get("text", _FALLBACK_MESSAGES.get(lang, _FALLBACK_MESSAGES["fr"]))
     if not text_response or not text_response.strip():
         text_response = _FALLBACK_EMPTY.get(lang, _FALLBACK_EMPTY["fr"])
+
+    # Video generation already includes its own audio — no TTS needed
+    if intent == "presentation_generated":
+        return {
+            "text": text_response,
+            "audio_url": None,
+            "intent": intent,
+            "detected_lang": lang,
+            "video_url": result.get("video_url"),
+            "presentation_url": result.get("presentation_url"),
+        }
 
     speech_text = clean_for_tts(text_response)
     filename = f"{uuid.uuid4()}.mp3"
@@ -199,7 +211,7 @@ async def ask_alia_json(text: str, lang: str = "fr") -> dict:
         return {
             "text": text_response,
             "audio_url": None,
-            "intent": result.get("intent", "unknown"),
+            "intent": intent,
             "detected_lang": lang,
             "error": "Audio generation failed",
         }
@@ -207,7 +219,7 @@ async def ask_alia_json(text: str, lang: str = "fr") -> dict:
     return {
         "text": text_response,
         "audio_url": f"{prefix}/static/audio/{filename}",
-        "intent": result.get("intent", "unknown"),
+        "intent": intent,
         "detected_lang": lang,
     }
 

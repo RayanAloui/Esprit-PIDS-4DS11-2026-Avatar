@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+
+<style>
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#00ff00;
+}
+
+#bg{
+position:fixed;
+inset:0;
+background:#00ff00;
+z-index:0;
+}
+
+canvas{
+display:block;
+position:relative;
+z-index:1;
+}
+</style>
+
+<script type="importmap">
+{
+  "imports": {
+    "three":"https://unpkg.com/three@0.162.0/build/three.module.js",
+    "three/addons/":"https://unpkg.com/three@0.162.0/examples/jsm/"
+  }
+}
+</script>
+
+</head>
+<body>
+
+<div id="bg"></div>
+
+<script type="module">
+
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+window.avatarReady = false;
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+    28,
+    window.innerWidth/window.innerHeight,
+    0.1,
+    1000
+);
+
+camera.position.set(0,1.55,2.5);
+camera.lookAt(0,1.4,0);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias:true,
+    alpha:true
+});
+
+renderer.setClearColor(0x000000,0);
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff,0.8));
+
+const key = new THREE.DirectionalLight(0xffffff,1.2);
+key.position.set(1,2,2);
+scene.add(key);
+
+let model = null;
+let mixer = null;
+let leftArm, rightArm, leftForeArm, rightForeArm, leftHand, rightHand;
+let spine2, neck, head;
+const rest = {};
+
+// Setup viseme mapping
+const visemeNames = [
+    "jawOpen","mouthOpen",
+    "viseme_aa","viseme_E","viseme_I","viseme_O",
+    "viseme_CH","viseme_DD","viseme_FF","viseme_nn",
+    "viseme_sil","eyeBlinkLeft","eyeBlinkRight"
+];
+
+const targets = {};
+
+function setMorph(name, value) {
+    if(targets[name]) {
+        targets[name].forEach(t => {
+            t.mesh.morphTargetInfluences[t.idx] = value;
+        });
+    }
+}
+
+// Audio loading state
+const urlParams = new URLSearchParams(window.location.search);
+const audioUrl = urlParams.get('audio');
+let audioData = null;
+let sampleRate = 44100;
+
+let modelLoaded = false;
+let audioLoaded = !audioUrl;
+
+function checkReady() {
+    if(modelLoaded && audioLoaded) {
+        window.avatarReady = true;
+    }
+}
+
+// Load audio if requested
+if (audioUrl) {
+    fetch(audioUrl)
+        .then(res => res.arrayBuffer())
+        .then(buffer => {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            return audioCtx.decodeAudioData(buffer);
+        })
+        .then(decodedData => {
+            audioData = decodedData.getChannelData(0);
+            sampleRate = decodedData.sampleRate;
+            audioLoaded = true;
+            checkReady();
+        }).catch(e => {
+            console.error("Audio decoding error:", e);
+            audioLoaded = true;
+            checkReady();
+        });
+}
+
+new GLTFLoader().load("/static/avatar.glb", (gltf) => {
+
+    model = gltf.scene;
+    model.rotation.y = 0.22;
+    model.position.y = -0.05;
+
+    scene.add(model);
+
+    if(gltf.animations.length > 0){
+        mixer = new THREE.AnimationMixer(model);
+        const a = mixer.clipAction(gltf.animations[0]);
+        a.play();
+    }
+
+    model.traverse(c => {
+        if (c.isBone) {
+            if (c.name === "LeftArm")      leftArm      = c;
+            if (c.name === "RightArm")     rightArm     = c;
+            if (c.name === "LeftForeArm")  leftForeArm  = c;
+            if (c.name === "RightForeArm") rightForeArm = c;
+            if (c.name === "LeftHand")     leftHand     = c;
+            if (c.name === "RightHand")    rightHand    = c;
+            if (c.name === "Spine2")       spine2       = c;
+            if (c.name === "Neck")         neck         = c;
+            if (c.name === "Head")         head         = c;
+        }
+
+        // Cache morph targets
+        if(c.isSkinnedMesh && c.morphTargetDictionary){
+            const d = c.morphTargetDictionary;
+            visemeNames.forEach(name => {
+                if(d[name] !== undefined) {
+                    if(!targets[name]) targets[name] = [];
+                    targets[name].push({ mesh: c, idx: d[name] });
+                }
+            });
+        }
+    });
+
+    function saveRest(name, bone) {
+        if (!bone) return;
+        rest[name] = { x: bone.rotation.x, y: bone.rotation.y, z: bone.rotation.z };
+    }
+    saveRest("leftArm",      leftArm);
+    saveRest("rightArm",     rightArm);
+    saveRest("leftForeArm",  leftForeArm);
+    saveRest("rightForeArm", rightForeArm);
+    saveRest("leftHand",     leftHand);
+    saveRest("rightHand",    rightHand);
+    saveRest("spine2",       spine2);
+    saveRest("neck",         neck);
+    saveRest("head",         head);
+
+    modelLoaded = true;
+    checkReady();
+});
+
+let t = 0;
+let isTalking = false;
+const clock = new THREE.Clock();
+
+window.startTalk = ()=>{
+    t = 0;
+    isTalking = true;
+    currentV = 0;
+    blinkTimer = 0;
+    clock.start();
+};
+
+function getSmoothedVolume(time) {
+    if (!audioData) return 0;
+    const index = Math.floor(time * sampleRate);
+    const windowSize = Math.floor(sampleRate / 30);
+    let sum = 0;
+    let count = 0;
+    for (let i = 0; i < windowSize; i++) {
+        if (index + i < audioData.length) {
+            sum += Math.abs(audioData[index + i]);
+            count++;
+        }
+    }
+    return count > 0 ? sum / count : 0;
+}
+
+let currentV = 0;
+let blinkTimer = 0;
+
+function animate(){
+    requestAnimationFrame(animate);
+
+    const delta = clock.getDelta();
+
+    if (isTalking) t += delta;
+    if (mixer && isTalking) mixer.update(delta);
+
+    const raw = isTalking ? getSmoothedVolume(t) : 0;
+    currentV = currentV * 0.72 + raw * 0.28;
+
+    const energy = Math.min(1, currentV * 5);
+    
+    /* lipsync */
+    setMorph("jawOpen",   energy * 0.55);
+    setMorph("mouthOpen", energy * 0.42);
+
+    visemeNames.forEach(n => {
+        if (!["jawOpen","mouthOpen","eyeBlinkLeft","eyeBlinkRight"].includes(n)) {
+            setMorph(n, 0);
+        }
+    });
+
+    if (energy > 0.60) {
+        setMorph("viseme_aa", energy);
+    } else if (energy > 0.35) {
+        setMorph("viseme_O", energy * 0.8);
+        setMorph("viseme_E", energy * 0.4);
+    } else if (energy > 0.15) {
+        const r = Math.floor(t * 12) % 4;
+        if (r === 0) setMorph("viseme_CH", energy);
+        if (r === 1) setMorph("viseme_DD", energy);
+        if (r === 2) setMorph("viseme_FF", energy);
+        if (r === 3) setMorph("viseme_nn", energy);
+    } else {
+        setMorph("viseme_sil", 1);
+    }
+
+    /* blink */
+    blinkTimer += delta;
+    let blink = 0;
+    if (blinkTimer > 2 + Math.random() * 2) {
+        blink = Math.sin((blinkTimer - 2) * 20);
+        if (blinkTimer > 2.15) blinkTimer = 0;
+    }
+    blink = Math.max(0, blink);
+    setMorph("eyeBlinkLeft",  blink);
+    setMorph("eyeBlinkRight", blink);
+
+    /* motion values */
+    const pulse1   = Math.sin(t * 5.5) * energy;
+    const pulse2   = Math.sin(t * 4.2 ) * energy;
+    const emphasis = Math.max(0, Math.sin(t * 1.7)) * energy;
+
+    /* torso */
+    if (spine2 && rest.spine2) {
+        spine2.rotation.y = rest.spine2.y + Math.sin(t * 1.2) * 0.05 * energy;
+    }
+    if (neck && rest.neck) {
+        neck.rotation.y = rest.neck.y + Math.sin(t * 1.7) * 0.04 * energy;
+    }
+
+    /* arms */
+    if (leftArm && rest.leftArm) {
+        leftArm.rotation.y = rest.leftArm.y + 1.15;
+        leftArm.rotation.x = rest.leftArm.x - 0.6;
+        leftArm.rotation.z = rest.leftArm.z + 1.5 + pulse1 * 0.3;
+    }
+    if (rightArm && rest.rightArm) {
+        rightArm.rotation.y = rest.rightArm.y - 1.15;
+        rightArm.rotation.x = rest.rightArm.x - 0.6;
+        rightArm.rotation.z = rest.rightArm.z - 1.5 - pulse2 * 0.3;
+    }
+
+    /* elbows */
+    if (leftForeArm && rest.leftForeArm) {
+        leftForeArm.rotation.x = rest.leftForeArm.x - 1.55 - pulse1 * 0.8;
+        leftForeArm.rotation.y = rest.leftForeArm.y - Math.PI;
+        leftForeArm.rotation.z = rest.leftForeArm.z + emphasis * 0.5;
+    }
+    if (rightForeArm && rest.rightForeArm) {
+        rightForeArm.rotation.x = rest.rightForeArm.x - 1.55 - pulse2 * 0.8;
+        rightForeArm.rotation.y = rest.rightForeArm.y + Math.PI;
+        rightForeArm.rotation.z = rest.rightForeArm.z - emphasis * 0.5;
+    }
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
