@@ -1,29 +1,11 @@
-"""
-ALIA RAG — rag_gemini.py  (v2 — enrichi avec prepared_data)
-============================================================
-Deux modes :
-  commercial : ALIA assiste la déléguée en visite (médecin / pharmacien)
-  training   : ALIA JOUE le rôle du médecin ou pharmacien et évalue la déléguée
- 
-Nouveautés v2 :
-  - Base de connaissances construite depuis conversations_dso2_knowledge_base.csv
-    (meilleures réponses réelles aux objections, scorées et validées)
-  - Détection automatique du produit et du type d'objection dans le discours
-    de la déléguée → réponse modèle issue des données
-  - Avatars de médecins/pharmaciens chargés depuis pharmacy_doctor_avatar_profiles.json
-  - Feedback training : score estimé + conseil personnalisé
-"""
-from __future__ import annotations
-
 import asyncio
 import os
-import random
 import re
-import json
+import sys
 from pathlib import Path
+from typing import Dict, List, Tuple, Optional  # Added Optional import
 
 import pandas as pd
-from typing import Dict, List, Tuple,Optional
 
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
@@ -36,266 +18,25 @@ from langchain_community.retrievers import BM25Retriever
 
 
 MODEL_SETTINGS = {
-    "main": "mistral:7b-instruct",
+    "main": "llama3.2:latest",
     "embed": "nomic-embed-text:latest",
-    "temperature": 0.5, 
-    "num_predict": 120
+    "temperature": 0.1, 
+    "num_predict": 150
 }
 
 _DATA_DIR = Path(__file__).resolve().parent / "data"
 PERSIST_DIR = str(_DATA_DIR / "alia_knowledge_db")
 
-# ══════════════════════════════════════════════════════════════════════
-# PRODUCT KNOWLEDGE — chargé depuis prepared_data
-# ══════════════════════════════════════════════════════════════════════
- 
-# Catalogue produits Vital SA avec indications détaillées
-PRODUCT_CATALOG: Dict[str, Dict] = {
-    "OLIGOVIT Trio": {
-        "indications": "multivitamines, carences nutritionnelles, fatigue générale, déficit en oligoéléments",
-        "classe": "Complément alimentaire multivitaminé",
-        "forme": "Comprimés",
-        "target": "adulte",
-        "differentiants": "formulation biodisponible brevetée, absorption supérieure de 40% vs génériques",
-        "posologie": "1 comprimé par jour au cours du repas",
-        "effets_secondaires": "Profil de sécurité excellent. Aucun effet indésirable significatif dans les études.",
-        "keywords": ["vitamine", "oligoélément", "fatigue", "carence", "multivitamine"],
-    },
-    "LV CYSPROTECT": {
-        "indications": "infections urinaires récidivantes, cystites, protection de la muqueuse vésicale",
-        "classe": "Complément alimentaire urologique",
-        "forme": "Gélules",
-        "target": "adulte",
-        "differentiants": "D-mannose + cranberry + probiotiques, action triple sur la muqueuse urinaire",
-        "posologie": "2 gélules par jour, cure de 3 mois recommandée",
-        "effets_secondaires": "Tolérance excellente. Pas d'interaction médicamenteuse connue.",
-        "keywords": ["infection urinaire", "cystite", "voies urinaires", "urinaire", "récidivante"],
-    },
-    "LV Fersang junior": {
-        "indications": "anémie ferriprive chez l'enfant, carence en fer pédiatrique, fatigue de l'enfant",
-        "classe": "Supplément en fer pédiatrique",
-        "forme": "Sirop",
-        "target": "enfant",
-        "differentiants": "fer bisglycinate hautement biodisponible, sans goût métallique, tolérance digestive optimale",
-        "posologie": "Selon âge : 5 à 10 ml par jour selon prescription pédiatrique",
-        "effets_secondaires": "Bien toléré. Pas de constipation ni de nausées contrairement aux sels ferreux classiques.",
-        "keywords": ["anémie", "fer", "enfant", "pédiatrique", "junior", "hémoglobine", "ferriprive"],
-    },
-    "Omevie Omega 3 – 1000": {
-        "indications": "hypertriglycéridémie, santé cardiovasculaire, inflammation chronique, santé cérébrale",
-        "classe": "Acides gras oméga-3 concentrés",
-        "forme": "Capsules molles",
-        "target": "adulte",
-        "differentiants": "EPA/DHA concentrés 1000 mg, pureté certifiée IFOS 5 étoiles, sans goût de poisson",
-        "posologie": "2 capsules par jour au cours des repas",
-        "effets_secondaires": "Très bonne tolérance. Légère anticoagulation à surveiller avec AVK.",
-        "keywords": ["omega", "oméga", "cardiovasculaire", "triglycérides", "cerveau", "inflammation"],
-    },
-    "LV Vitamine A": {
-        "indications": "carence en vitamine A, santé oculaire, protection cutanée, immunité",
-        "classe": "Supplément vitaminique",
-        "forme": "Capsules",
-        "target": "adulte",
-        "differentiants": "rétinol naturel d3 haute biodisponibilité, formulation liposomale",
-        "posologie": "1 capsule par jour, cure de 1 mois",
-        "effets_secondaires": "Respecter les doses recommandées. Attention en grossesse (tératogène à forte dose).",
-        "keywords": ["vitamine A", "vision", "peau", "immunité", "carence", "oculaire"],
-    },
-    "Echinacée, Zinc, Vit.C": {
-        "indications": "immunité, rhume, grippe, infections ORL, prévention hivernale, angine",
-        "classe": "Immunostimulant naturel",
-        "forme": "Gélules",
-        "target": "adulte",
-        "differentiants": "synergie triple Echinacée + Zinc + Vitamine C, action préventive et curative",
-        "posologie": "1 gélule matin et soir pendant les repas",
-        "effets_secondaires": "Excellent profil de sécurité. +50 000 patients sans incident.",
-        "keywords": ["immunité", "rhume", "grippe", "ORL", "gorge", "angine", "prévention", "hiver", "infection"],
-    },
-    "Vitonic Tonus": {
-        "indications": "fatigue chronique, asthénie, manque de tonus, récupération physique, stress",
-        "classe": "Tonique et énergisant",
-        "forme": "Ampoules buvables",
-        "target": "adulte",
-        "differentiants": "association ginseng + vitamines B + magnésium, résultats visibles en 4 semaines",
-        "posologie": "1 ampoule par jour le matin, cure de 4 semaines",
-        "effets_secondaires": "Bonne tolérance générale. Déconseillé le soir (effet stimulant).",
-        "keywords": ["fatigue", "tonus", "énergie", "asthénie", "stress", "récupération", "vitalité"],
-    },
-    "PHYTOFANE Lotion anti chute": {
-        "indications": "chute de cheveux, alopécie, fragilité capillaire, densification des cheveux",
-        "classe": "Soin capillaire médicalisé",
-        "forme": "Lotion topique",
-        "target": "adulte",
-        "differentiants": "complexe phyto-kératinisant breveté, résultats dès 6 semaines, sans hormone",
-        "posologie": "Application locale 2 fois par semaine, massage 3 minutes",
-        "effets_secondaires": "Usage externe uniquement. Aucun effet systémique.",
-        "keywords": ["cheveux", "chute", "alopécie", "capillaire", "densité", "calvitie"],
-    },
-}
- 
-# Types d'objections reconnus
-OBJECTION_TYPES = [
-    "Efficacité douteuse",
-    "Prix élevé",
-    "Effets Secondaires",
-    "Posologie complexe",
-    "Marque inconnue",
-    "Stock suffisant",
-    "Demande Faible",
-    "Concurrence",
-]
- 
-# Mots-clés pour détecter chaque type d'objection
-OBJECTION_KEYWORDS: Dict[str, List[str]] = {
-    "Efficacité douteuse": ["efficacité", "preuves", "études", "fonctionne", "résultats", "scientifique", "démontré", "doute"],
-    "Prix élevé": ["prix", "cher", "coût", "coûte", "tarif", "remboursement", "remboursé", "budget"],
-    "Effets Secondaires": ["effets", "secondaires", "danger", "risque", "sécurité", "tolérance", "contre-indication"],
-    "Posologie complexe": ["posologie", "dose", "dosage", "complexe", "compliqué", "comment prendre", "administration"],
-    "Marque inconnue": ["marque", "laboratoire", "connu", "réputation", "fiable", "sérieux"],
-    "Stock suffisant": ["stock", "j'en ai", "déjà", "assez", "suffisant"],
-    "Demande Faible": ["demande", "patients", "prescrivent", "vendent", "vente", "faible"],
-    "Concurrence": ["concurrent", "générique", "similaire", "moins cher", "laboratoire X", "autre marque", "comparaison"],
-}
+sys.path.append(str(Path(__file__).resolve().parent))
 
-# ══════════════════════════════════════════════════════════════════════
-# KNOWLEDGE BASE LOADER — depuis prepared_data
-# ══════════════════════════════════════════════════════════════════════
- 
-class KnowledgeBaseLoader:
-    """Charge et structure la base de connaissances depuis les CSV/JSON prepared_data."""
- 
-    def __init__(self, data_dir: Path):
-        self.data_dir = data_dir
-        self.best_responses: Dict[Tuple[str, str], Dict] = {}
-        self.avatars: List[Dict] = []
-        self._loaded = False
- 
-    def load(self):
-        if self._loaded:
-            return
-        self._load_kb_csv()
-        self._load_avatars()
-        self._loaded = True
-        print(f"[KB] Loaded {len(self.best_responses)} product×objection pairs | {len(self.avatars)} avatars")
- 
-    def _load_kb_csv(self):
-        """Charge conversations_dso2_knowledge_base.csv — meilleures réponses scorées."""
-        csv_path = self.data_dir / "conversations_dso2_knowledge_base.csv"
-        if not csv_path.exists():
-            print(f"[KB] WARNING: {csv_path} not found, using defaults")
-            return
- 
-        df = pd.read_csv(csv_path)
-        df.columns = df.columns.str.strip().str.lstrip("\ufeff")
- 
-        # Pour chaque produit × objection, garder la meilleure réponse
-        best = (
-            df.sort_values("overall_score", ascending=False)
-            .groupby(["product", "objection_type"])
-            .first()
-            .reset_index()
-        )
- 
-        for _, row in best.iterrows():
-            key = (str(row["product"]), str(row["objection_type"]))
-            self.best_responses[key] = {
-                "response": str(row["rep_response"]),
-                "score": float(row.get("overall_score", 8.0)),
-                "has_empathy": bool(row.get("has_empathy", 0)),
-                "has_data_args": bool(row.get("has_data_args", 0)),
-                "skill_level": str(row.get("skill_level", "Expert")),
-            }
- 
-    def _load_avatars(self):
-        """Charge pharmacy_doctor_avatar_profiles.json."""
-        json_path = self.data_dir / "pharmacy_doctor_avatar_profiles.json"
-        if not json_path.exists():
-            print(f"[KB] WARNING: {json_path} not found, using PERSONAS defaults")
-            return
-        with open(json_path, encoding="utf-8") as f:
-            raw = json.load(f)
-        if isinstance(raw, list):
-            self.avatars = raw
-        elif isinstance(raw, dict):
-            self.avatars = list(raw.values())
- 
-    def get_best_response(self, product: str, objection_type: str) -> Optional[str]:
-        key = (product, objection_type)
-        entry = self.best_responses.get(key)
-        return entry["response"] if entry else None
- 
-    def get_random_avatar(self) -> Dict:
-        if self.avatars:
-            return random.choice(self.avatars)
-        return {}
- 
- 
-# ══════════════════════════════════════════════════════════════════════
-# PERSONAS (fallback si pas d'avatars)
-# ══════════════════════════════════════════════════════════════════════
- 
-PERSONAS = [
-    {"prenom": "Dr. Martin", "role": "médecin généraliste, ouvert aux compléments alimentaires mais demande des preuves"},
-    {"prenom": "Dr. Bernard", "role": "médecin généraliste, sceptique, très orienté médicaments classiques"},
-    {"prenom": "Dr. Petit", "role": "pédiatre, très prudent, ne recommande que des produits spécifiquement pour enfants"},
-    {"prenom": "Dr. Dubois", "role": "pharmacien, connaît bien les produits mais demande des arguments différenciants"},
-    {"prenom": "Dr. Lambert", "role": "médecin généraliste, ouvert d'esprit mais très occupé, va droit au but"},
-    {"prenom": "Dr. Moreau", "role": "rhumatologue, s'intéresse particulièrement aux produits pour articulations et os"},
-    {"prenom": "Dr. Simon", "role": "dermatologue, très exigeant sur qualité et efficacité des produits pour la peau"},
-]
- 
- 
-# ══════════════════════════════════════════════════════════════════════
-# PROMPTS
-# ══════════════════════════════════════════════════════════════════════
+# Import the PowerPoint generation module
+try:
+    from powerpoint_generation import generate_presentation_for_product
+    PPT_AVAILABLE = True
+except ImportError as e:
+    print(f"[ALIA] PowerPoint generation not available: {e}")
+    PPT_AVAILABLE = False
 
-# MODE TRAINING : ALIA joue le médecin/pharmacien
-# Le délégué doit convaincre le "médecin" de prescrire / recommander les produits Vital SA
-PROMPT_TRAINING = """Tu es {prenom}, {role}.
-La déléguée dit: "{query}"
-Produit concerné: {context}
-Conversation récente:
-{history}
- 
-Règles:
-- Réponds en UNE SEULE PHRASE courte et naturelle (médecin réaliste)
-- Ne dis pas "Bonjour" après le premier échange
-- Pose UNE question pertinente sur le produit (efficacité, études, effets secondaires, prix, posologie)
-- Ne répète pas les questions déjà posées dans l'historique
- 
-{prenom}:"""
-
-PROMPT_TRAINING_OBJECTIONS = {
-    "prix": "Le prix me semble élevé par rapport aux génériques.",
-    "efficacité": "Avez-vous des études cliniques qui prouvent l'efficacité ?",
-    "effets_secondaires": "Quels sont les effets secondaires ?",
-    "remboursement": "Est-ce remboursé par la sécurité sociale ?",
-    "concurrent": "En quoi ce produit est-il meilleur que le produit X ?",
-}
-
-PROMPT_COMMERCIAL = """Tu es ALIA, assistante pharmaceutique d'une déléguée médicale.
-Tu aides la déléguée pendant sa visite chez un médecin ou un pharmacien.
-
-HISTORIQUE DE LA CONVERSATION:
-{history}
-
-QUESTION ACTUELLE: "{query}"
-
-PRODUITS DISPONIBLES:
-{context}
-
-RÈGLES:
-1. Vérifie que les produits correspondent EXACTEMENT à la question.
-2. Si aucun produit ne correspond, dis clairement qu'il n'y en a pas dans la base actuelle.
-3. Si un produit correspond, recommande LE MEILLEUR (1 seul) avec :
-   - Nom exact du produit
-   - Argument de vente en 1-2 phrases (bénéfice patient)
-   - Mode d'administration
-   - Version enfant si elle existe
-4. Tiens compte de l'historique : ne répète pas ce qui a déjà été dit.
-5. Reste concise et professionnelle.
-
-Réponse d'ALIA:"""
 # =========================
 # DATA PROCESSING
 # =========================
@@ -403,96 +144,6 @@ class DataProcessor:
 
         return docs
 
-@classmethod
-def build_documents_from_csv(cls, csv_path: Path) -> List[Document]:
-    """Construit des documents à partir du CSV des produits"""
-    if not csv_path.exists():
-        print(f"[KB] CSV not found: {csv_path}")
-        return []
-    
-    df = pd.read_csv(csv_path).fillna("")
-    df.columns = df.columns.str.strip().str.lstrip("\ufeff")
-    return cls.build_documents(df)
-
-@classmethod
-def build_documents_from_catalog(cls) -> List[Document]:
-    """Construit des documents à partir du catalogue PRODUCT_CATALOG"""
-    docs = []
-    for product_name, product_info in PRODUCT_CATALOG.items():
-        content = f"""
-Produit: {product_name}
-Indications: {product_info.get('indications', '')}
-Classe: {product_info.get('classe', '')}
-Forme: {product_info.get('forme', '')}
-Points différenciants: {product_info.get('differentiants', '')}
-Posologie: {product_info.get('posologie', '')}
-Effets secondaires: {product_info.get('effets_secondaires', '')}
-        """.strip()
-        
-        docs.append(Document(
-            page_content=content,
-            metadata={
-                'name': product_name,
-                'indications': product_info.get('indications', ''),
-                'keywords': product_info.get('keywords', [])
-            }
-        ))
-    return docs
-# ══════════════════════════════════════════════════════════════════════
-# TRAINING EVALUATOR — évalue la réponse de la déléguée
-# ══════════════════════════════════════════════════════════════════════
- 
-class TrainingEvaluator:
-    """Évalue la qualité de la réponse de la déléguée et fournit un feedback."""
- 
-    @staticmethod
-    def evaluate(rep_response: str, product: str, objection_type: Optional[str], kb_loader: KnowledgeBaseLoader) -> Dict:
-        score = 5.0
-        tips = []
- 
-        resp_lower = rep_response.lower()
-        resp_words = len(rep_response.split())
- 
-        # Critère 1 : empathie
-        empathy_phrases = ["je comprends", "c'est une bonne question", "excellente question",
-                           "je vois", "tout à fait", "vous avez raison"]
-        if any(ep in resp_lower for ep in empathy_phrases):
-            score += 1.5
-        else:
-            tips.append("💡 Commencez par montrer de l'empathie (ex: 'Je comprends votre préoccupation...')")
- 
-        # Critère 2 : données / chiffres
-        if re.search(r"\d+\s*%", rep_response) or any(kw in resp_lower for kw in ["étude", "clinique", "prouvé", "démontré"]):
-            score += 1.5
-        else:
-            tips.append("📊 Appuyez-vous sur des données chiffrées ou des études cliniques")
- 
-        # Critère 3 : solution concrète / invitation
-        if any(kw in resp_lower for kw in ["échantillon", "puis-je", "je peux vous", "proposer", "montrer", "laisser"]):
-            score += 1.0
-        else:
-            tips.append("🤝 Terminez par une proposition concrète (échantillon, documentation, rendez-vous)")
- 
-        # Critère 4 : longueur suffisante
-        if resp_words >= 30:
-            score += 0.5
-        elif resp_words < 15:
-            score -= 0.5
-            tips.append("📝 Développez davantage votre argumentation")
- 
-        score = round(min(max(score, 0), 10), 1)
- 
-        # Réponse modèle depuis la KB
-        model_response = None
-        if product and objection_type:
-            model_response = kb_loader.get_best_response(product, objection_type)
- 
-        return {
-            "score": score,
-            "tips": tips,
-            "model_response": model_response,
-            "label": "Excellent" if score >= 8.5 else "Bon" if score >= 7.0 else "À améliorer",
-        }
 
 class _WeightedRRFRetriever:
     """
@@ -506,7 +157,6 @@ class _WeightedRRFRetriever:
         self.weights = list(weights)
         self.rrf_k = rrf_k
         self.limit = limit
-        
 
     def invoke(self, query: str) -> List[Document]:
         scores: Dict[str, Tuple[Document, float]] = {}
@@ -537,24 +187,20 @@ class KnowledgeManager:
     def load_or_create(self, docs: List[Document]):
         print(f"[KB] Loading/creating knowledge base with {len(docs)} documents...")
         
-        # Utilise un client en mémoire (EphemeralClient) pour éviter
-        # l'incompatibilité ChromaDB Rust + Python 3.14
-        try:
-            import chromadb
-            client = chromadb.EphemeralClient()
+        if os.path.exists(self.persist_dir):
+            print(f"[KB] Found existing database at {self.persist_dir}")
             self.vectorstore = Chroma(
-                client=client,
-                collection_name="alia_kb",
-                embedding_function=self.embeddings,
+                persist_directory=self.persist_dir,
+                embedding_function=self.embeddings
             )
-            # Populate if empty
-            if self.vectorstore._collection.count() == 0:
-                print(f"[KB] Populating collection with {len(docs)} documents...")
-                self.vectorstore.add_documents(docs)
-        except Exception as e:
-            print(f"[KB] EphemeralClient failed ({e}), fallback to from_documents...")
-            self.vectorstore = Chroma.from_documents(docs, self.embeddings)
- 
+        else:
+            print(f"[KB] Creating new database at {self.persist_dir}")
+            self.vectorstore = Chroma.from_documents(
+                docs,
+                self.embeddings,
+                persist_directory=self.persist_dir
+            )
+
         self._build_retriever(docs)
         print("[KB] Knowledge base ready!")
 
@@ -571,213 +217,351 @@ class KnowledgeManager:
             limit=16,
         )
 
+    def find_product_by_name(self, product_name: str) -> Optional[Document]:
+        try:
+            if not product_name:
+                return None
+                
+            product_name_lower = product_name.lower().strip()
+            print(f"[KB] Searching for product: '{product_name_lower}'")
+            
+            # Get all products from vectorstore (up to 50 for comprehensive search)
+            results = self.vectorstore.similarity_search(
+                product_name_lower,
+                k=50,
+                filter=None
+            )
+            
+            if not results:
+                print("[KB] No products found in vectorstore")
+                return None
+            
+            # Extract unique products with their metadata
+            unique_products = {}
+            for doc in results:
+                name = doc.metadata.get('name', '')
+                if name and name not in unique_products:
+                    unique_products[name] = doc
+            
+            print(f"[KB] Found {len(unique_products)} unique products to search through")
+            
+            # Try different matching strategies
+            matches = []
+            
+            for doc_name, doc in unique_products.items():
+                doc_name_lower = doc_name.lower()
+                score = 0
+                
+                # Strategy 1: Exact match (highest score)
+                if doc_name_lower == product_name_lower:
+                    matches.append((doc, 1.0, "exact"))
+                    continue
+                
+                # Strategy 2: Product name is substring of document name
+                if product_name_lower in doc_name_lower:
+                    score = len(product_name_lower) / len(doc_name_lower)
+                    matches.append((doc, score, "substring"))
+                
+                # Strategy 3: Document name is substring of product name
+                elif doc_name_lower in product_name_lower:
+                    score = len(doc_name_lower) / len(product_name_lower)
+                    matches.append((doc, score, "contains"))
+                
+                # Strategy 4: Word overlap (Jaccard similarity)
+                else:
+                    product_words = set(product_name_lower.split())
+                    doc_words = set(doc_name_lower.split())
+                    
+                    if product_words and doc_words:
+                        intersection = product_words & doc_words
+                        union = product_words | doc_words
+                        
+                        if intersection:
+                            # Jaccard similarity
+                            jaccard = len(intersection) / len(union)
+                            
+                            # Also check if all product words appear in doc (in any order)
+                            all_words_present = all(word in doc_name_lower for word in product_words)
+                            
+                            if all_words_present:
+                                score = 0.7 + (0.3 * jaccard)  # Boost if all words are present
+                            else:
+                                score = 0.4 * jaccard  # Lower score for partial word matches
+                            
+                            if score > 0.3:  # Minimum threshold
+                                matches.append((doc, score, f"word_overlap_{len(intersection)}"))
+                
+                # Strategy 5: Levenshtein distance for similar strings
+                if not matches or max(m[1] for m in matches) < 0.5:
+                    # Only compute if we don't have good matches yet
+                    distance_ratio = self._string_similarity(product_name_lower, doc_name_lower)
+                    if distance_ratio > 0.6:  # 60% similar
+                        matches.append((doc, distance_ratio * 0.8, "similar"))  # Slightly lower weight
+            
+            # Sort matches by score (descending)
+            matches.sort(key=lambda x: x[1], reverse=True)
+            
+            # Log all potential matches for debugging
+            print(f"[KB] Top matches for '{product_name_lower}':")
+            for doc, score, strategy in matches[:5]:
+                print(f"  - {doc.metadata.get('name')} (score: {score:.3f}, strategy: {strategy})")
+            
+            # Return the best match if score is above threshold
+            if matches and matches[0][1] >= 0.4:  # 40% confidence threshold
+                best_doc, best_score, best_strategy = matches[0]
+                print(f"[KB] Selected: {best_doc.metadata.get('name')} (score: {best_score:.3f}, strategy: {best_strategy})")
+                return best_doc
+            
+            print(f"[KB] No suitable match found for '{product_name_lower}' (best score: {matches[0][1] if matches else 0:.3f})")
+            return None
+        
+        except Exception as e:
+            print(f"[KB] Error finding product: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+
+    def _string_similarity(self, s1: str, s2: str) -> float:
+        try:
+            # Simple Levenshtein implementation
+            if len(s1) < len(s2):
+                s1, s2 = s2, s1
+            
+            if len(s2) == 0:
+                return 0.0
+            
+            previous_row = list(range(len(s2) + 1))
+            for i, c1 in enumerate(s1):
+                current_row = [i + 1]
+                for j, c2 in enumerate(s2):
+                    insertions = previous_row[j + 1] + 1
+                    deletions = current_row[j] + 1
+                    substitutions = previous_row[j] + (c1 != c2)
+                    current_row.append(min(insertions, deletions, substitutions))
+                previous_row = current_row
+            
+            distance = previous_row[-1]
+            max_len = max(len(s1), len(s2))
+            similarity = 1 - (distance / max_len)
+            return similarity
+        except:
+            return 0.0
+
 
 # =========================
 # QUERY UNDERSTANDING
 # =========================
 class QueryAnalyzer:
     @staticmethod
-    def detect_product(text: str) -> Optional[str]:
-        """Détecte le produit mentionné dans le texte de la déléguée."""
-        text_lower = text.lower()
-        # Corrections des noms mal prononcés
-        corrections = {
-            "phytophan lossuant antichute": "PHYTOFANE Lotion anti chute",
-            "phytophan": "PHYTOFANE Lotion anti chute",
-            "phytofane": "PHYTOFANE Lotion anti chute",
-            "multiband calcium vit détroit": "MULTIBON Calcium Vit.D3",
-            "élevé cis-protect": "LV CYSPROTECT",
-            "au mévis omega 3": "Omevie Omega 3",
-        }
-        
-        for wrong, correct in corrections.items():
-            if wrong in text_lower:
-                print(f"[ALIA] Correction produit: '{wrong}' -> '{correct}'")
-                return correct
-        
-        # Recherche normale
-        for product_name in PRODUCT_CATALOG:
-            if product_name.lower() in text_lower:
-                return product_name
-        # Fuzzy matching sur les mots-clés du nom
-        for product_name , info in PRODUCT_CATALOG.items():
-            for keyword in info.get('keywords', []):
-                if keyword in text_lower:
-                    return product_name
-        return None
- 
-    @staticmethod
-    def detect_objection_type(text: str) -> Optional[str]:
-        """Détecte le type d'objection dans le texte du médecin/client."""
-        text_lower = text.lower()
-        best_match = None
-        best_count = 0
-        for obj_type, keywords in OBJECTION_KEYWORDS.items():
-            count = sum(1 for kw in keywords if kw in text_lower)
-            if count > best_count:
-                best_count = count
-                best_match = obj_type
-        return best_match if best_count > 0 else None
-
-    @staticmethod
     def analyze(query: str) -> Dict:
-        q = query.lower()
-        conditions_map = {
-            "anémie": ["anémie", "fer", "hémoglobine"],
-            "fatigue": ["fatigue", "tonus", "énergie", "vitalité", "asthénie"],
-            "stress": ["stress", "anxiété", "nervosité"],
-            "sommeil": ["sommeil", "insomnie", "dormir"],
+        q = query.lower().strip()
+
+        greeting_keywords = [
+            "bonjour", "salut", "bonsoir", "hello", "hi", "hey",
+            "ça va", "cv", "salam"
+        ]
+
+        casual_keywords = [
+            "merci", "ok", "d'accord", "oui", "non", "bien",
+            "super", "parfait"
+        ]
+
+        presentation_keywords = [
+            "présentation", "powerpoint", "ppt", "diaporama", "slides",
+            "créer", "générer", "présenter", "générez", "créez"
+        ]
+
+        greeting_matches = [word for word in greeting_keywords if word in q]
+
+        is_greeting = (
+            len(greeting_matches) > 0
+            and len(q.split()) <= 3
+        )
+        is_casual = any(word in q for word in casual_keywords)
+        is_presentation_request = any(
+    re.search(rf"\b{re.escape(word)}\b", q)
+    for word in presentation_keywords
+)
+
+        product_name = None
+        if is_presentation_request:
+            product_name = QueryAnalyzer._extract_product_name_regex(q)
+
+        conditions = {
+            "anémie": ["anémie", "fer", "hémoglobine", "fatigue extrême"],
+            "fatigue": ["fatigue", "tonus", "énergie", "vitalité"],
+            "stress": ["stress", "anxiété", "nervosité", "tension"],
+            "sommeil": ["sommeil", "insomnie", "dormir", "repos"],
             "digestion": ["digestion", "digestif", "estomac", "intestin"],
-            "peau": ["peau", "acné", "dermatologique"],
+            "peau": ["peau", "acné", "dermatologique", "cutané"],
             "immunité": ["immunité", "défense", "rhume", "grippe", "gorge", "angine"],
-            "articulation": ["articulation", "os", "cartilage", "mobilité"],
-            "cheveux": ["cheveux", "chute", "alopécie", "capillaire"],
-            "cardiovasculaire": ["cardiovasculaire", "triglycérides", "oméga", "omega"],
+            "articulation": ["articulation", "os", "cartilage", "mobilité"]
         }
-        detected = [cond for cond, kws in conditions_map.items() if any(kw in q for kw in kws)]
+
+        detected_conditions = []
+        for condition, keywords in conditions.items():
+            if any(kw in q for kw in keywords):
+                detected_conditions.append(condition)
+
+        is_medical_query = (
+            len(detected_conditions) > 0
+            or any(x in q for x in [
+                "traitement", "soigner", "guérir",
+                "médicament", "produit", "symptôme"
+            ])
+        )
+
         return {
-            "target": "enfant" if any(x in q for x in ["enfant", "junior", "bébé", "pédiatrique"]) else "adulte",
-            "conditions": detected,
-            "product": QueryAnalyzer.detect_product(query),
-            "objection_type": QueryAnalyzer.detect_objection_type(query),
+            "is_greeting": is_greeting,
+            "is_casual": is_casual,
+            "is_medical_query": is_medical_query,
+            "is_presentation_request": is_presentation_request,
+            "product_name": product_name,
+            "conditions": detected_conditions,
+            "target": "enfant" if any(
+                x in q for x in ["enfant", "junior", "bébé", "pédiatrique"]
+            ) else "adulte"
         }
+    
+    @staticmethod
+    def _extract_product_name_regex(text: str) -> Optional[str]:
+        """Extract product name using various regex patterns"""
+        text = text.lower().strip()
+        
+        # List of patterns to try, from most specific to most general
+        patterns = [
+            # Pattern 1: "présentation [preposition] X" where X can be anything
+            r'(?:présentation|powerpoint|ppt|diaporama)\s+(?:pour|de|du|des|sur|d\')\s+([^?.!,;]+?)(?:\s*$|\s*[?.!,;]|\s+et|\s+ou)',
+            
+            # Pattern 2: "présenter X"
+            r'présenter\s+([^?.!,;]+?)(?:\s*$|\s*[?.!,;]|\s+et|\s+ou)',
+            
+            # Pattern 3: "créer/générer [une] [présentation] [pour] X"
+            r'(?:créer|générer|créez?|générez?)\s+(?:une\s+)?(?:présentation|powerpoint|ppt)?\s*(?:pour|de|du|des|sur|d\')?\s+([^?.!,;]+?)(?:\s*$|\s*[?.!,;]|\s+et|\s+ou)',
+            
+            # Pattern 4: "je veux/voudrais une présentation [pour] X"
+            r'(?:je\s+)?(?:veux|voudrais|aimerais|souhaite)\s+(?:une\s+)?(?:présentation|powerpoint|ppt)\s+(?:pour|de|du|des|sur|d\')\s+([^?.!,;]+?)(?:\s*$|\s*[?.!,;]|\s+et|\s+ou)',
+            
+            # Pattern 5: "peux-tu me faire une présentation sur X"
+            r'(?:peux-?tu|pouvez-?vous)\s+(?:me\s+)?(?:faire|créer|générer)\s+(?:une\s+)?(?:présentation|powerpoint|ppt)\s+(?:pour|de|du|des|sur|d\')\s+([^?.!,;]+?)(?:\s*$|\s*[?.!,;]|\s+et|\s+ou)',
+            
+            # Pattern 6: Anything after "présentation" that's not a stop word
+            r'présentation\s+([^?.!,;]+?)(?:\s*$|\s*[?.!,;]|\s+et|\s+ou)',
+        ]
+        
+        for i, pattern in enumerate(patterns):
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                raw_name = match.group(1).strip()
+                
+                # Clean up the extracted name
+                # Remove leading articles and prepositions
+                raw_name = re.sub(r'^(une|un|la|le|les|des|pour|de|du|sur|d\')\s+', '', raw_name, flags=re.IGNORECASE)
+                
+                # Remove trailing punctuation
+                raw_name = raw_name.rstrip('?.!,; ')
+                
+                if raw_name and len(raw_name) > 1:
+                    print(f"[QueryAnalyzer] Pattern {i+1} matched: '{raw_name}'")
+                    return raw_name
+        
+        return None
 
 
 # =========================
 # ORCHESTRATOR
 # =========================
-# =========================
-# MODE D'ALIA
-# =========================
-# "training"   : ALIA évalue le délégué, corrige ses réponses, l'encourage
-# "commercial" : ALIA assiste le délégué en visite chez un médecin/pharmacien
-ALIA_MODE = "training"   # valeur par défaut
+ALIA_MODE = "commercial"   # valeur par défaut
  
+PROMPT_COMMERCIAL = """Tu es ALIA, assistant pharmaceutique d'ne délégué médicale.
+Tu aides le délégué pendant sa visite chez un médecin ou un pharmacien.
+ 
+HISTORIQUE DE LA CONVERSATION:
+{history}
+ 
+QUESTION ACTUELLE: "{query}"
+ 
+PRODUITS DISPONIBLES:
+{context}
+ 
+RÈGLES:
+1. Vérifie que les produits correspondent EXACTEMENT à la question.
+2. Si aucun produit ne correspond, dis clairement qu'il n'y en a pas dans la base actuelle.
+3. Si un produit correspond, recommande LE MEILLEUR (1 seul) avec :
+   - Nom exact du produit
+   - Argument de vente en 1-2 phrases (bénéfice patient)
+   - Mode d'administration
+   - Version enfant si elle existe
+4. Tiens compte de l'historique : ne répète pas ce qui a déjà été dit.
+5. Reste concise et professionnelle.
+6. Si la question est trop vague ,demande des précisions : "Pouvez-vous préciser quel type de produit vous intéresse ?"
+ 
+Réponse:
+"""
+ 
+PROMPT_TRAINING = """Tu es ALIA, coach de formation pour délégués médicaux.
+Tu joues le rôle d'un médecin ou pharmacien exigeant.
+Tu évalues les réponses du délégué et tu l'aides à progresser.
+ 
+HISTORIQUE DE LA CONVERSATION:
+{history}
+ 
+CE QUE DIT LE DÉLÉGUÉ: "{query}"
+ 
+PRODUITS DISPONIBLES (pour vérifier si le délégué a raison):
+{context}
+ 
+RÈGLES:
+1. Si le délégué donne une bonne information sur un produit → félicite-le brièvement et enrichis.
+2. Si le délégué fait une erreur → corrige avec bienveillance et donne la bonne réponse.
+3. Si le délégué hésite → encourage-le et guide-le avec une question ou un indice.
+4. Pose une question de suivi pour tester davantage ses connaissances.
+5. Tiens compte de l'historique pour ne pas répéter les mêmes corrections.
+ 
+Réponse:
+"""
+
 
 class AliaOrchestrator:
-    HISTORY_MAX_TURNS = 6
-    _MEDICAL_KW = [
-        "fatigue", "sommeil", "stress", "anémie", "digestion", "peau", "acné",
-        "cheveux", "ongles", "articulation", "os", "immunité", "rhume", "grippe",
-        "toux", "gorge", "angine", "allergie", "mémoire", "concentration", "vision",
-        "circulation", "douleur", "vitamine", "complément", "traitement",
-        "sirop", "comprimé", "gélule", "crème", "fer", "calcium", "magnésium", "zinc",
-        "omega", "oméga", "urinaire", "cystite", "capillaire",
-    ]
-
-    # Questions du médecin en mode training — cycle varié
-    _DOCTOR_QUESTIONS = [
-        "Avez-vous des études cliniques qui prouvent son efficacité ?",
-        "Quels sont les avantages par rapport aux génériques du marché ?",
-        "Quels sont les effets secondaires possibles ?",
-        "Quelle est la posologie recommandée pour un adulte ?",
-        "Est-ce que ce produit est remboursé par la sécurité sociale ?",
-        "En quoi est-il différent des autres compléments similaires ?",
-        "Quel est le prix public conseillé pour le patient ?",
-        "Y a-t-il des contre-indications importantes à connaître ?",
-        "Quelle est la durée de traitement recommandée ?",
-        "Existe-t-il une version adaptée pour les enfants ?",
-        "Pouvez-vous me laisser de la documentation scientifique ?",
-        "Quels types de patients bénéficieraient le plus de ce produit ?",
-    ]
-
-    def __init__(self, manager: KnowledgeManager, kb_loader: KnowledgeBaseLoader,mode: str = ALIA_MODE):
+    HISTORY_MAX_TURNS = 5
+    
+    def __init__(self, manager: KnowledgeManager, mode: str = ALIA_MODE, csv_path: Optional[Path] = None):
         self.manager = manager
-        self.kb_loader = kb_loader
-        self.mode = mode  # "commercial" ou "training"
-        self.history: List[Dict] = []  # [{"role": "user"|"alia", "text": "..."}]
-        self._turn = 0
-        self._persona = self._pick_persona()
-        self._asked_questions: List[str] = []
-        self._current_product: Optional[str] = None
-        self._last_objection_type: Optional[str] = None
-        self._greeted = False
-
+        self.mode = mode
+        self.history: List[Dict] = []
+        self.csv_path = csv_path or _DATA_DIR / "vital_products.csv"
+        
         print(f"[ALIA] Initializing LLM with model: {MODEL_SETTINGS['main']} | mode: {self.mode}")
         self.llm = OllamaLLM(
             model=MODEL_SETTINGS["main"],
             temperature=MODEL_SETTINGS["temperature"],
             num_predict=MODEL_SETTINGS["num_predict"]
         )
- 
+        
         self._build_chain()
-
-    def _pick_persona(self) -> Dict:
-        avatar = self.kb_loader.get_random_avatar() if self.kb_loader.avatars else {}
-        if avatar:
-            prenom = avatar.get("client_name", "Dr. Martin")
-            specialty = avatar.get("specialty", "médecin généraliste")
-            engagement = avatar.get("engagement_level", "Moyen")
-            if engagement == "Faible":
-                role = f"{specialty}, peu disponible et sceptique"
-            elif engagement == "Fort":
-                role = f"{specialty}, ouvert et intéressé par les nouveautés"
-            else:
-                role = f"{specialty}, attentif mais demande des preuves"
-            return {"prenom": prenom, "role": role}
-        return random.choice(PERSONAS)
-
  
     def _build_chain(self):
         template = PROMPT_TRAINING if self.mode == "training" else PROMPT_COMMERCIAL
         self.prompt = ChatPromptTemplate.from_template(template)
         self.chain = self.prompt | self.llm | StrOutputParser()
  
-
-
     def set_mode(self, mode: str):
+        """Change le mode à chaud et réinitialise l'historique."""
         if mode not in ("training", "commercial"):
             raise ValueError("mode doit être 'training' ou 'commercial'")
         self.mode = mode
-        self._greeted = True
         self.history = []
-        self._turn = 0
-        self._asked_questions = []
-        self._current_product = None
-        self._last_objection_type = None
-        self._persona = self._pick_persona()
-        
-        print(f"[ALIA] Mode: {mode} | Persona: {self._persona['prenom']}")
- 
-    def get_greeting(self) -> Dict:
-        """Appelé UNE SEULE FOIS par set_mode_view pour obtenir le message d'accueil."""
-        self._greeted = True
-        rep = (
-            f"Bonjour, je suis {self._persona['prenom']}, {self._persona['role']}. "
-            f"Quel produit souhaitez-vous me présenter aujourd'hui ?"
-        )
-        self._add_to_history("alia", rep)
-        return {"text": rep, "intent": "greeting", "persona": self._persona["prenom"]}
-
-    def reset(self):
-        self.history = []
-        self._turn = 0
-        self._asked_questions = []
-        self._current_product = None
-        self._last_objection_type = None
-        self._persona = self._pick_persona()
-        print(f"[ALIA] Reset | Persona: {self._persona['prenom']}")
- 
-    def _is_vague_commercial(self, query: str) -> bool:
-        q = query.lower()
-        greetings = ["bonjour", "docteur", "déléguée", "présenter", "enchantée", "ravi","monsieur","madame"]
-        if any(g in q for g in greetings) and len(q.split()) < 20:
-            return True
-        if any(kw in q for kw in self._MEDICAL_KW):
-            return False
-        vague = ["quoi de neuf", "qu'est-ce que vous avez", "vous avez quoi", "montrez-moi"]
-        return any(p in q for p in vague)
+        self._build_chain()
+        print(f"[ALIA] Mode changé : {mode}")
  
     def _format_history(self) -> str:
+        """Formate les N derniers tours pour le prompt."""
         turns = self.history[-(self.HISTORY_MAX_TURNS * 2):]
         if not turns:
-            return "Début de visite."
+            return "Aucun historique (début de conversation)."
         lines = []
         for msg in turns:
-            if self.mode == "training":
-                prefix = "Délégué" if msg["role"] == "user" else self._persona["prenom"]
-            else:
-                prefix = "Délégué" if msg["role"] == "user" else "ALIA"
+            prefix = "Délégué" if msg["role"] == "user" else "ALIA"
             lines.append(f"{prefix}: {msg['text']}")
         return "\n".join(lines)
  
@@ -789,35 +573,16 @@ class AliaOrchestrator:
             self.history = self.history[-max_entries:]
 
     def _clean(self, text: str) -> str:
+        # Remove any thinking tags or markup
         text = re.sub(r"<think>.*?(</think>|$)", "", text, flags=re.DOTALL)
         text = re.sub(r"</?[^>]+>", "", text)
-        text = re.sub(r"Bonjour,?\s*(madame|monsieur)?\s*la?\s*délégu[eé]e?[.,]?\s*", "", text, flags=re.IGNORECASE)
         text = re.sub(r"\s+", " ", text)
         return text.strip()
-
-    def _next_doctor_question(self) -> str:
-        for q in self._DOCTOR_QUESTIONS:
-            if q not in self._asked_questions:
-                self._asked_questions.append(q)
-                return q
-        self._asked_questions = []
-        return self._DOCTOR_QUESTIONS[0]
- 
-    def _build_training_feedback(self, rep_response: str) -> Optional[Dict]:
-        """Génère un feedback structuré sur la réponse de la déléguée."""
-        if not self._current_product:
-            return None
-        return TrainingEvaluator.evaluate(
-            rep_response,
-            self._current_product,
-            self._last_objection_type,
-            self.kb_loader,
-        )
-
 
     def _humanize(self, text: str) -> str:
         text = text.replace("Il est recommandé", "Je vous conseille")
         text = text.replace("Vous pouvez utiliser", "Vous pouvez prendre")
+        text = text.replace("Je vous recommande", "Je vous conseille")
         return text
 
     def _check_relevance(self, query: str, docs: List[Document]) -> bool:
@@ -852,231 +617,372 @@ class AliaOrchestrator:
         
         return "Je n'ai pas trouvé de produit correspondant exactement à votre demande. Pourriez-vous reformuler ou préciser votre besoin ?"
 
-    async def generate(self, query: str) -> Dict:
-        #self._turn += 1
-        print(f"[ALIA] turn={self._turn} mode={self.mode} | {query[:80]}")
-    
-        # Vérifier si l'utilisateur parle de Vital SA
-        query_lower = query.lower()
-        if "vital" not in query_lower and "vita" not in query_lower:
-            if "vita lessa" in query_lower:
-                query = query.replace("Vita Lessa", "Vital SA").replace("vita lessa", "Vital SA")
-                query = query.replace("vitales", "Vital SA")
-                print(f"[ALIA] Correction: {query}")
-
+    async def generate_presentation(self, product_name: str) -> Dict:
+        """Generate a PowerPoint presentation for a specific product"""
+        if not PPT_AVAILABLE:
+            return {
+                "text": "Désolée, la génération de présentations PowerPoint n'est pas disponible actuellement.",
+                "intent": "presentation_error",
+                "presentation_path": None
+            }
+        
         try:
-            # ── MODE TRAINING ──────────────────────────────────────────
-            if self.mode == "training":
-                if self._turn == 0 and len(self.history) == 0:
-                    self._turn = 1
-                    rep = (
-                        f"Bonjour, je suis {self._persona['prenom']}, {self._persona['role']}. "
-                        f"Quel produit Vital SA souhaitez-vous me présenter aujourd'hui ?"
-                    )
-                    self._add_to_history("user", query)
-                    self._add_to_history("alia", rep)
-                    return {"text": rep, "intent": "greeting"}
-                
-                # Incrémenter le tour seulement pour les vrais messages
-                self._turn += 1
-                print(f"[ALIA] turn={self._turn} mode={self.mode} | {query[:80]}")
-
-                # Détecter le produit dans la réponse de la déléguée
-                detected_product = QueryAnalyzer.detect_product(query)
-                if detected_product:
-                    self._current_product = detected_product
-                    print(f"[ALIA] Produit détecté: {detected_product}")
-                
-                # Le médecin pose la prochaine question
-                if self._current_product:
-                    idx = (self._turn - 2) % len(self._DOCTOR_QUESTIONS)
-                    rep = self._DOCTOR_QUESTIONS[idx]
-                    self._last_objection_type = QueryAnalyzer.detect_objection_type(rep)
-                else:
-                    product_found = False
-                    for product_name in PRODUCT_CATALOG:
-                        if product_name.lower() in query_lower:
-                            self._current_product = product_name
-                            rep = self._DOCTOR_QUESTIONS[0]
-                            product_found = True
-                            break
-                    if not product_found:
-                        rep = (
-                            "Je ne connais pas ce produit dans la gamme Vital SA. "
-                            "Pouvez-vous me présenter un produit de notre catalogue ? "
-                            "Nous avons par exemple : OLIGOVIT Trio, LV CYSPROTECT, LV Fersang junior, Omevie Omega 3."
-                        )
-                
-                self._add_to_history("user", query)
-                self._add_to_history("alia", rep)
-                print(f"[ALIA] Doctor says: {rep}")
-                
-                result: Dict = {"text": rep, "intent": "response", "persona": self._persona["prenom"]}
-                return result
-    
-            # ── MODE COMMERCIAL ────────────────────────────────────────
-            else:
-                if self._is_vague_commercial(query):
-                    rep = "Pouvez-vous préciser votre besoin ? Fatigue, sommeil, gorge, peau, infections urinaires, ou autre pathologie ?"
-                    self._add_to_history("user", query)
-                    self._add_to_history("alia", rep)
-                    return {"text": rep, "intent": "clarification"}
-    
-                docs = await asyncio.to_thread(self.manager.retriever.invoke, query)
-                print(f"[ALIA] docs retrieved: {len(docs)}")
-    
-                if not docs:
-                    analysis = QueryAnalyzer.analyze(query)
-                    conditions = analysis.get("conditions", [])
-                    rep = (
-                        f"Je n'ai pas de produit pour {', '.join(conditions)}. Pouvez-vous préciser ?"
-                        if conditions else
-                        "Je n'ai pas trouvé de produit correspondant. Pouvez-vous préciser ?"
-                    )
-                    self._add_to_history("user", query)
-                    self._add_to_history("alia", rep)
-                    return {"text": rep, "intent": "no_results"}
-    
-                context = "\n\n---\n\n".join(d.page_content for d in docs[:5])
-                kwargs = {"context": context, "query": query, "history": self._format_history()}
-    
-                response = await asyncio.wait_for(
-                    asyncio.to_thread(self.chain.invoke, kwargs),
-                    timeout=120,
-                )
-                cleaned = self._clean(response)
-    
-                if not cleaned or len(cleaned.split()) < 5:
-                    analysis = QueryAnalyzer.analyze(query)
-                    conditions = analysis.get("conditions", [])
-                    cleaned = (
-                        f"Je n'ai pas trouvé de produit exact pour {', '.join(conditions)}."
-                        if conditions else "Pouvez-vous préciser votre demande ?"
-                    )
-                else:
-                    cleaned = self._humanize(cleaned)
-    
-                self._add_to_history("user", query)
-                self._add_to_history("alia", cleaned)
-                return {"text": cleaned, "intent": "response"}
-    
-        except asyncio.TimeoutError:
-            fallback = random.choice([
-                "Pouvez-vous me donner plus de détails sur ce produit ?",
-                "Quels sont les résultats des études cliniques ?",
-                "Comment se compare-t-il aux autres produits ?",
-            ])
-            return {"text": fallback, "intent": "timeout"}
+            print(f"[ALIA] Generating presentation for: {product_name}")
+            
+            # Generate the presentation
+            output_path = await asyncio.to_thread(
+                generate_presentation_for_product,
+                product_name,
+                self.csv_path
+            )
+            
+            # Create a user-friendly response
+            response = f"J'ai généré la présentation PowerPoint pour {product_name} !\n\n"
+            response += "La présentation comprend :\n"
+            response += "• Une slide d'accroche avec le positionnement produit\n"
+            response += "• L'analyse de la problématique patient\n"
+            response += "• La solution experte Vital Labs\n"
+            response += "• Les 4 piliers stratégiques\n"
+            response += "• Les spécifications techniques\n"
+            response += "• Une conclusion avec appel à l'action\n\n"
+            response += "Voulez-vous que je vous présente le contenu ou que je génère une présentation pour un autre produit ?"
+            
+            return {
+                "text": response,
+                "intent": "presentation_generated",
+                "presentation_path": str(output_path)
+            }
+            
+        except ValueError as e:
+            # Product not found
+            return {
+                "text": f"Je n'ai pas trouvé le produit '{product_name}' dans notre catalogue. "
+                       f"Pouvez-vous vérifier le nom exact du produit ?",
+                "intent": "presentation_error",
+                "presentation_path": None
+            }
         except Exception as e:
-            print(f"[ERROR] {e}")
+            print(f"[ALIA] Presentation generation error: {e}")
             import traceback
             traceback.print_exc()
-            return {"text": "Je n'ai pas bien compris. Pouvez-vous reformuler ?", "intent": "error"}
+            return {
+                "text": "Désolée, une erreur s'est produite lors de la génération de la présentation. "
+                       "Veuillez réessayer avec un autre produit.",
+                "intent": "presentation_error",
+                "presentation_path": None
+            }
+    def _find_similar_products(self, product_name: str, limit: int = 5) -> List[str]:
+        """Find similar products when exact match fails"""
+        try:
+            if not product_name:
+                return []
+            
+            product_name_lower = product_name.lower().strip()
+            
+            # Get a sample of products from the vectorstore
+            all_docs = self.manager.vectorstore.similarity_search(
+                product_name_lower,
+                k=20,
+                filter=None
+            )
+            
+            if not all_docs:
+                return []
+            
+            # Extract unique product names
+            unique_products = {}
+            for doc in all_docs:
+                name = doc.metadata.get('name', '')
+                if name and name not in unique_products:
+                    unique_products[name] = doc
+            
+            # Score each product for similarity
+            scored_products = []
+            search_terms = set(product_name_lower.split())
+            
+            for name, doc in unique_products.items():
+                name_lower = name.lower()
+                score = 0
+                
+                # Check word overlap
+                name_terms = set(name_lower.split())
+                overlap = search_terms & name_terms
+                
+                if overlap:
+                    # Score based on number of matching words
+                    score = len(overlap) * 0.5
+                    
+                    # Boost for products containing "fer" if searching for iron-related
+                    if "fer" in search_terms and "fer" in name_lower:
+                        score += 1.0
+                    
+                    # Boost for products containing "sang" if searching for blood-related
+                    if "sang" in search_terms and "sang" in name_lower:
+                        score += 1.0
+                
+                # Also check Levenshtein similarity for typos
+                similarity = self.manager._string_similarity(product_name_lower, name_lower)
+                score += similarity * 0.3
+                
+                if score > 0.3:  # Minimum threshold
+                    scored_products.append((name, score))
+            
+            # Sort by score and return top results
+            scored_products.sort(key=lambda x: x[1], reverse=True)
+            return [name for name, _ in scored_products[:limit]]
+            
+        except Exception as e:
+            print(f"[ALIA] Error finding similar products: {e}")
+            return []
+
+    async def generate(self, query: str):
+        try:
+            analysis = QueryAnalyzer.analyze(query)
+            print(f"[ALIA] Query analysis: {analysis}")
+
+            # =========================
+            # GREETING
+            # =========================
+            if analysis.get("is_greeting"):
+                response = "Bonjour, je suis ALIA. Comment puis-je vous aider aujourd’hui ?"
+                self._add_to_history("user", query)
+                self._add_to_history("alia", response)
+                return {"text": response, "intent": "greeting"}
+
+            # =========================
+            # CASUAL
+            # =========================
+            if analysis.get("is_casual"):
+                response = "Je vous en prie. Avez-vous besoin d’informations sur un produit ou d’une présentation ?"
+                self._add_to_history("user", query)
+                self._add_to_history("alia", response)
+                return {"text": response, "intent": "casual"}
+
+            # =========================
+            # PRESENTATION REQUEST
+            # =========================
+            if analysis.get("is_presentation_request"):
+                product_name = analysis.get("product_name")
+
+                if not product_name:
+                    response = "Pour quel produit souhaitez-vous générer une présentation PowerPoint ?"
+                    self._add_to_history("user", query)
+                    self._add_to_history("alia", response)
+                    return {"text": response, "intent": "clarification"}
+
+                product_doc = self.manager.find_product_by_name(product_name)
+
+                if not product_doc:
+                    similar_products = self._find_similar_products(product_name)
+
+                    response = f"Je n'ai pas trouvé exactement '{product_name}' dans notre base.\n\n"
+
+                    if similar_products:
+                        response += "Produits similaires disponibles :\n"
+                        for prod in similar_products[:5]:
+                            response += f"• {prod}\n"
+                        response += "\nSouhaitez-vous une présentation pour l'un de ces produits ?"
+                    else:
+                        response += "Pouvez-vous vérifier le nom du produit ?"
+
+                    self._add_to_history("user", query)
+                    self._add_to_history("alia", response)
+                    return {"text": response, "intent": "clarification"}
+
+                actual_product_name = product_doc.metadata.get("name")
+                self._add_to_history("user", query)
+
+                result = await self.generate_presentation(actual_product_name)
+
+                self._add_to_history("alia", result["text"])
+                return result
+
+            # =========================
+            # VAGUE QUERY DETECTION
+            # =========================
+            mots_vagues = [
+                "nouveau",
+                "nouveauté",
+                "quoi de neuf",
+                "qu'est-ce que vous avez",
+                "vous avez quoi",
+                "un produit",
+                "quelque chose"
+            ]
+
+            query_lower = query.lower()
+
+            est_vague = (
+                len(query.split()) < 12
+                and any(m in query_lower for m in mots_vagues)
+                and not any(
+                    m in query_lower
+                    for m in [
+                        "cheveux",
+                        "fatigue",
+                        "peau",
+                        "sommeil",
+                        "anémie",
+                        "digestion",
+                        "stress",
+                        "os",
+                        "gorge",
+                        "toux",
+                        "rhume",
+                        "grippe",
+                        "articulation",
+                        "vision",
+                        "mémoire"
+                    ]
+                )
+            )
+
+            if est_vague:
+                response = (
+                    "Pouvez-vous préciser votre besoin ? "
+                    "Par exemple : avez-vous un problème particulier comme "
+                    "la fatigue, le sommeil, la peau, ou une pathologie spécifique ?"
+                )
+
+                self._add_to_history("user", query)
+                self._add_to_history("alia", response)
+
+                return {"text": response, "intent": "clarification"}
+
+            # =========================
+            # PRODUCT RECOMMENDATION FLOW
+            # =========================
+            print(f"[ALIA] Processing query: {query}")
+            print("[ALIA] Retrieving relevant documents...")
+
+            docs = await asyncio.to_thread(self.manager.retriever.invoke, query)
+
+            print(f"[ALIA] Retrieved {len(docs)} documents")
+
+            if not docs:
+                response = self._smart_fallback(query, [], analysis)
+
+                self._add_to_history("user", query)
+                self._add_to_history("alia", response)
+
+                return {"text": response, "intent": "no_results"}
+
+            is_relevant = self._check_relevance(query, docs)
+
+            print(f"[ALIA] Documents relevant: {is_relevant}")
+
+            print("[ALIA] Top 3 retrieved products:")
+            for i, doc in enumerate(docs[:3]):
+                print(f"  {i+1}. {doc.metadata.get('name', 'Unknown')}")
+
+            context = "\n\n---\n\n".join(d.page_content for d in docs[:5])
+
+            history_str = self._format_history()
+
+            print(f"[ALIA] Context length: {len(context)} chars")
+            print("[ALIA] Generating response...")
+
+            response = await asyncio.wait_for(
+                asyncio.to_thread(
+                    self.chain.invoke,
+                    {
+                        "context": context,
+                        "query": query,
+                        "history": history_str
+                    }
+                ),
+                timeout=120
+            )
+
+            print(f"[ALIA] Raw response: {response[:200]}...")
+
+            cleaned = self._clean(response)
+
+            if not cleaned or len(cleaned.split()) < 10:
+                print("[ALIA] Response too short, using fallback")
+                cleaned = self._smart_fallback(query, docs, analysis)
+
+            elif not is_relevant:
+                print("[ALIA] Documents not relevant enough, using fallback")
+                cleaned = self._smart_fallback(query, docs, analysis)
+
+            cleaned = self._humanize(cleaned)
+
+            print(f"[ALIA] Final response: {cleaned}")
+
+            self._add_to_history("user", query)
+            self._add_to_history("alia", cleaned)
+
+            return {"text": cleaned, "intent": "recommendation"}
+
+        except asyncio.TimeoutError:
+            print("[ALIA] Timeout error!")
+            return {
+                "text": "Désolée, le traitement de votre demande a pris trop de temps. Pouvez-vous reformuler ?",
+                "intent": "timeout"
+            }
+
+        except Exception as e:
+            print(f"[ALIA] Error during generation: {type(e).__name__}: {str(e)}")
+            import traceback
+            traceback.print_exc()
+
+            return {
+                "text": "Désolée, j'ai rencontré une erreur technique. Veuillez réessayer.",
+                "intent": "error"
+            }
 
 
-# ══════════════════════════════════════════════════════════════════════
-# FACTORY — point d'entrée pour Django et CLI
-# ══════════════════════════════════════════════════════════════════════
- 
-def build_alia(
-    data_dir: Path = _DATA_DIR,
-    mode: str = ALIA_MODE,
-    csv_name: str = "vital_products.csv",
-) -> AliaOrchestrator:
-    """
-    Construit et retourne une instance AliaOrchestrator prête à l'emploi.
- 
-    Args:
-        data_dir  : répertoire contenant vital_products.csv et/ou les fichiers prepared_data
-        mode      : 'training' ou 'commercial'
-        csv_name  : nom du fichier CSV principal des produits (optionnel)
-    """
-    # 1. Charger la KB enrichie depuis prepared_data
-    kb_loader = KnowledgeBaseLoader(data_dir)
-    kb_loader.load()
- 
-    # 2. Construire les documents vectoriels
-    csv_path = data_dir / csv_name
-    docs = []
-    
-    if csv_path.exists():
-        docs = DataProcessor.build_documents_from_csv(csv_path)
-    
-    if not docs:
-        docs = DataProcessor.build_documents_from_catalog()
-    
-    print(f"[build_alia] {len(docs)} product documents built")
- 
-    # 3. Indexer
-    manager = KnowledgeManager()
-    if docs:
-        manager.load_or_create(docs)
- 
-    # 4. Créer l'orchestrateur
-    alia = AliaOrchestrator(manager, kb_loader, mode=mode)
-    return alia
- 
- 
 # =========================
 # MAIN (USAGE)
 # =========================
 async def main():
-    import sys
- 
-    data_dir = _DATA_DIR
-    # Si lancé depuis prepared_data pour test, utiliser ce répertoire
-    if (Path(".") / "conversations_dso2_knowledge_base.csv").exists():
-        data_dir = Path(".")
- 
-    alia = build_alia(data_dir=data_dir, mode="training")
- 
-    print("\n=== ALIA v2 Ready ===")
-    print(f"Persona: {alia._persona['prenom']} — {alia._persona['role']}\n")
- 
-    if "--interactive" in sys.argv or "-i" in sys.argv:
-        print("Mode interactif. Tapez 'quit' pour quitter, 'reset' pour recommencer.\n")
-        while True:
-            q = input("Déléguée: ").strip()
-            if q.lower() in ("quit", "exit", "q"):
-                break
-            if q.lower() == "reset":
-                alia.reset()
-                print(f"[Reset] Nouveau persona: {alia._persona['prenom']}\n")
-                continue
-            res = await alia.generate(q)
-            print(f"\n{alia._persona['prenom']}: {res['text']}")
-            if res.get("feedback"):
-                fb = res["feedback"]
-                print(f"\n  ── FEEDBACK ALIA ──")
-                print(f"  Score estimé : {fb['score']}/10 ({fb['label']})")
-                for tip in fb["tips"]:
-                    print(f"  {tip}")
-                if fb.get("model_response"):
-                    print(f"  📌 Réponse modèle : {fb['model_response'][:200]}...")
-                print()
-    else:
-        # Démo automatique
-        scenarios = [
-            ("Je viens vous présenter Vitonic Tonus pour la fatigue.", "training"),
-            ("J'ai des doutes sur son efficacité, avez-vous des preuves ?", "training"),
-            ("Le prix me semble élevé par rapport aux génériques.", "training"),
-            ("Quels produits avez-vous pour les infections urinaires ?", "commercial"),
-            ("Un produit pour l'anémie chez l'enfant ?", "commercial"),
-        ]
- 
-        for query, mode in scenarios:
-            print(f"\n{'='*60}")
-            if alia.mode != mode:
-                alia.set_mode(mode)
-            print(f"[{mode.upper()}] Déléguée: {query}")
-            res = await alia.generate(query)
-            speaker = alia._persona["prenom"] if mode == "training" else "ALIA"
-            print(f"{speaker}: {res['text']}")
-            if res.get("feedback"):
-                fb = res["feedback"]
-                print(f"  → Score: {fb['score']}/10 | {fb['label']}")
-                for tip in fb["tips"]:
-                    print(f"  → {tip}")
+    csv_path = _DATA_DIR / "vital_products.csv"
+    df = pd.read_csv(csv_path).fillna("")
+    df.columns = df.columns.str.strip().str.lstrip("\ufeff")
+
+    docs = DataProcessor.build_documents(df)
+
+    manager = KnowledgeManager()
+    manager.load_or_create(docs)
+
+    alia = AliaOrchestrator(manager, csv_path=csv_path)
+
+    print("\n=== ALIA Ready ===\n")
+
+    # Test with various queries including presentation
+    test_queries = [
+        "Quel est votre traitement pour l'anémie ?",
+        "produit pour la fatigue",
+        "quelque chose pour le rhume",
+        "Peux-tu me créer une présentation powerpoint pour VITAL JUNIOR ?",
+        "Je voudrais une présentation du produit VITAL FORCE",
+        "Générez une présentation pour alcohol de montes"  # Test with the query from logs
+    ]
+
+    for q in test_queries:
+        print(f"\n{'='*60}")
+        print(f"Query: {q}")
+        print('='*60)
+        res = await alia.generate(q)
+        print(f"\nALIA: {res['text']}")
+        if res.get('presentation_path'):
+            print(f"\nPresentation saved to: {res['presentation_path']}")
+
+    # Interactive mode
+    print("\n=== Interactive Mode ===")
+    print("Type 'quit' to exit")
+    print("You can ask for presentations like: 'Crée une présentation pour [produit]'\n")
+    
+    while True:
+        q = input("\nUser: ")
+        if q.lower() in ['quit', 'exit', 'q']:
+            break
+            
+        res = await alia.generate(q)
+        print("ALIA:", res["text"])
+        if res.get('presentation_path'):
+            print(f"\n📊 Presentation saved to: {res['presentation_path']}")
 
 
 if __name__ == "__main__":

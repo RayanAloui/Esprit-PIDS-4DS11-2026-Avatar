@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import asyncio
 import os
+import shutil
 import tempfile
+import threading
 import uuid
 from pathlib import Path
 
@@ -12,14 +14,65 @@ from django.conf import settings
 from apps.modeling.runtime import get_runtime
 
 _whisper_model = None
-_whisper_lock = asyncio.Lock()
+_whisper_lock = threading.Lock()
+_ffmpeg_checked = False
+
+
+def _ensure_ffmpeg_available() -> None:
+    """
+    Ensure ffmpeg is available for Whisper audio decoding.
+    On Windows, use imageio-ffmpeg as a fallback when ffmpeg is not in PATH.
+    """
+    global _ffmpeg_checked
+    if _ffmpeg_checked:
+        return
+
+    if shutil.which("ffmpeg"):
+        _ffmpeg_checked = True
+        return
+
+    try:
+        import imageio_ffmpeg
+    except ModuleNotFoundError as e:
+        raise RuntimeError(
+            "ffmpeg introuvable. Installez ffmpeg (PATH) ou `pip install imageio-ffmpeg`."
+        ) from e
+
+    ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+    ffmpeg_dir = str(Path(ffmpeg_exe).parent)
+    if ffmpeg_dir not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ.get("PATH", "")
+
+    if not shutil.which("ffmpeg"):
+        raise RuntimeError(
+            "ffmpeg reste introuvable apres fallback imageio-ffmpeg."
+        )
+
+    _ffmpeg_checked = True
+
+
+def _ensure_whisper_loaded():
+    """Load Whisper once; safe across threads and per-request ``asyncio.run()`` loops."""
+    global _whisper_model
+    with _whisper_lock:
+        if _whisper_model is not None:
+            return _whisper_model
+        try:
+            import whisper
+        except ModuleNotFoundError as e:
+            raise RuntimeError(
+                "Whisper is not installed. Run: pip install openai-whisper"
+            ) from e
+        _ensure_ffmpeg_available()
+        _whisper_model = whisper.load_model("small", device="cpu")
+        return _whisper_model
 
 # Voix edge-tts utilisée pour ALIA
 # Autres options françaises disponibles :
 #   fr-FR-HenriNeural      (voix masculine)
 #   fr-FR-EloiseNeural     (voix féminine, plus douce)
 #   fr-BE-GerardNeural     (accent belge)
-EDGE_TTS_VOICE = "fr-FR-DeniseNeural"
+EDGE_TTS_VOICE = "fr-FR-HenriNeural"
 
 def api_prefix() -> str:
     return settings.MODELING_API_MOUNT_PATH.rstrip("/") or "/alia-api"
@@ -36,22 +89,9 @@ def clean_for_tts(text: str) -> str:
 
 
 async def _get_whisper_model():
-    global _whisper_model
     if _whisper_model is not None:
         return _whisper_model
-    async with _whisper_lock:
-        if _whisper_model is None:
-            try:
-                import whisper
-            except ModuleNotFoundError as e:
-                raise RuntimeError(
-                    "Whisper is not installed. Run: pip install openai-whisper"
-                ) from e
-
-            _whisper_model = await asyncio.to_thread(
-                whisper.load_model, "small", device="cpu"
-            )
-    return _whisper_model
+    return await asyncio.to_thread(_ensure_whisper_loaded)
 
 
 async def _synthesize_to_file(text: str, destination: Path) -> None:
@@ -76,6 +116,7 @@ async def _synthesize_to_file(text: str, destination: Path) -> None:
 async def listen_json(audio_bytes: bytes) -> dict:
     if not audio_bytes:
         return {"text": ""}
+    _ensure_ffmpeg_available()
     model = await _get_whisper_model()
     fd, tmp_path = tempfile.mkstemp(suffix=".webm")
     try:
@@ -133,20 +174,6 @@ async def ask_alia_json(text: str) -> dict:
         "intent": result.get("intent", "unknown"),
     }
 
-async def reset_json() -> dict:
-    """Remet l'historique à zéro sans changer le mode."""
-    rt = get_runtime()
-    rt.alia.reset()
-    return {"status": "ok"}
- 
- 
-async def set_mode_json(mode: str) -> dict:
-    """Change le mode (commercial / training) et remet l'historique à zéro."""
-    if mode not in ("commercial", "training"):
-        return {"error": "mode invalide"}
-    rt = get_runtime()
-    rt.alia.set_mode(mode)
-    return {"status": "ok", "mode": mode}
 
 def health_json() -> dict:
     try:

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from pathlib import Path
-import shutil
 import threading
+from pathlib import Path
+
 import pandas as pd
 from django.conf import settings
 
@@ -22,14 +22,9 @@ class _Runtime:
         self.df = pd.read_csv(csv_path).fillna("")
         self.df.columns = self.df.columns.str.strip().str.lstrip("\ufeff")
         docs = rag_mod.DataProcessor.build_documents(self.df)
-        # Load enriched knowledge base (best responses + avatars)
-        data_dir = Path(settings.MODELING_CSV).parent  # same folder as the CSV
-        self.kb_loader = rag_mod.KnowledgeBaseLoader(data_dir)
-        self.kb_loader.load()
-        
         self.kb = rag_mod.KnowledgeManager(persist_dir=str(settings.MODELING_KB_DIR))
         self.kb.load_or_create(docs)
-        self.alia = rag_mod.AliaOrchestrator(self.kb,self.kb_loader)
+        self.alia = rag_mod.AliaOrchestrator(self.kb)
 
         # Préchargement de Whisper au démarrage pour éviter le délai
         # de 5-10 secondes au premier appel micro
@@ -46,14 +41,11 @@ class _Runtime:
 
 
 def get_runtime() -> _Runtime:
+    """Thread-safe singleton. The dev server handles concurrent requests on multiple threads."""
     global _runtime
     if _runtime is not None:
         return _runtime
     with _runtime_lock:
         if _runtime is None:
             _runtime = _Runtime()
-            # Verify alia was properly initialized
-            if not hasattr(_runtime, 'alia') or _runtime.alia is None:
-                print("[ERROR] Alia orchestrator failed to initialize")
-                raise RuntimeError("Failed to initialize Alia orchestrator")
-    return _runtime
+        return _runtime

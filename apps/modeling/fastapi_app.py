@@ -17,6 +17,7 @@ from pydantic import BaseModel
 
 from apps.modeling.handlers import ask_alia_json, debug_search_json, health_json, listen_json
 from apps.modeling.rendering import render_modeling_index_sync
+from apps.modeling.runtime import get_runtime
 
 
 def create_app() -> FastAPI:
@@ -35,23 +36,23 @@ def create_app() -> FastAPI:
     class Query(BaseModel):
         text: str
 
+    class ModeBody(BaseModel):
+        mode: str = "commercial"
 
     @app.post("/reset")
     async def reset_endpoint():
-        try:
-            return await reset_json()
-        except Exception as e:
-            traceback.print_exc()
-            raise HTTPException(status_code=500, detail=str(e)) from e
- 
+        rt = get_runtime()
+        rt.alia.history = []
+        return {"status": "ok"}
+
     @app.post("/set_mode")
-    async def set_mode_endpoint(payload: ModePayload):
-        try:
-            return await set_mode_json(payload.mode)
-        except Exception as e:
-            traceback.print_exc()
-            raise HTTPException(status_code=500, detail=str(e)) from e
-            
+    async def set_mode_endpoint(body: ModeBody):
+        if body.mode not in ("commercial", "training"):
+            raise HTTPException(status_code=400, detail="Invalid mode")
+        rt = get_runtime()
+        await sync_to_async(rt.alia.set_mode)(body.mode)
+        return {"status": "ok", "mode": body.mode}
+
     @app.post("/ask_alia")
     async def ask_alia_endpoint(query: Query):
         try:

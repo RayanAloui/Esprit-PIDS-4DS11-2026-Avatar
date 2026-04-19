@@ -20,5 +20,4 @@ urlpatterns = [
     path(f"{_prefix}/", views.modeling_index, name="modeling_index"),
     path(f"{_prefix}/reset", views.reset_view, name="modeling_reset"),
     path(f"{_prefix}/set_mode", views.set_mode_view, name="modeling_set_mode"),
-    path('force_training', views.force_training_mode),
 ]
