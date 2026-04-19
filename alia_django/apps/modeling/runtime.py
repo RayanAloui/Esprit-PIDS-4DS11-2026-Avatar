@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import threading
 from pathlib import Path
 
 import pandas as pd
 from django.conf import settings
 
 _runtime = None
+_runtime_lock = threading.Lock()
 
 
 class _Runtime:
@@ -39,7 +41,11 @@ class _Runtime:
 
 
 def get_runtime() -> _Runtime:
+    """Thread-safe singleton. The dev server handles concurrent requests on multiple threads."""
     global _runtime
-    if _runtime is None:
-        _runtime = _Runtime()
-    return _runtime
+    if _runtime is not None:
+        return _runtime
+    with _runtime_lock:
+        if _runtime is None:
+            _runtime = _Runtime()
+        return _runtime

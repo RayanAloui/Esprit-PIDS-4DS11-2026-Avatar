@@ -1,0 +1,56 @@
+{% extends "crm/base.html" %}
+{% block crm_title %}Delegates — CRM Vitale{% endblock %}
+{% block nav_delegates %}active{% endblock %}
+
+{% block crm_content %}
+<div class="crm-page-header">
+    <h1>👥 Delegates Performance</h1>
+    <p>Field team activity analysis — visits, coverage and completion rates</p>
+    <a href="{% url 'crm:overview_pdf' %}" class="crm-pdf-btn">
+        🤖 Generate AI PDF Report
+    </a>
+</div>
+
+<div class="crm-kpi-grid">
+    <div class="crm-kpi-card kpi-blue">
+        <span class="crm-kpi-icon">👥</span>
+        <span class="crm-kpi-value">{{ nb_deleg }}</span>
+        <span class="crm-kpi-label">Active Delegates</span>
+        <span class="crm-kpi-delta">In the field</span>
+    </div>
+    <div class="crm-kpi-card kpi-green">
+        <span class="crm-kpi-icon">📍</span>
+        <span class="crm-kpi-value">{{ total_visits }}</span>
+        <span class="crm-kpi-label">Total Field Visits</span>
+        <span class="crm-kpi-delta">All years combined</span>
+    </div>
+    <div class="crm-kpi-card kpi-orange">
+        <span class="crm-kpi-icon">📊</span>
+        <span class="crm-kpi-value">{{ avg_visits }}</span>
+        <span class="crm-kpi-label">Avg Visits / Delegate</span>
+        <span class="crm-kpi-delta">Activity index</span>
+    </div>
+    <div class="crm-kpi-card kpi-teal">
+        <span class="crm-kpi-icon">✅</span>
+        <span class="crm-kpi-value">{{ avg_completion }}%</span>
+        <span class="crm-kpi-label">Avg Completion Rate</span>
+        <span class="crm-kpi-delta">Overall performance</span>
+    </div>
+</div>
+
+<div class="crm-section-header">
+    <span class="crm-section-title">🏆 Top Delegates</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-grid-equal">
+    <div class="crm-chart-card">{{ chart1|safe }}</div>
+    <div class="crm-chart-card">{{ chart2|safe }}</div>
+</div>
+
+<div class="crm-section-header">
+    <span class="crm-section-title">📅 Field Visits Over Time</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-full crm-chart-card">{{ chart3|safe }}</div>
+
+{% endblock %}

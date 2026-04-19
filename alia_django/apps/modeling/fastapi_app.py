@@ -91,5 +91,47 @@ def create_app() -> FastAPI:
     @app.post("/debug/search")
     async def debug_search(query: Query):
         return debug_search_json(query.text)
-
+    class VideoBody(BaseModel):
+        product_name: str
+ 
+    @app.post("/generate_video")
+    async def generate_video_endpoint(body: VideoBody):
+        """
+        Generate a PPTX + avatar MP4 video for a product.
+        Returns a JSON with video_url pointing to the served file,
+        and presentation_url pointing to the .pptx file.
+        """
+        from apps.modeling.video_generation import generate_video_for_product
+        import asyncio as _asyncio
+        try:
+            video_path = await _asyncio.to_thread(
+                generate_video_for_product,
+                body.product_name,
+            )
+            # Move outputs to the static directory so they are served
+            static_root = Path(settings.MODELING_STATIC_DIR)
+            videos_dir  = static_root / "videos"
+            videos_dir.mkdir(parents=True, exist_ok=True)
+ 
+            dest_mp4  = videos_dir / video_path.name
+            dest_pptx = videos_dir / video_path.with_suffix(".pptx").name
+ 
+            import shutil
+            shutil.copy2(str(video_path), str(dest_mp4))
+            if video_path.with_suffix(".pptx").exists():
+                shutil.copy2(str(video_path.with_suffix(".pptx")), str(dest_pptx))
+ 
+            prefix = api_prefix()
+            return {
+                "status": "ok",
+                "product": body.product_name,
+                "video_url":        f"{prefix}/static/videos/{dest_mp4.name}",
+                "presentation_url": f"{prefix}/static/videos/{dest_pptx.name}",
+            }
+        except ValueError as e:
+            raise HTTPException(status_code=404, detail=str(e)) from e
+        except Exception as e:
+            print(f"[modeling] VIDEO ERROR: {type(e).__name__}: {e}")
+            traceback.print_exc()
+            raise HTTPException(status_code=500, detail=str(e)) from e
     return app

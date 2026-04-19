@@ -2,6 +2,7 @@
 Routes Views — Page Route Optimizer
 """
 import json
+from django.contrib.auth.decorators import login_required
 from django.shortcuts  import render
 from django.http       import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -24,6 +25,7 @@ ZONES = {
 }
 
 
+@login_required
 def routes_index(request):
     """Page principale Route Optimizer."""
     pharmacies = get_all_pharmacies()

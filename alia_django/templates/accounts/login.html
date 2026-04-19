@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALIA — Connexion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .login-wrap{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:24px;position:relative;z-index:1;
+    }
+    .login-card{
+      width:100%;max-width:420px;
+      background:rgba(10,22,40,0.92);
+      border:1px solid rgba(0,212,255,0.2);
+      border-radius:18px;padding:40px 36px;
+      backdrop-filter:blur(20px);
+    }
+    .login-logo{
+      display:flex;align-items:center;gap:14px;margin-bottom:32px;
+    }
+    .login-logo-icon{
+      width:48px;height:48px;border-radius:12px;
+      background:linear-gradient(135deg,#00d4ff,#0f2044);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Bebas Neue',cursive;font-size:22px;color:#050d1a;
+      box-shadow:0 0 20px rgba(0,212,255,0.3);
+    }
+    .login-logo-text{}
+    .login-logo-title{
+      font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:4px;
+      color:#f0f4ff;line-height:1;
+    }
+    .login-logo-sub{
+      font-size:11px;letter-spacing:2px;color:#00d4ff;margin-top:1px;
+    }
+    .login-headline{
+      font-family:'Bebas Neue',cursive;font-size:32px;letter-spacing:2px;
+      color:#f0f4ff;margin-bottom:6px;
+    }
+    .login-sub{
+      font-size:13px;color:#8899bb;margin-bottom:28px;line-height:1.5;
+    }
+    .login-field{margin-bottom:16px;}
+    .login-label{
+      display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+      color:#8899bb;margin-bottom:6px;font-family:'JetBrains Mono',monospace;
+    }
+    .login-input{
+      width:100%;padding:12px 14px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(0,212,255,0.15);
+      border-radius:8px;color:#f0f4ff;
+      font-family:'Source Sans 3',sans-serif;font-size:15px;
+      outline:none;transition:border-color .2s,box-shadow .2s;
+    }
+    .login-input:focus{
+      border-color:rgba(0,212,255,0.5);
+      box-shadow:0 0 0 3px rgba(0,212,255,0.08);
+    }
+    .login-input::placeholder{color:rgba(136,153,187,0.4);}
+    .login-btn{
+      width:100%;padding:14px;margin-top:8px;
+      background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(0,153,187,0.1));
+      border:1px solid rgba(0,212,255,0.35);
+      border-radius:10px;color:#00d4ff;
+      font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:3px;
+      cursor:pointer;transition:all .2s;
+    }
+    .login-btn:hover{
+      background:linear-gradient(135deg,rgba(0,212,255,0.25),rgba(0,153,187,0.2));
+      border-color:rgba(0,212,255,0.6);
+      box-shadow:0 0 20px rgba(0,212,255,0.15);
+    }
+    .login-btn:active{transform:scale(0.98);}
+    .login-errors{
+      background:rgba(255,68,68,0.08);
+      border:1px solid rgba(255,68,68,0.25);
+      border-radius:8px;padding:10px 14px;margin-bottom:18px;
+    }
+    .login-error-item{
+      font-size:13px;color:#ff8888;
+      font-family:'JetBrains Mono',monospace;
+    }
+    .login-divider{
+      height:1px;background:rgba(0,212,255,0.08);margin:24px 0;
+    }
+    .login-footer{
+      text-align:center;font-size:11px;color:rgba(136,153,187,0.5);
+      letter-spacing:1px;
+    }
+    .login-footer strong{color:rgba(0,212,255,0.5);}
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-card">
+
+      <div class="login-logo">
+        <div class="login-logo-icon">A</div>
+        <div class="login-logo-text">
+          <div class="login-logo-title">ALIA</div>
+          <div class="login-logo-sub">VITAL SA</div>
+        </div>
+      </div>
+
+      <div class="login-headline">Connexion</div>
+      <div class="login-sub">Accédez à votre espace délégué médical.<br>Toutes vos sessions sont tracées et sécurisées.</div>
+
+      {% if messages %}
+      <div class="login-errors">
+        {% for msg in messages %}
+        <div class="login-error-item">⚠ {{ msg }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'accounts:login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="login-field">
+          <label class="login-label" for="id_username">Identifiant</label>
+          <input class="login-input" type="text" id="id_username" name="username"
+                 placeholder="Votre nom d'utilisateur" autocomplete="username" autofocus>
+        </div>
+
+        <div class="login-field">
+          <label class="login-label" for="id_password">Mot de passe</label>
+          <input class="login-input" type="password" id="id_password" name="password"
+                 placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <button class="login-btn" type="submit">Se connecter →</button>
+      </form>
+
+      <div class="login-divider"></div>
+      <div class="login-footer">
+        Problème de connexion ? Contactez votre <strong>manager VITAL SA</strong>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

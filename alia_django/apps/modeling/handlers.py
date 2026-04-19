@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import os
+import shutil
 import tempfile
 import threading
 import uuid
@@ -14,6 +15,36 @@ from apps.modeling.runtime import get_runtime
 
 _whisper_model = None
 _whisper_lock = threading.Lock()
+_ffmpeg_checked = False
+
+
+def _ensure_ffmpeg_available() -> None:
+    global _ffmpeg_checked
+    if _ffmpeg_checked:
+        return
+
+    if shutil.which("ffmpeg"):
+        _ffmpeg_checked = True
+        return
+
+    try:
+        import imageio_ffmpeg
+    except ModuleNotFoundError as e:
+        raise RuntimeError(
+            "ffmpeg introuvable. Installez ffmpeg (PATH) ou `pip install imageio-ffmpeg`."
+        ) from e
+
+    ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+    ffmpeg_dir = str(Path(ffmpeg_exe).parent)
+    if ffmpeg_dir not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ.get("PATH", "")
+
+    if not shutil.which("ffmpeg"):
+        raise RuntimeError(
+            "ffmpeg reste introuvable apres fallback imageio-ffmpeg."
+        )
+
+    _ffmpeg_checked = True
 
 
 def _ensure_whisper_loaded():
@@ -28,6 +59,7 @@ def _ensure_whisper_loaded():
             raise RuntimeError(
                 "Whisper is not installed. Run: pip install openai-whisper"
             ) from e
+        _ensure_ffmpeg_available()
         _whisper_model = whisper.load_model("small", device="cpu")
         return _whisper_model
 
@@ -36,7 +68,7 @@ def _ensure_whisper_loaded():
 #   fr-FR-HenriNeural      (voix masculine)
 #   fr-FR-EloiseNeural     (voix féminine, plus douce)
 #   fr-BE-GerardNeural     (accent belge)
-EDGE_TTS_VOICE = "fr-FR-DeniseNeural"
+EDGE_TTS_VOICE = "fr-FR-HenriNeural"
 
 def api_prefix() -> str:
     return settings.MODELING_API_MOUNT_PATH.rstrip("/") or "/alia-api"
@@ -80,6 +112,7 @@ async def _synthesize_to_file(text: str, destination: Path) -> None:
 async def listen_json(audio_bytes: bytes) -> dict:
     if not audio_bytes:
         return {"text": ""}
+    _ensure_ffmpeg_available()
     model = await _get_whisper_model()
     fd, tmp_path = tempfile.mkstemp(suffix=".webm")
     try:
@@ -106,13 +139,24 @@ async def ask_alia_json(text: str) -> dict:
     print(f"\n{'=' * 60}\n[modeling] Query: {text}\n{'=' * 60}")
     rt = get_runtime()
     result = await rt.alia.generate(text)
-    print(f"[modeling] Response intent: {result.get('intent')}")
+    intent = result.get("intent", "unknown")
+    print(f"[modeling] Response intent: {intent}")
 
     text_response = result.get("text", "Je n'ai pas compris votre question.")
     if not text_response or not text_response.strip():
         text_response = (
             "Désolée, je n'ai pas pu générer une réponse. Pouvez-vous reformuler ?"
         )
+
+    # Video generation already includes its own audio — no TTS needed
+    if intent == "presentation_generated":
+        return {
+            "text": text_response,
+            "audio_url": None,
+            "intent": intent,
+            "video_url": result.get("video_url"),
+            "presentation_url": result.get("presentation_url"),
+        }
 
     speech_text = clean_for_tts(text_response)
     filename = f"{uuid.uuid4()}.mp3"
@@ -127,14 +171,14 @@ async def ask_alia_json(text: str) -> dict:
         return {
             "text": text_response,
             "audio_url": None,
-            "intent": result.get("intent", "unknown"),
+            "intent": intent,
             "error": "Audio generation failed",
         }
 
     return {
         "text": text_response,
         "audio_url": f"{prefix}/static/audio/{filename}",
-        "intent": result.get("intent", "unknown"),
+        "intent": intent,
     }
 
 

@@ -1,0 +1,86 @@
+{% extends "crm/base.html" %}
+{% block crm_title %}Overview — CRM Vitale{% endblock %}
+{% block nav_overview %}active{% endblock %}
+
+{% block crm_content %}
+<div class="crm-page-header">
+    <h1>📊 Overview</h1>
+    <p>Commercial Performance Analysis · Pharmaceutical Market Tunisia · 2019 – 2026</p>
+    <a href="{% url 'crm:overview_pdf' %}" class="crm-pdf-btn">
+        🤖 Generate AI PDF Report
+    </a>
+</div>
+
+<!-- KPI ROW 1 -->
+<div class="crm-kpi-grid">
+    <div class="crm-kpi-card kpi-blue">
+        <span class="crm-kpi-icon">💰</span>
+        <span class="crm-kpi-value">{{ ca_total }} TND</span>
+        <span class="crm-kpi-label">Total Revenue</span>
+        <span class="crm-kpi-delta">All years combined</span>
+    </div>
+    <div class="crm-kpi-card kpi-green">
+        <span class="crm-kpi-icon">🧾</span>
+        <span class="crm-kpi-value">{{ nb_trans }}</span>
+        <span class="crm-kpi-label">Total Transactions</span>
+        <span class="crm-kpi-delta">All years combined</span>
+    </div>
+    <div class="crm-kpi-card kpi-orange">
+        <span class="crm-kpi-icon">👤</span>
+        <span class="crm-kpi-value">{{ nb_clients }}</span>
+        <span class="crm-kpi-label">Unique Clients</span>
+        <span class="crm-kpi-delta">{{ nb_zones }} active zones</span>
+    </div>
+    <div class="crm-kpi-card kpi-purple">
+        <span class="crm-kpi-icon">📍</span>
+        <span class="crm-kpi-value">{{ nb_vis }}</span>
+        <span class="crm-kpi-label">Field Visits</span>
+        <span class="crm-kpi-delta">{{ nb_deleg }} active delegates</span>
+    </div>
+</div>
+
+<!-- KPI ROW 2 -->
+<div class="crm-kpi-grid">
+    <div class="crm-kpi-card kpi-teal">
+        <span class="crm-kpi-icon">🗺️</span>
+        <span class="crm-kpi-value">{{ nb_zones }}</span>
+        <span class="crm-kpi-label">Zones Covered</span>
+        <span class="crm-kpi-delta">Out of 76 zones in Tunisia</span>
+    </div>
+    <div class="crm-kpi-card kpi-navy">
+        <span class="crm-kpi-icon">🏪</span>
+        <span class="crm-kpi-value">{{ nb_pharma }}</span>
+        <span class="crm-kpi-label">Pharmacies Tracked</span>
+        <span class="crm-kpi-delta">National active base</span>
+    </div>
+    <div class="crm-kpi-card kpi-gold">
+        <span class="crm-kpi-icon">💎</span>
+        <span class="crm-kpi-value">{{ ca_cl }} TND</span>
+        <span class="crm-kpi-label">Avg Revenue / Client</span>
+        <span class="crm-kpi-delta">Client value index</span>
+    </div>
+    <div class="crm-kpi-card kpi-red">
+        <span class="crm-kpi-icon">✅</span>
+        <span class="crm-kpi-value">{{ taux_fin }}%</span>
+        <span class="crm-kpi-label">Avg Completion Rate</span>
+        <span class="crm-kpi-delta">Delegates average</span>
+    </div>
+</div>
+
+<!-- CHARTS -->
+<div class="crm-section-header">
+    <span class="crm-section-title">📈 Revenue Evolution</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-grid-2">
+    <div class="crm-chart-card">{{ chart1|safe }}</div>
+    <div class="crm-chart-card">{{ chart2|safe }}</div>
+</div>
+
+<div class="crm-section-header">
+    <span class="crm-section-title">📊 Annual Growth Rate</span>
+    <div class="crm-section-line"></div>
+</div>
+<div class="crm-chart-full crm-chart-card">{{ chart3|safe }}</div>
+
+{% endblock %}

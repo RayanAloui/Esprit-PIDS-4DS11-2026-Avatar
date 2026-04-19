@@ -1,5 +1,6 @@
 import asyncio
 import json
+import traceback
 
 from django.conf import settings
 from django.http import HttpResponseNotAllowed, JsonResponse
@@ -39,7 +40,8 @@ def ask_alia_view(request):
         data = asyncio.run(ask_alia_json(text))
         return JsonResponse(data)
     except Exception as e:
-        return JsonResponse({"detail": str(e)}, status=500)
+        traceback.print_exc()
+        return JsonResponse({"detail": str(e) or type(e).__name__}, status=500)
 
 
 @csrf_exempt
@@ -66,7 +68,8 @@ def listen_view(request):
         data = asyncio.run(listen_json(audio_bytes))
         return JsonResponse(data)
     except Exception as e:
-        return JsonResponse({"detail": str(e)}, status=500)
+        traceback.print_exc()
+        return JsonResponse({"detail": str(e) or type(e).__name__}, status=500)
 
 
 @csrf_exempt

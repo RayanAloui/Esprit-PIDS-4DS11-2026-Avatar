@@ -31,11 +31,13 @@ sys.path.append(str(Path(__file__).resolve().parent))
 
 # Import the PowerPoint generation module
 try:
-    from powerpoint_generation import generate_presentation_for_product
-    PPT_AVAILABLE = True
+    from apps.modeling.powerpoint_generation import generate_presentation_for_product   # noqa: F401
+    from apps.modeling.video_generation import generate_video_for_product
+    VIDEO_AVAILABLE = True
 except ImportError as e:
-    print(f"[ALIA] PowerPoint generation not available: {e}")
-    PPT_AVAILABLE = False
+    print(f"[ALIA] Video generation not available: {e}")
+    VIDEO_AVAILABLE = False
+    generate_video_for_product = None
 
 # =========================
 # DATA PROCESSING
@@ -354,29 +356,39 @@ class KnowledgeManager:
 class QueryAnalyzer:
     @staticmethod
     def analyze(query: str) -> Dict:
-        q = query.lower()
-        
+        q = query.lower().strip()
+
+        greeting_keywords = [
+            "bonjour", "salut", "bonsoir", "hello", "hi", "hey",
+            "ça va", "cv", "salam"
+        ]
+
+        casual_keywords = [
+            "merci", "ok", "d'accord", "oui", "non", "bien",
+            "super", "parfait"
+        ]
+
         presentation_keywords = [
             "présentation", "powerpoint", "ppt", "diaporama", "slides",
-            "créer", "générer", "faire", "présenter", "générez", "créez",
-            "veux", "voudrais", "aimerais", "souhaite"
+            "créer", "générer", "présenter", "générez", "créez"
         ]
-        
-        is_presentation_request = any(keyword in q for keyword in presentation_keywords)
-        
-        # Extract product name for presentation
+
+        greeting_matches = [word for word in greeting_keywords if word in q]
+
+        is_greeting = (
+            len(greeting_matches) > 0
+            and len(q.split()) <= 3
+        )
+        is_casual = any(word in q for word in casual_keywords)
+        is_presentation_request = any(
+    re.search(rf"\b{re.escape(word)}\b", q)
+    for word in presentation_keywords
+)
+
         product_name = None
         if is_presentation_request:
-            # Method 1: Clean and extract using regex
             product_name = QueryAnalyzer._extract_product_name_regex(q)
-            
-            # Method 2: If regex fails, we'll let the KnowledgeManager handle it with fuzzy search
-            if not product_name:
-                print(f"[QueryAnalyzer] Could not extract product name from: '{q}'")
-                # We'll still return is_presentation_request=True but with None product_name
-                # The orchestrator will then ask for clarification
-        
-        # Medical conditions mapping (unchanged)
+
         conditions = {
             "anémie": ["anémie", "fer", "hémoglobine", "fatigue extrême"],
             "fatigue": ["fatigue", "tonus", "énergie", "vitalité"],
@@ -384,21 +396,33 @@ class QueryAnalyzer:
             "sommeil": ["sommeil", "insomnie", "dormir", "repos"],
             "digestion": ["digestion", "digestif", "estomac", "intestin"],
             "peau": ["peau", "acné", "dermatologique", "cutané"],
-            "immunité": ["immunité", "défense", "rhume", "grippe","gorge", "angine"],
+            "immunité": ["immunité", "défense", "rhume", "grippe", "gorge", "angine"],
             "articulation": ["articulation", "os", "cartilage", "mobilité"]
         }
-        
+
         detected_conditions = []
         for condition, keywords in conditions.items():
             if any(kw in q for kw in keywords):
                 detected_conditions.append(condition)
 
+        is_medical_query = (
+            len(detected_conditions) > 0
+            or any(x in q for x in [
+                "traitement", "soigner", "guérir",
+                "médicament", "produit", "symptôme"
+            ])
+        )
+
         return {
-            "target": "enfant" if any(x in q for x in ["enfant", "junior", "bébé", "pédiatrique"]) else "adulte",
-            "conditions": detected_conditions,
-            "is_treatment_query": any(x in q for x in ["traitement", "soigner", "guérir", "médicament", "produit"]),
+            "is_greeting": is_greeting,
+            "is_casual": is_casual,
+            "is_medical_query": is_medical_query,
             "is_presentation_request": is_presentation_request,
-            "product_name": product_name
+            "product_name": product_name,
+            "conditions": detected_conditions,
+            "target": "enfant" if any(
+                x in q for x in ["enfant", "junior", "bébé", "pédiatrique"]
+            ) else "adulte"
         }
     
     @staticmethod
@@ -451,8 +475,8 @@ class QueryAnalyzer:
 # =========================
 ALIA_MODE = "commercial"   # valeur par défaut
  
-PROMPT_COMMERCIAL = """Tu es ALIA, assistante pharmaceutique d'une délégué médicale.
-Tu aides la délégué pendant sa visite chez un médecin ou un pharmacien.
+PROMPT_COMMERCIAL = """Tu es ALIA, assistant pharmaceutique d'ne délégué médicale.
+Tu aides le délégué pendant sa visite chez un médecin ou un pharmacien.
  
 HISTORIQUE DE LA CONVERSATION:
 {history}
@@ -596,58 +620,69 @@ class AliaOrchestrator:
         return "Je n'ai pas trouvé de produit correspondant exactement à votre demande. Pourriez-vous reformuler ou préciser votre besoin ?"
 
     async def generate_presentation(self, product_name: str) -> Dict:
-        """Generate a PowerPoint presentation for a specific product"""
-        if not PPT_AVAILABLE:
+        """Generate a PowerPoint + avatar video for a specific product."""
+        if not VIDEO_AVAILABLE:
             return {
-                "text": "Désolée, la génération de présentations PowerPoint n'est pas disponible actuellement.",
+                "text": "Désolée, la génération de vidéo n'est pas disponible actuellement.",
                 "intent": "presentation_error",
-                "presentation_path": None
+                "presentation_path": None,
             }
-        
         try:
-            print(f"[ALIA] Generating presentation for: {product_name}")
-            
-            # Generate the presentation
+            print(f"[ALIA] Generating video presentation for: {product_name}")
             output_path = await asyncio.to_thread(
-                generate_presentation_for_product,
+                generate_video_for_product,
                 product_name,
-                self.csv_path
+                self.csv_path,
             )
-            
-            # Create a user-friendly response
-            response = f"J'ai généré la présentation PowerPoint pour {product_name} !\n\n"
-            response += "La présentation comprend :\n"
-            response += "• Une slide d'accroche avec le positionnement produit\n"
-            response += "• L'analyse de la problématique patient\n"
-            response += "• La solution experte Vital Labs\n"
-            response += "• Les 4 piliers stratégiques\n"
-            response += "• Les spécifications techniques\n"
-            response += "• Une conclusion avec appel à l'action\n\n"
-            response += "Voulez-vous que je vous présente le contenu ou que je génère une présentation pour un autre produit ?"
-            
+
+            # Copy video (and optional pptx) to static/videos so FastAPI can serve them
+            import shutil
+            from django.conf import settings
+            videos_dir = Path(settings.MODELING_STATIC_DIR) / "videos"
+            videos_dir.mkdir(parents=True, exist_ok=True)
+
+            dest_mp4 = videos_dir / output_path.name
+            shutil.copy2(str(output_path), str(dest_mp4))
+
+            pptx_src = output_path.with_suffix(".pptx")
+            dest_pptx = videos_dir / pptx_src.name
+            if pptx_src.exists():
+                shutil.copy2(str(pptx_src), str(dest_pptx))
+
+            from apps.modeling.handlers import api_prefix
+            prefix = api_prefix()
+            video_url = f"{prefix}/static/videos/{dest_mp4.name}"
+            presentation_url = f"{prefix}/static/videos/{dest_pptx.name}" if pptx_src.exists() else None
+
+            response = (
+                f"J'ai généré la présentation vidéo pour **{product_name}** !\n\n"
+                "Elle comprend :\n"
+                "• L'avatar ALIA animé avec synchronisation labiale\n"
+                "• 6 slides : accroche, analyse, solution, arguments, technique, conclusion\n"
+                "• Narration vocale synchronisée sur chaque slide\n\n"
+                "Voulez-vous une présentation pour un autre produit ?"
+            )
             return {
                 "text": response,
                 "intent": "presentation_generated",
-                "presentation_path": str(output_path)
+                "presentation_path": str(output_path),
+                "video_path": str(output_path),
+                "video_url": video_url,
+                "presentation_url": presentation_url,
             }
-            
-        except ValueError as e:
-            # Product not found
+        except ValueError:
             return {
-                "text": f"Je n'ai pas trouvé le produit '{product_name}' dans notre catalogue. "
-                       f"Pouvez-vous vérifier le nom exact du produit ?",
+                "text": f"Je n'ai pas trouvé '{product_name}'. Vérifiez le nom du produit.",
                 "intent": "presentation_error",
-                "presentation_path": None
+                "presentation_path": None,
             }
         except Exception as e:
-            print(f"[ALIA] Presentation generation error: {e}")
-            import traceback
-            traceback.print_exc()
+            print(f"[ALIA] Video generation error: {e}")
+            import traceback; traceback.print_exc()
             return {
-                "text": "Désolée, une erreur s'est produite lors de la génération de la présentation. "
-                       "Veuillez réessayer avec un autre produit.",
+                "text": "Désolée, une erreur s'est produite lors de la génération.",
                 "intent": "presentation_error",
-                "presentation_path": None
+                "presentation_path": None,
             }
     def _find_similar_products(self, product_name: str, limit: int = 5) -> List[str]:
         """Find similar products when exact match fails"""
@@ -715,82 +750,138 @@ class AliaOrchestrator:
 
     async def generate(self, query: str):
         try:
-            # Analyze the query first
             analysis = QueryAnalyzer.analyze(query)
             print(f"[ALIA] Query analysis: {analysis}")
-            
-            # Check if this is a presentation request
+
+            # =========================
+            # GREETING
+            # =========================
+            if analysis.get("is_greeting"):
+                response = "Bonjour, je suis ALIA. Comment puis-je vous aider aujourd’hui ?"
+                self._add_to_history("user", query)
+                self._add_to_history("alia", response)
+                return {"text": response, "intent": "greeting"}
+
+            # =========================
+            # CASUAL
+            # =========================
+            if analysis.get("is_casual"):
+                response = "Je vous en prie. Avez-vous besoin d’informations sur un produit ou d’une présentation ?"
+                self._add_to_history("user", query)
+                self._add_to_history("alia", response)
+                return {"text": response, "intent": "casual"}
+
+            # =========================
+            # PRESENTATION REQUEST
+            # =========================
             if analysis.get("is_presentation_request"):
                 product_name = analysis.get("product_name")
-                
+
                 if not product_name:
-                    # Ask for product name
                     response = "Pour quel produit souhaitez-vous générer une présentation PowerPoint ?"
                     self._add_to_history("user", query)
                     self._add_to_history("alia", response)
                     return {"text": response, "intent": "clarification"}
-            
-            # Check if product exists (with fuzzy matching)
-            product_doc = self.manager.find_product_by_name(product_name)
-            
-            if not product_doc:
-                # Try to find similar products to suggest
-                similar_products = self._find_similar_products(product_name)
-                
-                response = f"Je n'ai pas trouvé exactement '{product_name}' dans notre base.\n\n"
-                
-                if similar_products:
-                    response += "Produits similaires disponibles :\n"
-                    for prod in similar_products[:5]:
-                        response += f"• {prod}\n"
-                    response += "\nSouhaitez-vous une présentation pour l'un de ces produits ?"
-                else:
-                    response += "Voici quelques produits disponibles :\n"
-                    # Get some sample products
-                    sample_docs = self.manager.vectorstore.similarity_search("", k=5)
-                    for doc in sample_docs[:5]:
-                        response += f"• {doc.metadata.get('name', 'Inconnu')}\n"
-                    response += "\nPour lequel de ces produits souhaitez-vous une présentation ?"
-                
+
+                product_doc = self.manager.find_product_by_name(product_name)
+
+                if not product_doc:
+                    similar_products = self._find_similar_products(product_name)
+
+                    response = f"Je n'ai pas trouvé exactement '{product_name}' dans notre base.\n\n"
+
+                    if similar_products:
+                        response += "Produits similaires disponibles :\n"
+                        for prod in similar_products[:5]:
+                            response += f"• {prod}\n"
+                        response += "\nSouhaitez-vous une présentation pour l'un de ces produits ?"
+                    else:
+                        response += "Pouvez-vous vérifier le nom du produit ?"
+
+                    self._add_to_history("user", query)
+                    self._add_to_history("alia", response)
+                    return {"text": response, "intent": "clarification"}
+
+                actual_product_name = product_doc.metadata.get("name")
+                self._add_to_history("user", query)
+
+                result = await self.generate_presentation(actual_product_name)
+
+                self._add_to_history("alia", result["text"])
+                return result
+
+            # =========================
+            # VAGUE QUERY DETECTION
+            # =========================
+            mots_vagues = [
+                "nouveau",
+                "nouveauté",
+                "quoi de neuf",
+                "qu'est-ce que vous avez",
+                "vous avez quoi",
+                "un produit",
+                "quelque chose"
+            ]
+
+            query_lower = query.lower()
+
+            est_vague = (
+                len(query.split()) < 12
+                and any(m in query_lower for m in mots_vagues)
+                and not any(
+                    m in query_lower
+                    for m in [
+                        "cheveux",
+                        "fatigue",
+                        "peau",
+                        "sommeil",
+                        "anémie",
+                        "digestion",
+                        "stress",
+                        "os",
+                        "gorge",
+                        "toux",
+                        "rhume",
+                        "grippe",
+                        "articulation",
+                        "vision",
+                        "mémoire"
+                    ]
+                )
+            )
+
+            if est_vague:
+                response = (
+                    "Pouvez-vous préciser votre besoin ? "
+                    "Par exemple : avez-vous un problème particulier comme "
+                    "la fatigue, le sommeil, la peau, ou une pathologie spécifique ?"
+                )
+
                 self._add_to_history("user", query)
                 self._add_to_history("alia", response)
-                return {"text": response, "intent": "clarification"}
-            
-            # Generate presentation with the exact product name from database
-            actual_product_name = product_doc.metadata.get('name')
-            self._add_to_history("user", query)
-            result = await self.generate_presentation(actual_product_name)
-            self._add_to_history("alia", result["text"])
-            return result
-            
-            # Détection de question vague AVANT le LLM
-            mots_vagues = ["nouveau", "nouveauté", "quoi de neuf", "qu'est-ce que vous avez",
-                           "vous avez quoi", "un produit", "quelque chose"]
-            query_lower = query.lower()
-            est_vague = (
-                len(query.split()) < 12 and
-                any(m in query_lower for m in mots_vagues) and
-                not any(m in query_lower for m in ["cheveux", "fatigue", "peau", "sommeil",
-                                                    "anémie", "digestion", "stress", "os",
-                                                    "gorge", "toux", "rhume", "grippe",
-                                                    "articulation", "vision", "mémoire"])
-            )
-            if est_vague:
-                reponse = "Pouvez-vous préciser votre besoin ? Par exemple : avez-vous un problème particulier comme la fatigue, le sommeil, la peau, ou une pathologie spécifique ?"
-                self._add_to_history("user", query)
-                self._add_to_history("alia", reponse)
-                return {"text": reponse, "intent": "clarification"}
 
+                return {"text": response, "intent": "clarification"}
+
+            # =========================
+            # PRODUCT RECOMMENDATION FLOW
+            # =========================
             print(f"[ALIA] Processing query: {query}")
             print("[ALIA] Retrieving relevant documents...")
+
             docs = await asyncio.to_thread(self.manager.retriever.invoke, query)
+
             print(f"[ALIA] Retrieved {len(docs)} documents")
 
             if not docs:
-                print("[ALIA] No documents found!")
-                return {"text": self._smart_fallback(query, [], analysis), "intent": "no_results"}
+                response = self._smart_fallback(query, [], analysis)
+
+                self._add_to_history("user", query)
+                self._add_to_history("alia", response)
+
+                return {"text": response, "intent": "no_results"}
 
             is_relevant = self._check_relevance(query, docs)
+
             print(f"[ALIA] Documents relevant: {is_relevant}")
 
             print("[ALIA] Top 3 retrieved products:")
@@ -798,29 +889,38 @@ class AliaOrchestrator:
                 print(f"  {i+1}. {doc.metadata.get('name', 'Unknown')}")
 
             context = "\n\n---\n\n".join(d.page_content for d in docs[:5])
-            history_str = self._format_history()
-            print(f"[ALIA] Context length: {len(context)} chars")
 
+            history_str = self._format_history()
+
+            print(f"[ALIA] Context length: {len(context)} chars")
             print("[ALIA] Generating response...")
+
             response = await asyncio.wait_for(
                 asyncio.to_thread(
                     self.chain.invoke,
-                    {"context": context, "query": query, "history": history_str}
+                    {
+                        "context": context,
+                        "query": query,
+                        "history": history_str
+                    }
                 ),
                 timeout=120
             )
 
             print(f"[ALIA] Raw response: {response[:200]}...")
+
             cleaned = self._clean(response)
 
             if not cleaned or len(cleaned.split()) < 10:
                 print("[ALIA] Response too short, using fallback")
                 cleaned = self._smart_fallback(query, docs, analysis)
+
             elif not is_relevant:
                 print("[ALIA] Documents not relevant enough, using fallback")
                 cleaned = self._smart_fallback(query, docs, analysis)
 
             cleaned = self._humanize(cleaned)
+
             print(f"[ALIA] Final response: {cleaned}")
 
             self._add_to_history("user", query)
@@ -834,10 +934,12 @@ class AliaOrchestrator:
                 "text": "Désolée, le traitement de votre demande a pris trop de temps. Pouvez-vous reformuler ?",
                 "intent": "timeout"
             }
+
         except Exception as e:
             print(f"[ALIA] Error during generation: {type(e).__name__}: {str(e)}")
             import traceback
             traceback.print_exc()
+
             return {
                 "text": "Désolée, j'ai rencontré une erreur technique. Veuillez réessayer.",
                 "intent": "error"

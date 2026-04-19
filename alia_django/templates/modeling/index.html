@@ -67,11 +67,6 @@
 <div class="modeling-page" id="modeling-app" data-api-base="{{ modeling_api_base }}" data-avatar-url="{{ modeling_api_base }}/static/avatar.glb">
   <div class="modeling-split">
     <div class="modeling-chat">
-      <!-- ── Sélecteur de mode ── -->
-      <div class="mode-bar">
-        <button class="mode-btn active" id="btnCommercial" onclick="setMode('commercial')">🤝 Commercial</button>
-        <button class="mode-btn"        id="btnTraining"   onclick="setMode('training')">🎓 Formation</button>
-      </div>  
       <div class="modeling-chat__header">Conversation</div>
       <div class="modeling-chat__transcript" id="transcript">
         <div class="modeling-msg modeling-msg--alia">
@@ -80,7 +75,6 @@
         </div>
       </div>
 
-      <!-- input caché, requis par le JS -->
       <input type="text" id="userInput" style="display:none" autocomplete="off">
       <div class="modeling-mic-bar">
         <button type="button" id="micBtn" class="modeling-mic-btn modeling-mic-btn--large" title="Parler à ALIA" aria-label="Parler à ALIA">
@@ -135,37 +129,37 @@
     let speechStart  = null;
     let silenceTimer = null;
 
+    // Avatar ThreeJS State
+    let scene, camera, renderer, analyzer, audioCtx;
+    let model = null;
+    let mixer = null;
+    let leftArm, rightArm, leftForeArm, rightForeArm, leftHand, rightHand;
+    let spine2, neck, head;
+    const rest = {};
+    const targets = {};
 
-
-    const avatar = {
-        model: null, mixer: null,
-        neck: null, head: null,
-        leftShoulder: null, rightShoulder: null,
-        leftArm: null, rightArm: null,
-        spine1: null, spine2: null,
-        jawMeshes:     [],
-        visemeMeshes: [],
-        blinkMeshes:   [],
-        eyeLookMeshes: [],
-    };
+    const visemeNames = [
+        "jawOpen","mouthOpen",
+        "viseme_aa","viseme_E","viseme_I","viseme_O",
+        "viseme_CH","viseme_DD","viseme_FF","viseme_nn",
+        "viseme_sil","eyeBlinkLeft","eyeBlinkRight"
+    ];
 
     const clock = new THREE.Clock();
-    const LIP_FFT = 512;
-    const audioData = new Uint8Array(LIP_FFT / 2);
-    const timeData = new Uint8Array(LIP_FFT);
-    const LIPEASE_VOWEL = 0.32;
-    const LIPEASE_FRIC = 0.38;
-    const LIPEASE_PLOSIVE = 0.52;
-    const LIP_DECAY = 0.2;
-    const LIP_ORDER = ['aa', 'O', 'E', 'I', 'U', 'CH', 'SS', 'FF', 'PP', 'TH', 'DD', 'kk', 'nn', 'RR', 'sil'];
-    const smoothVis = Object.fromEntries(LIP_ORDER.map((k) => [k, k === 'sil' ? 1 : 0]));
-    let scene, camera, renderer, analyzer, audioCtx;
-    
-    let gazeDirX = 0, gazeDirY = 0, gazeTargetX = 0, gazeTargetY = 0, gazeTimer = 0;
-    let smoothIntensity = 0;
-    let prevEnergy = 0;
-    let prevRmsAmp = 0;
+    let t = 0;
+    let currentV = 0;
+    let blinkTimer = 0;
+    let armWeight = 0;
+
     init();
+
+    function setMorph(name, value) {
+        if(targets[name]) {
+            targets[name].forEach(t => {
+                t.mesh.morphTargetInfluences[t.idx] = value;
+            });
+        }
+    }
 
     function init() {
         scene  = new THREE.Scene();
@@ -189,11 +183,11 @@
         container.appendChild(renderer.domElement);
 
         scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-        const key = new THREE.DirectionalLight(0xffffff, 1.1);
-        key.position.set(1, 2.5, 2);
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.1);
+        keyLight.position.set(1, 2.5, 2);
         const fill = new THREE.DirectionalLight(0x8bb8ff, 0.35);
         fill.position.set(-2, 1, 1);
-        scene.add(key, fill);
+        scene.add(keyLight, fill);
 
         const showViewportError = (msg) => {
             const el = document.getElementById('modeling-viewport-error');
@@ -202,61 +196,56 @@
         };
 
         new GLTFLoader().load(AVATAR_GLB_URL, (gltf) => {
-            avatar.model = gltf.scene;
-            avatar.model.rotation.y = Math.PI + 10;
-            avatar.model.rotation.y += 0.15;
-            scene.add(avatar.model);
+            model = gltf.scene;
+            model.rotation.y = Math.PI + 10;
+            model.rotation.y += 0.15;
+            scene.add(model);
 
             if (gltf.animations.length > 0) {
-                avatar.mixer = new THREE.AnimationMixer(avatar.model);
-                const action = avatar.mixer.clipAction(gltf.animations[0]);
+                mixer = new THREE.AnimationMixer(model);
+                const action = mixer.clipAction(gltf.animations[0]);
                 action.setLoop(THREE.LoopRepeat, Infinity);
                 action.play();
             }
 
-            avatar.model.traverse((child) => {
-                if (child.isBone) {
-                    switch (child.name) {
-                        case 'Neck':          avatar.neck          = child; break;
-                        case 'Head':          avatar.head          = child; break;
-                        case 'LeftShoulder':  avatar.leftShoulder  = child; break;
-                        case 'RightShoulder': avatar.rightShoulder = child; break;
-                        case 'LeftArm':       avatar.leftArm       = child; break;
-                        case 'RightArm':      avatar.rightArm      = child; break;
-                        case 'Spine1':        avatar.spine1        = child; break;
-                        case 'Spine2':        avatar.spine2        = child; break;
-                    }
+            model.traverse(c => {
+                if (c.isBone) {
+                    if (c.name === "LeftArm")      leftArm      = c;
+                    if (c.name === "RightArm")     rightArm     = c;
+                    if (c.name === "LeftForeArm")  leftForeArm  = c;
+                    if (c.name === "RightForeArm") rightForeArm = c;
+                    if (c.name === "LeftHand")     leftHand     = c;
+                    if (c.name === "RightHand")    rightHand    = c;
+                    if (c.name === "Spine2")       spine2       = c;
+                    if (c.name === "Neck")         neck         = c;
+                    if (c.name === "Head")         head         = c;
                 }
 
-                if (child.isSkinnedMesh && child.morphTargetDictionary) {
-                    const d = child.morphTargetDictionary;
-
-                    if (d['jawOpen'] !== undefined) {
-                        avatar.jawMeshes.push({
-                            mesh: child,
-                            jawOpen: d['jawOpen'],
-                            mouthOpen: d['mouthOpen'] ?? null,
-                        });
-                    }
-
-                    if (d['viseme_aa'] !== undefined) {
-                        const pairs = [
-                            ['aa', 'viseme_aa'], ['O', 'viseme_O'], ['E', 'viseme_E'], ['I', 'viseme_I'], ['U', 'viseme_U'],
-                            ['CH', 'viseme_CH'], ['SS', 'viseme_SS'], ['FF', 'viseme_FF'], ['PP', 'viseme_PP'],
-                            ['TH', 'viseme_TH'], ['DD', 'viseme_DD'], ['kk', 'viseme_kk'], ['nn', 'viseme_nn'],
-                            ['RR', 'viseme_RR'], ['sil', 'viseme_sil'],
-                        ];
-                        const vis = {};
-                        for (const [key, morph] of pairs) {
-                            const idx = d[morph];
-                            if (idx !== undefined) vis[key] = idx;
+                if(c.isSkinnedMesh && c.morphTargetDictionary){
+                    const d = c.morphTargetDictionary;
+                    visemeNames.forEach(name => {
+                        if(d[name] !== undefined) {
+                            if(!targets[name]) targets[name] = [];
+                            targets[name].push({ mesh: c, idx: d[name] });
                         }
-                        avatar.visemeMeshes.push({ mesh: child, vis });
-                    }
+                    });
                 }
             });
 
-            applyRestPose();
+            function saveRest(name, bone) {
+                if (!bone) return;
+                rest[name] = { x: bone.rotation.x, y: bone.rotation.y, z: bone.rotation.z };
+            }
+            saveRest("leftArm",      leftArm);
+            saveRest("rightArm",     rightArm);
+            saveRest("leftForeArm",  leftForeArm);
+            saveRest("rightForeArm", rightForeArm);
+            saveRest("leftHand",     leftHand);
+            saveRest("rightHand",    rightHand);
+            saveRest("spine2",       spine2);
+            saveRest("neck",         neck);
+            saveRest("head",         head);
+
             refitCanvas();
             requestAnimationFrame(() => {
                 refitCanvas();
@@ -279,237 +268,101 @@
         });
     }
 
-    function applyRestPose() {
-        if (avatar.leftShoulder)  avatar.leftShoulder.rotation.set(0.1,  0,  0.28);
-        if (avatar.rightShoulder) avatar.rightShoulder.rotation.set(0.1,  0, -0.28);
-        if (avatar.leftArm)       avatar.leftArm.rotation.set(0, 0,  0.75);
-        if (avatar.rightArm)      avatar.rightArm.rotation.set(0, 0, -0.75);
-        if (avatar.spine2)        avatar.spine2.rotation.x = 0.03;
-    }
-
-    function resetLipState() {
-        smoothIntensity = 0;
-        prevEnergy = 0;
-        prevRmsAmp = 0;
-        for (const k of LIP_ORDER) smoothVis[k] = k === 'sil' ? 1 : 0;
-    }
-
-    function bandMean(start, end) {
-        let s = 0;
-        const e = Math.min(end, audioData.length);
-        const n = Math.max(1, e - start);
-        for (let i = start; i < e; i++) s += audioData[i] / 255;
-        return s / n;
-    }
-
-    function paintVisemeMeshes(meshBlend = 0.38) {
-        const keyScale = {
-            CH: 0.9, SS: 0.85, FF: 0.8, TH: 0.88, PP: 0.98, DD: 0.94, kk: 0.92, nn: 0.78, RR: 0.82,
-        };
-        for (const vm of avatar.visemeMeshes) {
-            const inf = vm.mesh.morphTargetInfluences;
-            for (const k of LIP_ORDER) {
-                const idx = vm.vis[k];
-                if (idx === undefined) continue;
-                const t = smoothVis[k] * (keyScale[k] ?? 1);
-                inf[idx] = THREE.MathUtils.lerp(inf[idx], t, meshBlend);
-            }
-        }
-    }
-
-    function smoothTowardVis(target, rates) {
-        for (const k of LIP_ORDER) {
-            const r = rates[k] ?? LIPEASE_VOWEL;
-            smoothVis[k] = THREE.MathUtils.lerp(smoothVis[k], target[k], r);
-        }
-    }
-
-    function normalizeCompetitive(weights) {
-        let sum = 0;
-        for (const k in weights) {
-            const w = Math.max(0, weights[k]);
-            weights[k] = w;
-            sum += w;
-        }
-        if (sum <= 0.00001) return weights;
-        for (const k in weights) weights[k] /= sum;
-        return weights;
-    }
-
     function animate() {
         requestAnimationFrame(animate);
-        const time  = performance.now() * 0.001;
         const delta = clock.getDelta();
 
-        if (avatar.mixer) avatar.mixer.update(delta);
-        if (!avatar.model) { renderer.render(scene, camera); return; }
+        if (isSpeaking) t += delta;
+        if (mixer) mixer.update(delta);
 
-        if (avatar.neck) {
-            avatar.neck.rotation.y = Math.sin(time * 0.38) * 0.022;
-            avatar.neck.rotation.z = Math.sin(time * 0.27) * 0.009;
-        }
-        if (avatar.spine1) avatar.spine1.rotation.x = 0.02 + Math.sin(time * 0.55) * 0.007;
-
-        const blinkTarget = Math.sin(time * 3.6) > 0.965 ? 1 : 0;
-        for (const bm of avatar.blinkMeshes) {
-            const inf = bm.mesh.morphTargetInfluences;
-            inf[bm.blinkL] = THREE.MathUtils.lerp(inf[bm.blinkL], blinkTarget, 0.42);
-            if (bm.blinkR !== null) inf[bm.blinkR] = inf[bm.blinkL];
-        }
-
-        gazeTimer -= delta;
-        if (gazeTimer <= 0) {
-            gazeTargetX = (Math.random() - 0.5) * 0.28;
-            gazeTargetY = (Math.random() - 0.5) * 0.14;
-            gazeTimer = 2 + Math.random() * 2;
-        }
-        gazeDirX = THREE.MathUtils.lerp(gazeDirX, gazeTargetX, delta * 1.5);
-        gazeDirY = THREE.MathUtils.lerp(gazeDirY, gazeTargetY, delta * 1.5);
-
-        for (const em of avatar.eyeLookMeshes) {
-            const inf = em.mesh.morphTargetInfluences;
-            const x = gazeDirX;
-            const y = gazeDirY;
-            for (let i = 0; i < inf.length; i++) inf[i] *= 0.85;
-            const clamp = (v) => Math.max(0, Math.min(0.4, v));
-            if (x > 0 && em.inL !== null) inf[em.inL] = clamp(x);
-            if (x < 0 && em.outL !== null) inf[em.outL] = clamp(-x);
-            if (x > 0 && em.outR !== null) inf[em.outR] = clamp(x);
-            if (x < 0 && em.inR !== null) inf[em.inR] = clamp(-x);
-            if (y > 0 && em.upL !== null) inf[em.upL] = clamp(y);
-            if (y < 0 && em.downL !== null) inf[em.downL] = clamp(-y);
-            if (y > 0 && em.upR !== null) inf[em.upR] = clamp(y);
-            if (y < 0 && em.downR !== null) inf[em.downR] = clamp(-y);
-        }
-
-        if (analyzer && isSpeaking) {
-            analyzer.getByteFrequencyData(audioData);
-            analyzer.getByteTimeDomainData(timeData);
+        let raw = 0;
+        if (isSpeaking && analyzer) {
+            const dataArray = new Float32Array(analyzer.frequencyBinCount);
+            analyzer.getFloatTimeDomainData(dataArray);
             let sum = 0;
-            for (let i = 0; i < audioData.length; i++) {
-                const v = audioData[i] / 255;
-                sum += v * v;
+            for (let i = 0; i < dataArray.length; i++) {
+                sum += Math.abs(dataArray[i]);
             }
-            const rms = Math.sqrt(sum / audioData.length);
-            const noiseGate = 0.035;
-            const gated = Math.max(0, rms - noiseGate);
-            const rawIntensity = Math.min(gated * 3.4, 1.0);
-            smoothIntensity = THREE.MathUtils.lerp(smoothIntensity, rawIntensity, 0.26);
+            raw = sum / dataArray.length;
+        }
 
-            const vSub = bandMean(1, 10);
-            const vLow = bandMean(2, 22);
-            const vMid = bandMean(12, 48);
-            const vHigh = bandMean(36, 96);
-            const vAir = bandMean(72, audioData.length);
-            const specSum = vLow + vMid + vHigh + 1e-6;
-            const lowN = vLow / specSum;
-            const midN = vMid / specSum;
-            const highN = vHigh / specSum;
+        currentV = currentV * 0.72 + raw * 0.28;
+        const energy = Math.min(1, currentV * 3);
 
-            let centroidNum = 0;
-            let centroidDen = 0;
-            for (let i = 2; i < audioData.length; i++) {
-                const e = audioData[i] / 255;
-                centroidNum += i * e;
-                centroidDen += e;
+        const targetArmWeight = energy > 0.05 ? 1.0 : 0.0;
+        armWeight += (targetArmWeight - armWeight) * delta * 1.5;
+
+        /* lipsync */
+        setMorph("jawOpen",   energy * 0.55);
+        setMorph("mouthOpen", energy * 0.42);
+
+        visemeNames.forEach(n => {
+            if (!["jawOpen","mouthOpen","eyeBlinkLeft","eyeBlinkRight"].includes(n)) {
+                setMorph(n, 0);
             }
-            const centroid = centroidDen > 1e-5 ? centroidNum / centroidDen : 0;
-            const cNorm = THREE.MathUtils.clamp(centroid / Math.max(32, audioData.length * 0.85), 0, 1);
+        });
 
-            let tdEnergy = 0;
-            let zeroCrossings = 0;
-            let prevSample = (timeData[0] - 128) / 128;
-            for (let i = 0; i < timeData.length; i++) {
-                const sample = (timeData[i] - 128) / 128;
-                tdEnergy += sample * sample;
-                if ((sample >= 0 && prevSample < 0) || (sample < 0 && prevSample >= 0)) zeroCrossings++;
-                prevSample = sample;
-            }
-            tdEnergy = Math.sqrt(tdEnergy / timeData.length);
-            const transient = Math.max(0, tdEnergy - prevEnergy);
-            prevEnergy = THREE.MathUtils.lerp(prevEnergy, tdEnergy, 0.5);
-            const zcrN = THREE.MathUtils.clamp(zeroCrossings / (timeData.length * 0.12), 0, 1);
-            const frication = THREE.MathUtils.clamp(highN * 0.9 + zcrN * 0.55 + vAir * 0.35, 0, 1);
-            const ampMod = Math.abs(rawIntensity - prevRmsAmp);
-            prevRmsAmp = THREE.MathUtils.lerp(prevRmsAmp, rawIntensity, 0.35);
+        if (energy > 0.60) {
+            setMorph("viseme_aa", energy);
+        } else if (energy > 0.35) {
+            setMorph("viseme_O", energy * 0.8);
+            setMorph("viseme_E", energy * 0.4);
+        } else if (energy > 0.15) {
+            const r = Math.floor(t * 12) % 4;
+            if (r === 0) setMorph("viseme_CH", energy);
+            if (r === 1) setMorph("viseme_DD", energy);
+            if (r === 2) setMorph("viseme_FF", energy);
+            if (r === 3) setMorph("viseme_nn", energy);
+        } else {
+            setMorph("viseme_sil", 1);
+        }
 
-            const gate = THREE.MathUtils.clamp(smoothIntensity * 1.22, 0, 1);
-            const vowelWeights = normalizeCompetitive({
-                aa: vLow * 1.15 + vMid * 0.55 + (1 - cNorm) * 0.35,
-                O: vLow * 1.25 + vSub * 0.4 + midN * 0.2,
-                E: midN * 1.05 + highN * 0.95 + cNorm * 0.45,
-                I: highN * 1.2 + midN * 0.35 + cNorm * 0.5,
-                U: vLow * 1.05 + (1 - midN) * 0.35 + highN * 0.12,
-            });
+        /* blink */
+        blinkTimer += delta;
+        let blink = 0;
+        if (blinkTimer > 2 + Math.random() * 2) {
+            blink = Math.sin((blinkTimer - 2) * 20);
+            if (blinkTimer > 2.15) blinkTimer = 0;
+        }
+        blink = Math.max(0, blink);
+        setMorph("eyeBlinkLeft",  blink);
+        setMorph("eyeBlinkRight", blink);
 
-            let tAA = THREE.MathUtils.clamp(vowelWeights.aa * gate * 1.42, 0, 1);
-            let tO = THREE.MathUtils.clamp(vowelWeights.O * gate * 1.28, 0, 1);
-            let tE = THREE.MathUtils.clamp(vowelWeights.E * gate * 1.28, 0, 1);
-            let tI = THREE.MathUtils.clamp(vowelWeights.I * gate * 1.18, 0, 1);
-            let tU = THREE.MathUtils.clamp(vowelWeights.U * gate * 1.12, 0, 1);
+        /* motion values */
+        const pulse1   = Math.sin(t * 5.5) * energy;
+        const pulse2   = Math.sin(t * 4.2 + 1.3) * energy;
+        const emphasis = Math.max(0, Math.sin(t * 1.7)) * energy;
 
-            const tPP = THREE.MathUtils.clamp(transient * 6.2 * gate * (0.55 + lowN), 0, 1);
-            const tDD = THREE.MathUtils.clamp(transient * 5.4 * gate * (0.45 + midN * 1.1), 0, 1);
-            const tKK = THREE.MathUtils.clamp(transient * 4.8 * gate * (0.5 + lowN * 0.95), 0, 1);
-            const tSS = THREE.MathUtils.clamp(frication * zcrN * 1.15 * gate * (0.55 + highN), 0, 1);
-            const tFF = THREE.MathUtils.clamp(frication * gate * (highN * 0.45 + midN * 0.5 + vAir * 0.25), 0, 1);
-            const tTH = THREE.MathUtils.clamp(frication * gate * (midN * 0.65 + highN * 0.35) * (1 - transient * 1.8), 0, 1);
-            const tCH = THREE.MathUtils.clamp((frication * 0.5 + vAir * 0.45) * gate * (1 - transient * 1.2), 0, 1);
-            const tNN = THREE.MathUtils.clamp(gate * midN * vLow * 1.1 * (1 - transient * 2.4) * (0.35 + zcrN * 0.25), 0, 1);
-            const tRR = THREE.MathUtils.clamp(ampMod * 5.5 * gate * (midN * 0.85 + lowN * 0.35), 0, 1);
+        /* torso */
+        if (spine2 && rest.spine2) {
+            spine2.rotation.y = rest.spine2.y + Math.sin(t * 1.2) * 0.05 * energy;
+        }
+        if (neck && rest.neck) {
+            neck.rotation.y = rest.neck.y + Math.sin(t * 1.7) * 0.04 * energy;
+        }
 
-            const conPeak = Math.max(tPP, tDD, tKK, tSS, tFF, tTH, tCH, tNN * 0.9, tRR * 0.85);
-            const vowelAtten = THREE.MathUtils.clamp(1 - conPeak * 0.82, 0.12, 1);
-            tAA *= vowelAtten; tO *= vowelAtten; tE *= vowelAtten; tI *= vowelAtten; tU *= vowelAtten;
+        /* arms */
+        if (leftArm && rest.leftArm) {
+            leftArm.rotation.y = rest.leftArm.y + (1.25)  ;
+            leftArm.rotation.x = rest.leftArm.x + (-0.3) ;
+            leftArm.rotation.z = rest.leftArm.z + (1.5 + pulse1 * 0.4) ;
+        }
+        if (rightArm && rest.rightArm) {
+            rightArm.rotation.y = rest.rightArm.y + (-1.35) ;
+            rightArm.rotation.x = rest.rightArm.x + (-0.3) ;
+            rightArm.rotation.z = rest.rightArm.z + (-1.5 - pulse2 * 0.4);
+        }
 
-            const targets = {
-                aa: tAA, O: tO, E: tE, I: tI, U: tU,
-                CH: tCH, SS: tSS, FF: tFF, PP: tPP, TH: tTH, DD: tDD, kk: tKK, nn: tNN, RR: tRR,
-                sil: Math.max(0, 1 - smoothIntensity * 2.85 - conPeak * 0.15),
-            };
-
-            const rates = {
-                aa: LIPEASE_VOWEL, O: LIPEASE_VOWEL, E: LIPEASE_VOWEL, I: LIPEASE_VOWEL, U: LIPEASE_VOWEL,
-                CH: LIPEASE_FRIC, SS: LIPEASE_FRIC, FF: LIPEASE_FRIC, TH: LIPEASE_FRIC,
-                PP: LIPEASE_PLOSIVE, DD: LIPEASE_PLOSIVE, kk: LIPEASE_PLOSIVE,
-                nn: LIPEASE_VOWEL * 0.9, RR: LIPEASE_VOWEL * 0.88, sil: 0.22,
-            };
-            smoothTowardVis(targets, rates);
-            paintVisemeMeshes(0.4);
-
-            const vPeak = Math.max(smoothVis.aa, smoothVis.O, smoothVis.E, smoothVis.I, smoothVis.U);
-            const conOpen = Math.max(smoothVis.CH, smoothVis.TH, smoothVis.SS, smoothVis.FF) * 0.38
-                + Math.max(smoothVis.PP, smoothVis.DD, smoothVis.kk) * 0.22;
-            const visemeContrast =
-                Math.abs(smoothVis.aa - smoothVis.O) +
-                Math.abs(smoothVis.aa - smoothVis.E) +
-                Math.abs(smoothVis.O - smoothVis.E) +
-                Math.abs(smoothVis.I - smoothVis.E);
-            const jawBase = smoothIntensity * 0.045;
-            const jawDynamic = vPeak * 0.19 + visemeContrast * 0.1 + smoothVis.aa * 0.11 + conOpen;
-            const targetJaw = THREE.MathUtils.clamp(jawBase + jawDynamic, 0, 0.42);
-
-            for (const jm of avatar.jawMeshes) {
-                const inf = jm.mesh.morphTargetInfluences;
-                inf[jm.jawOpen] = THREE.MathUtils.lerp(inf[jm.jawOpen], targetJaw, 0.28);
-                if (jm.mouthOpen !== null) {
-                    inf[jm.mouthOpen] = THREE.MathUtils.lerp(inf[jm.mouthOpen], targetJaw * 0.34, 0.24);
-                }
-            }
-        } else if (!isSpeaking && (avatar.visemeMeshes.length || avatar.jawMeshes.length)) {
-            smoothIntensity = THREE.MathUtils.lerp(smoothIntensity, 0, LIP_DECAY);
-            for (const k of LIP_ORDER) {
-                const dest = k === 'sil' ? 1 : 0;
-                smoothVis[k] = THREE.MathUtils.lerp(smoothVis[k], dest, LIP_DECAY);
-            }
-            paintVisemeMeshes(LIP_DECAY + 0.04);
-            for (const jm of avatar.jawMeshes) {
-                const inf = jm.mesh.morphTargetInfluences;
-                inf[jm.jawOpen] = THREE.MathUtils.lerp(inf[jm.jawOpen], 0, LIP_DECAY);
-                if (jm.mouthOpen !== null) {
-                    inf[jm.mouthOpen] = THREE.MathUtils.lerp(inf[jm.mouthOpen], 0, LIP_DECAY);
-                }
-            }
+        /* elbows */
+        if (leftForeArm && rest.leftForeArm) {
+            leftForeArm.rotation.x = rest.leftForeArm.x + (-1.55 - pulse1 * 0.6)  * armWeight;
+            leftForeArm.rotation.y = rest.leftForeArm.y + (-Math.PI/2) ;
+            leftForeArm.rotation.z = rest.leftForeArm.z + (emphasis * 0.5);
+        }
+        if (rightForeArm && rest.rightForeArm) {
+            rightForeArm.rotation.x = rest.rightForeArm.x + (-1.55 - pulse2 * 0.8) * armWeight ;
+            rightForeArm.rotation.y = rest.rightForeArm.y + (Math.PI/2) ;
+            rightForeArm.rotation.z = rest.rightForeArm.z + (-emphasis * 0.5);
         }
 
         renderer.render(scene, camera);
@@ -551,7 +404,6 @@
     function setHint(t) { const h=document.getElementById('micHint'); if(h) h.textContent=t; }
     function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-
     function setStatus(state, label) {
         const el = document.getElementById('modeling-status');
         if (!el) return;
@@ -563,7 +415,6 @@
         const tx = el.querySelector('.modeling-live-badge__text');
         if (tx) tx.textContent = label;
     }
-
 
     /* ════════════════════════════════════════════════════════
     VAD — ÉCOUTE AVEC DÉTECTION DE SILENCE AUTOMATIQUE
@@ -668,6 +519,7 @@
             if (conversationOn) setTimeout(() => startListening(), 800);
         }
     }
+
     /* ════════════════════════════════════════════════════════
     BOUTON MICRO — 1 clic démarre, 1 clic arrête
     ════════════════════════════════════════════════════════ */
@@ -679,7 +531,6 @@
     }
 
     async function askAlia(text) {
-
         if (!text || isProcessing) return;
         isProcessing = true;
         setStatus('thinking', 'Réflexion…');
@@ -696,6 +547,12 @@
             const data = await res.json();
             removeThinking();
 
+            if (!res.ok) {
+                const errMsg = data.detail || data.error || `Erreur serveur (${res.status})`;
+                addMessage('alia', String(errMsg));
+                setStatus('error', 'Erreur');
+                return;
+            }
             if (!data.text) { setStatus('error','Erreur'); return; }
             addMessage('alia', data.text);
 
@@ -720,7 +577,6 @@
         }
     }
 
-   
     /* ════════════════════════════════════════════════════════
     LECTURE AUDIO + LIPSYNC
     ════════════════════════════════════════════════════════ */
@@ -734,19 +590,19 @@
             audio.crossOrigin = 'anonymous';
             const source = audioCtx.createMediaElementSource(audio);
             analyzer = audioCtx.createAnalyser();
-            analyzer.fftSize = LIP_FFT;
+            analyzer.fftSize = 512;
             analyzer.smoothingTimeConstant = 0.55;
             source.connect(analyzer);
             analyzer.connect(audioCtx.destination);
 
-            resetLipState();
             isSpeaking = true;
+            t = 0;
+            currentV = 0;
             setStatus('speaking', 'Parle');
             setHint('ALIA parle…');
 
             const cleanup = () => {
                 isSpeaking = false;
-                resetLipState();
                 try {
                     if (analyzer) analyzer.disconnect();
                     source.disconnect();
@@ -794,7 +650,6 @@
     window.setMode = async function(mode) {
         if (mode === currentMode) return;
         currentMode = mode;
-         // Arrêter la conversation en cours silencieusement
         if (conversationOn) {
             conversationOn = false;
             stopListening();
@@ -803,7 +658,6 @@
             setHint('Appuyez pour parler');
         }
  
-        // Vider le transcript
         const t = document.getElementById('transcript');
         t.innerHTML = '';
 
@@ -820,7 +674,6 @@
             ]);
         } catch(e) { console.warn('set_mode failed', e); }
     };
-
     
 </script>
 {% endblock %}
