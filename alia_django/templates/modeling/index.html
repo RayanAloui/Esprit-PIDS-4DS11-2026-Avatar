@@ -98,6 +98,7 @@
 <script type="module">
     import * as THREE from 'three';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { avatarKeyframes } from '{% static "avatar-animation.js" %}';
 
     /* ════════════════════════════════════════════════════════
     CONFIGURATION VAD
@@ -134,6 +135,7 @@
     let model = null;
     let mixer = null;
     let leftArm, rightArm, leftForeArm, rightForeArm, leftHand, rightHand;
+    let leftShoulder, rightShoulder;
     let spine2, neck, head;
     const rest = {};
     const targets = {};
@@ -150,7 +152,7 @@
     let currentV = 0;
     let blinkTimer = 0;
     let armWeight = 0;
-
+    let bodyAnimT = 0;
     init();
 
     function setMorph(name, value) {
@@ -341,30 +343,49 @@
             neck.rotation.y = rest.neck.y + Math.sin(t * 1.7) * 0.04 * energy;
         }
 
-        /* arms */
-        if (leftArm && rest.leftArm) {
-            leftArm.rotation.y = rest.leftArm.y + (1.25)  ;
-            leftArm.rotation.x = rest.leftArm.x + (-0.3) ;
-            leftArm.rotation.z = rest.leftArm.z + (1.5 + pulse1 * 0.4) ;
+       /* body keyframe animation */
+        if (isSpeaking) {
+            bodyAnimT += delta;
+            if (avatarKeyframes && avatarKeyframes.length >= 2) {
+            const kfs = avatarKeyframes;
+            const dur = kfs[kfs.length - 1].time;
+            if (dur > 0) {
+                let at = ((bodyAnimT % dur) + dur) % dur;
+                let i1 = 0, i2 = 1, found = false;
+                for (let i = 0; i < kfs.length - 1; i++) {
+                    if (at >= kfs[i].time && at < kfs[i+1].time) { i1=i; i2=i+1; found=true; break; }
+                }
+                if (!found) { i1 = kfs.length-1; i2 = 0; }
+                const i0 = (i1-1+kfs.length) % kfs.length;
+                const i3 = (i2+1) % kfs.length;
+                const k0=kfs[i0], k1=kfs[i1], k2=kfs[i2], k3=kfs[i3];
+                let start = k1.time;
+                let end = (i2 > i1) ? k2.time : dur + k2.time;
+                if (i2 <= i1 && at < start) at += dur;
+                let lt = Math.max(0, Math.min(1, (at - start) / (end - start)));
+                lt = lt*lt*lt*(lt*(lt*6-15)+10);
+                const cr = (b, ax) => {
+                    const p0=k0.bones[b]?.[ax]??0, p1=k1.bones[b]?.[ax]??0,
+                          p2=k2.bones[b]?.[ax]??0, p3=k3.bones[b]?.[ax]??0, t2=lt*lt, t3=t2*lt;
+                    return 0.5*((2*p1)+(-p0+p2)*lt+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3);
+                };
+                const applyBone = (bone, name) => {
+                    if (!bone || !k1.bones[name]) return;
+                    bone.rotation.x = cr(name,'x');
+                    bone.rotation.y = cr(name,'y');
+                    bone.rotation.z = cr(name,'z');
+                };
+                applyBone(leftArm,      'LeftArm');
+                applyBone(rightArm,     'RightArm');
+                applyBone(leftForeArm,  'LeftForeArm');
+                applyBone(rightForeArm, 'RightForeArm');
+                applyBone(leftShoulder, 'LeftShoulder');
+                applyBone(rightShoulder,'RightShoulder');
+            }
+            }
+        } else {
+            bodyAnimT = 0;
         }
-        if (rightArm && rest.rightArm) {
-            rightArm.rotation.y = rest.rightArm.y + (-1.35) ;
-            rightArm.rotation.x = rest.rightArm.x + (-0.3) ;
-            rightArm.rotation.z = rest.rightArm.z + (-1.5 - pulse2 * 0.4);
-        }
-
-        /* elbows */
-        if (leftForeArm && rest.leftForeArm) {
-            leftForeArm.rotation.x = rest.leftForeArm.x + (-1.55 - pulse1 * 0.6)  * armWeight;
-            leftForeArm.rotation.y = rest.leftForeArm.y + (-Math.PI/2) ;
-            leftForeArm.rotation.z = rest.leftForeArm.z + (emphasis * 0.5);
-        }
-        if (rightForeArm && rest.rightForeArm) {
-            rightForeArm.rotation.x = rest.rightForeArm.x + (-1.55 - pulse2 * 0.8) * armWeight ;
-            rightForeArm.rotation.y = rest.rightForeArm.y + (Math.PI/2) ;
-            rightForeArm.rotation.z = rest.rightForeArm.z + (-emphasis * 0.5);
-        }
-
         renderer.render(scene, camera);
     }
 
