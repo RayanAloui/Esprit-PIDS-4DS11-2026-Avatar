@@ -7,90 +7,126 @@
 
 {% block nav_extra %}
 <div class="modeling-live-badge" id="modeling-status">
-  <span class="modeling-live-badge__dot"></span>
-  <span class="modeling-live-badge__text">Standby</span>
+    <span class="modeling-live-badge__dot"></span>
+    <span class="modeling-live-badge__text">Standby</span>
 </div>
 {% endblock %}
 
 {% block content %}
 <style>
-.modeling-mic-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 0 12px;
-    gap: 8px;
-}
-.modeling-mic-btn--large {
-    width: 72px !important;
-    height: 72px !important;
-    border-radius: 50% !important;
-    font-size: 2rem !important;
-    background: #2563eb;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(37,99,235,0.35);
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-}
-.modeling-mic-btn--large:hover { background: #1d4ed8; transform: scale(1.07); }
-.modeling-mic-btn--large:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.modeling-mic-btn--large.is-recording {
-    background: #dc2626 !important;
-    animation: pulse-mic 1.2s infinite;
-}
-@keyframes pulse-mic {
-    0%, 100% { box-shadow: 0 0 0 8px rgba(220,38,38,0.18), 0 4px 16px rgba(220,38,38,0.35); }
-    50%       { box-shadow: 0 0 0 16px rgba(220,38,38,0.08), 0 4px 24px rgba(220,38,38,0.45); }
-}
-.modeling-mic-bar__hint {
-    font-size: 0.78rem;
-    color: #6b7280;
-    letter-spacing: 0.01em;
-}
-/* ── Sélecteur de mode ── */
-.mode-bar {
-    display: flex; justify-content: center; gap: 8px; padding: 8px 0 4px;
-}
-.mode-btn {
-    padding: 5px 18px; border-radius: 20px; border: 2px solid #2563eb;
-    font-size: .82rem; font-weight: 600; cursor: pointer;
-    background: transparent; color: #2563eb;
-    transition: background .15s, color .15s;
-}
-.mode-btn.active { background: #2563eb; color: #fff; }
+    .modeling-mic-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px 0 12px;
+        gap: 8px;
+    }
+
+    .modeling-mic-btn--large {
+        width: 72px !important;
+        height: 72px !important;
+        border-radius: 50% !important;
+        font-size: 2rem !important;
+        background: #2563eb;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+
+    .modeling-mic-btn--large:hover {
+        background: #1d4ed8;
+        transform: scale(1.07);
+    }
+
+    .modeling-mic-btn--large:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .modeling-mic-btn--large.is-recording {
+        background: #dc2626 !important;
+        animation: pulse-mic 1.2s infinite;
+    }
+
+    @keyframes pulse-mic {
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 8px rgba(220, 38, 38, 0.18), 0 4px 16px rgba(220, 38, 38, 0.35);
+        }
+
+        50% {
+            box-shadow: 0 0 0 16px rgba(220, 38, 38, 0.08), 0 4px 24px rgba(220, 38, 38, 0.45);
+        }
+    }
+
+    .modeling-mic-bar__hint {
+        font-size: 0.78rem;
+        color: #6b7280;
+        letter-spacing: 0.01em;
+    }
+
+    /* ── Sélecteur de mode ── */
+    .mode-bar {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        padding: 8px 0 4px;
+    }
+
+    .mode-btn {
+        padding: 5px 18px;
+        border-radius: 20px;
+        border: 2px solid #2563eb;
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+        background: transparent;
+        color: #2563eb;
+        transition: background .15s, color .15s;
+    }
+
+    .mode-btn.active {
+        background: #2563eb;
+        color: #fff;
+    }
 </style>
 
 
-<div class="modeling-page" id="modeling-app" data-api-base="{{ modeling_api_base }}" data-avatar-url="{{ modeling_api_base }}/static/avatar.glb">
-  <div class="modeling-split">
-    <div class="modeling-chat">
-      <!-- ── Sélecteur de mode ── --> 
-      <div class="modeling-chat__header">Conversation</div>
-      <div class="modeling-chat__transcript" id="transcript">
-        <div class="modeling-msg modeling-msg--alia">
-          <div class="modeling-msg__sender">ALIA</div>
-          <div class="modeling-msg__bubble">Appuyez sur le micro pour démarrer la conversation.</div>
-        </div>
-      </div>
+<div class="modeling-page" id="modeling-app" data-api-base="{{ modeling_api_base }}"
+    data-avatar-url="{{ modeling_api_base }}/static/avatar.glb">
+    <div class="modeling-split">
+        <div class="modeling-chat">
+            <!-- ── Sélecteur de mode ── -->
+            <div class="modeling-chat__header">Conversation</div>
+            <div class="modeling-chat__transcript" id="transcript">
+                <div class="modeling-msg modeling-msg--alia">
+                    <div class="modeling-msg__sender">ALIA</div>
+                    <div class="modeling-msg__bubble">Appuyez sur le micro pour démarrer la conversation.</div>
+                </div>
+            </div>
 
-      <!-- input caché, requis par le JS -->
-      <input type="text" id="userInput" style="display:none" autocomplete="off">
-      <div class="modeling-mic-bar">
-        <button type="button" id="micBtn" class="modeling-mic-btn modeling-mic-btn--large" title="Parler à ALIA" aria-label="Parler à ALIA">
-          <span class="modeling-mic-btn__icon" aria-hidden="true">🎤</span>
-        </button>
-        <div class="modeling-mic-bar__hint" id="micHint">Appuyez pour parler</div>
-      </div>
+            <!-- input caché, requis par le JS -->
+            <input type="text" id="userInput" style="display:none" autocomplete="off">
+            <div class="modeling-mic-bar">
+                <button type="button" id="micBtn" class="modeling-mic-btn modeling-mic-btn--large" title="Parler à ALIA"
+                    aria-label="Parler à ALIA">
+                    <span class="modeling-mic-btn__icon" aria-hidden="true">🎤</span>
+                </button>
+                <div class="modeling-mic-bar__hint" id="micHint">Appuyez pour parler</div>
+            </div>
+        </div>
+        <div class="modeling-viewport">
+            <div id="canvas-container" class="modeling-viewport__canvas" role="img" aria-label="Avatar 3D"></div>
+            <div id="modeling-viewport-error" class="modeling-viewport__error" hidden></div>
+
+        </div>
     </div>
-    <div class="modeling-viewport">
-      <div id="canvas-container" class="modeling-viewport__canvas" role="img" aria-label="Avatar 3D"></div>
-      <div id="modeling-viewport-error" class="modeling-viewport__error" hidden></div>
-      
-    </div>
-  </div>
 </div>
 
 <script type="importmap">
@@ -100,38 +136,39 @@
 <script type="module">
     import * as THREE from 'three';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { avatarKeyframes } from '{% static "avatar-animation.js" %}';
 
     /* ════════════════════════════════════════════════════════
     CONFIGURATION VAD
     ════════════════════════════════════════════════════════ */
     const SILENCE_THRESHOLD = 0.012;  // RMS en dessous = silence
-    const SILENCE_DELAY_MS  = 1400;   // ms de silence avant envoi automatique
-    const MIN_SPEECH_MS     = 400;    // durée minimale de parole pour déclencher l'envoi
+    const SILENCE_DELAY_MS = 1400;   // ms de silence avant envoi automatique
+    const MIN_SPEECH_MS = 400;    // durée minimale de parole pour déclencher l'envoi
 
     /* ════════════════════════════════════════════════════════
     ÉTAT GLOBAL
     ════════════════════════════════════════════════════════ */
-    const appEl         = document.getElementById('modeling-app');
+    const appEl = document.getElementById('modeling-app');
     const MODELING_ROOT = (appEl?.dataset.apiBase || '').replace(/\/$/, '');
     const AVATAR_GLB_URL = (appEl?.dataset.avatarUrl || '').trim()
         || `${MODELING_ROOT}/static/avatar.glb`;
 
-    let currentMode    = 'commercial';
+    let currentMode = 'commercial';
     let conversationOn = false;
-    let isProcessing   = false;
-    let isSpeaking     = false;
-    let isRecording    = false;
-    let detectedLang   = 'fr';
-    const LANG_FLAGS   = {'fr':'🇫🇷','en':'🇬🇧','es':'🇪🇸','ar':'🇸🇦'};
-    const LANG_NAMES   = {'fr':'Français','en':'English','es':'Español','ar':'العربية'};
+    let isProcessing = false;
+    let isSpeaking = false;
+    let isRecording = false;
+    let detectedLang = 'fr';
+    const LANG_FLAGS = { 'fr': '🇫🇷', 'en': '🇬🇧', 'es': '🇪🇸', 'ar': '🇸🇦' };
+    const LANG_NAMES = { 'fr': 'Français', 'en': 'English', 'es': 'Español', 'ar': 'العربية' };
 
     // VAD
-    let vadCtx      = null;
+    let vadCtx = null;
     let vadAnalyser = null;
-    let vadStream   = null;
+    let vadStream = null;
     let mediaRecorder = null;
     let audioChunks = [];
-    let speechStart  = null;
+    let speechStart = null;
     let silenceTimer = null;
 
 
@@ -141,11 +178,13 @@
         neck: null, head: null,
         leftShoulder: null, rightShoulder: null,
         leftArm: null, rightArm: null,
+        leftForeArm: null, rightForeArm: null,
         spine1: null, spine2: null,
-        jawMeshes:     [],
+        jawMeshes: [],
         visemeMeshes: [],
-        blinkMeshes:   [],
+        blinkMeshes: [],
         eyeLookMeshes: [],
+        rest: {},
     };
 
     const clock = new THREE.Clock();
@@ -159,15 +198,18 @@
     const LIP_ORDER = ['aa', 'O', 'E', 'I', 'U', 'CH', 'SS', 'FF', 'PP', 'TH', 'DD', 'kk', 'nn', 'RR', 'sil'];
     const smoothVis = Object.fromEntries(LIP_ORDER.map((k) => [k, k === 'sil' ? 1 : 0]));
     let scene, camera, renderer, analyzer, audioCtx;
-    
+
     let gazeDirX = 0, gazeDirY = 0, gazeTargetX = 0, gazeTargetY = 0, gazeTimer = 0;
     let smoothIntensity = 0;
     let prevEnergy = 0;
     let prevRmsAmp = 0;
+    let armWeight = 0;
+    let t_anim = 0;
+    let bodyAnimT = 0;
     init();
 
     function init() {
-        scene  = new THREE.Scene();
+        scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(28, 1, 0.1, 1000);
         camera.position.set(0, 1.55, 2.5);
 
@@ -216,14 +258,16 @@
             avatar.model.traverse((child) => {
                 if (child.isBone) {
                     switch (child.name) {
-                        case 'Neck':          avatar.neck          = child; break;
-                        case 'Head':          avatar.head          = child; break;
-                        case 'LeftShoulder':  avatar.leftShoulder  = child; break;
+                        case 'Neck': avatar.neck = child; break;
+                        case 'Head': avatar.head = child; break;
+                        case 'LeftShoulder': avatar.leftShoulder = child; break;
                         case 'RightShoulder': avatar.rightShoulder = child; break;
-                        case 'LeftArm':       avatar.leftArm       = child; break;
-                        case 'RightArm':      avatar.rightArm      = child; break;
-                        case 'Spine1':        avatar.spine1        = child; break;
-                        case 'Spine2':        avatar.spine2        = child; break;
+                        case 'LeftArm': avatar.leftArm = child; break;
+                        case 'RightArm': avatar.rightArm = child; break;
+                        case 'LeftForeArm': avatar.leftForeArm = child; break;
+                        case 'RightForeArm': avatar.rightForeArm = child; break;
+                        case 'Spine1': avatar.spine1 = child; break;
+                        case 'Spine2': avatar.spine2 = child; break;
                     }
                 }
 
@@ -255,6 +299,17 @@
                 }
             });
 
+            function saveRest(name, bone) {
+                if (!bone) return;
+                avatar.rest[name] = { x: bone.rotation.x, y: bone.rotation.y, z: bone.rotation.z };
+            }
+            saveRest("leftArm", avatar.leftArm);
+            saveRest("rightArm", avatar.rightArm);
+            saveRest("leftForeArm", avatar.leftForeArm);
+            saveRest("rightForeArm", avatar.rightForeArm);
+            saveRest("spine2", avatar.spine2);
+            saveRest("neck", avatar.neck);
+
             applyRestPose();
             refitCanvas();
             requestAnimationFrame(() => {
@@ -279,11 +334,11 @@
     }
 
     function applyRestPose() {
-        if (avatar.leftShoulder)  avatar.leftShoulder.rotation.set(0.1,  0,  0.28);
-        if (avatar.rightShoulder) avatar.rightShoulder.rotation.set(0.1,  0, -0.28);
-        if (avatar.leftArm)       avatar.leftArm.rotation.set(0, 0,  0.75);
-        if (avatar.rightArm)      avatar.rightArm.rotation.set(0, 0, -0.75);
-        if (avatar.spine2)        avatar.spine2.rotation.x = 0.03;
+        if (avatar.leftShoulder) avatar.leftShoulder.rotation.set(0.1, 0, 0.28);
+        if (avatar.rightShoulder) avatar.rightShoulder.rotation.set(0.1, 0, -0.28);
+        if (avatar.leftArm) avatar.leftArm.rotation.set(0, 0, 0.75);
+        if (avatar.rightArm) avatar.rightArm.rotation.set(0, 0, -0.75);
+        if (avatar.spine2) avatar.spine2.rotation.x = 0.03;
     }
 
     function resetLipState() {
@@ -337,15 +392,19 @@
 
     function animate() {
         requestAnimationFrame(animate);
-        const time  = performance.now() * 0.001;
+        const time = performance.now() * 0.001;
         const delta = clock.getDelta();
 
         if (avatar.mixer) avatar.mixer.update(delta);
         if (!avatar.model) { renderer.render(scene, camera); return; }
 
+        if (isSpeaking) t_anim += delta;
+
         if (avatar.neck) {
-            avatar.neck.rotation.y = Math.sin(time * 0.38) * 0.022;
-            avatar.neck.rotation.z = Math.sin(time * 0.27) * 0.009;
+            let neckY = Math.sin(time * 0.38) * 0.022;
+            if (avatar.rest.neck) neckY += Math.sin(t_anim * 1.7) * 0.04 * smoothIntensity;
+            avatar.neck.rotation.y = (avatar.rest.neck ? avatar.rest.neck.y : 0) + neckY;
+            avatar.neck.rotation.z = (avatar.rest.neck ? avatar.rest.neck.z : 0) + Math.sin(time * 0.27) * 0.009;
         }
         if (avatar.spine1) avatar.spine1.rotation.x = 0.02 + Math.sin(time * 0.55) * 0.007;
 
@@ -511,6 +570,63 @@
             }
         }
 
+        const energy = smoothIntensity;
+        const targetArmWeight = energy > 0.05 ? 1.0 : 0.0;
+        armWeight += (targetArmWeight - armWeight) * delta * 1.5;
+
+        const pulse1 = Math.sin(t_anim * 5.5) * energy;
+        const pulse2 = Math.sin(t_anim * 4.2 + 1.3) * energy;
+        const emphasis = Math.max(0, Math.sin(t_anim * 1.7)) * energy;
+
+        /* torso */
+        if (avatar.spine2 && avatar.rest.spine2) {
+            avatar.spine2.rotation.y = avatar.rest.spine2.y + Math.sin(t_anim * 1.2) * 0.05 * energy;
+        }
+
+        /* body keyframe animation */
+        if (isSpeaking) {
+            bodyAnimT += delta;
+            if (avatarKeyframes && avatarKeyframes.length >= 2) {
+                const kfs = avatarKeyframes;
+                const dur = kfs[kfs.length - 1].time;
+                if (dur > 0) {
+                    let at = ((bodyAnimT % dur) + dur) % dur;
+                    let i1 = 0, i2 = 1, found = false;
+                    for (let i = 0; i < kfs.length - 1; i++) {
+                        if (at >= kfs[i].time && at < kfs[i + 1].time) { i1 = i; i2 = i + 1; found = true; break; }
+                    }
+                    if (!found) { i1 = kfs.length - 1; i2 = 0; }
+                    const i0 = (i1 - 1 + kfs.length) % kfs.length;
+                    const i3 = (i2 + 1) % kfs.length;
+                    const k0 = kfs[i0], k1 = kfs[i1], k2 = kfs[i2], k3 = kfs[i3];
+                    let start = k1.time;
+                    let end = (i2 > i1) ? k2.time : dur + k2.time;
+                    if (i2 <= i1 && at < start) at += dur;
+                    let lt = Math.max(0, Math.min(1, (at - start) / (end - start)));
+                    lt = lt * lt * lt * (lt * (lt * 6 - 15) + 10);
+                    const cr = (b, ax) => {
+                        const p0 = k0.bones[b]?.[ax] ?? 0, p1 = k1.bones[b]?.[ax] ?? 0,
+                            p2 = k2.bones[b]?.[ax] ?? 0, p3 = k3.bones[b]?.[ax] ?? 0, t2 = lt * lt, t3 = t2 * lt;
+                        return 0.5 * ((2 * p1) + (-p0 + p2) * lt + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3);
+                    };
+                    const applyBone = (bone, name) => {
+                        if (!bone || !k1.bones[name]) return;
+                        bone.rotation.x = cr(name, 'x');
+                        bone.rotation.y = cr(name, 'y');
+                        bone.rotation.z = cr(name, 'z');
+                    };
+                    applyBone(avatar.leftArm, 'LeftArm');
+                    applyBone(avatar.rightArm, 'RightArm');
+                    applyBone(avatar.leftForeArm, 'LeftForeArm');
+                    applyBone(avatar.rightForeArm, 'RightForeArm');
+                    applyBone(avatar.leftShoulder, 'LeftShoulder');
+                    applyBone(avatar.rightShoulder, 'RightShoulder');
+                }
+            }
+        } else {
+            bodyAnimT = 0;
+        }
+
         renderer.render(scene, camera);
     }
 
@@ -524,7 +640,7 @@
     function addMessage(role, text) {
         const t = document.getElementById('transcript');
         const div = document.createElement('div');
-        div.className = `modeling-msg modeling-msg--${role==='user'?'user':'alia'}`;
+        div.className = `modeling-msg modeling-msg--${role === 'user' ? 'user' : 'alia'}`;
         div.innerHTML = `<div class="modeling-msg__sender">${role === 'user' ? 'Vous' : 'ALIA'}</div>
                          <div class="modeling-msg__bubble">${escHtml(text)}</div>`;
         t.appendChild(div);
@@ -547,8 +663,8 @@
     /* ════════════════════════════════════════════════════════
     UI HELPERS
     ════════════════════════════════════════════════════════ */
-    function setHint(t) { const h=document.getElementById('micHint'); if(h) h.textContent=t; }
-    function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function setHint(t) { const h = document.getElementById('micHint'); if (h) h.textContent = t; }
+    function escHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 
     function setStatus(state, label) {
@@ -570,17 +686,17 @@
     async function startListening() {
         if (isRecording || isSpeaking || isProcessing) return;
         try {
-            vadStream   = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
-            vadCtx      = new (window.AudioContext || window.webkitAudioContext)();
-            const src   = vadCtx.createMediaStreamSource(vadStream);
+            vadStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+            vadCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const src = vadCtx.createMediaStreamSource(vadStream);
             vadAnalyser = vadCtx.createAnalyser();
             vadAnalyser.fftSize = 512;
             src.connect(vadAnalyser);
 
             const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '';
-            mediaRecorder  = new MediaRecorder(vadStream, mimeType ? {mimeType} : {});
-            audioChunks    = [];
-            mediaRecorder.ondataavailable = e => { if(e.data.size>0) audioChunks.push(e.data); };
+            mediaRecorder = new MediaRecorder(vadStream, mimeType ? { mimeType } : {});
+            audioChunks = [];
+            mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
             mediaRecorder.onstop = onRecordingStop;
             mediaRecorder.start(100);
 
@@ -595,7 +711,7 @@
             setHint('Parlez… (silence = envoi auto)');
 
             monitorVAD();
-        } catch(e) {
+        } catch (e) {
             console.error('Mic error:', e);
             addMessage('alia', 'Accès micro refusé : ' + e.message);
             setStatus('error', 'Micro refusé');
@@ -609,13 +725,13 @@
         const buf = new Float32Array(vadAnalyser.fftSize);
         vadAnalyser.getFloatTimeDomainData(buf);
         let sum = 0;
-        for (let i=0; i<buf.length; i++) sum += buf[i]*buf[i];
+        for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
         const rms = Math.sqrt(sum / buf.length);
         const speaking = rms > SILENCE_THRESHOLD;
 
         if (speaking) {
             if (!speechStart) speechStart = Date.now();
-            if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer=null; }
+            if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer = null; }
         } else {
             if (speechStart && !silenceTimer) {
                 const dur = Date.now() - speechStart;
@@ -630,10 +746,10 @@
     function stopListening() {
         if (!isRecording) return;
         isRecording = false;
-        if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer=null; }
-        try { mediaRecorder?.stop(); } catch(e) {}
+        if (silenceTimer) { clearTimeout(silenceTimer); silenceTimer = null; }
+        try { mediaRecorder?.stop(); } catch (e) { }
         vadStream?.getTracks().forEach(t => t.stop());
-        if (vadCtx) { vadCtx.close().catch(()=>{}); vadCtx=null; }
+        if (vadCtx) { vadCtx.close().catch(() => { }); vadCtx = null; }
         vadAnalyser = null;
         const micBtn = document.getElementById('micBtn');
         micBtn.classList.remove('is-recording');
@@ -648,24 +764,24 @@
         setStatus('thinking', 'Transcription…');
         setHint('Transcription…');
 
-        const blob = new Blob(audioChunks, {type: mediaRecorder?.mimeType || 'audio/webm'});
-        const fd   = new FormData();
+        const blob = new Blob(audioChunks, { type: mediaRecorder?.mimeType || 'audio/webm' });
+        const fd = new FormData();
         fd.append('audio', blob, 'speech.webm');
         try {
-            const res  = await fetch(`${MODELING_ROOT}/listen`, {method: 'POST', body: fd});
+            const res = await fetch(`${MODELING_ROOT}/listen`, { method: 'POST', body: fd });
             const data = await res.json();
             if (data.detected_lang) {
                 detectedLang = data.detected_lang;
                 _updateModelingLangBadge();
             }
-            const txt  = (data.text || '').trim();
+            const txt = (data.text || '').trim();
             if (!txt) {
                 setStatus('', 'Standby');
                 if (conversationOn) setTimeout(() => startListening(), 300);
                 return;
             }
             await askAlia(txt);
-        } catch(e) {
+        } catch (e) {
             console.error('STT error:', e);
             setStatus('error', 'Erreur STT');
             if (conversationOn) setTimeout(() => startListening(), 800);
@@ -691,14 +807,14 @@
         showThinking();
 
         try {
-            const res  = await fetch(`${MODELING_ROOT}/ask_alia`, {
-                method:  'POST',
+            const res = await fetch(`${MODELING_ROOT}/ask_alia`, {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify({ text, lang: detectedLang })
+                body: JSON.stringify({ text, lang: detectedLang })
             });
             const data = await res.json();
             removeThinking();
-            
+
             if (data.detected_lang && data.detected_lang !== detectedLang) {
                 detectedLang = data.detected_lang;
                 if (typeof _updateModelingLangBadge === 'function') {
@@ -712,7 +828,7 @@
                 setStatus('error', 'Erreur');
                 return;
             }
-            if (!data.text) { setStatus('error','Erreur'); return; }
+            if (!data.text) { setStatus('error', 'Erreur'); return; }
             addMessage('alia', data.text);
 
             if (data.audio_url) {
@@ -736,7 +852,7 @@
         }
     }
 
-   
+
     /* ════════════════════════════════════════════════════════
     LECTURE AUDIO + LIPSYNC
     ════════════════════════════════════════════════════════ */
@@ -766,7 +882,7 @@
                 try {
                     if (analyzer) analyzer.disconnect();
                     source.disconnect();
-                } catch (_) {}
+                } catch (_) { }
                 analyzer = null;
                 setStatus('', 'Standby');
             };
@@ -791,7 +907,7 @@
 
         if (!conversationOn) {
             conversationOn = true;
-            fetch(`${MODELING_ROOT}/reset`, {method: 'POST'}).catch(()=>{});
+            fetch(`${MODELING_ROOT}/reset`, { method: 'POST' }).catch(() => { });
             await startListening();
         } else {
             conversationOn = false;
@@ -813,16 +929,16 @@
             const hint = document.getElementById('micHint');
             if (hint) hint.parentNode.insertBefore(b, hint);
         }
-        b.textContent = (LANG_FLAGS[detectedLang]||'🌐') + ' ' + (LANG_NAMES[detectedLang]||detectedLang);
+        b.textContent = (LANG_FLAGS[detectedLang] || '🌐') + ' ' + (LANG_NAMES[detectedLang] || detectedLang);
     }
 
     /* ════════════════════════════════════════════════════════
     MODE (commercial / training)
     ════════════════════════════════════════════════════════ */
-    window.setMode = async function(mode) {
+    window.setMode = async function (mode) {
         if (mode === currentMode) return;
         currentMode = mode;
-         // Arrêter la conversation en cours silencieusement
+        // Arrêter la conversation en cours silencieusement
         if (conversationOn) {
             conversationOn = false;
             stopListening();
@@ -830,25 +946,25 @@
             setStatus('', 'Standby');
             setHint('Appuyez pour parler');
         }
- 
+
         // Vider le transcript
         const t = document.getElementById('transcript');
         t.innerHTML = '';
 
-        document.getElementById('btnCommercial').classList.toggle('active', mode==='commercial');
-        document.getElementById('btnTraining').classList.toggle('active',   mode==='training');
+        document.getElementById('btnCommercial').classList.toggle('active', mode === 'commercial');
+        document.getElementById('btnTraining').classList.toggle('active', mode === 'training');
         try {
             await Promise.all([
-                fetch(`${MODELING_ROOT}/reset`,    {method: 'POST'}),
+                fetch(`${MODELING_ROOT}/reset`, { method: 'POST' }),
                 fetch(`${MODELING_ROOT}/set_mode`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({mode})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode })
                 })
             ]);
-        } catch(e) { console.warn('set_mode failed', e); }
+        } catch (e) { console.warn('set_mode failed', e); }
     };
 
-    
+
 </script>
 {% endblock %}

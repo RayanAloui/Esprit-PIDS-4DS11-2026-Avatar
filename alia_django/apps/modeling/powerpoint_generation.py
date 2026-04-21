@@ -3,7 +3,7 @@ import io
 import re
 import pandas as pd
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN, MSO_AUTO_SIZE
@@ -12,7 +12,7 @@ from pptx.enum.shapes import MSO_SHAPE
 
 # --- Paths & Branding ---
 BASE_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = BASE_DIR.parent.parent 
+PROJECT_ROOT = BASE_DIR.parent.parent
 
 # REQUIRED CONSTANTS
 DEFAULT_CSV_PATH = BASE_DIR / "data" / "vital_products.csv"
@@ -30,7 +30,7 @@ def clean_text(text: str) -> str:
     if not text:
         return ""
     text = text.replace("**", "")
-    text = text.replace("* ", "• ") 
+    text = text.replace("* ", "• ")
     text = re.sub(r'\*+', '', text)
     return text.strip()
 
@@ -43,8 +43,8 @@ def ask_ollama(prompt: str) -> str:
                 "prompt": prompt,
                 "stream": False,
                 "options": {
-                    "temperature": 0.4, 
-                    "num_predict": 1000 
+                    "temperature": 0.4,
+                    "num_predict": 1000
                 }
             },
             timeout=180
@@ -68,7 +68,7 @@ Structure ta réponse avec ces balises :
 Un titre prestigieux (max 15 mots).
 
 [PROBLEMATIQUE]
-Analyse riche du besoin patient (80 mots environ). 
+Analyse riche du besoin patient (80 mots environ).
 
 [SOLUTION_EXPERTE]
 Explique le mode d'action unique et la supériorité Vital (100 mots environ).
@@ -100,6 +100,27 @@ def parse_sections(content: str):
         "technique": extract("QUALITE_TECHNIQUE"),
         "cta": extract("CTA")
     }
+
+def _narrations_from_data(data: dict, product_name: str) -> list[str]:
+    """
+    Return one TTS narration string per slide (6 slides).
+    Used by video_generation.py to drive the avatar's speech.
+    """
+    name = product_name
+    return [
+        # Slide 1 — Cover
+        f"Bienvenue. Voici la présentation de {name}. {data['accroche']}",
+        # Slide 2 — Problématique
+        data["probleme"] or f"Découvrons ensemble les enjeux liés à {name}.",
+        # Slide 3 — Solution
+        data["solution"] or f"{name} apporte une réponse experte et innovante.",
+        # Slide 4 — Arguments clés
+        data["arguments"] or f"Voici les piliers stratégiques de {name}.",
+        # Slide 5 — Qualité technique
+        data["technique"] or f"L'excellence de fabrication de {name} est notre engagement.",
+        # Slide 6 — Conclusion
+        data["cta"] or f"Merci pour votre attention. {name} est disponible dès maintenant.",
+    ]
 
 def add_branding(slide, title_text: str = ""):
     """Sidebar, Smaller Logo, and Auto-fitting Header."""
@@ -137,12 +158,12 @@ def create_presentation(row: pd.Series, ai_content: str, output_file: Path):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     if LOGO_PATH.exists():
         slide.shapes.add_picture(str(LOGO_PATH), Inches(4.4), Inches(0.8), width=Inches(1.2))
-    
+
     bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, Inches(3), Inches(10), Inches(3))
     bg.fill.solid()
     bg.fill.fore_color.rgb = COLOR_VITAL_BLUE
     bg.line.visible = False
-    
+
     name_box = slide.shapes.add_textbox(Inches(0), Inches(3.3), Inches(10), Inches(1))
     tf = setup_text_frame(name_box)
     p = tf.paragraphs[0]
@@ -168,7 +189,7 @@ def create_presentation(row: pd.Series, ai_content: str, output_file: Path):
     tf = setup_text_frame(body)
     p = tf.paragraphs[0]
     p.text = data['probleme']
-    p.font.size = Pt(22) 
+    p.font.size = Pt(22)
     p.font.color.rgb = COLOR_TEXT_DARK
 
     # --- Slide 3: Solution (Split with Image) ---
@@ -178,7 +199,7 @@ def create_presentation(row: pd.Series, ai_content: str, output_file: Path):
     tf = setup_text_frame(tx_box)
     p = tf.paragraphs[0]
     p.text = data['solution']
-    p.font.size = Pt(18) 
+    p.font.size = Pt(18)
     if img_data:
         slide.shapes.add_picture(img_data, Inches(5.6), Inches(1.5), height=Inches(4.8))
 
@@ -194,57 +215,45 @@ def create_presentation(row: pd.Series, ai_content: str, output_file: Path):
     # --- Slide 5: Technique & Fiche Technique ---
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_branding(slide, "Engagement Qualité & Science")
-    
-    # Narrative Part
+
     tech_box = slide.shapes.add_textbox(Inches(0.8), Inches(1.5), Inches(8.5), Inches(2.2))
     tf_tech = setup_text_frame(tech_box)
     p_tech = tf_tech.paragraphs[0]
     p_tech.text = data['technique']
     p_tech.font.size = Pt(20)
 
-    # Filter data for Table
     spec_map = [
         ("Catégorie", "categories"),
         ("Classe", "classe"),
         ("Forme", "forme"),
         ("Conditionnement", "infos_produit")
     ]
-    
+
     valid_specs = []
     for label, key in spec_map:
         val = str(row.get(key, "")).strip()
         if val and val.lower() not in ["aucun", "aucune", "n/a", "nan", "none"]:
             valid_specs.append((label, val))
 
-    # Add Styled Table
     if valid_specs:
-        rows = len(valid_specs)
-        cols = 2
-        left = Inches(0.8)
-        top = Inches(4.0)
-        width = Inches(8.4)
-        height = Inches(0.5 * rows)
-
-        table_shape = slide.shapes.add_table(rows, cols, left, top, width, height)
+        rows_n = len(valid_specs)
+        table_shape = slide.shapes.add_table(
+            rows_n, 2, Inches(0.8), Inches(4.0), Inches(8.4), Inches(0.5 * rows_n)
+        )
         table = table_shape.table
-        
-        # Column Widths
         table.columns[0].width = Inches(2.2)
         table.columns[1].width = Inches(6.2)
 
         for i, (label, value) in enumerate(valid_specs):
-            # Label Cell
             cell_label = table.cell(i, 0)
             cell_label.fill.solid()
-            cell_label.fill.fore_color.rgb = RGBColor(245, 245, 245) # Light background for label
-            
+            cell_label.fill.fore_color.rgb = RGBColor(245, 245, 245)
             p_l = cell_label.text_frame.paragraphs[0]
             p_l.text = label
             p_l.font.bold = True
             p_l.font.size = Pt(18)
             p_l.font.color.rgb = COLOR_VITAL_BLUE
-            
-            # Value Cell
+
             cell_val = table.cell(i, 1)
             p_v = cell_val.text_frame.paragraphs[0]
             p_v.text = value
@@ -275,23 +284,59 @@ def download_image(url: str) -> Optional[io.BytesIO]:
     except Exception:
         return None
 
-def generate_presentation_for_product(product_name: str, csv_path: Optional[Path] = None, output_dir: Optional[Path] = None) -> Path:
+# ─────────────────────────────────────────────────────────────────────────────
+# Core generation helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _load_product_row(product_name: str, csv_path: Optional[Path]) -> pd.Series:
+    """Load the CSV and return the row for the given product name (raises on miss)."""
     csv_file = Path(csv_path) if csv_path else DEFAULT_CSV_PATH
     if not csv_file.exists():
         raise FileNotFoundError(f"CSV file not found: {csv_file}")
-        
     df = pd.read_csv(csv_file).fillna("")
     matched = df[df["name"].str.lower() == product_name.lower()]
-    
     if matched.empty:
         raise ValueError(f"Produit '{product_name}' non trouvé.")
+    return matched.iloc[0]
 
-    row = matched.iloc[0]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Public API
+# ─────────────────────────────────────────────────────────────────────────────
+
+def generate_presentation_for_product(
+    product_name: str,
+    csv_path: Optional[Path] = None,
+    output_dir: Optional[Path] = None,
+) -> Path:
+    """Generate and save the PPTX.  Returns the output path."""
+    pptx, _ = generate_presentation_for_product_with_narrations(
+        product_name, csv_path, output_dir
+    )
+    return pptx
+
+
+def generate_presentation_for_product_with_narrations(
+    product_name: str,
+    csv_path: Optional[Path] = None,
+    output_dir: Optional[Path] = None,
+) -> Tuple[Path, list[str]]:
+    """
+    Generate and save the PPTX, and return per-slide TTS narration strings.
+
+    Returns:
+        (pptx_path, slide_narrations)   — used by video_generation.py
+    """
+    row = _load_product_row(product_name, csv_path)
+
     ai_raw = ask_ollama(build_prompt(row))
-    
+    data   = parse_sections(ai_raw)
+
     out_dir = Path(output_dir) if output_dir else BASE_DIR / "generated_presentations"
     out_dir.mkdir(parents=True, exist_ok=True)
-    
+
     output_file = out_dir / f"{product_name.replace(' ', '_')}.pptx"
     create_presentation(row, ai_raw, output_file)
-    return output_file
+
+    narrations = _narrations_from_data(data, product_name)
+    return output_file, narrations

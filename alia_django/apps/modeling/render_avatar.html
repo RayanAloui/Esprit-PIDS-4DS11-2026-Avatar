@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+
+<style>
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#00ff00;
+}
+
+#bg{
+position:fixed;
+inset:0;
+background:#00ff00;
+z-index:0;
+}
+
+canvas{
+display:block;
+position:relative;
+z-index:1;
+}
+</style>
+
+<script type="importmap">
+{
+  "imports": {
+    "three":"https://unpkg.com/three@0.162.0/build/three.module.js",
+    "three/addons/":"https://unpkg.com/three@0.162.0/examples/jsm/"
+  }
+}
+</script>
+
+</head>
+<body>
+
+<div id="bg"></div>
+
+<script type="module">
+
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { avatarKeyframes } from '/static/avatar-animation.js';
+
+window.avatarReady = false;
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+    28,
+    window.innerWidth/window.innerHeight,
+    0.1,
+    1000
+);
+
+camera.position.set(0,1.55,2.5);
+camera.lookAt(0,1.4,0);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias:true,
+    alpha:true
+});
+
+renderer.setClearColor(0x000000,0);
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff,0.8));
+
+const key = new THREE.DirectionalLight(0xffffff,1.2);
+key.position.set(1,2,2);
+scene.add(key);
+
+let model = null;
+let mixer = null;
+let leftArm, rightArm, leftForeArm, rightForeArm, leftHand, rightHand;
+let leftShoulder, rightShoulder;
+let spine2, neck, head;
+const rest = {};
+
+let bodyAnimT = 0;
+
+// Setup viseme mapping
+const visemeNames = [
+    "jawOpen","mouthOpen",
+    "viseme_aa","viseme_E","viseme_I","viseme_O",
+    "viseme_CH","viseme_DD","viseme_FF","viseme_nn",
+    "viseme_sil","eyeBlinkLeft","eyeBlinkRight"
+];
+
+const targets = {};
+
+function setMorph(name, value) {
+    if(targets[name]) {
+        targets[name].forEach(t => {
+            t.mesh.morphTargetInfluences[t.idx] = value;
+        });
+    }
+}
+
+// Audio loading state
+const urlParams = new URLSearchParams(window.location.search);
+const audioUrl = urlParams.get('audio');
+let audioData = null;
+let sampleRate = 44100;
+
+let modelLoaded = false;
+let audioLoaded = !audioUrl;
+
+function checkReady() {
+    if(modelLoaded && audioLoaded) {
+        window.avatarReady = true;
+    }
+}
+
+// Load audio if requested
+if (audioUrl) {
+    fetch(audioUrl)
+        .then(res => res.arrayBuffer())
+        .then(buffer => {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            return audioCtx.decodeAudioData(buffer);
+        })
+        .then(decodedData => {
+            audioData = decodedData.getChannelData(0);
+            sampleRate = decodedData.sampleRate;
+            audioLoaded = true;
+            checkReady();
+        }).catch(e => {
+            console.error("Audio decoding error:", e);
+            audioLoaded = true;
+            checkReady();
+        });
+}
+
+new GLTFLoader().load("/static/avatar.glb", (gltf) => {
+
+    model = gltf.scene;
+    model.rotation.y = 0.22;
+    model.position.y = -0.05;
+
+    scene.add(model);
+
+    if(gltf.animations.length > 0){
+        mixer = new THREE.AnimationMixer(model);
+        const a = mixer.clipAction(gltf.animations[0]);
+        a.play();
+    }
+
+    model.traverse(c => {
+        if (c.isBone) {
+            if (c.name === "LeftArm")      leftArm      = c;
+            if (c.name === "RightArm")     rightArm     = c;
+            if (c.name === "LeftForeArm")  leftForeArm  = c;
+            if (c.name === "RightForeArm") rightForeArm = c;
+            if (c.name === "LeftHand")     leftHand     = c;
+            if (c.name === "RightHand")    rightHand    = c;
+            if (c.name === "LeftShoulder") leftShoulder = c;
+            if (c.name === "RightShoulder")rightShoulder= c;
+            if (c.name === "Spine2")       spine2       = c;
+            if (c.name === "Neck")         neck         = c;
+            if (c.name === "Head")         head         = c;
+        }
+
+        // Cache morph targets
+        if(c.isSkinnedMesh && c.morphTargetDictionary){
+            const d = c.morphTargetDictionary;
+            visemeNames.forEach(name => {
+                if(d[name] !== undefined) {
+                    if(!targets[name]) targets[name] = [];
+                    targets[name].push({ mesh: c, idx: d[name] });
+                }
+            });
+        }
+    });
+
+    function saveRest(name, bone) {
+        if (!bone) return;
+        rest[name] = { x: bone.rotation.x, y: bone.rotation.y, z: bone.rotation.z };
+    }
+    saveRest("leftArm",      leftArm);
+    saveRest("rightArm",     rightArm);
+    saveRest("leftForeArm",  leftForeArm);
+    saveRest("rightForeArm", rightForeArm);
+    saveRest("leftHand",     leftHand);
+    saveRest("rightHand",    rightHand);
+    saveRest("spine2",       spine2);
+    saveRest("neck",         neck);
+    saveRest("head",         head);
+
+    modelLoaded = true;
+    checkReady();
+});
+
+let t = 0;
+let isTalking = false;
+const clock = new THREE.Clock();
+
+window.startTalk = ()=>{
+    t = 0;
+    isTalking = true;
+    currentV = 0;
+    blinkTimer = 0;
+    clock.start();
+};
+
+function getSmoothedVolume(time) {
+    if (!audioData) return 0;
+    const index = Math.floor(time * sampleRate);
+    const windowSize = Math.floor(sampleRate / 30);
+    let sum = 0;
+    let count = 0;
+    for (let i = 0; i < windowSize; i++) {
+        if (index + i < audioData.length) {
+            sum += Math.abs(audioData[index + i]);
+            count++;
+        }
+    }
+    return count > 0 ? sum / count : 0;
+}
+
+let currentV = 0;
+let blinkTimer = 0;
+
+function animate(){
+    requestAnimationFrame(animate);
+
+    const delta = clock.getDelta();
+
+    if (isTalking) t += delta;
+    if (mixer && isTalking) mixer.update(delta);
+
+    const raw = isTalking ? getSmoothedVolume(t) : 0;
+    currentV = currentV * 0.72 + raw * 0.28;
+
+    const energy = Math.min(1, currentV * 5);
+    
+    /* lipsync */
+    setMorph("jawOpen",   energy * 0.55);
+    setMorph("mouthOpen", energy * 0.42);
+
+    visemeNames.forEach(n => {
+        if (!["jawOpen","mouthOpen","eyeBlinkLeft","eyeBlinkRight"].includes(n)) {
+            setMorph(n, 0);
+        }
+    });
+
+    if (energy > 0.60) {
+        setMorph("viseme_aa", energy);
+    } else if (energy > 0.35) {
+        setMorph("viseme_O", energy * 0.8);
+        setMorph("viseme_E", energy * 0.4);
+    } else if (energy > 0.15) {
+        const r = Math.floor(t * 12) % 4;
+        if (r === 0) setMorph("viseme_CH", energy);
+        if (r === 1) setMorph("viseme_DD", energy);
+        if (r === 2) setMorph("viseme_FF", energy);
+        if (r === 3) setMorph("viseme_nn", energy);
+    } else {
+        setMorph("viseme_sil", 1);
+    }
+
+    /* blink */
+    blinkTimer += delta;
+    let blink = 0;
+    if (blinkTimer > 2 + Math.random() * 2) {
+        blink = Math.sin((blinkTimer - 2) * 20);
+        if (blinkTimer > 2.15) blinkTimer = 0;
+    }
+    blink = Math.max(0, blink);
+    setMorph("eyeBlinkLeft",  blink);
+    setMorph("eyeBlinkRight", blink);
+
+    /* motion values */
+    const pulse1   = Math.sin(t * 5.5) * energy;
+    const pulse2   = Math.sin(t * 4.2 ) * energy;
+    const emphasis = Math.max(0, Math.sin(t * 1.7)) * energy;
+
+    /* torso */
+    if (spine2 && rest.spine2) {
+        spine2.rotation.y = rest.spine2.y + Math.sin(t * 1.2) * 0.05 * energy;
+    }
+    if (neck && rest.neck) {
+        neck.rotation.y = rest.neck.y + Math.sin(t * 1.7) * 0.04 * energy;
+    }
+
+    /* body keyframe animation */
+    if (isTalking) {
+        bodyAnimT += delta;
+        if (avatarKeyframes && avatarKeyframes.length >= 2) {
+            const kfs = avatarKeyframes;
+            const dur = kfs[kfs.length - 1].time;
+            if (dur > 0) {
+                let at = ((bodyAnimT % dur) + dur) % dur;
+                let i1 = 0, i2 = 1, found = false;
+                for (let i = 0; i < kfs.length - 1; i++) {
+                    if (at >= kfs[i].time && at < kfs[i+1].time) { i1=i; i2=i+1; found=true; break; }
+                }
+                if (!found) { i1 = kfs.length-1; i2 = 0; }
+                const i0 = (i1-1+kfs.length) % kfs.length;
+                const i3 = (i2+1) % kfs.length;
+                const k0=kfs[i0], k1=kfs[i1], k2=kfs[i2], k3=kfs[i3];
+                let start = k1.time;
+                let end = (i2 > i1) ? k2.time : dur + k2.time;
+                if (i2 <= i1 && at < start) at += dur;
+                let lt = Math.max(0, Math.min(1, (at - start) / (end - start)));
+                lt = lt*lt*lt*(lt*(lt*6-15)+10);
+                const cr = (b, ax) => {
+                    const p0=k0.bones[b]?.[ax]??0, p1=k1.bones[b]?.[ax]??0,
+                          p2=k2.bones[b]?.[ax]??0, p3=k3.bones[b]?.[ax]??0, t2=lt*lt, t3=t2*lt;
+                    return 0.5*((2*p1)+(-p0+p2)*lt+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3);
+                };
+                const applyBone = (bone, name) => {
+                    if (!bone || !k1.bones[name]) return;
+                    bone.rotation.x = cr(name,'x');
+                    bone.rotation.y = cr(name,'y');
+                    bone.rotation.z = cr(name,'z');
+                };
+                applyBone(leftArm,       'LeftArm');
+                applyBone(rightArm,      'RightArm');
+                applyBone(leftForeArm,   'LeftForeArm');
+                applyBone(rightForeArm,  'RightForeArm');
+                applyBone(leftShoulder,  'LeftShoulder');
+                applyBone(rightShoulder, 'RightShoulder');
+            }
+        }
+    } else {
+        bodyAnimT = 0;
+    }
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>

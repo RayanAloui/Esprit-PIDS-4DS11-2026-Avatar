@@ -29,13 +29,18 @@ PERSIST_DIR = str(_DATA_DIR / "alia_knowledge_db")
 
 sys.path.append(str(Path(__file__).resolve().parent))
 
-# Import the PowerPoint generation module
+# Import the PowerPoint and Video generation modules
 try:
-    from powerpoint_generation import generate_presentation_for_product
+    from apps.modeling.powerpoint_generation import generate_presentation_for_product
+    from apps.modeling.video_generation import generate_video_for_product
+    VIDEO_AVAILABLE = True
     PPT_AVAILABLE = True
 except ImportError as e:
-    print(f"[ALIA] PowerPoint generation not available: {e}")
+    print(f"[ALIA] Video generation not available: {e}")
+    VIDEO_AVAILABLE = False
     PPT_AVAILABLE = False
+    generate_video_for_product = None
+    generate_presentation_for_product = None
 
 # =========================
 # DATA PROCESSING
@@ -985,57 +990,45 @@ class AliaOrchestrator:
         return _FALLBACK_GENERIC.get(lang, _FALLBACK_GENERIC["fr"])
 
     async def generate_presentation(self, product_name: str, lang: str = "fr") -> Dict:
-        """Generate a PowerPoint presentation for a specific product"""
+        """Generate a PowerPoint + avatar video for a specific product."""
         _PPT_UNAVAIL = {
-            "fr": "Désolée, la génération de présentations PowerPoint n'est pas disponible actuellement.",
-            "en": "Sorry, PowerPoint presentation generation is not currently available.",
-            "es": "Lo siento, la generación de presentaciones PowerPoint no está disponible actualmente.",
-            "ar": "عذراً، إنشاء عروض PowerPoint غير متاح حالياً.",
+            "fr": "Désolée, la génération de vidéo n'est pas disponible actuellement.",
+            "en": "Sorry, video generation is not currently available.",
+            "es": "Lo siento, la generación de video no está disponible actualmente.",
+            "ar": "عذراً، إنشاء الفيديو غير متاح حالياً.",
         }
         _PPT_SUCCESS = {
             "fr": (
-                "J'ai généré la présentation PowerPoint pour {name} !\n\n"
-                "La présentation comprend :\n"
-                "• Une slide d'accroche avec le positionnement produit\n"
-                "• L'analyse de la problématique patient\n"
-                "• La solution experte Vital Labs\n"
-                "• Les 4 piliers stratégiques\n"
-                "• Les spécifications techniques\n"
-                "• Une conclusion avec appel à l'action\n\n"
-                "Voulez-vous que je vous présente le contenu ou que je génère une présentation pour un autre produit ?"
+                "J'ai généré la présentation vidéo pour **{name}** !\n\n"
+                "Elle comprend :\n"
+                "• L'avatar ALIA animé avec synchronisation labiale\n"
+                "• 6 slides : accroche, analyse, solution, arguments, technique, conclusion\n"
+                "• Narration vocale synchronisée sur chaque slide\n\n"
+                "Voulez-vous une présentation pour un autre produit ?"
             ),
             "en": (
-                "I've generated the PowerPoint presentation for {name}!\n\n"
-                "The presentation includes:\n"
-                "• An opening slide with product positioning\n"
-                "• Patient problem analysis\n"
-                "• The Vital Labs expert solution\n"
-                "• The 4 strategic pillars\n"
-                "• Technical specifications\n"
-                "• A conclusion with call to action\n\n"
-                "Would you like me to present the content or generate a presentation for another product?"
+                "I've generated the video presentation for **{name}**!\n\n"
+                "It includes:\n"
+                "• The animated ALIA avatar with lip sync\n"
+                "• 6 slides: hook, analysis, solution, arguments, technical specs, conclusion\n"
+                "• Synchronized voice narration on each slide\n\n"
+                "Would you like me to generate a presentation for another product?"
             ),
             "es": (
-                "¡He generado la presentación PowerPoint para {name}!\n\n"
-                "La presentación incluye:\n"
-                "• Una diapositiva de apertura con posicionamiento del producto\n"
-                "• Análisis de la problemática del paciente\n"
-                "• La solución experta Vital Labs\n"
-                "• Los 4 pilares estratégicos\n"
-                "• Especificaciones técnicas\n"
-                "• Una conclusión con llamada a la acción\n\n"
-                "¿Desea que le presente el contenido o que genere una presentación para otro producto?"
+                "¡He generado la presentación en video para **{name}**!\n\n"
+                "Incluye:\n"
+                "• El avatar animado de ALIA con sincronización labial\n"
+                "• 6 diapositivas: gancho, análisis, solución, argumentos, técnica, conclusión\n"
+                "• Narración de voz sincronizada en cada diapositiva\n\n"
+                "¿Desea que genere una presentación para otro producto?"
             ),
             "ar": (
-                "لقد أنشأت عرض PowerPoint لـ {name}!\n\n"
+                "لقد أنشأت العرض المرئي لـ **{name}**!\n\n"
                 "يتضمن العرض:\n"
-                "• شريحة افتتاحية مع تموضع المنتج\n"
-                "• تحليل مشكلة المريض\n"
-                "• حل Vital Labs المتخصص\n"
-                "• الركائز الاستراتيجية الأربع\n"
-                "• المواصفات التقنية\n"
-                "• خاتمة مع دعوة للعمل\n\n"
-                "هل تريد أن أقدم لك المحتوى أو أنشئ عرضاً لمنتج آخر؟"
+                "• صورة أليا الرمزية المتحركة مع مزامنة الشفاه\n"
+                "• 6 شرائح: المقدمة، التحليل، الحل، الحجج، المواصفات التقنية، الخاتمة\n"
+                "• سرد صوتي متزامن على كل شريحة\n\n"
+                "هل تريد مني إنشاء عرض لمنتج آخر؟"
             ),
         }
         _PPT_NOT_FOUND = {
@@ -1051,7 +1044,7 @@ class AliaOrchestrator:
             "ar": "عذراً، حدث خطأ أثناء إنشاء العرض. يرجى المحاولة مع منتج آخر.",
         }
 
-        if not PPT_AVAILABLE:
+        if not VIDEO_AVAILABLE:
             return {
                 "text": _PPT_UNAVAIL.get(lang, _PPT_UNAVAIL["fr"]),
                 "intent": "presentation_error",
@@ -1059,21 +1052,43 @@ class AliaOrchestrator:
             }
         
         try:
-            print(f"[ALIA] Generating presentation for: {product_name}")
+            print(f"[ALIA] Generating video presentation for: {product_name}")
             
-            # Generate the presentation
+            # Generate the video
             output_path = await asyncio.to_thread(
-                generate_presentation_for_product,
+                generate_video_for_product,
                 product_name,
                 self.csv_path
             )
+
+            # Copy video (and optional pptx) to static/videos so FastAPI can serve them
+            import shutil
+            from django.conf import settings
+            videos_dir = Path(settings.MODELING_STATIC_DIR) / "videos"
+            videos_dir.mkdir(parents=True, exist_ok=True)
+
+            dest_mp4 = videos_dir / output_path.name
+            shutil.copy2(str(output_path), str(dest_mp4))
+
+            pptx_src = output_path.with_suffix(".pptx")
+            dest_pptx = videos_dir / pptx_src.name
+            if pptx_src.exists():
+                shutil.copy2(str(pptx_src), str(dest_pptx))
+
+            from apps.modeling.handlers import api_prefix
+            prefix = api_prefix()
+            video_url = f"{prefix}/static/videos/{dest_mp4.name}"
+            presentation_url = f"{prefix}/static/videos/{dest_pptx.name}" if pptx_src.exists() else None
             
             response = _PPT_SUCCESS.get(lang, _PPT_SUCCESS["fr"]).format(name=product_name)
             
             return {
                 "text": response,
                 "intent": "presentation_generated",
-                "presentation_path": str(output_path)
+                "presentation_path": str(output_path),
+                "video_path": str(output_path),
+                "video_url": video_url,
+                "presentation_url": presentation_url,
             }
             
         except ValueError as e:
@@ -1083,7 +1098,7 @@ class AliaOrchestrator:
                 "presentation_path": None
             }
         except Exception as e:
-            print(f"[ALIA] Presentation generation error: {e}")
+            print(f"[ALIA] Video generation error: {e}")
             import traceback
             traceback.print_exc()
             return {
