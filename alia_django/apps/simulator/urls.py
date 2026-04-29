@@ -10,6 +10,7 @@ urlpatterns = [
     path('report/',       views.get_report,         name='report'),
     path('reset/',        views.reset_simulation,   name='reset'),
     path('dashboard/',    views.dashboard_data,     name='dashboard'),
+    path('leaderboard/',  views.leaderboard_view,   name='leaderboard'),
     path('stream/',       views.sim_body_stream,    name='stream'),
     path('body-status/',  views.sim_body_status,    name='body_status'),
     path('body-control/', views.sim_body_control,   name='body_control'),

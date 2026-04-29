@@ -29,6 +29,12 @@ SESSION_KEY = 'alia_sim_session'
 def simulator_index(request):
     # Produits sans le produit généraliste (affiché séparément)
     products_display = [p for p in VITAL_PRODUCTS if not p.get('_is_generic')]
+    xp = 0
+    level = 1
+    if hasattr(request.user, 'profile'):
+        xp = request.user.profile.xp
+        level = request.user.profile.level
+
     context = {
         'page'        : 'simulator',
         'doctors'     : DOCTOR_PROFILES,
@@ -37,6 +43,8 @@ def simulator_index(request):
         'niveaux'     : ['Débutant', 'Junior', 'Confirmé', 'Expert'],
         'qcm_seuil'   : QCM_SEUIL_PASSAGE,
         'qcm_nb'      : QCM_NB_QUESTIONS,
+        'user_xp'     : xp,
+        'user_level'  : level,
     }
     return render(request, 'simulator/index.html', context)
 
@@ -201,7 +209,7 @@ def send_message(request):
         text_lower = text.lower()
         import re
         if re.search(r'[\u0600-\u06FF]', text_lower):
-            lang = 'ar'
+            lang = 'tn'
         else:
             words = set(re.findall(r'\b\w+\b', text_lower))
             en_words = {'the', 'is', 'are', 'you', 'and', 'to', 'of', 'in', 'hello', 'doctor', 'i', 'my', 'yes', 'no', 'what', 'how', 'good', 'morning'}
@@ -220,7 +228,8 @@ def send_message(request):
                 lang = 'fr'
 
         user_id = request.user.id if hasattr(request, 'user') and request.user.is_authenticated else None
-        result  = session.process_delegate_response(text, lang=lang, user_id=user_id)
+        audio_url = data.get('audio_url')
+        result  = session.process_delegate_response(text, lang=lang, user_id=user_id, audio_url=audio_url)
 
         request.session[SESSION_KEY] = session.to_dict()
         request.session.modified     = True
@@ -240,8 +249,28 @@ def get_report(request):
             return JsonResponse({'ok': False, 'error': 'Aucune session.'}, status=400)
         session = SimulationSession.from_dict(session_data)
         report  = session.generate_report()
+        
+        if request.user.is_authenticated and not request.session.get('gamification_saved_for_session'):
+            from .gamification import update_user_gamification
+            from .models import SimulationHistory
+            
+            xp_gained, new_badges = update_user_gamification(request.user, report)
+            report['xp_gained'] = xp_gained
+            report['new_badges'] = new_badges
+            
+            SimulationHistory.objects.create(
+                user=request.user,
+                product_id=session.product['id'],
+                interlocutor_id=session.interlocutor['id'],
+                score_global=report.get('global_score', 0),
+                xp_earned=xp_gained,
+                is_success=report.get('resultat_col') == 'green'
+            )
+            request.session['gamification_saved_for_session'] = True
+            
         report['ok'] = True
         return JsonResponse(report)
+
     except Exception as e:
         return JsonResponse({'ok': False, 'error': str(e)}, status=500)
 
@@ -251,7 +280,20 @@ def get_report(request):
 def reset_simulation(request):
     if SESSION_KEY in request.session:
         del request.session[SESSION_KEY]
+    if 'gamification_saved_for_session' in request.session:
+        del request.session['gamification_saved_for_session']
     return JsonResponse({'ok': True})
+
+
+@login_required
+def leaderboard_view(request):
+    from apps.accounts.models import UserProfile
+    profiles = UserProfile.objects.filter(role='delegue').order_by('-xp', '-level')[:50]
+    return render(request, 'simulator/leaderboard.html', {
+        'page': 'leaderboard',
+        'profiles': profiles
+    })
+
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -269,6 +311,11 @@ def dashboard_data(request):
         data['ok']     = True
         data['active'] = True
         data['turn']   = session.turn
+        
+        # Gamification : XP dynamique estimé (hors bonus closing)
+        global_score = data.get('global_score', 0)
+        data['session_xp'] = int(50 * (global_score / 10.0))
+        
         return JsonResponse(data)
     except Exception as e:
         return JsonResponse({'ok': False, 'error': str(e)}, status=500)
@@ -360,6 +407,7 @@ def replay_data(request):
         rag_hits    = state.rag_hits
         openness_tl = state.openness_timeline
         events_all  = state.events
+        lstm_frames = getattr(state, 'all_lstm_frames', [])
 
         rag_by_turn = {h['turn']: h for h in rag_hits}
         nlp_by_turn = {t['turn']: t for t in nlp_turns}
@@ -380,6 +428,7 @@ def replay_data(request):
             del_idx = 2 * turn_num - 1
             doc_idx = 2 * turn_num
             delegate_msg = history[del_idx]['content'] if del_idx < len(history) else ''
+            delegate_audio = history[del_idx].get('audio_url') if del_idx < len(history) else None
             doctor_msg   = history[doc_idx]['content'] if doc_idx < len(history) else ''
             nlp  = nlp_by_turn.get(turn_num, {})
             rag  = rag_by_turn.get(turn_num, {})
@@ -391,11 +440,13 @@ def replay_data(request):
             turns_data.append({
                 'turn': turn_num, 'type': 'turn',
                 'doctor_msg': doctor_msg, 'delegate_msg': delegate_msg,
+                'delegate_audio': delegate_audio,
                 'score': nlp.get('score'), 'quality': nlp.get('quality'),
                 'acrv': nlp.get('acrv'), 'conformite': nlp.get('conformite'),
                 'openness': open_val, 'delta_open': delta, 'step': step,
                 'engine': rag.get('engine', '—'),
                 'rag_used': rag.get('context_used', False),
+                'ts': history[del_idx].get('ts') if del_idx < len(history) else None,
             })
 
         scores_only = [t['score'] for t in turns_data if t['score'] is not None]
@@ -414,6 +465,7 @@ def replay_data(request):
             'global_niveau': state.global_niveau,
             'openness_final': round(session.openness, 1),
             'openness_timeline': openness_tl,
+            'lstm_timeline': lstm_frames,
             'events': events_all,
             'highlights': {
                 'best_turn': best_turn['turn'] if best_turn else None,
@@ -438,14 +490,22 @@ def replay_page(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def sim_stt(request):
-    import asyncio
-    from apps.modeling.handlers import listen_json
+    import asyncio, uuid
+    from pathlib import Path
+    from django.conf import settings
+    from apps.modeling.handlers import listen_json, api_prefix
     audio_file = request.FILES.get("audio")
     if not audio_file:
         return JsonResponse({"error": "Fichier audio manquant."}, status=400)
     try:
-        data = asyncio.run(listen_json(audio_file.read()))
-        # data = {"text": "...", "detected_lang": "fr"|"en"|"es"|"ar"}
+        audio_data = audio_file.read()
+        filename = f"delegate_{uuid.uuid4()}.webm"
+        path = Path(settings.MODELING_AUDIO_DIR) / filename
+        with open(path, "wb") as f:
+            f.write(audio_data)
+        
+        data = asyncio.run(listen_json(audio_data))
+        data['audio_url'] = f"{api_prefix()}/static/audio/{filename}"
         return JsonResponse(data)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)

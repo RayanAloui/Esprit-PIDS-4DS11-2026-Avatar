@@ -1,3 +1,3 @@
-invalid type: string "Produit: LV Cysprotect\n\n    Indications principales: Aucune\n\n    CatÃ©gories: Cystites, Infection urinaire\n\n    Classe thÃ©rapeutique: ComplÃ©ment alimentaire\n\n    Forme galÃ©nique: GÃ©lule\n\n    Utilisation: oral\n\n    Population cible: adulte\n\n    Description: Boite de 30 gÃ©lules\n\n    Mots-clÃ©s: general", expected i64ooleantion: 
+invalid type: string "Produit: LV Cysprotect\n\n    Indications principales: Aucune\n\n    CatÃ©gories: Cystites, Infection urinaire\n\n    Classe thÃ©rapeutique: ComplÃ©ment alimentaire\n\n    Forme galÃ©nique: GÃ©lule\n\n    Utilisation: oral\n\n    Population cible: adulte\n\n    Description: Boite de 30 gÃ©lules\n\n    Mots-clÃ©s: general", expected f64escription: 
 
-    Mots-clÃ©s: peau"\nÿÿÿÿ
+    Mots-clÃ©s: peauÿÿÿÿÿÿÿ

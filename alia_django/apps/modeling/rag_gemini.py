@@ -649,7 +649,7 @@ REGLAS:
 Respuesta:
 """,
 
-    "ar": """أنتِ أليا، مساعدة صيدلانية لمندوب طبي.
+    "tn": """أنتِ أليا، مساعدة صيدلانية لمندوب طبي.
 تساعدين المندوب أثناء زيارته لطبيب أو صيدلي.
 يجب أن تردي حصرياً بالعربية. لا تستخدمي الفرنسية أبداً.
 
@@ -750,7 +750,7 @@ REGLAS:
 Respuesta:
 """,
 
-    "ar": """أنتِ أليا، مدربة تكوين لمندوبين طبيين.
+    "tn": """أنتِ أليا، مدربة تكوين لمندوبين طبيين.
 تلعبين دور طبيب أو صيدلي متطلب.
 تقيّمين إجابات المندوب وتساعدينه على التقدم.
 يجب أن تردي حصرياً بالعربية. لا تستخدمي الفرنسية أبداً.
@@ -788,25 +788,25 @@ _LANG_RESPONSES = {
         "fr": "Bonjour, je suis ALIA. Comment puis-je vous aider aujourd'hui ?",
         "en": "Hello, I'm ALIA. How can I help you today?",
         "es": "Hola, soy ALIA. ¿Cómo puedo ayudarle hoy?",
-        "ar": "مرحبًا، أنا أليا. كيف يمكنني مساعدتك اليوم؟",
+        "tn": "مرحبًا، أنا أليا. كيف يمكنني مساعدتك اليوم؟",
     },
     "casual": {
         "fr": "Je vous en prie. Avez-vous besoin d'informations sur un produit ou d'une présentation ?",
         "en": "You're welcome. Do you need information about a product or a presentation?",
         "es": "De nada. ¿Necesita información sobre un producto o una presentación?",
-        "ar": "على الرحب والسعة. هل تحتاج معلومات عن منتج أو عرض تقديمي؟",
+        "tn": "على الرحب والسعة. هل تحتاج معلومات عن منتج أو عرض تقديمي؟",
     },
     "clarify_product": {
         "fr": "Pour quel produit souhaitez-vous générer une présentation PowerPoint ?",
         "en": "For which product would you like to generate a PowerPoint presentation?",
         "es": "¿Para qué producto desea generar una presentación PowerPoint?",
-        "ar": "لأي منتج ترغب في إنشاء عرض تقديمي؟",
+        "tn": "لأي منتج ترغب في إنشاء عرض تقديمي؟",
     },
     "vague": {
         "fr": "Pouvez-vous préciser votre besoin ? Par exemple : avez-vous un problème particulier comme la fatigue, le sommeil, la peau, ou une pathologie spécifique ?",
         "en": "Could you specify your need? For example: do you have a particular issue like fatigue, sleep, skin, or a specific condition?",
         "es": "¿Puede precisar su necesidad? Por ejemplo: ¿tiene un problema particular como cansancio, sueño, piel, o una patología específica?",
-        "ar": "هل يمكنك تحديد حاجتك؟ مثلاً: هل لديك مشكلة معينة كالتعب أو النوم أو البشرة أو حالة مرضية محددة؟",
+        "tn": "هل يمكنك تحديد حاجتك؟ مثلاً: هل لديك مشكلة معينة كالتعب أو النوم أو البشرة أو حالة مرضية محددة؟",
     },
 }
 
@@ -863,11 +863,11 @@ class AliaOrchestrator:
             "fr": "Aucun historique (début de conversation).",
             "en": "No history (start of conversation).",
             "es": "Sin historial (inicio de conversación).",
-            "ar": "لا يوجد سجل (بداية المحادثة).",
+            "tn": "لا يوجد سجل (بداية المحادثة).",
         }
         _USER_LABEL = {
             "fr": "Délégué", "en": "Representative",
-            "es": "Delegado", "ar": "المندوب",
+            "es": "Delegado", "tn": "المندوب",
         }
         turns = self.history[-(self.HISTORY_MAX_TURNS * 2):]
         if not turns:
@@ -938,7 +938,7 @@ class AliaOrchestrator:
                       "Could you rephrase your question? I'll do my best to respond in English.",
                 "es": "Encontré productos relevantes en nuestra base de datos, pero tuve dificultad para generar "
                       "una respuesta en español. ¿Puede reformular su pregunta?",
-                "ar": "وجدت منتجات ذات صلة في قاعدة بياناتنا، لكن واجهت صعوبة في إنشاء رد بالعربية. "
+                "tn": "وجدت منتجات ذات صلة في قاعدة بياناتنا، لكن واجهت صعوبة في إنشاء رد بالعربية. "
                       "هل يمكنك إعادة صياغة سؤالك؟",
             }
             return _WRONG_LANG_FALLBACK.get(expected_lang, text)
@@ -972,13 +972,13 @@ class AliaOrchestrator:
             "fr": "Je n'ai pas de produit spécifique pour {cond} dans ma base de données actuelle. Pourriez-vous me donner plus de détails sur vos besoins, ou puis-je vous aider avec un autre type de produit ?",
             "en": "I don't have a specific product for {cond} in my current database. Could you give me more details about your needs, or can I help you with another type of product?",
             "es": "No tengo un producto específico para {cond} en mi base de datos actual. ¿Puede darme más detalles sobre sus necesidades, o puedo ayudarle con otro tipo de producto?",
-            "ar": "ليس لدي منتج محدد لـ {cond} في قاعدة بياناتي الحالية. هل يمكنك إعطائي مزيداً من التفاصيل حول احتياجاتك؟",
+            "tn": "ليس لدي منتج محدد لـ {cond} في قاعدة بياناتي الحالية. هل يمكنك إعطائي مزيداً من التفاصيل حول احتياجاتك؟",
         }
         _FALLBACK_GENERIC = {
             "fr": "Je n'ai pas trouvé de produit correspondant exactement à votre demande. Pourriez-vous reformuler ou préciser votre besoin ?",
             "en": "I didn't find a product matching your request exactly. Could you rephrase or specify your need?",
             "es": "No he encontrado un producto que corresponda exactamente a su solicitud. ¿Podría reformular o precisar su necesidad?",
-            "ar": "لم أجد منتجاً يتطابق تماماً مع طلبك. هل يمكنك إعادة الصياغة أو تحديد حاجتك؟",
+            "tn": "لم أجد منتجاً يتطابق تماماً مع طلبك. هل يمكنك إعادة الصياغة أو تحديد حاجتك؟",
         }
         conditions = analysis.get("conditions", [])
         
@@ -995,7 +995,7 @@ class AliaOrchestrator:
             "fr": "Désolée, la génération de vidéo n'est pas disponible actuellement.",
             "en": "Sorry, video generation is not currently available.",
             "es": "Lo siento, la generación de video no está disponible actualmente.",
-            "ar": "عذراً، إنشاء الفيديو غير متاح حالياً.",
+            "tn": "عذراً، إنشاء الفيديو غير متاح حالياً.",
         }
         _PPT_SUCCESS = {
             "fr": (
@@ -1022,7 +1022,7 @@ class AliaOrchestrator:
                 "• Narración de voz sincronizada en cada diapositiva\n\n"
                 "¿Desea que genere una presentación para otro producto?"
             ),
-            "ar": (
+            "tn": (
                 "لقد أنشأت العرض المرئي لـ **{name}**!\n\n"
                 "يتضمن العرض:\n"
                 "• صورة أليا الرمزية المتحركة مع مزامنة الشفاه\n"
@@ -1035,13 +1035,13 @@ class AliaOrchestrator:
             "fr": "Je n'ai pas trouvé le produit '{name}' dans notre catalogue. Pouvez-vous vérifier le nom exact du produit ?",
             "en": "I didn't find the product '{name}' in our catalog. Can you check the exact product name?",
             "es": "No he encontrado el producto '{name}' en nuestro catálogo. ¿Puede verificar el nombre exacto del producto?",
-            "ar": "لم أجد المنتج '{name}' في كتالوجنا. هل يمكنك التحقق من الاسم الدقيق للمنتج؟",
+            "tn": "لم أجد المنتج '{name}' في كتالوجنا. هل يمكنك التحقق من الاسم الدقيق للمنتج؟",
         }
         _PPT_ERROR = {
             "fr": "Désolée, une erreur s'est produite lors de la génération de la présentation. Veuillez réessayer avec un autre produit.",
             "en": "Sorry, an error occurred during presentation generation. Please try again with another product.",
             "es": "Lo siento, ocurrió un error durante la generación de la presentación. Por favor, intente con otro producto.",
-            "ar": "عذراً، حدث خطأ أثناء إنشاء العرض. يرجى المحاولة مع منتج آخر.",
+            "tn": "عذراً، حدث خطأ أثناء إنشاء العرض. يرجى المحاولة مع منتج آخر.",
         }
 
         if not VIDEO_AVAILABLE:
@@ -1217,25 +1217,25 @@ class AliaOrchestrator:
                         "fr": "Je n'ai pas trouvé exactement '{name}' dans notre base.\n\n",
                         "en": "I didn't find exactly '{name}' in our database.\n\n",
                         "es": "No he encontrado exactamente '{name}' en nuestra base.\n\n",
-                        "ar": "لم أجد بالضبط '{name}' في قاعدة بياناتنا.\n\n",
+                        "tn": "لم أجد بالضبط '{name}' في قاعدة بياناتنا.\n\n",
                     }
                     _SIMILAR_HEADER = {
                         "fr": "Produits similaires disponibles :\n",
                         "en": "Similar products available:\n",
                         "es": "Productos similares disponibles:\n",
-                        "ar": "منتجات مشابهة متاحة:\n",
+                        "tn": "منتجات مشابهة متاحة:\n",
                     }
                     _SIMILAR_FOOTER = {
                         "fr": "\nSouhaitez-vous une présentation pour l'un de ces produits ?",
                         "en": "\nWould you like a presentation for one of these products?",
                         "es": "\n¿Desea una presentación para uno de estos productos?",
-                        "ar": "\nهل تريد عرضاً تقديمياً لأحد هذه المنتجات؟",
+                        "tn": "\nهل تريد عرضاً تقديمياً لأحد هذه المنتجات؟",
                     }
                     _CHECK_NAME = {
                         "fr": "Pouvez-vous vérifier le nom du produit ?",
                         "en": "Can you check the product name?",
                         "es": "¿Puede verificar el nombre del producto?",
-                        "ar": "هل يمكنك التحقق من اسم المنتج؟",
+                        "tn": "هل يمكنك التحقق من اسم المنتج؟",
                     }
 
                     response = _NOT_FOUND_HEADER.get(lang, _NOT_FOUND_HEADER["fr"]).format(name=product_name)
@@ -1387,7 +1387,7 @@ class AliaOrchestrator:
                 "fr": "Désolée, le traitement de votre demande a pris trop de temps. Pouvez-vous reformuler ?",
                 "en": "Sorry, your request took too long to process. Could you rephrase?",
                 "es": "Lo siento, su solicitud tardó demasiado en procesarse. ¿Puede reformular?",
-                "ar": "عذراً، استغرق طلبك وقتاً طويلاً. هل يمكنك إعادة الصياغة؟",
+                "tn": "عذراً، استغرق طلبك وقتاً طويلاً. هل يمكنك إعادة الصياغة؟",
             }
             return {
                 "text": _TIMEOUT.get(lang, _TIMEOUT["fr"]),
@@ -1402,7 +1402,7 @@ class AliaOrchestrator:
                 "fr": "Désolée, j'ai rencontré une erreur technique. Veuillez réessayer.",
                 "en": "Sorry, I encountered a technical error. Please try again.",
                 "es": "Lo siento, encontré un error técnico. Por favor, inténtelo de nuevo.",
-                "ar": "عذراً، واجهت خطأ تقنياً. يرجى المحاولة مرة أخرى.",
+                "tn": "عذراً، واجهت خطأ تقنياً. يرجى المحاولة مرة أخرى.",
             }
             return {
                 "text": _ERROR.get(lang, _ERROR["fr"]),

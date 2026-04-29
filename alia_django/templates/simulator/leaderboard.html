@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Classement ALIA Simulator{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ecru:#1C1710;--ecru-2:#241E14;--ecru-3:#2E2618;--bordeaux:#8B1A1A;--bord-dim:#5C1010;--or:#C8960C;--cream:#E8DCC8;--cream-2:#B8A888;--glass-w:rgba(232,220,200,0.04);--bw:rgba(200,150,12,0.2)}
+.leaderboard-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.leaderboard-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; color: var(--cream); text-align: center; margin-bottom: 10px; }
+.leaderboard-title span { color: var(--or); }
+.leaderboard-sub { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--cream-2); margin-bottom: 40px; }
+.lb-card { background: var(--glass-w); border: 1px solid var(--bw); border-radius: 14px; overflow: hidden; }
+.lb-table { width: 100%; border-collapse: collapse; }
+.lb-table th, .lb-table td { padding: 18px 20px; text-align: left; border-bottom: 1px solid rgba(232,220,200,0.05); }
+.lb-table tr:last-child td { border-bottom: none; }
+.lb-table tr:hover { background: rgba(200,150,12,0.03); }
+.lb-table th { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--or); text-transform: uppercase; letter-spacing: 2px; }
+.lb-table td { font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--cream); }
+.lb-rank { font-weight: bold; color: var(--cream-2); width: 60px; font-family: 'DM Mono', monospace; }
+.top-1 .lb-rank { color: #FFD700; font-size: 20px; }
+.top-2 .lb-rank { color: #C0C0C0; font-size: 18px; }
+.top-3 .lb-rank { color: #CD7F32; font-size: 18px; }
+.lb-name { font-weight: 600; font-family: 'Playfair Display', serif; font-size: 18px; }
+.lb-xp { font-family: 'DM Mono', monospace; color: #6BCB6B; font-weight: 500; }
+.lb-level { color: #42A5F5; font-family: 'DM Mono', monospace; font-size: 13px; }
+.badge-item { display: inline-block; padding: 4px 10px; border-radius: 20px; background: rgba(200,150,12,0.1); border: 1px solid rgba(200,150,12,0.3); font-size: 10px; margin-right: 6px; font-family: 'DM Mono', monospace; color: var(--cream); }
+.badge-maitre { border-color: #6BCB6B; color: #6BCB6B; background: rgba(42,74,42,0.2); }
+.badge-froid { border-color: #42A5F5; color: #42A5F5; background: rgba(25,118,210,0.2); }
+.badge-expert { border-color: #CE93D8; color: #CE93D8; background: rgba(156,39,176,0.2); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="leaderboard-container">
+    <div class="leaderboard-title">Classement <span>Global</span></div>
+    <div class="leaderboard-sub">Compétition d'excellence entre les délégués VITAL SA</div>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="{% url 'simulator:index' %}" style="display:inline-block; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--or); color: var(--or); text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 14px; transition: all 0.3s;">← Retour au Simulator</a>
+    </div>
+
+    <div class="lb-card">
+        <table class="lb-table">
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Délégué</th>
+                    <th>Niveau</th>
+                    <th>XP</th>
+                    <th>Badges Débloqués</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in profiles %}
+                <tr class="{% if forloop.counter == 1 %}top-1{% elif forloop.counter == 2 %}top-2{% elif forloop.counter == 3 %}top-3{% endif %}">
+                    <td class="lb-rank">
+                        {% if forloop.counter == 1 %}🥇
+                        {% elif forloop.counter == 2 %}🥈
+                        {% elif forloop.counter == 3 %}🥉
+                        {% else %}#{{ forloop.counter }}
+                        {% endif %}
+                    </td>
+                    <td class="lb-name">{{ profile.user.get_full_name|default:profile.user.username }}</td>
+                    <td class="lb-level">Lvl {{ profile.level }}</td>
+                    <td class="lb-xp">{{ profile.xp }} XP</td>
+                    <td>
+                        {% for badge in profile.badges %}
+                            {% if badge == 'Maître du Closing' %}
+                                <span class="badge-item badge-maitre">🏆 Maître du Closing</span>
+                            {% elif badge == 'Sang Froid' %}
+                                <span class="badge-item badge-froid">🧊 Sang Froid</span>
+                            {% elif badge == 'Expert VITAL SA' %}
+                                <span class="badge-item badge-expert">⭐ Expert VITAL SA</span>
+                            {% else %}
+                                <span class="badge-item">{{ badge }}</span>
+                            {% endif %}
+                        {% empty %}
+                            <span style="color:rgba(232,220,200,0.4);font-size:12px;font-family:'DM Sans',sans-serif;">Aucun badge</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align:center; padding: 30px; color: rgba(232,220,200,0.5);">Aucun participant pour le moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
