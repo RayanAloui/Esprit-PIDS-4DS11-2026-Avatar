@@ -72,7 +72,7 @@ EDGE_TTS_VOICES = {
     "fr": "fr-FR-HenriNeural",
     "en": "en-US-GuyNeural",
     "es": "es-ES-AlvaroNeural",
-    "ar": "ar-SA-HamedNeural",
+    "tn": "ar-SA-HamedNeural",
 }
 EDGE_TTS_DEFAULT_LANG = "fr"
 
@@ -156,8 +156,9 @@ async def listen_json(audio_bytes: bytes) -> dict:
             pass
     text = (result.get("text") or "").strip()
     detected_lang = (result.get("language") or "fr").strip()
-    # Normalise to 2-letter code and default to 'fr' if unsupported
     detected_lang = detected_lang[:2].lower()
+    if detected_lang == 'ar':
+        detected_lang = 'tn'
     return {"text": text, "detected_lang": detected_lang}
 
 
@@ -166,20 +167,34 @@ _FALLBACK_MESSAGES = {
     "fr": "Je n'ai pas compris votre question.",
     "en": "I didn't understand your question.",
     "es": "No he entendido su pregunta.",
-    "ar": "لم أفهم سؤالك.",
+    "tn": "ما فهمتش سؤالك.",
 }
 _FALLBACK_EMPTY = {
     "fr": "Désolée, je n'ai pas pu générer une réponse. Pouvez-vous reformuler ?",
     "en": "Sorry, I couldn't generate a response. Could you rephrase?",
     "es": "Lo siento, no pude generar una respuesta. ¿Puede reformular?",
-    "ar": "عذرًا، لم أتمكن من إنشاء إجابة. هل يمكنك إعادة الصياغة؟",
+    "tn": "سامحني، ما نجّمتش نجاوبك. تنجم تعاود سؤالك؟",
 }
 
 
 async def ask_alia_json(text: str, lang: str = "fr") -> dict:
     print(f"\n{'=' * 60}\n[modeling] Query ({lang}): {text}\n{'=' * 60}")
+    
+    original_lang = lang
+    translated_text = text
+    
+    if lang == "tn":
+        try:
+            from apps.modeling.arabic_speech import traduire_tunisien
+            print("[modeling] Traduction du Tunisien vers le Français...")
+            translated_text = await asyncio.to_thread(traduire_tunisien, text, "tn", "fr")
+            print(f"[modeling] Texte traduit : {translated_text}")
+            lang = "fr"  # Use French internally for better LLM quality
+        except Exception as e:
+            print(f"[modeling] Erreur de traduction TN->FR : {e}")
+
     rt = get_runtime()
-    result = await rt.alia.generate(text, lang=lang)
+    result = await rt.alia.generate(translated_text, lang=lang)
     intent = result.get("intent", "unknown")
     print(f"[modeling] Response intent: {intent}")
 
@@ -189,6 +204,16 @@ async def ask_alia_json(text: str, lang: str = "fr") -> dict:
 
     # Video generation already includes its own audio — no TTS needed
     if intent == "presentation_generated":
+        if original_lang == "tn":
+            try:
+                from apps.modeling.arabic_speech import traduire_tunisien
+                print("[modeling] Traduction du Français vers le Tunisien...")
+                text_response = await asyncio.to_thread(traduire_tunisien, text_response, "fr", "tn")
+                print(f"[modeling] Réponse traduite : {text_response}")
+                lang = "tn"
+            except Exception as e:
+                print(f"[modeling] Erreur de traduction FR->TN : {e}")
+                lang = "tn"
         return {
             "text": text_response,
             "audio_url": None,
@@ -197,6 +222,17 @@ async def ask_alia_json(text: str, lang: str = "fr") -> dict:
             "video_url": result.get("video_url"),
             "presentation_url": result.get("presentation_url"),
         }
+
+    if original_lang == "tn" and lang == "fr":
+        try:
+            from apps.modeling.arabic_speech import traduire_tunisien
+            print("[modeling] Traduction du Français vers le Tunisien...")
+            text_response = await asyncio.to_thread(traduire_tunisien, text_response, "fr", "tn")
+            print(f"[modeling] Réponse traduite : {text_response}")
+            lang = "tn"  # Restore original language for TTS
+        except Exception as e:
+            print(f"[modeling] Erreur de traduction FR->TN : {e}")
+            lang = "tn"
 
     speech_text = clean_for_tts(text_response)
     filename = f"{uuid.uuid4()}.mp3"

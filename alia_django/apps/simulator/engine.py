@@ -83,7 +83,7 @@ _LANG_LABELS = {
            "forbidden_footer": "NO empieces tu respuesta con ninguna de estas frases. Var\u00eda siempre.",
            "rag_header": "DATOS DEL PRODUCTO \u2014 Base VITAL SA",
            "rag_footer": "Usa estos datos si es pertinente. No los recites."},
-    "ar": {"delegate": "\u0627\u0644\u0645\u0646\u062f\u0648\u0628", "forbidden_header": "\u0639\u0628\u0627\u0631\u0627\u062a \u0642\u0644\u062a\u0647\u0627 \u0645\u0633\u0628\u0642\u064b\u0627 \u2014 \u0645\u0645\u0646\u0648\u0639\u0629",
+    "tn": {"delegate": "\u0627\u0644\u0645\u0646\u062f\u0648\u0628", "forbidden_header": "\u0639\u0628\u0627\u0631\u0627\u062a \u0642\u0644\u062a\u0647\u0627 \u0645\u0633\u0628\u0642\u064b\u0627 \u2014 \u0645\u0645\u0646\u0648\u0639\u0629",
            "forbidden_footer": "\u0644\u0627 \u062a\u0628\u062f\u0623 \u0631\u062f\u0643 \u0628\u0623\u064a \u0645\u0646 \u0647\u0630\u0647 \u0627\u0644\u0639\u0628\u0627\u0631\u0627\u062a. \u0646\u0648\u0651\u0639 \u062f\u0627\u0626\u0645\u064b\u0627.",
            "rag_header": "\u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0645\u0646\u062a\u062c \u2014 \u0642\u0627\u0639\u062f\u0629 VITAL SA",
            "rag_footer": "\u0627\u0633\u062a\u062e\u062f\u0645 \u0647\u0630\u0647 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a \u0625\u0646 \u0643\u0627\u0646\u062a \u0630\u0627\u062a \u0635\u0644\u0629. \u0644\u0627 \u062a\u0633\u0631\u062f\u0647\u0627 \u062d\u0631\u0641\u064a\u064b\u0627."},
@@ -107,7 +107,7 @@ _LANG_INSTRUCTION = {
         "Si respondes en francés, has FALLADO.\n"
         "RESPONDE SOLO EN ESPAÑOL."
     ),
-    "ar": (
+    "tn": (
         "\u0642\u0627\u0639\u062f\u0629 \u0627\u0644\u0644\u063a\u0629 \u0627\u0644\u062d\u0627\u0633\u0645\u0629 \u2014 \u064a\u062c\u0628 \u0627\u062a\u0628\u0627\u0639 \u0647\u0630\u0647 \u0627\u0644\u0642\u0627\u0639\u062f\u0629:\n"
         "\u0627\u0644\u0645\u0646\u062f\u0648\u0628 \u064a\u062a\u062d\u062f\u062b \u0627\u0644\u0639\u0631\u0628\u064a\u0629.\n"
         "\u064a\u062c\u0628 \u0623\u0646 \u062a\u0631\u062f \u062d\u0635\u0631\u064a\u064b\u0627 \u0628\u0627\u0644\u0639\u0631\u0628\u064a\u0629. \u0643\u0644 \u0643\u0644\u0645\u0629 \u064a\u062c\u0628 \u0623\u0646 \u062a\u0643\u0648\u0646 \u0628\u0627\u0644\u0639\u0631\u0628\u064a\u0629.\n"
@@ -158,9 +158,13 @@ def _call_ollama(system: str, history: List[Dict],
             _LANG_REMINDER = {
                 "en": "\n[REMINDER: RESPOND IN ENGLISH ONLY — NOT FRENCH]\n",
                 "es": "\n[RECORDATORIO: RESPONDE SOLO EN ESPAÑOL — NO EN FRANCÉS]\n",
-                "ar": "\n[تذكير: رد بالعربية فقط — ليس بالفرنسية]\n",
+                "tn": "\n[تذكير: رد بالعربية فقط — ليس بالفرنسية]\n",
             }
             lang_suffix = _LANG_REMINDER.get(lang, "")
+
+    # Anti-leak instruction
+    anti_leak = "\n[RÈGLE CRUCIALE] POSE TA QUESTION MAIS NE DONNE JAMAIS LA RÉPONSE. Ne dis jamais 'Réponse :'. Laisse le délégué répondre.\n"
+    lang_suffix += anti_leak
 
     print(f"[Ollama] lang={lang} | label={interlocutor_label} | delegate={delegate_label}")
 
@@ -336,7 +340,7 @@ OBJECTIONS TYPIQUES :
 
 def _build_report_system(lang: str = "fr") -> str:
     lang_map = {
-        "fr": "Français", "en": "English", "es": "Español", "ar": "العربية"
+        "fr": "Français", "en": "English", "es": "Español", "tn": "تونسي"
     }
     lang_name = lang_map.get(lang, "Français")
     return (
@@ -352,7 +356,7 @@ def _build_report_system(lang: str = "fr") -> str:
 # ══════════════════════════════════════════════════════════════════════
 
 # ── Pool de suggestions statiques variées (fallback) ─────────────
-_LANG_NAMES = {"fr": "Français", "en": "English", "es": "Español", "ar": "العربية"}
+_LANG_NAMES = {"fr": "Français", "en": "English", "es": "Español", "tn": "تونسي"}
 
 _SUGGESTION_POOL_DOCTOR = {
     "fr": [
@@ -376,7 +380,7 @@ _SUGGESTION_POOL_DOCTOR = {
         "💡 Hacer una pregunta de validación: '¿Responde esto a su pregunta, Doctor?'",
         "💡 Reforzar con un caso concreto: 'Un colega observó en sus pacientes...'",
     ],
-    "ar": [
+    "tn": [
         "💡 أعد الصياغة ببيانات سريرية: 'تظهر الدراسات انخفاضاً بنسبة {pct}% في الآثار الجانبية...'",
         "💡 استخدم تقنية المرآة: 'إذا كنت أفهم بشكل صحيح، فإن قلقك يتعلق بـ...'",
         "💡 أكد على فائدة المريض: 'بالنسبة لمرضاك الذين يعانون من {indication}، هذا يعني عملياً...'",
@@ -407,7 +411,7 @@ _SUGGESTION_POOL_PHARMACIST = {
         "💡 Responder sobre la caducidad: 'La caducidad es de 24 meses, lo que le deja un margen cómodo.'",
         "💡 Destacar la demanda: 'La demanda espontánea está aumentando en este segmento.'",
     ],
-    "ar": [
+    "tn": [
         "💡 تحدث عن هامش الربح: 'مع سعر جملة X وسعر بيع للجمهور Y، هامش ربحك هو Z%.'",
         "💡 اذكر بيانات دورة المبيعات: 'في الصيدليات الرائدة، متوسط المبيعات هو N وحدة/شهر.'",
         "💡 اعرض الدعم الميداني: 'نوفر منصات عرض ونشرات نصائح للمرضى.'",
@@ -560,6 +564,15 @@ class SimulationSession:
         self.suggestion_history = []   # ← anti-répétition des suggestions
         self.language       = "fr"     # ← langue détectée (FR par défaut)
 
+        # ── Nouvelles features d'immersion ──
+        import time as _time
+        self.start_time         = _time.time()
+        self.hardcore_mode      = (self.niveau_alia == "Expert")
+        import random
+        self.has_timer          = (random.random() < 0.4)
+        self.timer_duration     = random.choice([60, 90, 120, 180]) if self.has_timer else 0
+        self.interruption_triggered = False
+
         # Détecter le type pour adapter le comportement
         self._is_pharmacist = is_pharmacist(self.interlocutor)
         self._is_generalist = self.product.get('_is_generic', False)
@@ -626,7 +639,7 @@ class SimulationSession:
                 f"{self.product['nom']} ({self.product['categorie']}). "
                 f"Recíbelo brevemente según tu personalidad de farmacéutico. RESPONDE EN ESPAÑOL."
             ),
-            "ar": (
+            "tn": (
                 f"مندوب VITAL SA يدخل صيدليتك لتقديم "
                 f"{self.product['nom']} ({self.product['categorie']}). "
                 f"رحب به باختصار حسب شخصيتك كصيدلي. رد بالعربية."
@@ -648,7 +661,7 @@ class SimulationSession:
                 f"{self.product['nom']} ({self.product['categorie']}). "
                 f"Recíbelo en 1-2 frases según tu personalidad. RESPONDE EN ESPAÑOL."
             ),
-            "ar": (
+            "tn": (
                 f"مندوب VITAL SA يدخل لتقديم "
                 f"{self.product['nom']} ({self.product['categorie']}). "
                 f"رحب به في جملة أو اثنتين حسب شخصيتك. رد بالعربية."
@@ -658,13 +671,27 @@ class SimulationSession:
             "fr": "Oui, entrez. Je vous écoute.",
             "en": "Yes, come in. I'm listening.",
             "es": "Sí, pase. Le escucho.",
-            "ar": "نعم، تفضل. أنا أستمع.",
+            "tn": "نعم، تفضل. أنا أستمع.",
         }
 
         if self._is_pharmacist:
             opening_content = _OPENING_PHARMA.get(lang, _OPENING_PHARMA["fr"])
         else:
             opening_content = _OPENING_DOCTOR.get(lang, _OPENING_DOCTOR["fr"])
+
+        if getattr(self, 'has_timer', False):
+            mins = self.timer_duration // 60
+            secs = self.timer_duration % 60
+            time_str = f"{mins} minute{'s' if mins > 1 else ''}"
+            if secs > 0: time_str += f" et {secs} secondes"
+            
+            _TIMER_MSG = {
+                "fr": f" Mentionne clairement que tu es très pressé et que tu n'as que {time_str}.",
+                "en": f" Clearly state that you are in a rush and only have {time_str}.",
+                "es": f" Menciona claramente que tienes prisa y solo tienes {time_str}.",
+                "tn": f" اذكر بوضوح أنك في عجلة من أمرك ولديك {time_str} فقط."
+            }
+            opening_content += _TIMER_MSG.get(lang, _TIMER_MSG["fr"])
 
         opening = {"role": "user", "content": opening_content}
         msg, engine = _generate_interlocutor_response(
@@ -681,7 +708,7 @@ class SimulationSession:
             "fr": "La visite commence — demandez la permission (Étape 1).",
             "en": "The visit begins — ask for permission (Step 1).",
             "es": "La visita comienza — pida permiso (Etapa 1).",
-            "ar": "بدأت الزيارة — اطلب الإذن (المرحلة 1).",
+            "tn": "بدأت الزيارة — اطلب الإذن (المرحلة 1).",
         }
 
         log.info(f"[Sim] Start — type={self._label} lang={lang} engine={engine}")
@@ -697,18 +724,35 @@ class SimulationSession:
             "engine"          : engine,
             "rag_used"        : bool(rag_ctx),
             "interlocutor_type": self._label,
+            "has_timer"       : getattr(self, 'has_timer', False),
+            "timer_duration"  : getattr(self, 'timer_duration', 180),
         }
 
     # ── Tour de conversation ──────────────────────────────────────
 
-    def process_delegate_response(self, delegate_text: str, lang: str = None, user_id: int = None) -> Dict:
+    def process_delegate_response(self, delegate_text: str, lang: str = None, user_id: int = None, audio_url: str = None) -> Dict:
         # Update session language if provided
         if lang:
             self.language = lang
         self.turn += 1
+        self.history.append({"role": "user", "content": delegate_text, "audio_url": audio_url})
+
+        # Translation Bridge
+        original_lang = self.language
+        translated_text = delegate_text
+
+        if self.language == "tn":
+            try:
+                from apps.modeling.arabic_speech import traduire_tunisien
+                print("[Simulator] Traduction du Tunisien vers le Français...")
+                translated_text = traduire_tunisien(delegate_text, "tn", "fr")
+                print(f"[Simulator] Texte traduit : {translated_text}")
+                self.language = "fr"  # Force LLM/NLP to process in French
+            except Exception as e:
+                print(f"[Simulator] Erreur de traduction TN->FR : {e}")
 
         # ── 1. NLP ────────────────────────────────────────────────
-        nlp        = self._evaluate_nlp(delegate_text)
+        nlp        = self._evaluate_nlp(translated_text)
         score      = nlp.get('overall_score', 5.0)
         acrv       = nlp.get('acrv_score', 0)
         acrv_det   = nlp.get('acrv_detail', {})
@@ -724,6 +768,13 @@ class SimulationSession:
 
         # ── 2. Ouverture + SessionState ───────────────────────────
         delta      = self._delta_openness(score, conformite, quality)
+        
+        # Penalité Timer
+        import time as _time
+        elapsed = _time.time() - getattr(self, 'start_time', _time.time())
+        if getattr(self, 'has_timer', False) and elapsed > 180:
+            delta -= 0.3  # Malus de temps
+
         self.openness = max(1.0, min(5.0, self.openness + delta))
         self.state.push_nlp_turn(
             turn=self.turn, score=score, quality=quality,
@@ -732,7 +783,7 @@ class SimulationSession:
         )
 
         # ── 3. Étapes VM ──────────────────────────────────────────
-        step = self._detect_step(delegate_text)
+        step = self._detect_step(translated_text)
         self.step_history.append(step)
         self.state.push_vm_step(step)
 
@@ -744,7 +795,7 @@ class SimulationSession:
             (m["content"] for m in reversed(self.history) if m["role"] == "assistant"), ""
         )
         suggestion = generate_suggestion(
-            delegate_text=delegate_text,
+            delegate_text=translated_text,
             doctor_msg=last_interlocutor_msg,
             score=score,
             acrv=acrv,
@@ -767,7 +818,7 @@ class SimulationSession:
                 NLPAnalysis.objects.create(
                     user=u,
                     objection=last_interlocutor_msg,
-                    response=delegate_text,
+                    response=translated_text,
                     niveau_alia_input=self.niveau_alia,
                     quality=quality,
                     overall_score=score,
@@ -793,7 +844,21 @@ class SimulationSession:
         # ── 7. RAG + prompt ───────────────────────────────────────
         self.history.append({"role": "user", "content": delegate_text})
         rag_ctx = _get_rag_context(self.product['nom'], delegate_text)
+        
+        # Gestion Interruption
+        import random
+        interruption_triggered_now = False
+        if not getattr(self, 'interruption_triggered', False) and self.turn in [3, 4] and random.random() < 0.4:
+            self.interruption_triggered = True
+            interruption_triggered_now = True
+
         system  = self._get_system_prompt(self.turn, self.openness)
+        if getattr(self, 'hardcore_mode', False):
+            system += "\n[MODE HARDCORE] LANCE DEUX OBJECTIONS DIFFÉRENTES EN MÊME TEMPS."
+        if interruption_triggered_now:
+            system += "\n[ÉVÉNEMENT INATTENDU IMPORTANT] Ton téléphone sonne ou une infirmière entre JUSTE LÀ ! Tu es interrompu. Commence ta phrase par signaler l'interruption (ex: 'Pardon, mon téléphone sonne...', 'Oui entrez ? Ah excusez-moi...'). Tu es pressé et distrait."
+            # On l'injecte aussi directement à la fin de l'historique pour forcer l'LLM à le voir
+            self.history[-1]['content'] += "\n\n(L'infirmière entre ou le téléphone sonne à cet instant précis !)"
 
         # ── 8. Réponse interlocuteur ──────────────────────────────
         recent = self._recent_msgs(n=4)
@@ -866,6 +931,7 @@ class SimulationSession:
             "global_niveau"  : global_niveau,
             "final_decision" : self.final_decision,
             "interlocutor_type": self._label,
+            "interruption"   : interruption_triggered_now if 'interruption_triggered_now' in locals() else False,
         }
 
     # ── Rapport final ────────────────────────────────────────────
@@ -1236,6 +1302,10 @@ class SimulationSession:
             'suggestion_history' : self.suggestion_history,
             'language'           : self.language,
             'state'              : self.state.to_dict(),
+            'start_time'         : getattr(self, 'start_time', 0),
+            'hardcore_mode'      : getattr(self, 'hardcore_mode', False),
+            'has_timer'          : getattr(self, 'has_timer', False),
+            'interruption_triggered': getattr(self, 'interruption_triggered', False),
         }
 
     @classmethod
@@ -1252,6 +1322,10 @@ class SimulationSession:
         s.final_decision     = data.get('final_decision', None)
         s.suggestion_history = data.get('suggestion_history', [])
         s.language           = data.get('language', 'fr')
+        s.start_time         = data.get('start_time', 0)
+        s.hardcore_mode      = data.get('hardcore_mode', False)
+        s.has_timer          = data.get('has_timer', False)
+        s.interruption_triggered = data.get('interruption_triggered', False)
         if 'state' in data:
             s.state = SessionState.from_dict(data['state'])
         return s

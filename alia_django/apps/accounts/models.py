@@ -24,6 +24,13 @@ class UserProfile(models.Model):
     telephone   = models.CharField(max_length=20, blank=True)
     created_at  = models.DateTimeField(auto_now_add=True)
 
+    # Gamification
+    xp          = models.IntegerField(default=0)
+    level       = models.IntegerField(default=1)
+    badges      = models.JSONField(default=list, blank=True)
+    unlocked_bosses = models.JSONField(default=list, blank=True)
+
+
     class Meta:
         verbose_name        = 'Profil utilisateur'
         verbose_name_plural = 'Profils utilisateurs'

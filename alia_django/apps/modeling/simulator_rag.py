@@ -169,7 +169,7 @@ _SYSTEM_LABELS = {
         "typical_objections": "OBJECIONES TÍPICAS QUE USAS",
         "lang_rule": "CRÍTICO: DEBES responder SOLO en ESPAÑOL. Cada palabra debe ser en español. NO uses francés.",
     },
-    "ar": {
+    "tn": {
         "personality": "الشخصية",
         "visit_context": "سياق الزيارة",
         "product_presented": "المنتج المقدم",
@@ -290,7 +290,7 @@ def _openness_label(openness: float, lang: str = "fr") -> str:
             (1.5, "Escéptico — duda directa sobre el último argumento"),
             (0.0, "Cerrado — impaciente, visita terminándose"),
         ],
-        "ar": [
+        "tn": [
             (4.2, "منفتح جداً — أسئلة إيجابية"),
             (3.5, "منفتح — يطلب تفاصيل"),
             (2.5, "محايد — اعتراض معتدل"),
@@ -522,7 +522,7 @@ def compute_final_decision(
             "rsn_refus": "Puntuación {s:.1f}/10 — argumentos insuficientes",
             "rsn_eng": "Puntuación {s:.1f}/10 + apertura {o:.1f}/5"
         },
-        "ar": {
+        "tn": {
             "type_pharm": "صيدلي", "type_doc": "طبيب",
             "cmd_essai": "طلب تجريبي تم وضعه — {qty} وحدة", "cmd_ferme": "طلب تم وضعه — {qty} وحدة",
             "cond_pharm": "مهتم — يطلب شروطاً تجارية", "cond_doc": "مهتم بشروط",
@@ -623,12 +623,12 @@ def _estimate_order_qty(score: float, doctor: Dict) -> int:
 # ══════════════════════════════════════════════════════════════════════
 
 # Delegate labels per language
-_DELEGATE_LABELS = {"fr": "Délégué", "en": "Delegate", "es": "Delegado", "ar": "المندوب"}
+_DELEGATE_LABELS = {"fr": "Délégué", "en": "Delegate", "es": "Delegado", "tn": "المندوب"}
 _CLOSING_LANG_INSTRUCTION = {
     "fr": "",
     "en": "\nLANGUAGE RULE: You MUST respond ONLY in English.\n",
     "es": "\nREGLA DE IDIOMA: DEBES responder SOLO en espa\u00f1ol.\n",
-    "ar": "\n\u0642\u0627\u0639\u062f\u0629 \u0627\u0644\u0644\u063a\u0629: \u064a\u062c\u0628 \u0623\u0646 \u062a\u0631\u062f \u062d\u0635\u0631\u064a\u064b\u0627 \u0628\u0627\u0644\u0639\u0631\u0628\u064a\u0629.\n",
+    "tn": "\n\u0642\u0627\u0639\u062f\u0629 \u0627\u0644\u0644\u063a\u0629: \u064a\u062c\u0628 \u0623\u0646 \u062a\u0631\u062f \u062d\u0635\u0631\u064a\u064b\u0627 \u0628\u0627\u0644\u0639\u0631\u0628\u064a\u0629.\n",
 }
 
 
@@ -750,7 +750,7 @@ def generate_closing_message(
             "conditions": "Es interesante, pero me gustarían mejores condiciones. Vuelva con una oferta de red y hablaremos.",
             "refus": "Gracias, pero ya tengo suficiente stock en este segmento. Quizás la próxima vez."
         },
-        "ar": {
+        "tn": {
             "commande": f"حسناً، لنجرب. أرسل لي {decision.get('commande_qty', 10)} وحدة من {product['nom']} بالشروط التي ناقشناها.",
             "conditions": "هذا مثير للاهتمام، لكنني أريد شروطًا أفضل. عد بعرض شبكة وسنتحدث.",
             "refus": "شكرًا لك، لكن لدي مخزون كافٍ في هذا القطاع. ربما في المرة القادمة."
@@ -772,7 +772,7 @@ def generate_closing_message(
             "conditions": "Es interesante. Envíeme los datos clínicos completos y hablaremos.",
             "refus": "Gracias por su presentación. Por ahora seguiré con mis prescripciones habituales."
         },
-        "ar": {
+        "tn": {
             "commande": f"جيد. سأجرب {product['nom']} على بعض مرضاي. تعال لتراني بعد شهر مع ملاحظات ميدانية.",
             "conditions": "هذا مثير للاهتمام. أرسل لي البيانات السريرية الكاملة وسنتحدث عنها.",
             "refus": "شكرًا لعرضك. في الوقت الحالي، سألتزم بوصفاتي المعتادة."

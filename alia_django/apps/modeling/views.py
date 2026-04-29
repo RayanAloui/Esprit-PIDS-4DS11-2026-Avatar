@@ -41,7 +41,7 @@ def ask_alia_view(request):
     text_lower = text.lower()
     import re
     if re.search(r'[\u0600-\u06FF]', text_lower):
-        lang = 'ar'
+        lang = 'tn'
     else:
         words = set(re.findall(r'\b\w+\b', text_lower))
         en_words = {'the', 'is', 'are', 'you', 'and', 'to', 'of', 'in', 'hello', 'doctor', 'i', 'my', 'yes', 'no', 'what', 'how', 'good', 'morning'}

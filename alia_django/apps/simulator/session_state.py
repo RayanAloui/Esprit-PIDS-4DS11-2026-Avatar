@@ -66,6 +66,7 @@ class SessionState:
 
         # ── LSTM ──────────────────────────────────────────────────────
         self.lstm_frames: List[Dict]= []
+        self.all_lstm_frames: List[Dict] = []
         self.lstm_latest: Dict      = {
             'posture': 'neutral', 'confidence': 0.0,
             'stress': 0.0, 'arms_crossed': False,
@@ -163,6 +164,7 @@ class SessionState:
             'ts'          : time.time(),
         }
         self.lstm_frames.append(frame)
+        self.all_lstm_frames.append(frame)
         if len(self.lstm_frames) > 60:
             self.lstm_frames = self.lstm_frames[-60:]
 
@@ -380,6 +382,7 @@ class SessionState:
             'nlp_score_mean'     : self.nlp_score_mean,
             'nlp_conformite_rate': self.nlp_conformite_rate,
             'lstm_frames'        : self.lstm_frames[-30:],  # compact
+            'all_lstm_frames'    : self.all_lstm_frames,
             'lstm_latest'        : self.lstm_latest,
             'lstm_posture_score' : self.lstm_posture_score,
             'lstm_stress_penalty': self.lstm_stress_penalty,
@@ -404,6 +407,7 @@ class SessionState:
         s.nlp_score_mean      = data.get('nlp_score_mean', 0.0)
         s.nlp_conformite_rate = data.get('nlp_conformite_rate', 1.0)
         s.lstm_frames         = data.get('lstm_frames', [])
+        s.all_lstm_frames     = data.get('all_lstm_frames', [])
         s.lstm_latest         = data.get('lstm_latest', s.lstm_latest)
         s.lstm_posture_score  = data.get('lstm_posture_score', 6.0)
         s.lstm_stress_penalty = data.get('lstm_stress_penalty', 0.0)
