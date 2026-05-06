@@ -14,6 +14,7 @@ from apps.modeling.handlers import (
     health_json,
     listen_json,
 )
+from apps.modeling.metrics import get_system_metrics
 from apps.modeling.rendering import render_modeling_index
 from apps.modeling.runtime import get_runtime
 
@@ -95,6 +96,11 @@ def set_mode_view(request):
     rt = get_runtime()
     rt.alia.set_mode(mode)
     return JsonResponse({"status": "ok", "mode": mode})
+
+@require_GET
+def metrics_view(request):
+    return JsonResponse(get_system_metrics())
+
 
 @require_GET
 def health_view(request):

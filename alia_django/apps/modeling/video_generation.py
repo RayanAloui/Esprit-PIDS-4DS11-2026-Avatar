@@ -10,6 +10,7 @@ import asyncio
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Optional
@@ -20,7 +21,15 @@ MODELING_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = MODELING_DIR.parent.parent
 
 VOICE = "fr-FR-HenriNeural"
+import ssl
 
+# Create SSL context that doesn't verify certificates
+ssl_context = ssl.create_default_context()
+ssl_context.check_hostname = False
+ssl_context.verify_mode = ssl.CERT_NONE
+
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 # ==========================================================
 # PPTX EXPORT
 # ==========================================================

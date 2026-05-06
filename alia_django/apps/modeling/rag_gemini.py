@@ -1,8 +1,12 @@
+import argparse
 import asyncio
+import json
 import os
 import re
 import sys
+import time
 from pathlib import Path
+from statistics import mean
 from typing import Dict, List, Tuple, Optional  # Added Optional import
 
 import pandas as pd
@@ -218,7 +222,6 @@ class KnowledgeManager:
             weights=[0.5, 0.5],
             limit=16,
         )
-
     def find_product_by_name(self, product_name: str) -> Optional[Document]:
         try:
             if not product_name:
@@ -348,6 +351,46 @@ class KnowledgeManager:
             return similarity
         except:
             return 0.0
+
+
+def load_evaluation_examples(eval_path: Optional[Path] = None) -> List[Dict]:
+    """Load evaluation examples from CSV or use built-in test cases."""
+    examples = []
+    if eval_path is not None and eval_path.is_file():
+        df = pd.read_csv(eval_path).fillna("")
+        df.columns = df.columns.str.strip().str.lstrip("\ufeff")
+        for _, row in df.iterrows():
+            examples.append({
+                "query": str(row.get("query", "") or "").strip(),
+                "expected_product": str(row.get("expected_product", "") or "").strip(),
+                "presentation": bool(row.get("presentation", False)),
+            })
+        return examples
+
+    return [
+        {
+            "query": "Quel est votre traitement pour la fatigue ?",
+            "expected_product": "VITAL FORCE",
+            "presentation": False,
+        },
+        {
+            "query": "Je voudrais une présentation pour VITAL JUNIOR",
+            "expected_product": "VITAL JUNIOR",
+            "presentation": True,
+        },
+        {
+            "query": "Produit pour l'anémie",
+            "expected_product": "VITAL FER",
+            "presentation": False,
+        },
+        {
+            "query": "Quel produit recommandez-vous pour le rhume ?",
+            "expected_product": "VITAL RHUME",
+            "presentation": False,
+        },
+    ]
+
+
 
 
 # =========================
@@ -586,6 +629,69 @@ class AliaOrchestrator:
         text = text.replace("Vous pouvez utiliser", "Vous pouvez prendre")
         text = text.replace("Je vous recommande", "Je vous conseille")
         return text
+
+    async def evaluate(
+        self,
+        examples: List[Dict],
+        top_k: int = 5,
+        reset_history: bool = True,
+        verbose: bool = False,
+    ) -> Dict:
+        """Evaluate RAG retrieval and response latency on example queries."""
+        if reset_history:
+            self.history = []
+
+        rows = []
+        for example in examples:
+            query = str(example.get("query", "")).strip()
+            expected = str(example.get("expected_product", "") or "").strip()
+            wants_presentation = bool(example.get("presentation", False))
+
+            if not query:
+                continue
+
+            start = time.perf_counter()
+            result = await self.generate(query)
+            latency = time.perf_counter() - start
+
+            docs = await asyncio.to_thread(self.manager.retriever.invoke, query)
+            top_products = [doc.metadata.get("name", "") for doc in docs[:top_k]]
+            top1_hit = bool(expected and top_products and expected.lower() == top_products[0].lower())
+            topk_hit = bool(expected and any(expected.lower() == prod.lower() for prod in top_products))
+
+            row = {
+                "query": query,
+                "expected_product": expected,
+                "top_1": top_products[0] if top_products else "",
+                "top_k": top_products,
+                "top1_hit": top1_hit,
+                "topk_hit": topk_hit,
+                "presentation_request": wants_presentation,
+                "intent": result.get("intent", ""),
+                "response": result.get("text", "")[:300],
+                "latency_s": round(latency, 3),
+            }
+            rows.append(row)
+            if verbose:
+                print(f"[EVAL] {query}")
+                print(f"       expected={expected} top1={row['top_1']} topk={row['top_k']}")
+                print(f"       hits: top1={top1_hit} topk={topk_hit} latency={row['latency_s']:.3f}s")
+                print(f"       intent={row['intent']} response={row['response'][:120]}")
+                print()
+
+        top1_accuracy = mean([1.0 if r["top1_hit"] else 0.0 for r in rows]) if rows else 0.0
+        topk_accuracy = mean([1.0 if r["topk_hit"] else 0.0 for r in rows]) if rows else 0.0
+        avg_latency = mean([r["latency_s"] for r in rows]) if rows else 0.0
+
+        return {
+            "results": rows,
+            "summary": {
+                "num_examples": len(rows),
+                "top1_accuracy": round(top1_accuracy, 3),
+                "topk_accuracy": round(topk_accuracy, 3),
+                "avg_latency_s": round(avg_latency, 3),
+            },
+        }
 
     def _check_relevance(self, query: str, docs: List[Document]) -> bool:
         """Check if retrieved documents are relevant to the query"""

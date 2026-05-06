@@ -17,6 +17,7 @@ urlpatterns = [
     path(f"{_prefix}/ask_alia", views.ask_alia_view, name="modeling_ask_alia"),
     path(f"{_prefix}/health", views.health_view, name="modeling_health"),
     path(f"{_prefix}/debug/search", views.debug_search_view, name="modeling_debug_search"),
+    path(f"{_prefix}/debug/metrics", views.metrics_view, name="modeling_debug_metrics"),
     path(f"{_prefix}/", views.modeling_index, name="modeling_index"),
     path(f"{_prefix}/reset", views.reset_view, name="modeling_reset"),
     path(f"{_prefix}/set_mode", views.set_mode_view, name="modeling_set_mode"),

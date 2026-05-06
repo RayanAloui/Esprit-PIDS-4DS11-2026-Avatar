@@ -11,3 +11,4 @@ trimesh[easy]
 pygltflib
 librosa
 soundfile
+psutil>=5.9

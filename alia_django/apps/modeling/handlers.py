@@ -11,6 +11,7 @@ from pathlib import Path
 
 from django.conf import settings
 
+from apps.modeling.metrics import get_system_metrics
 from apps.modeling.runtime import get_runtime
 
 _whisper_model = None
@@ -185,6 +186,7 @@ async def ask_alia_json(text: str) -> dict:
 def health_json() -> dict:
     try:
         rt = get_runtime()
+        metrics = get_system_metrics()
         return {
             "status": "ok",
             "alia_loaded": rt.alia is not None,
@@ -192,6 +194,7 @@ def health_json() -> dict:
             "num_products": len(rt.df) if rt.df is not None else 0,
             "module": rt.rag_mod.__name__,
             "tts_engine": f"edge-tts ({EDGE_TTS_VOICE})",
+            **metrics,
         }
     except Exception as e:
         return {"status": "degraded", "error": str(e)}

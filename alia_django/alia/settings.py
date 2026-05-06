@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'apps.modeling.middleware.RequestMetricsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -105,3 +106,49 @@ MODELING_KB_DIR       = MODELING_DATA_DIR / 'alia_knowledge_db'
 MODELING_STATIC_DIR   = MODELING_DATA_DIR / 'static'
 MODELING_AUDIO_DIR    = MODELING_STATIC_DIR / 'audio'
 MODELING_API_MOUNT_PATH = '/alia-api'
+
+# ── Logging ──────────────────────────────────────────────────────────
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {name} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'metrics_file': {
+            'level': 'INFO',
+            'class': 'apps.modeling.log_handlers.RealTimeFileHandler',
+            'filename': LOGS_DIR / 'metrics.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'alia.metrics': {
+            'handlers': ['metrics_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0',
+    '.ngrok-free.app',
+    '.ngrok-free.dev',   # ← ajouter ça
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.app',
+    'https://*.ngrok-free.dev',   # ← ajouter ça
+]
+
+MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

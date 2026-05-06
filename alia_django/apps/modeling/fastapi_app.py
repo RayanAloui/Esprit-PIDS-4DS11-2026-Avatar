@@ -5,15 +5,18 @@ from __future__ import annotations
 
 import traceback
 from pathlib import Path
-
+import requests
 from asgiref.sync import sync_to_async
 from django.conf import settings
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi import File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+
+from apps.modeling.metrics import get_system_metrics, log_request_metrics
+from time import perf_counter
 
 from apps.modeling.handlers import ask_alia_json, debug_search_json, health_json, listen_json
 from apps.modeling.rendering import render_modeling_index_sync
@@ -53,8 +56,28 @@ def create_app() -> FastAPI:
         await sync_to_async(rt.alia.set_mode)(body.mode)
         return {"status": "ok", "mode": body.mode}
 
+    @app.middleware("http")
+    async def request_metrics_middleware(request: Request, call_next):
+        start = perf_counter()
+        response = await call_next(request)
+        latency_s = perf_counter() - start
+        log_request_metrics(str(request.url.path), request.method, latency_s, response.status_code)
+        return response
+
     @app.post("/ask_alia")
-    async def ask_alia_endpoint(query: Query):
+    async def ask_alia_endpoint(request: Request):
+        body = await request.body()
+        print(f"[DEBUG] Raw request body: {body}")
+        print(f"[DEBUG] Content-Type: {request.headers.get('content-type')}")
+        
+        # Parse manually to debug
+        try:
+            data = await request.json()
+            print(f"[DEBUG] Parsed JSON: {data}")
+            print(f"[DEBUG] text value: '{data.get('text')}'")
+        except:
+            print("[DEBUG] Could not parse as JSON")
+        query = Query(text=data.get('text', ''))
         try:
             return await ask_alia_json(query.text)
         except Exception as e:
@@ -91,6 +114,11 @@ def create_app() -> FastAPI:
     @app.post("/debug/search")
     async def debug_search(query: Query):
         return debug_search_json(query.text)
+
+    @app.get("/debug/metrics")
+    async def debug_metrics():
+        return get_system_metrics()
+
     class VideoBody(BaseModel):
         product_name: str
  
